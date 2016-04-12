@@ -6,8 +6,8 @@ import Logo from 'static/images/urbinsight_logo_v1.png'
 
 class LoginModal extends React.Component {
   static propTypes = {
-    modalStatus: PropTypes.string,
-    statusChange: PropTypes.string
+    modalStatus: PropTypes.bool,
+    statusChange: PropTypes.func
   };
   constructor (props) {
     super(props)

@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import Dashboard from '../dashboard/Dashboard';
-// import DataInput from '../citizen_data/DataInput';
+import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
@@ -65,7 +64,7 @@ class MapView extends React.Component {
       <div id='mapContainer'>
         <div id='map'>
           <DataDashboardLayout />
-          {/* <DataInputLayout />*/}
+          <DataInputLayout />
         </div>
       </div>
     )
