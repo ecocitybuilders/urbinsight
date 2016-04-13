@@ -2,6 +2,10 @@ import React, { PropTypes } from 'react'
 import { Input, Col, Button } from 'react-bootstrap'
 
 class UMISParcelLocation extends React.Component {
+  constructor (props) {
+    super(props)
+    this.nextStep = this.nextStep.bind(this)
+  }
   static propTypes = {
     previousStep: PropTypes.func,
     nextStep: PropTypes.func

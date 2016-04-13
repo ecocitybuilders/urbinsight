@@ -6,7 +6,7 @@ import UmisSubmit from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/Um
 
 class UMISWorkbookContainer extends React.Component {
   static propTypes = {
-    handleClick: PropTypes.func,
+    nextStep: PropTypes.func,
     previousStep: PropTypes.func
   };
   constructor () {
@@ -17,11 +17,11 @@ class UMISWorkbookContainer extends React.Component {
       queue: [0, 3],
       pos: 0
     }
+    this.nextStep = this.nextStep.bind(this)
   }
   selectionHandler (value, e) {
-    let queue = this.state.available
     // Add the workbook selection
-    let position = queue.indexOf(value)
+    let position = this.state.avaiable.indexOf(value)
     let current = this.state.queue
     if (current.indexOf(position) === -1) {
       current = current.slice(0, (current.length - 1)).concat(position).concat(current.slice((current.length - 1)))
@@ -31,10 +31,14 @@ class UMISWorkbookContainer extends React.Component {
     }
     this.setState({queue: current})
   }
-  handleClick (panel, e) {
-    // e.preventDefault();
-    this.props.handleClick(panel)
+  nextStep(e) {
+    e.preventDefault()
+    this.props.nextStep()
   }
+  nextWorkbook(){
+
+  }
+  previousWorkbook()
   handleNavigation (nextSection) {
     let currPos = this.state.pos
     let currQueue = this.state.queue
@@ -75,7 +79,7 @@ class UMISWorkbookContainer extends React.Component {
         return (
           <UmisSubmit
             handleNavigation={this.handleNavigation.bind(this)}
-            handleClick={this.handleClick.bind(this)}/>)
+            nextStep={this.nextStep}/>)
     }
   }
 }

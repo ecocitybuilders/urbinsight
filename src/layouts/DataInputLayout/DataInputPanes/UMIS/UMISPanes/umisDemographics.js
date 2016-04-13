@@ -6,6 +6,10 @@ class UMISDemographics extends React.Component {
     previousStep: PropTypes.func,
     nextStep: PropTypes.func
   };
+  constructor (props) {
+    super(props)
+    this.nextStep = this.nextStep.bind(this)
+  }
   nextStep (e) {
     e.preventDefault()
     this.props.nextStep()

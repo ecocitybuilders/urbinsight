@@ -5,6 +5,10 @@ class UmisComplete extends React.Component {
   static propTypes = {
     formReset: PropTypes.func
   };
+  constructor (props) {
+    super(props)
+    this.nextStep = this.nextStep.bind(this)
+  }
 
   render () {
     return (

@@ -35,7 +35,7 @@ class DataInputLayout extends React.Component {
     return (
       <div id='data-input' className={dataInputClass}>
         <span id='data-input-toggle' className={dataInputGlyphClass} onClick={this.update}></span>
-        <Tabs bsStyle='tabs' defaultActiveKey={2} className={dataInputTabsClass} justified>
+        <Tabs bsStyle='tabs' defaultActiveKey={1} className={dataInputTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>
             <UmisDataForm />
           </Tab>

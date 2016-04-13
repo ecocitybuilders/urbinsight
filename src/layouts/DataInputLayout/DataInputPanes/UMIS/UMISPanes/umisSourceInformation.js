@@ -3,6 +3,10 @@ import { Button, Input, Col } from 'react-bootstrap'
 import DateTimeField from 'react-bootstrap-datetimepicker'
 
 class UMISSourceInformation extends React.Component {
+  constructor (props) {
+    super(props)
+    this.nextStep = this.nextStep.bind(this)
+  }
   static propTypes = {
     previousStep: PropTypes.func,
     nextStep: PropTypes.func

@@ -14,6 +14,7 @@ class UmisDataForm extends React.Component {
     this.state = {
       active: 1
     }
+    this.nextStep = this.nextStep.bind(this)
   }
 
   // handleClick (panel) {
@@ -24,7 +25,8 @@ class UmisDataForm extends React.Component {
   // }
 
   nextStep () {
-    console.log(this.state)
+    // console.log('next step state')
+    // console.log(this.state)
     this.setState({
       active: this.state.active + 1
     })

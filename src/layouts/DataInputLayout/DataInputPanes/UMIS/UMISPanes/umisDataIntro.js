@@ -3,12 +3,15 @@ import { Button } from 'react-bootstrap'
 import { Well } from 'react-bootstrap'
 
 class UMISIntro extends React.Component {
+  constructor (props) {
+    super(props)
+    this.nextStep = this.nextStep.bind(this)
+  }
   static propTypes = {
     nextStep: PropTypes.func
   };
   nextStep (e) {
     e.preventDefault()
-    console.log(this)
     this.props.nextStep()
   }
   render () {
