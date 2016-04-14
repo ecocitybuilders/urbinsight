@@ -2,12 +2,16 @@ import React, { PropTypes } from 'react'
 import { Button } from 'react-bootstrap'
 
 class CitizenSurveyIntro extends React.Component {
+  constructor () {
+    super()
+    this.nextStep = this.nextStep.bind(this)
+  }
   static propTypes = {
-    handleClick: PropTypes.func
+    nextStep: PropTypes.func
   };
-  handleClick (panel, e) {
+  nextStep (e) {
     e.preventDefault()
-    this.props.handleClick(panel)
+    this.props.nextStep()
   }
   render () {
     return (
@@ -19,7 +23,7 @@ class CitizenSurveyIntro extends React.Component {
           This information can help plan the distribution of new or existing services.
         </h5>
         <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '15vw'}}>
-          <Button bsStyle='success' block onClick={this.handleClick.bind(this, 'LOCATION')}>Begin Survey</Button>
+          <Button bsStyle='success' block onClick={this.nextStep}>Begin Survey</Button>
         </div>
       </div>
     )

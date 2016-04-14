@@ -4,12 +4,9 @@ import { Input } from 'react-bootstrap'
 
 class CitizenSurveyForm extends React.Component {
   static propTypes = {
-    handleClick: PropTypes.func.isRequired
+    formReset: PropTypes.func.isRequired,
+    previousStep: PropTypes.func
   };
-  handleClick (panel, e) {
-    e.preventDefault()
-    this.props.handleClick(panel)
-  }
   submitForm () {
     console.log('yay form submit')
   }
@@ -313,8 +310,8 @@ class CitizenSurveyForm extends React.Component {
           </Input>
           <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '30vw'}}>
             {/* <ButtonGroup justified>*/}
-            <Button bsStyle='danger' onClick={this.handleClick.bind(this, 'LOCATION')}>Update Location</Button>
-            <Button bsStyle='success' onClick={this.handleClick.bind(this, 'INTRO')}>Submit Form</Button>
+            <Button bsStyle='danger' onClick={this.props.previousStep}>Update Location</Button>
+            <Button bsStyle='success' onClick={this.props.formReset}>Submit Form</Button>
             {/* </ButtonGroup>*/}
           </div>
         </form>

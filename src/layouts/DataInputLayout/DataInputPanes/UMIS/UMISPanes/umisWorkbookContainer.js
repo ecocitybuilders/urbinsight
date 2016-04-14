@@ -62,26 +62,6 @@ class UMISWorkbookContainer extends React.Component {
       active: active
     })
   }
-  // handleNavigation (nextSection) {
-  //   let currPos = this.state.pos
-  //   let currQueue = this.state.queue
-  //   let newLocation, newActive
-  //   if (nextSection === 'forward') {
-  //     currPos++
-  //     newLocation = currQueue[currPos]
-  //     newActive = this.state.available[newLocation]
-  //   } else if (nextSection === 'back') {
-  //     currPos--
-  //     newLocation = currQueue[currPos]
-  //     newActive = this.state.available[newLocation]
-  //     if (newActive === 'selection') {
-  //       currQueue = [0, 3]
-  //     }
-  //   }
-  //   this.setState({active: newActive,
-  //                  pos: currPos,
-  //                  queue: currQueue})
-  // }
   render () {
     switch (this.state.active) {
       case 1:

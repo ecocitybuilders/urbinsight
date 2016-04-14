@@ -6,11 +6,16 @@ import { Grid } from 'react-bootstrap'
 
 class CitizenSurveyLocation extends React.Component {
   static propTypes = {
-    handleClick: PropTypes.func.isRequired
+    nextStep: PropTypes.func,
+    previousStep: PropTypes.func
   };
-  handleClick (panel, e) {
+  constructor () {
+    super()
+    this.nextStep = this.nextStep.bind(this)
+  }
+  nextStep (e) {
     e.preventDefault()
-    this.props.handleClick(panel)
+    this.props.nextStep()
   }
   render () {
     return (
@@ -38,8 +43,8 @@ class CitizenSurveyLocation extends React.Component {
           </Grid>
         </div>
         <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '15vw'}}>
-          <Button bsStyle='danger' onClick={this.handleClick.bind(this, 'INTRO')}>Start Over</Button>
-          <Button bsStyle='success' onClick={this.handleClick.bind(this, 'FORM')}>Continue</Button>
+          <Button bsStyle='danger' onClick={this.props.previousStep}>Start Over</Button>
+          <Button bsStyle='success' onClick={this.nextStep}>Continue</Button>
         </div>
       </div>
     )
