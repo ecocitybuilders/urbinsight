@@ -1,28 +1,35 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import LandcoverPreCalc from './LandcoverPreCalc';
-import WaterDemandJunctions from './DemandJunctions';
+import React, { PropTypes } from 'react'
+import { Button, Col } from 'react-bootstrap'
+import LandcoverPreCalc from './LandcoverPreCalc'
+import WaterDemandJunctions from './DemandJunctions'
 
-class UmisWaterWorkbook extends React.Component {
-  handleClick(panel, e){
-    e.preventDefault();
-    this.props.handleNavigation(panel);
+class UMISWaterWorkbook extends React.Component {
+  static propTypes = {
+    nextSection: PropTypes.func,
+    prevSection: PropTypes.func
+  };
+  constructor () {
+    super()
+    this.nextSection = this.nextSection.bind(this)
   }
-  render(){
-    return(
+  nextSection (e) {
+    e.preventDefault()
+    this.props.nextSection()
+  }
+  render () {
+    return (
       <div>
         <h3>Water Workbook</h3>
         <LandcoverPreCalc />
         <WaterDemandJunctions />
         <Col sm={6}>
-          <Button bsStyle="info" onClick={this.handleClick.bind(this, 'back')}>
-            <span className="glyphicon glyphicon-circle-arrow-left"></span> Previous Section
+          <Button bsStyle='info' onClick={this.props.prevSection}>
+            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
           </Button>
         </Col>
         <Col sm={6}>
-          <Button bsStyle="success" onClick={this.handleClick.bind(this, 'forward')}>
-            Next Section <span className="glyphicon glyphicon-circle-arrow-right"></span>
+          <Button bsStyle='success' onClick={this.nextSection}>
+            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
           </Button>
         </Col>
       </div>
@@ -30,4 +37,4 @@ class UmisWaterWorkbook extends React.Component {
   }
 }
 
-export default UmisWaterWorkbook
+export default UMISWaterWorkbook

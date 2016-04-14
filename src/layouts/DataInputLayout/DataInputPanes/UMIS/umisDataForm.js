@@ -15,18 +15,11 @@ class UmisDataForm extends React.Component {
       active: 1
     }
     this.nextStep = this.nextStep.bind(this)
+    this.previousStep = this.previousStep.bind(this)
+    this.formReset = this.formReset.bind(this)
   }
 
-  // handleClick (panel) {
-  //   let newActive = panel
-  //   this.setState({
-  //     active: newActive
-  //   })
-  // }
-
   nextStep () {
-    // console.log('next step state')
-    // console.log(this.state)
     this.setState({
       active: this.state.active + 1
     })

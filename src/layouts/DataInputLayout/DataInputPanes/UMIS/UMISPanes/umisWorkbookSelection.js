@@ -1,26 +1,30 @@
 import React, { PropTypes } from 'react'
 import { Button, Input, Col } from 'react-bootstrap'
 
-class UmisWorkbookSelection extends React.Component {
+class UMISWorkbookSelection extends React.Component {
   static propTypes = {
     previousStep: PropTypes.func,
     selectionHandler: PropTypes.func,
-    handleNavigation: PropTypes.func
+    nextSection: PropTypes.func
   };
+  constructor () {
+    super()
+    this.nextSection = this.nextSection.bind(this)
+  }
   selectionHandler (value, e) {
     this.props.selectionHandler(value)
   }
-  handleNavigation (value) {
-    this.props.handleNavigation(value)
+  nextSection (e) {
+    e.preventDefault()
+    this.props.nextSection()
   }
-
   render () {
     return (
       <div>
         <h3>Select which workbooks you would like to complete</h3>
         {/* ng-model='workbookSelection.selectedWorkbooks.water' ng-change='workbookSelection.workbookGenerator()'*/}
-        <Input label='Water' type='checkbox' onClick={() => this.selectionHandler('water')}/>
-        <Input label='Materials' type='checkbox' onClick={() => this.selectionHandler('materials')}/>
+        <Input label='Water' type='checkbox' onClick={() => this.selectionHandler(2)}/>
+        <Input label='Materials' type='checkbox' onClick={() => this.selectionHandler(3)}/>
         <Input label='Energy' type='checkbox' disabled='true'/>
         <Input label='Mobility' type='checkbox' disabled='true'/>
         <br />
@@ -30,7 +34,7 @@ class UmisWorkbookSelection extends React.Component {
           </Button>
         </Col>
         <Col sm={6}>
-          <Button bsStyle='success' onClick={() => this.handleNavigation('forward')}>
+          <Button bsStyle='success' onClick={this.nextSection}>
             Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
           </Button>
         </Col>
@@ -39,4 +43,4 @@ class UmisWorkbookSelection extends React.Component {
   }
 }
 
-export default UmisWorkbookSelection
+export default UMISWorkbookSelection
