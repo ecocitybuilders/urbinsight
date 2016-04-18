@@ -1,13 +1,20 @@
 import React from 'react'
-import LoginModal from 'views/LoginView/LoginModal'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import Logo from 'static/images/urbinsight_logo_v1.png'
-import { Navbar } from 'react-bootstrap'
-import { Nav } from 'react-bootstrap'
-import { NavItem } from 'react-bootstrap'
-import { NavDropdown } from 'react-bootstrap'
-import { MenuItem } from 'react-bootstrap'
+import Login from 'containers/Login'
+import { loginUser } from 'redux/modules/auth'
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+
+type Props = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  onLoginClick: PropTyps.func
+}
 
 class AppHeader extends React.Component {
+  props: Props;
   constructor (props) {
     super(props)
     this.state = {
@@ -28,9 +35,12 @@ class AppHeader extends React.Component {
     })
   }
   render () {
+    const { dispatch, isAuthenticated, errorMessage, onLoginClick } = this.props
+    console.log(this.props)
     return (
       <div>
-        <Navbar inverse fluid fixedTop>
+        <Navbar inverse fluid fixedTop isAuthenticated={isAuthenticated}
+          errorMessage={errorMessage} dispatch={dispatch}>
           <Navbar.Header>
             <Navbar.Brand>
               <a href='#'><img id='header-logo' src={Logo}></img></a>
@@ -58,10 +68,34 @@ class AppHeader extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <LoginModal modalStatus={this.state.LoginModalOpened} statusChange={this.statusChange}/>
+        {/* <Login modalStatus={this.state.LoginModalOpened} statusChange={this.statusChange}/>*/}
+         {!isAuthenticated &&
+           <Login errorMessage={errorMessage}
+             onLoginClick={onLoginClick}
+             modalStatus={!isAuthenticated}
+          />
+        }
       </div>
     )
   }
 }
 
-export default AppHeader
+const mapStateToProps = (state) => {
+  const { auth } = state
+  const { isAuthenticated, errorMessage } = auth
+  return {
+    isAuthenticated,
+    errorMessage
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoginClick: (creds) =>
+      dispatch(loginUser(creds))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppHeader)
