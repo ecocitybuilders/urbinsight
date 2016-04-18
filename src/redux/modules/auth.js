@@ -83,6 +83,8 @@ export function loginUser (creds) {
           return Promise.reject(user)
         } else {
           // If login was successful, set the token in local storage
+          console.log(user)
+          console.log(user.id_token)
           localStorage.setItem('id_token', user.id_token)
           // Dispatch the success action
           dispatch(receiveLogin(user))
@@ -139,12 +141,13 @@ export const actions = {
 //   return handler ? handler(state, action) : state
 // }
 
+  // isAuthenticated: localStorage.getItem('id_token') ? true : false
   // The auth reducer. The starting state sets authentication
 // based on a token being in local storage. In a real app,
 // we would also want a util to check if the token is expired.
 export default function auth (state = {
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token') ? true : false
+  isAuthenticated: localStorage.getItem('id_token')
 }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:

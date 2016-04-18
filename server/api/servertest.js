@@ -1,24 +1,32 @@
 'use strict'
 
-var koa = require('koa')
-var app = new koa()
-var router = require('koa-router')();
+var Koa = require('koa')
+var app = new Koa()
+var router = require('koa-router')()
 
 router
-  .get('/', function* () {
+  .get('/', function * () {
   //  await next();
-    this.body = 'hello koa';
+    this.body = 'hello koa'
   })
-  .post('/session/create', function* (next) {
+  .post('/api/sessions/create', function * (next) {
     this.body = {
-      user: {
-        id_token: 1000
-      }  
+      id_token: 1000
     }
   })
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.use(router.routes())
+app.use(router.allowedMethods())
 
-
+// app.use(function * (next) {
+//   if (this.method !== 'POST') {
+//     return yield next
+//   }
+//   this.body = {
+//     id_token: 1000
+//   }
+// })
+// app.use(function * (next) {
+//   this.body = `you're hear but something unexpected happened`
+// })
 app.listen(8000)

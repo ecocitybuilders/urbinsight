@@ -2,14 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 import Login from 'containers/Login'
-import { loginUser } from 'redux/modules/auth'
+import { loginUser, logoutUser } from 'redux/modules/auth'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 
 type Props = {
   dispatch: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   errorMessage: PropTypes.string,
-  onLoginClick: PropTyps.func
+  onLoginClick: PropTypes.func,
+  onLogoutClick: PropTypes.func
 }
 
 class AppHeader extends React.Component {
@@ -34,7 +35,7 @@ class AppHeader extends React.Component {
     })
   }
   render () {
-    const { dispatch, isAuthenticated, errorMessage, onLoginClick } = this.props
+    const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick } = this.props
     return (
       <div>
         <Navbar inverse fluid fixedTop isAuthenticated={isAuthenticated}
@@ -62,7 +63,8 @@ class AppHeader extends React.Component {
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
               <NavItem eventKey={4} href='#'>About</NavItem>
               <NavItem eventKey={5} href='#'>Help</NavItem>
-              <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login</NavItem>
+              {!isAuthenticated && <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login</NavItem>}
+              {isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -89,7 +91,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoginClick: (creds) =>
-      dispatch(loginUser(creds))
+      dispatch(loginUser(creds)),
+
+    onLogoutClick: () =>
+      dispatch(logoutUser())
   }
 }
 
