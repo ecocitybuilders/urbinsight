@@ -1,9 +1,6 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Modal, Button, Input } from 'react-bootstrap'
 import Logo from 'static/images/urbinsight_logo_v1.png'
-import { loginUser } from 'redux/modules/auth'
 
 type Props = {
   modalStatus: PropTypes.bool,
@@ -65,15 +62,4 @@ export class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {}
-}
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)
 export default Login

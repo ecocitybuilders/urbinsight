@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 import Login from 'containers/Login'
 import { loginUser } from 'redux/modules/auth'
