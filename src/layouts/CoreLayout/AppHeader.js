@@ -35,7 +35,6 @@ class AppHeader extends React.Component {
   }
   render () {
     const { dispatch, isAuthenticated, errorMessage, onLoginClick } = this.props
-    console.log(this.props)
     return (
       <div>
         <Navbar inverse fluid fixedTop isAuthenticated={isAuthenticated}

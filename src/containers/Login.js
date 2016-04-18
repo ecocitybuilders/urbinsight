@@ -30,7 +30,6 @@ export class Login extends React.Component {
     this.props.onLoginClick(creds)
   }
   render () {
-    console.log(this.props)
     return (
       <div>
         <Modal show={this.state.showModal} onHide={this.close}>

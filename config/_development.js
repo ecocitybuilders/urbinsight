@@ -4,7 +4,7 @@
 export default (config) => ({
   compiler_public_path: `http://${config.server_host}:${config.server_port}/`,
   proxy: {
-    enabled: false,
+    enabled: true,
     options: {
       // koa-proxy options
       host: 'http://localhost:8000',

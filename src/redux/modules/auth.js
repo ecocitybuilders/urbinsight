@@ -74,7 +74,7 @@ export function loginUser (creds) {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
 
-    return fetch('http://localhost:3000/sessions/create', config)
+    return fetch('http://localhost:3000/api/sessions/create', config)
       .then((response) =>
         response.json().then((user) => ({ user, response }))
       ).then(({ user, response }) => {
