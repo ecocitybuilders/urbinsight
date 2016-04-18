@@ -114,7 +114,6 @@
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
     "koa-proxy": "^0.5.0",
-    "koa-route": "^2.4.2",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
     "mapbox-gl": "^0.16.0",
