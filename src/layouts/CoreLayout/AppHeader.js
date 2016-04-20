@@ -24,8 +24,9 @@ class AppHeader extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
   statusChange (status) {
+    let newStatus = !this.state.LoginModalOpened
     this.setState({
-      LoginModalOpened: status
+      LoginModalOpened: newStatus
     })
   }
   handleClick () {
@@ -68,11 +69,11 @@ class AppHeader extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        {/* <Login modalStatus={this.state.LoginModalOpened} statusChange={this.statusChange}/>*/}
-         {!isAuthenticated &&
+         {!this.state.LoginModalOpened &&
            <Login errorMessage={errorMessage}
              onLoginClick={onLoginClick}
              modalStatus={!isAuthenticated}
+             statusChange={this.statusChange}
           />
         }
       </div>

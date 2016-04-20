@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Modal, Button, Input } from 'react-bootstrap'
 import Logo from 'static/images/urbinsight_logo_v1.png'
-
+// import { EmailSignInForm } from 'redux-auth/bootstrap-theme'
 type Props = {
   modalStatus: PropTypes.bool,
   statusChange: PropTypes.func,
@@ -18,7 +18,7 @@ export class Login extends React.Component {
     this.close = this.close.bind(this)
   }
   close () {
-    this.props.statusChange(!this.state.showModal)
+    this.props.statusChange()
   }
   componentWillReceiveProps (props) {
     this.setState({showModal: props.modalStatus})
@@ -43,6 +43,7 @@ export class Login extends React.Component {
               <Input type='email' ref='username' placeholder='Email'/>
               <Input type='password' ref='password' placeholder='Password' />
             </form>
+            {/* <EmailSignInForm />*/}
           </Modal.Body>
           <Modal.Footer id='login-modal-footer'>
             <div className='login-button-helper'>

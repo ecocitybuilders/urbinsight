@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
+import { connect } from 'react-redux'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
   medellin: [-75.5812, 6.2442],
@@ -21,8 +22,12 @@ function cityObjectFunc (city) {
     return cityObject[cityList[getRandomInt(0, 5)]]
   }
 }
-// [19.0402, 47.4979]
+type Props = {
+  isAuthenticated: PropTypes.bool
+}
+
 class MapView extends React.Component {
+  props: Props;
   constructor (props) {
     super(props)
     this.state = {
@@ -37,7 +42,9 @@ class MapView extends React.Component {
   }
   render () {
     // style={this.mapStyle}
+    const { isAuthenticated } = this.props
     if (this.state.map) {
+      this.state.map.addControl(new mapboxgl.Navigation())
       this.state.map.on('style.load', function () {
         this.state.map.addSource('lots', {
           'type': 'vector',
@@ -58,13 +65,12 @@ class MapView extends React.Component {
           }
         })
       }.bind(this))
-      this.state.map.addControl(new mapboxgl.Navigation())
     }
     return (
       <div id='mapContainer'>
         <div id='map'>
           <DataDashboardLayout />
-          <DataInputLayout />
+          {isAuthenticated && <DataInputLayout />}
         </div>
       </div>
     )
@@ -85,5 +91,21 @@ class MapView extends React.Component {
 //     view: React.PropTypes.object,
 //     token: React.PropTypes.string
 // }
+const mapStateToProps = (state) => {
+  const { auth } = state
+  const { isAuthenticated, errorMessage } = auth
+  return {
+    isAuthenticated,
+    errorMessage
+  }
+}
 
-export default MapView
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapView)
