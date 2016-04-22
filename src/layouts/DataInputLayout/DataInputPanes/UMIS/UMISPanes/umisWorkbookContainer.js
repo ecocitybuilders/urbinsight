@@ -10,10 +10,10 @@ class UMISWorkbookContainer extends React.Component {
     previousStep: PropTypes.func
   };
   static workbookPanes = {
-    0: 'selection',
-    1: 'water',
-    2: 'materials',
-    3: 'submit'
+    1: 'selection',
+    2: 'water',
+    3: 'materials',
+    4: 'submit'
   };
 
   constructor () {
@@ -88,7 +88,6 @@ class UMISWorkbookContainer extends React.Component {
         return (
           <UMISSubmit
             prevSection={this.prevSection}
-            nextSection={this.nextSection}
             nextStep={this.nextStep}
           />
         )
