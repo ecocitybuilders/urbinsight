@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
+import MapGL from 'react-map-gl'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
   medellin: [-75.5812, 6.2442],
@@ -43,6 +44,18 @@ class MapView extends React.Component {
   render () {
     // style={this.mapStyle}
     const { isAuthenticated } = this.props
+    return (
+      <div id='mapContainer'>
+        <div id='map'>
+          <DataDashboardLayout />
+          {isAuthenticated && <DataInputLayout />}
+        </div>
+      </div>
+    )
+  }
+  // <Dashboard />
+  componentDidMount () {
+    mapboxgl.accessToken = this.state.mapToken
     if (this.state.map) {
       this.state.map.addControl(new mapboxgl.Navigation())
       this.state.map.on('style.load', function () {
@@ -66,18 +79,6 @@ class MapView extends React.Component {
         })
       }.bind(this))
     }
-    return (
-      <div id='mapContainer'>
-        <div id='map'>
-          <DataDashboardLayout />
-          {isAuthenticated && <DataInputLayout />}
-        </div>
-      </div>
-    )
-  }
-  // <Dashboard />
-  componentDidMount () {
-    mapboxgl.accessToken = this.state.mapToken
     this.setState({map: new mapboxgl.Map(this.state.mapView)
     })
   }
