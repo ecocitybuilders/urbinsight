@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 import Login from 'containers/Login'
-import { loginUser, logoutUser } from 'redux/modules/auth'
+import { loginUser, logoutUser, signUpUser } from 'redux/modules/auth'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 
 type Props = {
@@ -10,7 +10,8 @@ type Props = {
   isAuthenticated: PropTypes.bool,
   errorMessage: PropTypes.string,
   onLoginClick: PropTypes.func,
-  onLogoutClick: PropTypes.func
+  onLogoutClick: PropTypes.func,
+  onSignUpClick: PropTypes.func
 }
 
 class AppHeader extends React.Component {
@@ -36,7 +37,8 @@ class AppHeader extends React.Component {
     })
   }
   render () {
-    const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick } = this.props
+    const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick, onSignUpClick } =
+    this.props
     return (
       <div>
         <Navbar inverse fluid fixedTop isAuthenticated={isAuthenticated}
@@ -72,6 +74,7 @@ class AppHeader extends React.Component {
          {!this.state.LoginModalOpened &&
            <Login errorMessage={errorMessage}
              onLoginClick={onLoginClick}
+             onSignUpClick={onSignUpClick}
              modalStatus={!isAuthenticated}
              statusChange={this.statusChange}
           />
@@ -95,7 +98,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loginUser(creds)),
 
     onLogoutClick: () =>
-      dispatch(logoutUser())
+      dispatch(logoutUser()),
+
+    onSignUpClick: (creds) =>
+      dispatch(signUpUser(creds))
   }
 }
 

@@ -45,7 +45,6 @@ var passport = require('koa-passport')
 
 exports.signIn = function * () {
   var _this = this
-  console.log("made it to auth sign in")
   yield * passport.authenticate('local', function * (err, user, info) {
     if (err) {
       throw err

@@ -5,7 +5,8 @@ import Logo from 'static/images/urbinsight_logo_v1.png'
 type Props = {
   modalStatus: PropTypes.bool,
   statusChange: PropTypes.func,
-  onLoginClick: PropTypes.func
+  onLoginClick: PropTypes.func,
+  onSignUpClick: PropTypes.func
 }
 export class Login extends React.Component {
   props: Props;
@@ -23,11 +24,18 @@ export class Login extends React.Component {
   componentWillReceiveProps (props) {
     this.setState({showModal: props.modalStatus})
   }
-  handleClick (event) {
+  handleLoginClick (event) {
     const username = this.refs.username.refs.input
     const password = this.refs.password.refs.input
     const creds = { username: username.value.trim(), password: password.value.trim() }
     this.props.onLoginClick(creds)
+  }
+
+  handleSignUpClick (event) {
+    const username = this.refs.username.refs.input
+    const password = this.refs.password.refs.input
+    const creds = { username: username.value.trim(), password: password.value.trim() }
+    this.props.onSignUpClick(creds)
   }
   render () {
     return (
@@ -47,13 +55,16 @@ export class Login extends React.Component {
           </Modal.Body>
           <Modal.Footer id='login-modal-footer'>
             <div className='login-button-helper'>
-              <Button onClick={(event) => this.handleClick(event)}
+              <Button onClick={(event) => this.handleLoginClick(event)}
                 className='auth-buttons'
                 bsStyle='primary' bsSize='large' block>LOGIN
               </Button>
             </div>
             <div className='login-button-helper'>
-              <Button className='auth-buttons' bsStyle='success' bsSize='large' block>SIGN UP</Button>
+              <Button onClick={(event) => this.handleSignUpClick(event)}
+                className='auth-buttons'
+                bsStyle='success' bsSize='large' block>SIGN UP
+              </Button>
             </div>
           </Modal.Footer>
         </Modal>

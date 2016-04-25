@@ -36,9 +36,9 @@ var storeObj = {
 }
 
 // csrf
-const csrf = require('koa-csrf')
-csrf(app)
-app.use(convert(csrf.middleware))
+// const csrf = require('koa-csrf')
+// csrf(app)
+// app.use(convert(csrf.middleware))
 
 // authentication
 // require('./src/methods/auth')
@@ -69,6 +69,7 @@ router
     this.body = 'hello koa'
   })
   .post('/api/sessions/create', auth.signIn)
+  .post('/api/user/create', auth.createUser)
 
 app.use(router.routes())
 app.use(router.allowedMethods())
