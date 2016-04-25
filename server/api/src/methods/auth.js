@@ -1,46 +1,5 @@
-// const passport = require('koa-passport')
-// // const bcrypt = require('bcrypt')
-// const User = require('../models/user.js')
-//
-// User.findOne({ username: 'heyheyhey@gmail.com' }, function (err, user) {
-//   if (err) { throw err }
-//   if (!user) {
-//     console.log('User did not exist creating test user...')
-//     user = new User({
-//       username: 'heyheyhey1@gmail.com',
-//       password: 'shadow1'
-//     })
-//     console.log(user)
-//     user.save()
-//   }
-// })
-//
-// passport.serializeUser(function (user, done) {
-//   done(null, user._id)
-// })
-//
-// passport.deserializeUser(function (id, done) {
-//   User.findById(id, done)
-// })
-//
-// const LocalStrategy = require('passport-local').Strategy
-// passport.use(new LocalStrategy(function (username, password, done) {
-//   console.log(username, 'LocalStrategy')
-//   User.findOne({ username: username }, function (err, user) {
-//     if (err) return done(err)
-//     if (!user) return done(null, false, { message: 'Incorrect username.' })
-//     user.comparePassword(password, function (err, isMatch) {
-//       if (err) { throw err }
-//       if (isMatch) {
-//         return done(null, user)
-//       } else {
-//         return done(null, false, { message: 'Incorrect password.' })
-//       }
-//     })
-//   })
-// }))
-
 'use strict'
+
 var passport = require('koa-passport')
 
 exports.signIn = function * () {

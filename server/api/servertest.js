@@ -4,7 +4,6 @@ var auth = require('./src/methods/auth')
 var path = require('path')
 var fs = require('fs')
 
-var root = path.normalize(path.join(__dirname))
 // trust proxy
 app.proxy = true
 
@@ -18,7 +17,7 @@ mongoose.connection.on('error', function (err) {
   console.log(err)
 })
 // Load the models
-const modelsPath = root + '/src/models'
+const modelsPath = path.normalize(path.join(__dirname)) + '/src/models'
 fs.readdirSync(modelsPath).forEach(function (file) {
   if (~file.indexOf('js')) {
     require(modelsPath + '/' + file)
@@ -39,9 +38,6 @@ var storeObj = {
 // const csrf = require('koa-csrf')
 // csrf(app)
 // app.use(convert(csrf.middleware))
-
-// authentication
-// require('./src/methods/auth')
 const passport = require('koa-passport')
 
 require('../config/passport')(passport)
@@ -75,40 +71,3 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.listen(8000)
-// const db = mongoose.connection
-//
-// db.on('error', console.error.bind(console, 'connection error:'))
-// // Open the connection
-// db.once('open', function callback () {
-//   console.log('Database Connection Successfully Opened at ' +
-//    developmentDb)
-// })
-//
-
-// var session = require('koa-session')
-// app.keys = ['secret']
-// app.use(session(app))
-// User.findOne({ username: 'heyheyhey@gmail.com' }, function (err, user) {
-//   if (err) { throw err }
-//   console.log("do I even get called")
-//   if (!user) {
-//     console.log('User did not exist; creating test user...')
-//     user = new User({
-//       username: 'heyheyhey@gmail.com',
-//       password: 'shadow1'
-//     })
-//     user.save()
-//   }
-// })
-
-// app.use(function * (next) {
-//   if (this.method !== 'POST') {
-//     return yield next
-//   }
-//   this.body = {
-//     id_token: 1000
-//   }
-// })
-// app.use(function * (next) {
-//   this.body = `you're hear but something unexpected happened`
-// })
