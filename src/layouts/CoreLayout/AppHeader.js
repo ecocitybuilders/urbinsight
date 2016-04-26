@@ -56,6 +56,7 @@ class AppHeader extends React.Component {
                 <MenuItem eventKey={1.2} href='/cusco'>Cusco</MenuItem>
                 <MenuItem eventKey={1.3} href='/abudhabi'>Abu Dhabi</MenuItem>
                 <MenuItem eventKey={1.3} href='/lima'>Lima</MenuItem>
+                <MenuItem eventKey={1.4} href='/budapest'>Budapest</MenuItem>
               </NavDropdown>
               <NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
                 <MenuItem eventKey={2.1} href='http://medellin.urbinsight.com'>Medellin</MenuItem>

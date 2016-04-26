@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
-import MapGL from 'react-map-gl'
+// import MapGL from 'react-map-gl'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
   medellin: [-75.5812, 6.2442],
@@ -55,35 +55,37 @@ class MapView extends React.Component {
   }
   // <Dashboard />
   componentDidMount () {
+    let city = window.location.pathname.slice(1)
+    let tileLocation = 'http://localhost:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
-    if (this.state.map) {
-      this.state.map.addControl(new mapboxgl.Navigation())
-      this.state.map.on('style.load', function () {
-        this.state.map.addSource('lots', {
-          'type': 'vector',
-          'tiles': ['http://localhost:5001/data/city/lots/budapest/{z}/{x}/{y}.mvt']
-        })
-        this.state.map.addLayer({
-          'id': 'lots',
-          'type': 'fill',
-          'source': 'lots',
-          'source-layer': 'parcels',
-          'layout': {
-            'visibility': 'visible'
-          },
-          'interactive': true,
-          'paint': {
-            'fill-color': '#ff0000',
-            'fill-opacity': 0.5
-          }
-        })
-      }.bind(this))
-    }
-    this.setState({map: new mapboxgl.Map(this.state.mapView)
+    var map = new mapboxgl.Map(this.state.mapView)
+    map.addControl(new mapboxgl.Navigation())
+    map.on('style.load', function () {
+      map.addSource('lots', {
+        'type': 'vector',
+        'tiles': [tileLocation]
+      })
+      map.addLayer({
+        'id': 'lots',
+        'type': 'fill',
+        'source': 'lots',
+        'source-layer': 'parcels',
+        'layout': {
+          'visibility': 'visible'
+        },
+        'interactive': true,
+        'paint': {
+          'fill-color': '#ff0000',
+          'fill-opacity': 0.5
+        }
+      })
     })
+    this._map = map
   }
   componentWillUnmount () {
-    this.map.remove()
+    if (this._map) {
+      this._map.remove()
+    }
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 }
