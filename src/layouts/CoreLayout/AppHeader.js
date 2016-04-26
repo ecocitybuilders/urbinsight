@@ -51,7 +51,7 @@ class AppHeader extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavDropdown eventKey={1} title='Explore Data' id='basic-nav-dropdown'>
+              <NavDropdown eventKey={1} title='Explore Maps' id='basic-nav-dropdown'>
                 <MenuItem eventKey={1.1} href='/medellin'>Medellin</MenuItem>
                 <MenuItem eventKey={1.2} href='/cusco'>Cusco</MenuItem>
                 <MenuItem eventKey={1.3} href='/abudhabi'>Abu Dhabi</MenuItem>
