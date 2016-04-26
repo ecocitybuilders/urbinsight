@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { Button } from 'react-bootstrap'
 import { Input } from 'react-bootstrap'
 
@@ -16,7 +17,24 @@ class CitizenSurveyForm extends React.Component {
   }
   previousStep (e) {
     e.preventDefault()
-    let data = {}
+    let data = {
+      employment: ReactDOM.findDOMNode(this.refs.employment).children[1].value,
+      healthcare: ReactDOM.findDOMNode(this.refs.healthcare).children[1].value,
+      family: ReactDOM.findDOMNode(this.refs.family).children[1].value,
+      stability: ReactDOM.findDOMNode(this.refs.stability).children[1].value,
+      relationships: ReactDOM.findDOMNode(this.refs.relationships).children[1].value,
+      recreation: ReactDOM.findDOMNode(this.refs.recreation).children[1].value,
+      education: ReactDOM.findDOMNode(this.refs.education).children[1].value,
+      vacation: ReactDOM.findDOMNode(this.refs.vacation).children[1].value,
+      housing: ReactDOM.findDOMNode(this.refs.housing).children[1].value,
+      environment: ReactDOM.findDOMNode(this.refs.environment).children[1].value,
+      discrimination: ReactDOM.findDOMNode(this.refs.discrimination).children[1].value,
+      religion: ReactDOM.findDOMNode(this.refs.religion).children[1].value,
+      mobility: ReactDOM.findDOMNode(this.refs.mobility).children[1].value,
+      movement: ReactDOM.findDOMNode(this.refs.movement).children[1].value,
+      safety: ReactDOM.findDOMNode(this.refs.safety).children[1].value,
+      governance: ReactDOM.findDOMNode(this.refs.governance).children[1].value
+    }
     this.props.saveValues(data)
     this.props.previousStep()
   }
@@ -31,12 +49,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.employment}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='2. How would you describe your level of access
              to healthcare and health services?'
@@ -44,12 +62,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.healthcare}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='3. How would you describe your ability to provide
             care for family members as needed?'
@@ -57,24 +75,24 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.family}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='4. How would you describe stability in your daily life?'
             ref='stability'
             defaultValue={this.props.fieldValues.stability}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='5. How do you describes your level of access to
              opportunities to develop healthy social relations?'
@@ -82,12 +100,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.relationships}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='6. How do you descrive your level of access to
              recreational opportunities and activities?'
@@ -95,12 +113,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.recreation}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='7. How would you describe your level of access to
              knowledge for futhering your education?'
@@ -108,12 +126,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.education}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='8. How would you describe your level of vacation(time-off)
              time you have?'
@@ -121,24 +139,24 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.vacation}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='9. How would you describe your shelter/housing?'
             ref='housing'
             defaultValue={this.props.fieldValues.housing}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='10. How do you describe your living environment?
              (this includes access to natural resources)'
@@ -146,12 +164,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.environment}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='11. How would you describe the level of respect
              and non-discrimination you experience in your daily life?'
@@ -159,36 +177,36 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.discrimination}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='12. How would you describe your level of freedom
              to practice your religion?'
             ref='religion'
             defaultValue={this.props.fieldValues.religion} placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='13. How would you describe your level of access to mobility?'
             ref='mobility'
             defaultValue={this.props.fieldValues.mobility}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='14. How do you describe your level of freedom of
              movement?'
@@ -196,12 +214,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.movement}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='15. How do you describe your level of safety and
             the absence of physical violence or criminality in your daily life?'
@@ -209,12 +227,12 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.safety}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <Input type='select' label='16. How do you describe your ability to participate
             in your communitys political, governance-based and decision-making processes?'
@@ -222,16 +240,16 @@ class CitizenSurveyForm extends React.Component {
             defaultValue={this.props.fieldValues.governance}
             placeholder=''>
             <option value=''>Enter your response</option>
-            <option value='excellent'>Excellent</option>
-            <option value='good'>Good</option>
-            <option value='adequate'>Adequate</option>
-            <option value='insufficient'>Insufficient</option>
-            <option value='absent'>Absent</option>
-            <option value='unknown'>Unknown</option>
+            <option value='5'>Excellent</option>
+            <option value='4'>Good</option>
+            <option value='3'>Adequate</option>
+            <option value='2'>Insufficient</option>
+            <option value='1'>Absent</option>
+            <option value='0'>Unknown</option>
           </Input>
           <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '30vw'}}>
             {/* <ButtonGroup justified>*/}
-            <Button bsStyle='danger' onClick={this.previousStep}>Update Location</Button>
+            <Button bsStyle='danger' onClick={(event) => this.previousStep(event)}>Update Location</Button>
             <Button bsStyle='success' onClick={this.props.formReset}>Submit Form</Button>
             {/* </ButtonGroup>*/}
           </div>

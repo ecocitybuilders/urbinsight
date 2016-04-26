@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { Button } from 'react-bootstrap'
 import { Input } from 'react-bootstrap'
 import { Col } from 'react-bootstrap'
@@ -8,7 +9,7 @@ type Props = {
   saveValues: PropTypes.func,
   fieldValues: PropTYpes.object,
   nextStep: PropTypes.func,
-  previousStep: PropTypes.func,
+  formReset: PropTypes.func,
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -19,9 +20,10 @@ class CitizenSurveyLocation extends React.Component {
   }
   nextStep (e) {
     e.preventDefault()
+    // There has to be an easier way to do this
     let data = {
-      lat: this.refs.lat.getDOMNode().value,
-      lon: this.refs.lon.getDOMNode().value
+      lat: ReactDOM.findDOMNode(this.refs.lat).children[1].value,
+      lon: ReactDOM.findDOMNode(this.refs.lon).children[1].value
     }
     this.props.saveValues(data)
     this.props.nextStep()
@@ -58,7 +60,7 @@ class CitizenSurveyLocation extends React.Component {
           </Grid>
         </div>
         <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '15vw'}}>
-          <Button bsStyle='danger' onClick={this.props.previousStep}>Start Over</Button>
+          <Button bsStyle='danger' onClick={this.props.formReset}>Start Over</Button>
           <Button bsStyle='success' onClick={this.nextStep}>Continue</Button>
         </div>
       </div>

@@ -48,25 +48,52 @@ class CitizenSurvey extends React.Component {
   }
 
   formReset () {
+    let fields = {
+      lon: null,
+      lat: null,
+      employment: null,
+      healthcare: null,
+      family: null,
+      stability: null,
+      relationships: null,
+      recreation: null,
+      education: null,
+      vacation: null,
+      housing: null,
+      environment: null,
+      discrimination: null,
+      religion: null,
+      mobility: null,
+      movement: null,
+      safety: null,
+      governance: null
+    }
+    fieldValues = Object.assign({}, fieldValues, fields)
     this.setState({
       active: 1
     })
   }
 
-  handleClick (panel) {
-    let newActive = panel
-    this.setState({
-      active: newActive
-    })
+  saveValues (fields) {
+    return (function () {
+      fieldValues = Object.assign({}, fieldValues, fields)
+    })()
   }
   render () {
     switch (this.state.active) {
       case 1:
         return <CitizenSurveyIntro nextStep={this.nextStep}/>
       case 2:
-        return <CitizenSurveyLocation previousStep={this.previousStep} nextStep={this.nextStep}/>
+        return <CitizenSurveyLocation previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          fieldValues={fieldValues}
+          saveValues={this.saveValues}
+          formReset={this.formReset}/>
       case 3:
-        return <CitizenSurveyForm previousStep={this.previousStep} formReset={this.formReset}/>
+        return <CitizenSurveyForm previousStep={this.previousStep}
+          fieldValues={fieldValues}
+          saveValues={this.saveValues}
+          formReset={this.formReset}/>
     }
   }
 }
