@@ -4,17 +4,26 @@ import { Input } from 'react-bootstrap'
 import { Col } from 'react-bootstrap'
 import { Grid } from 'react-bootstrap'
 
+type Props = {
+  saveValues: PropTypes.func,
+  fieldValues: PropTYpes.object,
+  nextStep: PropTypes.func,
+  previousStep: PropTypes.func,
+}
+
 class CitizenSurveyLocation extends React.Component {
-  static propTypes = {
-    nextStep: PropTypes.func,
-    previousStep: PropTypes.func
-  };
+  props: Props;
   constructor () {
     super()
     this.nextStep = this.nextStep.bind(this)
   }
   nextStep (e) {
     e.preventDefault()
+    let data = {
+      lat: this.refs.lat.getDOMNode().value,
+      lon: this.refs.lon.getDOMNode().value
+    }
+    this.props.saveValues(data)
     this.props.nextStep()
   }
   render () {
@@ -34,10 +43,16 @@ class CitizenSurveyLocation extends React.Component {
           <Grid>
             <form style={{'marginBottom': '15px'}}>
               <Col md={3}>
-                <Input type='text' label='Latitude' placeholder='Enter Latitude' />
+                <Input type='text' ref='lat'
+                  label='Latitude'
+                  defaultValue={this.props.fieldValues.lat}
+                  placeholder='Enter Latitude' />
               </Col>
               <Col md={3}>
-                <Input type='text' label='Longitude' placeholder='Enter Longitude' />
+                <Input type='text' ref='lon'
+                  label='Longitude'
+                  defaultValue={this.props.fieldValues.lon}
+                  placeholder='Enter Longitude' />
               </Col>
             </form>
           </Grid>

@@ -3,7 +3,28 @@ import CitizenSurveyIntro from 'layouts/DataInputLayout/DataInputPanes/Survey/Su
 import CitizenSurveyLocation from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyLocation'
 import CitizenSurveyForm from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyForm'
 
+let fieldValues = {
+  lon: null,
+  lat: null,
+  employment: null,
+  healthcare: null,
+  family: null,
+  stability: null,
+  relationships: null,
+  recreation: null,
+  education: null,
+  vacation: null,
+  housing: null,
+  environment: null,
+  discrimination: null,
+  religion: null,
+  mobility: null,
+  movement: null,
+  safety: null,
+  governance: null
+}
 class CitizenSurvey extends React.Component {
+  props: Props;
   constructor () {
     super()
     this.state = {
