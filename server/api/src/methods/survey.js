@@ -28,8 +28,8 @@ exports.saveSurvey = function * () {
       safety: this.request.body.safety,
       governance: this.request.body.governance
     })
-    // survey = yield survey.save()
-    survey = {}
+    survey = yield survey.save()
+    // survey = {}
   } catch (err) {
     this.throw(err)
   }

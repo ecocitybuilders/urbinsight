@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import { Tabs } from 'react-bootstrap'
 import { Tab } from 'react-bootstrap'
@@ -6,7 +6,11 @@ import { Tab } from 'react-bootstrap'
 import UmisDataForm from 'layouts/DataInputLayout/DataInputPanes/UMIS/umisDataForm'
 import CitizenSurvey from 'layouts/DataInputLayout/DataInputPanes/Survey/citizenSurvey'
 
+type Props = {
+  map: PropTypes.object.isRequired
+}
 class DataInputLayout extends React.Component {
+  props: Props;
   constructor () {
     super()
     this.state = {
@@ -40,7 +44,7 @@ class DataInputLayout extends React.Component {
             <UmisDataForm />
           </Tab>
           <Tab eventKey={2} title='Citizen Survey'>
-            <CitizenSurvey />
+            <CitizenSurvey map={this.props.map}/>
           </Tab>
         </Tabs>
       </div>

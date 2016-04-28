@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
   medellin: [-75.5812, 6.2442],
-  abudhabi: [54.6973, 24.2992],
+  abudhabi: [54.36745, 24.47608],
   lima: [-77.0428, -12.0464],
   budapest: [19.0402, 47.4979]
 }
@@ -48,7 +48,7 @@ class MapView extends React.Component {
       <div id='mapContainer'>
         <div id='map'>
           <DataDashboardLayout />
-          {isAuthenticated && <DataInputLayout />}
+          {isAuthenticated && <DataInputLayout map={this.state.map}/>}
         </div>
       </div>
     )
@@ -80,20 +80,20 @@ class MapView extends React.Component {
         }
       })
     })
-    this._map = map
+    // this._map = map
+    this.setState({map: map})
   }
   componentWillUnmount () {
-    if (this._map) {
-      this._map.remove()
+    // if (this._map) {
+    //   this._map.remove()
+    // }
+    if (this.state.map) {
+      this.state.map.remove()
     }
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 }
 
-// GLMap.propTypes = {
-//     view: React.PropTypes.object,
-//     token: React.PropTypes.string
-// }
 const mapStateToProps = (state) => {
   const { auth } = state
   const { isAuthenticated, errorMessage } = auth

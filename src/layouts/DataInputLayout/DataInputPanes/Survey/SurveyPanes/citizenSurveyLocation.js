@@ -9,7 +9,8 @@ type Props = {
   saveValues: PropTypes.func,
   fieldValues: PropTYpes.object,
   nextStep: PropTypes.func,
-  formReset: PropTypes.func,
+  previousStep: PropTypes.func,
+  map: PropTypes.object
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -65,6 +66,19 @@ class CitizenSurveyLocation extends React.Component {
         </div>
       </div>
     )
+  }
+  componentDidMount () {
+    this.props.map.on('click', function (e) {
+      debugger
+      ReactDOM.findDOMNode(this.refs.lat).children[1].value = e.lngLat.lat
+      ReactDOM.findDOMNode(this.refs.lon).children[1].value = e.lngLat.lng
+    }.bind(this))
+  }
+  componentWillUpdate (p, s) {
+    console.log('props')
+    console.log(p)
+    console.log('state')
+    console.log(s)
   }
 }
 

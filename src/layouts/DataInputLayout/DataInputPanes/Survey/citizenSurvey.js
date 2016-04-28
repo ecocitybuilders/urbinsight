@@ -26,9 +26,10 @@ let fieldValues = {
   governance: null
 }
 
-type Props ={
+type Props = {
   dispatch: PropTypes.func.isRequired,
-  submitSurvey: PropTypes.func
+  submitSurvey: PropTypes.func,
+  map: PropTypes.obj
 }
 class CitizenSurvey extends React.Component {
   props: Props;
@@ -89,12 +90,13 @@ class CitizenSurvey extends React.Component {
     return fieldValues
   }
   render () {
-    const { submitSurvey } = this.props
+    const { submitSurvey, map } = this.props
     switch (this.state.active) {
       case 1:
         return <CitizenSurveyIntro nextStep={this.nextStep}/>
       case 2:
         return <CitizenSurveyLocation previousStep={this.previousStep}
+          map={map}
           nextStep={this.nextStep}
           fieldValues={fieldValues}
           saveValues={this.saveValues}/>
@@ -107,6 +109,14 @@ class CitizenSurvey extends React.Component {
           getValues={this.getValues}/>
     }
   }
+
+  // componentWillReceiveProps (nextProps) {
+  //   console.log('wrapper props')
+  //   console.log(nextProps)
+  //   nextProps.map.on('click', function (e) {
+  //     console.log(e)
+  //   })
+  // }
 }
 
 const mapStateToProps = (state) => {
