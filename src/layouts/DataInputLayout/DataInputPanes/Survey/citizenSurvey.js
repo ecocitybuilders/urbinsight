@@ -53,7 +53,6 @@ class CitizenSurvey extends React.Component {
       active: this.state.active - 1
     })
   }
-
   formReset () {
     let fields = {
       lon: null,
@@ -76,6 +75,9 @@ class CitizenSurvey extends React.Component {
       governance: null
     }
     fieldValues = Object.assign({}, fieldValues, fields)
+    this.setState({
+      active: 1
+    })
   }
 
   saveValues (fields) {
@@ -83,8 +85,10 @@ class CitizenSurvey extends React.Component {
       fieldValues = Object.assign({}, fieldValues, fields)
     })()
   }
+  getValues () {
+    return fieldValues
+  }
   render () {
-    console.log(this.props)
     const { submitSurvey } = this.props
     switch (this.state.active) {
       case 1:
@@ -93,41 +97,30 @@ class CitizenSurvey extends React.Component {
         return <CitizenSurveyLocation previousStep={this.previousStep}
           nextStep={this.nextStep}
           fieldValues={fieldValues}
-          saveValues={this.saveValues}
-          formReset={this.formReset}/>
+          saveValues={this.saveValues}/>
       case 3:
         return <CitizenSurveyForm previousStep={this.previousStep}
           fieldValues={fieldValues}
           saveValues={this.saveValues}
-          submitSurvey={submitSurvey}/>
+          submitSurvey={submitSurvey}
+          formReset={this.formReset}
+          getValues={this.getValues}/>
     }
   }
 }
 
 const mapStateToProps = (state) => {
-  // const { survey } = state
-  // const { surveyResponses } = survey
+  const { survey } = state
+  const { surveyResponses } = survey
   return {
+    surveyResponses
   }
-  // const { isAuthenticated, errorMessage } = auth
-  // return {
-  //   isAuthenticated,
-  //   errorMessage
-  // }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSurvey: (responses) => {
-      dispatch(surveySave(responses))
+    submitSurvey: (response) => {
+      dispatch(surveySave(response))
     }
-    // onLoginClick: (creds) =>
-    //   dispatch(loginUser(creds)),
-    //
-    // onLogoutClick: () =>
-    //   dispatch(logoutUser()),
-    //
-    // onSignUpClick: (creds) =>
-    //   dispatch(signUpUser(creds))
   }
 }
 

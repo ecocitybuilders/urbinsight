@@ -60,7 +60,7 @@ class CitizenSurveyLocation extends React.Component {
           </Grid>
         </div>
         <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '15vw'}}>
-          <Button bsStyle='danger' onClick={this.props.formReset}>Start Over</Button>
+          <Button bsStyle='danger' onClick={this.props.previousStep}>Start Over</Button>
           <Button bsStyle='success' onClick={this.nextStep}>Continue</Button>
         </div>
       </div>

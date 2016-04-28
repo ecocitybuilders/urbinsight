@@ -1,6 +1,7 @@
 var Koa = require('koa')
 var app = new Koa()
 var auth = require('./src/methods/auth')
+var survey = require('./src/methods/survey')
 var path = require('path')
 var fs = require('fs')
 
@@ -66,6 +67,7 @@ router
   })
   .post('/api/sessions/create', auth.signIn)
   .post('/api/user/create', auth.createUser)
+  .post('/api/survey/create', survey.saveSurvey)
 
 app.use(router.routes())
 app.use(router.allowedMethods())

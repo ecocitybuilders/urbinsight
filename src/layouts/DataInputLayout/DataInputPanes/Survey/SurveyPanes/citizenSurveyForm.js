@@ -7,17 +7,39 @@ type Props = {
   submitSurvey: PropTypes.func.isRequired,
   previousStep: PropTypes.func,
   fieldValues: PropTypes.object,
-  saveValues: PropTypes.func
+  getValues: PropTypes.func,
+  saveValues: PropTypes.func,
+  formReset: PropTypes.func
 }
 
 class CitizenSurveyForm extends React.Component {
   props: Props;
   submitForm (e) {
-    // console.log('yay form submit')
-    // console.log(this.props)
     e.preventDefault()
-    this.props.submitSurvey(this.props.fieldValues)
+    let data = {
+      employment: ReactDOM.findDOMNode(this.refs.employment).children[1].value,
+      healthcare: ReactDOM.findDOMNode(this.refs.healthcare).children[1].value,
+      family: ReactDOM.findDOMNode(this.refs.family).children[1].value,
+      stability: ReactDOM.findDOMNode(this.refs.stability).children[1].value,
+      relationships: ReactDOM.findDOMNode(this.refs.relationships).children[1].value,
+      recreation: ReactDOM.findDOMNode(this.refs.recreation).children[1].value,
+      education: ReactDOM.findDOMNode(this.refs.education).children[1].value,
+      vacation: ReactDOM.findDOMNode(this.refs.vacation).children[1].value,
+      housing: ReactDOM.findDOMNode(this.refs.housing).children[1].value,
+      environment: ReactDOM.findDOMNode(this.refs.environment).children[1].value,
+      discrimination: ReactDOM.findDOMNode(this.refs.discrimination).children[1].value,
+      religion: ReactDOM.findDOMNode(this.refs.religion).children[1].value,
+      mobility: ReactDOM.findDOMNode(this.refs.mobility).children[1].value,
+      movement: ReactDOM.findDOMNode(this.refs.movement).children[1].value,
+      safety: ReactDOM.findDOMNode(this.refs.safety).children[1].value,
+      governance: ReactDOM.findDOMNode(this.refs.governance).children[1].value
+    }
+    this.props.saveValues(data)
+    let responses = this.props.getValues()
+    this.props.submitSurvey(responses)
+    this.props.formReset()
   }
+
   previousStep (e) {
     e.preventDefault()
     let data = {

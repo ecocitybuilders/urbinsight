@@ -24,8 +24,9 @@ function submitSurvey (responses): Action {
 export function surveySave (responses) {
   let config = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    // body: `username=${creds.username}&password=${creds.password}`
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `lat=${responses.lat}&lon=${responses.lon}&employment=${responses.employment}&healthcare=${responses.healthcare}&family=${responses.family}&stability=${responses.stability}&relationships=${responses.relationships}&recreation=${responses.recreation}&education=${responses.education}&vacation=${responses.vacation}&housing=${responses.housing}&environment=${responses.environment}&discrimination=${responses.discrimination}&religion=${responses.religion}&mobility=${responses.mobility}&movement=${responses.movement}&safety=${responses.safety}&governance=${responses.governance}&`
+    // body: responses
   }
   return (dispatch) => {
     dispatch(submitSurvey(responses))
