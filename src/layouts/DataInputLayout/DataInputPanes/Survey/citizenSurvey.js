@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { surveySave } from 'redux/modules/survey'
 import CitizenSurveyIntro from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyIntro'
 import CitizenSurveyLocation from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyLocation'
 import CitizenSurveyForm from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyForm'
@@ -22,6 +24,11 @@ let fieldValues = {
   movement: null,
   safety: null,
   governance: null
+}
+
+type Props ={
+  dispatch: PropTypes.func.isRequired,
+  submitSurvey: PropTypes.func
 }
 class CitizenSurvey extends React.Component {
   props: Props;
@@ -69,9 +76,6 @@ class CitizenSurvey extends React.Component {
       governance: null
     }
     fieldValues = Object.assign({}, fieldValues, fields)
-    this.setState({
-      active: 1
-    })
   }
 
   saveValues (fields) {
@@ -80,6 +84,8 @@ class CitizenSurvey extends React.Component {
     })()
   }
   render () {
+    console.log(this.props)
+    const { submitSurvey } = this.props
     switch (this.state.active) {
       case 1:
         return <CitizenSurveyIntro nextStep={this.nextStep}/>
@@ -93,9 +99,39 @@ class CitizenSurvey extends React.Component {
         return <CitizenSurveyForm previousStep={this.previousStep}
           fieldValues={fieldValues}
           saveValues={this.saveValues}
-          formReset={this.formReset}/>
+          submitSurvey={submitSurvey}/>
     }
   }
 }
 
-export default CitizenSurvey
+const mapStateToProps = (state) => {
+  // const { survey } = state
+  // const { surveyResponses } = survey
+  return {
+  }
+  // const { isAuthenticated, errorMessage } = auth
+  // return {
+  //   isAuthenticated,
+  //   errorMessage
+  // }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitSurvey: (responses) => {
+      dispatch(surveySave(responses))
+    }
+    // onLoginClick: (creds) =>
+    //   dispatch(loginUser(creds)),
+    //
+    // onLogoutClick: () =>
+    //   dispatch(logoutUser()),
+    //
+    // onSignUpClick: (creds) =>
+    //   dispatch(signUpUser(creds))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CitizenSurvey)

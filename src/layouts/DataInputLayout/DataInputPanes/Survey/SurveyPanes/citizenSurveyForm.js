@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 import { Input } from 'react-bootstrap'
 
 type Props = {
-  formReset: PropTypes.func.isRequired,
+  submitSurvey: PropTypes.func.isRequired,
   previousStep: PropTypes.func,
   fieldValues: PropTypes.object,
   saveValues: PropTypes.func
@@ -12,8 +12,11 @@ type Props = {
 
 class CitizenSurveyForm extends React.Component {
   props: Props;
-  submitForm () {
-    console.log('yay form submit')
+  submitForm (e) {
+    // console.log('yay form submit')
+    // console.log(this.props)
+    e.preventDefault()
+    this.props.submitSurvey(this.props.fieldValues)
   }
   previousStep (e) {
     e.preventDefault()
@@ -250,7 +253,7 @@ class CitizenSurveyForm extends React.Component {
           <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '30vw'}}>
             {/* <ButtonGroup justified>*/}
             <Button bsStyle='danger' onClick={(event) => this.previousStep(event)}>Update Location</Button>
-            <Button bsStyle='success' onClick={this.props.formReset}>Submit Form</Button>
+            <Button bsStyle='success' onClick={(event) => this.submitForm(event)}>Submit Form</Button>
             {/* </ButtonGroup>*/}
           </div>
         </form>
