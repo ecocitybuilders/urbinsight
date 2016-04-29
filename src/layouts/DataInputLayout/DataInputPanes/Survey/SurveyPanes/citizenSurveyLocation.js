@@ -18,6 +18,7 @@ class CitizenSurveyLocation extends React.Component {
   constructor () {
     super()
     this.nextStep = this.nextStep.bind(this)
+    this.updateValues = this.updateValues.bind(this)
   }
   nextStep (e) {
     e.preventDefault()
@@ -28,6 +29,10 @@ class CitizenSurveyLocation extends React.Component {
     }
     this.props.saveValues(data)
     this.props.nextStep()
+  }
+  updateValues (lat, lon) {
+    ReactDOM.findDOMNode(this.refs.lat).children[1].value = lat
+    ReactDOM.findDOMNode(this.refs.lon).children[1].value = lon
   }
   render () {
     return (
@@ -68,18 +73,25 @@ class CitizenSurveyLocation extends React.Component {
     )
   }
   componentDidMount () {
+    let updateValues = this.updateValues
     this.props.map.on('click', function (e) {
-      debugger
-      ReactDOM.findDOMNode(this.refs.lat).children[1].value = e.lngLat.lat
-      ReactDOM.findDOMNode(this.refs.lon).children[1].value = e.lngLat.lng
-    }.bind(this))
+      // console.log(this)
+      updateValues(e.lngLat.lat, e.lngLat.lng)
+      // debugger
+      // this.props.saveValues({lat: e.lngLat.lat, lon: e.lngLat.lng})
+      // ReactDOM.findDOMNode(this.refs.lat).children[1].value = e.lngLat.lat
+      // ReactDOM.findDOMNode(this.refs.lon).children[1].value = e.lngLat.lng
+    })
   }
-  componentWillUpdate (p, s) {
-    console.log('props')
-    console.log(p)
-    console.log('state')
-    console.log(s)
+  componentWillReceiveProps (np) {
+    console.log(np)
   }
+  // componentWillUpdate (p, s) {
+  //   console.log('props')
+  //   console.log(p)
+  //   console.log('state')
+  //   console.log(s)
+  // }
 }
 
 export default CitizenSurveyLocation
