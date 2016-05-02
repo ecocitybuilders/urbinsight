@@ -13,7 +13,8 @@ type Props = {
   map: PropTypes.object,
   updateValues: PropTypes.func,
   lat: PropTypes.number,
-  lon: PropTypes.number
+  lon: PropTypes.number,
+  formReset: PropTypes.func
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -22,7 +23,12 @@ class CitizenSurveyLocation extends React.Component {
     super()
     this.nextStep = this.nextStep.bind(this)
     this.updateValues = this.updateValues.bind(this)
+    this.previousStep = this.previousStep.bind(this)
     // this.state = {}
+  }
+  previousStep (e) {
+    e.preventDefault()
+    this.props.formReset()
   }
   nextStep (e) {
     e.preventDefault()
@@ -71,7 +77,7 @@ class CitizenSurveyLocation extends React.Component {
           </Grid>
         </div>
         <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '15vw'}}>
-          <Button bsStyle='danger' onClick={this.props.previousStep}>Start Over</Button>
+          <Button bsStyle='danger' onClick={this.previousStep}>Start Over</Button>
           <Button bsStyle='success' onClick={this.nextStep}>Continue</Button>
         </div>
       </div>

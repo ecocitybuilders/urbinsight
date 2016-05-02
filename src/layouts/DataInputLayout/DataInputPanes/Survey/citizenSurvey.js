@@ -110,7 +110,8 @@ class CitizenSurvey extends React.Component {
           saveValues={this.saveValues}
           lat={this.state.lat}
           lon={this.state.lon}
-          updateValues={this.updateValues}/>
+          updateValues={this.updateValues}
+          formReset={this.formReset}/>
       case 3:
         return <CitizenSurveyForm previousStep={this.previousStep}
           fieldValues={fieldValues}
