@@ -8,7 +8,8 @@ type Props = {
   fieldValues: PropTypes.object,
   getValues: PropTypes.func,
   saveValues: PropTypes.func,
-  formReset: PropTypes.func
+  formReset: PropTypes.func,
+  nextStep: PropTypes.func
 }
 
 class CitizenSurveyForm extends React.Component {
@@ -42,7 +43,8 @@ class CitizenSurveyForm extends React.Component {
     // Why do I save them and then call them again here
     let responses = this.props.getValues()
     this.props.submitSurvey(responses)
-    this.props.formReset()
+    this.props.nextStep(responses)
+    // this.props.formReset()
   }
 
   previousStep (e) {

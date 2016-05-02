@@ -4,6 +4,7 @@ import { surveySave } from 'redux/modules/survey'
 import CitizenSurveyIntro from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyIntro'
 import CitizenSurveyLocation from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyLocation'
 import CitizenSurveyForm from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyForm'
+import CitizenSurveySuccess from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveySuccess'
 
 let fieldValues = {
   lon: null,
@@ -85,7 +86,7 @@ class CitizenSurvey extends React.Component {
       lon: null
     })
   }
-
+  // this is confusing and should be streamlined
   saveValues (fields) {
     return (function () {
       fieldValues = Object.assign({}, fieldValues, fields)
@@ -98,7 +99,7 @@ class CitizenSurvey extends React.Component {
     return fieldValues
   }
   render () {
-    const { submitSurvey, map } = this.props
+    const { submitSurvey, map, isFetching } = this.props
     switch (this.state.active) {
       case 1:
         return <CitizenSurveyIntro nextStep={this.nextStep}/>
@@ -118,16 +119,23 @@ class CitizenSurvey extends React.Component {
           saveValues={this.saveValues}
           submitSurvey={submitSurvey}
           formReset={this.formReset}
-          getValues={this.getValues}/>
+          getValues={this.getValues}
+          nextStep={this.nextStep}/>
+      case 4:
+        return <CitizenSurveySuccess
+          isFetching={isFetching}
+          formReset={this.formReset}
+          />
     }
   }
 }
 
 const mapStateToProps = (state) => {
   const { survey } = state
-  const { surveyResponses } = survey
+  const { surveyResponses, isFetching } = survey
   return {
-    surveyResponses
+    surveyResponses,
+    isFetching
   }
 }
 const mapDispatchToProps = (dispatch) => {

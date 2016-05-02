@@ -29,7 +29,6 @@ exports.saveSurvey = function * () {
       governance: this.request.body.governance
     })
     survey = yield survey.save()
-    // survey = {}
   } catch (err) {
     this.throw(err)
   }

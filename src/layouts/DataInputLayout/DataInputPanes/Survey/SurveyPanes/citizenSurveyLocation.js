@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
 import { Button } from 'react-bootstrap'
 import { Input } from 'react-bootstrap'
 import { Col } from 'react-bootstrap'
@@ -34,8 +33,8 @@ class CitizenSurveyLocation extends React.Component {
     e.preventDefault()
     // There has to be an easier way to do this
     let data = {
-      lat: ReactDOM.findDOMNode(this.refs.lat).children[1].value,
-      lon: ReactDOM.findDOMNode(this.refs.lon).children[1].value
+      lat: this.refs.lat.getValue(),
+      lon: this.refs.lon.getValue()
     }
     this.props.saveValues(data)
     this.props.nextStep()
