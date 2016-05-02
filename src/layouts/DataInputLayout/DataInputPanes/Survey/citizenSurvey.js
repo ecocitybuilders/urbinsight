@@ -36,11 +36,14 @@ class CitizenSurvey extends React.Component {
   constructor () {
     super()
     this.state = {
-      active: 1
+      active: 1,
+      lat: null,
+      lon: null
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
     this.formReset = this.formReset.bind(this)
+    this.updateValues = this.updateValues.bind(this)
   }
 
   nextStep () {
@@ -77,7 +80,9 @@ class CitizenSurvey extends React.Component {
     }
     fieldValues = Object.assign({}, fieldValues, fields)
     this.setState({
-      active: 1
+      active: 1,
+      lat: null,
+      lon: null
     })
   }
 
@@ -85,6 +90,9 @@ class CitizenSurvey extends React.Component {
     return (function () {
       fieldValues = Object.assign({}, fieldValues, fields)
     })()
+  }
+  updateValues (lat, lon) {
+    this.setState({lat: lat, lon: lon})
   }
   getValues () {
     return fieldValues
@@ -99,7 +107,10 @@ class CitizenSurvey extends React.Component {
           map={map}
           nextStep={this.nextStep}
           fieldValues={fieldValues}
-          saveValues={this.saveValues}/>
+          saveValues={this.saveValues}
+          lat={this.state.lat}
+          lon={this.state.lon}
+          updateValues={this.updateValues}/>
       case 3:
         return <CitizenSurveyForm previousStep={this.previousStep}
           fieldValues={fieldValues}
@@ -109,14 +120,6 @@ class CitizenSurvey extends React.Component {
           getValues={this.getValues}/>
     }
   }
-
-  // componentWillReceiveProps (nextProps) {
-  //   console.log('wrapper props')
-  //   console.log(nextProps)
-  //   nextProps.map.on('click', function (e) {
-  //     console.log(e)
-  //   })
-  // }
 }
 
 const mapStateToProps = (state) => {

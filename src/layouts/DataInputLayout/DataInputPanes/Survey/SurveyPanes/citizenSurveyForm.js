@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
 import { Button } from 'react-bootstrap'
 import { Input } from 'react-bootstrap'
 
@@ -13,28 +12,34 @@ type Props = {
 }
 
 class CitizenSurveyForm extends React.Component {
+  constructor () {
+    super()
+    this.submitForm = this.submitForm.bind(this)
+    this.previousStep = this.previousStep.bind(this)
+  }
   props: Props;
   submitForm (e) {
     e.preventDefault()
     let data = {
-      employment: ReactDOM.findDOMNode(this.refs.employment).children[1].value,
-      healthcare: ReactDOM.findDOMNode(this.refs.healthcare).children[1].value,
-      family: ReactDOM.findDOMNode(this.refs.family).children[1].value,
-      stability: ReactDOM.findDOMNode(this.refs.stability).children[1].value,
-      relationships: ReactDOM.findDOMNode(this.refs.relationships).children[1].value,
-      recreation: ReactDOM.findDOMNode(this.refs.recreation).children[1].value,
-      education: ReactDOM.findDOMNode(this.refs.education).children[1].value,
-      vacation: ReactDOM.findDOMNode(this.refs.vacation).children[1].value,
-      housing: ReactDOM.findDOMNode(this.refs.housing).children[1].value,
-      environment: ReactDOM.findDOMNode(this.refs.environment).children[1].value,
-      discrimination: ReactDOM.findDOMNode(this.refs.discrimination).children[1].value,
-      religion: ReactDOM.findDOMNode(this.refs.religion).children[1].value,
-      mobility: ReactDOM.findDOMNode(this.refs.mobility).children[1].value,
-      movement: ReactDOM.findDOMNode(this.refs.movement).children[1].value,
-      safety: ReactDOM.findDOMNode(this.refs.safety).children[1].value,
-      governance: ReactDOM.findDOMNode(this.refs.governance).children[1].value
+      employment: this.refs.employment.getValue(),
+      healthcare: this.refs.healthcare.getValue(),
+      family: this.refs.family.getValue(),
+      stability: this.refs.stability.getValue(),
+      relationships: this.refs.relationships.getValue(),
+      recreation: this.refs.recreation.getValue(),
+      education: this.refs.education.getValue(),
+      vacation: this.refs.vacation.getValue(),
+      housing: this.refs.housing.getValue(),
+      environment: this.refs.environment.getValue(),
+      discrimination: this.refs.discrimination.getValue(),
+      religion: this.refs.religion.getValue(),
+      mobility: this.refs.mobility.getValue(),
+      movement: this.refs.movement.getValue(),
+      safety: this.refs.safety.getValue(),
+      governance: this.refs.governance.getValue()
     }
     this.props.saveValues(data)
+    // Why do I save them and then call them again here
     let responses = this.props.getValues()
     this.props.submitSurvey(responses)
     this.props.formReset()
@@ -43,22 +48,22 @@ class CitizenSurveyForm extends React.Component {
   previousStep (e) {
     e.preventDefault()
     let data = {
-      employment: ReactDOM.findDOMNode(this.refs.employment).children[1].value,
-      healthcare: ReactDOM.findDOMNode(this.refs.healthcare).children[1].value,
-      family: ReactDOM.findDOMNode(this.refs.family).children[1].value,
-      stability: ReactDOM.findDOMNode(this.refs.stability).children[1].value,
-      relationships: ReactDOM.findDOMNode(this.refs.relationships).children[1].value,
-      recreation: ReactDOM.findDOMNode(this.refs.recreation).children[1].value,
-      education: ReactDOM.findDOMNode(this.refs.education).children[1].value,
-      vacation: ReactDOM.findDOMNode(this.refs.vacation).children[1].value,
-      housing: ReactDOM.findDOMNode(this.refs.housing).children[1].value,
-      environment: ReactDOM.findDOMNode(this.refs.environment).children[1].value,
-      discrimination: ReactDOM.findDOMNode(this.refs.discrimination).children[1].value,
-      religion: ReactDOM.findDOMNode(this.refs.religion).children[1].value,
-      mobility: ReactDOM.findDOMNode(this.refs.mobility).children[1].value,
-      movement: ReactDOM.findDOMNode(this.refs.movement).children[1].value,
-      safety: ReactDOM.findDOMNode(this.refs.safety).children[1].value,
-      governance: ReactDOM.findDOMNode(this.refs.governance).children[1].value
+      employment: this.refs.employment.getValue(),
+      healthcare: this.refs.healthcare.getValue(),
+      family: this.refs.family.getValue(),
+      stability: this.refs.stability.getValue(),
+      relationships: this.refs.relationships.getValue(),
+      recreation: this.refs.recreation.getValue(),
+      education: this.refs.education.getValue(),
+      vacation: this.refs.vacation.getValue(),
+      housing: this.refs.housing.getValue(),
+      environment: this.refs.environment.getValue(),
+      discrimination: this.refs.discrimination.getValue(),
+      religion: this.refs.religion.getValue(),
+      mobility: this.refs.mobility.getValue(),
+      movement: this.refs.movement.getValue(),
+      safety: this.refs.safety.getValue(),
+      governance: this.refs.governance.getValue()
     }
     this.props.saveValues(data)
     this.props.previousStep()
@@ -274,8 +279,8 @@ class CitizenSurveyForm extends React.Component {
           </Input>
           <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '30vw'}}>
             {/* <ButtonGroup justified>*/}
-            <Button bsStyle='danger' onClick={(event) => this.previousStep(event)}>Update Location</Button>
-            <Button bsStyle='success' onClick={(event) => this.submitForm(event)}>Submit Form</Button>
+            <Button bsStyle='danger' onClick={this.previousStep}>Update Location</Button>
+            <Button bsStyle='success' onClick={this.submitForm}>Submit Form</Button>
             {/* </ButtonGroup>*/}
           </div>
         </form>

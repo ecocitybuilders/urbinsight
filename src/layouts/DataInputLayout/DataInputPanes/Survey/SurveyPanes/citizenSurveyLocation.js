@@ -10,7 +10,10 @@ type Props = {
   fieldValues: PropTYpes.object,
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
-  map: PropTypes.object
+  map: PropTypes.object,
+  updateValues: PropTypes.func,
+  lat: PropTypes.number,
+  lon: PropTypes.number
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -19,6 +22,7 @@ class CitizenSurveyLocation extends React.Component {
     super()
     this.nextStep = this.nextStep.bind(this)
     this.updateValues = this.updateValues.bind(this)
+    // this.state = {}
   }
   nextStep (e) {
     e.preventDefault()
@@ -31,10 +35,10 @@ class CitizenSurveyLocation extends React.Component {
     this.props.nextStep()
   }
   updateValues (lat, lon) {
-    ReactDOM.findDOMNode(this.refs.lat).children[1].value = lat
-    ReactDOM.findDOMNode(this.refs.lon).children[1].value = lon
+    this.props.updateValues(lat, lon)
   }
   render () {
+    const { lat, lon } = this.props
     return (
       <div>
         <h4 style={{'textAlign': 'center'}}>
@@ -53,14 +57,15 @@ class CitizenSurveyLocation extends React.Component {
               <Col md={3}>
                 <Input type='text' ref='lat'
                   label='Latitude'
-                  defaultValue={this.props.fieldValues.lat}
-                  placeholder='Enter Latitude' />
+                  placeholder='Enter Latitude'
+                  value={lat || ''}/>
               </Col>
               <Col md={3}>
                 <Input type='text' ref='lon'
                   label='Longitude'
-                  defaultValue={this.props.fieldValues.lon}
-                  placeholder='Enter Longitude' />
+                  placeholder='Enter Longitude'
+                  value={lon || ''}
+                  />
               </Col>
             </form>
           </Grid>
@@ -73,25 +78,10 @@ class CitizenSurveyLocation extends React.Component {
     )
   }
   componentDidMount () {
-    let updateValues = this.updateValues
     this.props.map.on('click', function (e) {
-      // console.log(this)
-      updateValues(e.lngLat.lat, e.lngLat.lng)
-      // debugger
-      // this.props.saveValues({lat: e.lngLat.lat, lon: e.lngLat.lng})
-      // ReactDOM.findDOMNode(this.refs.lat).children[1].value = e.lngLat.lat
-      // ReactDOM.findDOMNode(this.refs.lon).children[1].value = e.lngLat.lng
-    })
+      this.updateValues(e.lngLat.lat, e.lngLat.lng)
+    }.bind(this))
   }
-  componentWillReceiveProps (np) {
-    console.log(np)
-  }
-  // componentWillUpdate (p, s) {
-  //   console.log('props')
-  //   console.log(p)
-  //   console.log('state')
-  //   console.log(s)
-  // }
 }
 
 export default CitizenSurveyLocation
