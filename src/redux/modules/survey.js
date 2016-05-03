@@ -4,6 +4,7 @@
 // ------------------------------------
 export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
 export const SURVEY_SAVED = 'SURVEY_SAVED'
+export const SURVEYS_REQUEST = 'SURVEYS_REQUEST'
 
 // ------------------------------------
 // Actions
@@ -27,6 +28,30 @@ function surveySaved (survey): Action {
     type: SURVEY_SAVED,
     isFetching: false,
     survey
+  }
+}
+
+function surveysRequest (bounds): Action {
+  return {
+    type: SURVEYS_REQUEST,
+    isFetching: true,
+    bounds
+  }
+}
+
+export function requestSurveys (bounds) {
+  // console.log(bounds)
+  let config = {
+    method: 'GET',
+    headers: new Headers(),
+    body: `bounds=${bounds}`,
+    mode: 'cors'
+  }
+  // console.log(config)
+  return (dispatch) => {
+    dispatch(surveysRequest(bounds))
+    return fetch('http://localhost:3000/api/surveys', config)
+      .then((response) => console.log(response))
   }
 }
 
@@ -62,7 +87,8 @@ export function surveySave (responses) {
 
 export const actions = {
   submitSurvey,
-  surveySaved
+  surveySaved,
+  surveysRequest
 }
 
 // ------------------------------------
@@ -94,6 +120,11 @@ export default function survey (state = {
       return Object.assign({}, state, {
         isFetching: false,
         survey: action.survey
+      })
+    case SURVEYS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        bounds: actions.bounds
       })
     default:
       return state

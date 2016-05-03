@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
+import { requestSurveys } from 'redux/modules/survey'
 // import MapGL from 'react-map-gl'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
@@ -25,7 +26,8 @@ function cityObjectFunc (city) {
   }
 }
 type Props = {
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  fetchSurveys: PropTypes.func
 }
 
 class MapView extends React.Component {
@@ -82,12 +84,13 @@ class MapView extends React.Component {
       })
     })
     let bounds = map.getBounds()
-    console.log([[bounds.getSouthWest().lng, bounds.getSouthWest().lat],
+    let coords = [[bounds.getSouthWest().lng, bounds.getSouthWest().lat],
                  [bounds.getNorthWest().lng, bounds.getNorthWest().lat],
                  [bounds.getNorthEast().lng, bounds.getNorthEast().lat],
                  [bounds.getSouthEast().lng, bounds.getSouthEast().lat],
-                 [bounds.getSouthWest().lng, bounds.getSouthWest().lat]])
+                 [bounds.getSouthWest().lng, bounds.getSouthWest().lat]]
     // this._map = map
+    this.props.fetchSurveys(coords)
     this.setState({map: map})
   }
   componentWillUnmount () {
@@ -112,6 +115,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchSurveys: (bounds) => {
+      dispatch(requestSurveys(bounds))
+    }
   }
 }
 

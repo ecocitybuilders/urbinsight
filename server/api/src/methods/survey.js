@@ -31,7 +31,31 @@ exports.saveSurvey = function * () {
   } catch (err) {
     this.throw(err)
   }
-
-  this. status = 200
+  this.status = 200
   this.body = { survey: this.survey }
+}
+
+exports.getSurveys = function * () {
+  console.log('here')
+  if (!this.request.body) {
+    this.throw('The body is empty', 400)
+  }
+  var Survey = require('mongoose').model('Survey')
+  console.log(this.request.body)
+  try {
+    var surveys = yield Survey.find({'geoCoordinates':
+      { $geoWithin:
+        { $geometry:
+          { type: 'Polygon',
+            coordinates: [this.request.body.bounds]
+          }
+        }
+      }
+    }).exec()
+  } catch (err) {
+    this.throw(err)
+  }
+  console.log(surveys)
+  this.status = 200
+  this.body = { surveys: surveys }
 }

@@ -60,11 +60,13 @@ app.use(passport.session())
 //     failureRedirect: '/budapest'
 //   })
 // }
+
 router
-  .get('/', function * () {
-  //  await next();
-    this.body = 'hello koa'
-  })
+  // .get('/', function * () {
+  // //  await next();
+  //   this.body = 'hello koa'
+  // })
+  .get('/api/surveys', survey.getSurveys)
   .post('/api/sessions/create', auth.signIn)
   .post('/api/user/create', auth.createUser)
   .post('/api/survey/create', survey.saveSurvey)
