@@ -40,18 +40,19 @@ function surveysRequest (bounds): Action {
 }
 
 export function requestSurveys (bounds) {
-  // console.log(bounds)
+  console.log(bounds)
   let config = {
     method: 'GET',
     headers: new Headers(),
-    body: `bounds=${bounds}`,
-    mode: 'cors'
+    mode: 'cors',
+    cache: 'default'
   }
-  // console.log(config)
+  let queryString = 'http://localhost:3000/api/surveys?a=' +
+    `${bounds[0]}&b=${bounds[1]}&c=${bounds[2]}&d=${bounds[3]}&e=${bounds[4]}`
   return (dispatch) => {
     dispatch(surveysRequest(bounds))
-    return fetch('http://localhost:3000/api/surveys', config)
-      .then((response) => console.log(response))
+    return fetch(queryString, config)
+      .then((response) => response.json()).then((surveys) => console.log(surveys))
   }
 }
 

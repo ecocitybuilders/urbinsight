@@ -36,18 +36,24 @@ exports.saveSurvey = function * () {
 }
 
 exports.getSurveys = function * () {
-  console.log('here')
-  if (!this.request.body) {
-    this.throw('The body is empty', 400)
+  let splitLngLat = (str) => {
+    return str.split(',')
   }
+  // if (!this.request.body) {
+  //   this.throw('The body is empty', 400)
+  // }
+  let coords = [splitLngLat(this.query.a),
+                splitLngLat(this.query.b),
+                splitLngLat(this.query.c),
+                splitLngLat(this.query.d),
+                splitLngLat(this.query.a)]
   var Survey = require('mongoose').model('Survey')
-  console.log(this.request.body)
   try {
     var surveys = yield Survey.find({'geoCoordinates':
       { $geoWithin:
         { $geometry:
           { type: 'Polygon',
-            coordinates: [this.request.body.bounds]
+            coordinates: [coords]
           }
         }
       }
