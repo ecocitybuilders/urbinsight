@@ -82,7 +82,6 @@ class MapView extends React.Component {
       })
     })
     let bounds = map.getBounds()
-    console.log(bounds)
     console.log([[bounds.getSouthWest().lng, bounds.getSouthWest().lat],
                  [bounds.getNorthWest().lng, bounds.getNorthWest().lat],
                  [bounds.getNorthEast().lng, bounds.getNorthEast().lat],

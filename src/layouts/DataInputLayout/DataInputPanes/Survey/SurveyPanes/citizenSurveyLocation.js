@@ -15,6 +15,16 @@ type Props = {
   lon: PropTypes.number,
   formReset: PropTypes.func
 }
+let geojson = {
+  'type': 'FeatureCollection',
+  'features': [{
+    'type': 'Feature',
+    'geometry': {
+      'type': 'Point',
+      'coordinates': [0, 0]
+    }
+  }]
+}
 
 class CitizenSurveyLocation extends React.Component {
   props: Props;
@@ -80,10 +90,34 @@ class CitizenSurveyLocation extends React.Component {
       </div>
     )
   }
+
   componentDidMount () {
+    this.props.map.addSource('point', {
+      'type': 'geojson',
+      'data': geojson
+    })
+    this.props.map.addLayer({
+      'id': 'point',
+      'type': 'circle',
+      'source': 'point',
+      'paint': {
+        'circle-radius': 10,
+        'circle-color': '#3887be'
+      }
+    })
+    // this.props.map.on('mousedown', mouseDown, true)
     this.props.map.on('click', function (e) {
+      geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+      this.props.map.getSource('point').setData(geojson)
       this.updateValues(e.lngLat.lat, e.lngLat.lng)
     }.bind(this))
+  }
+
+  componentWillUnmount () {
+    // I should probably do this once the survey submits
+    this.props.map.removeLayer('point')
+    this.props.map.removeSource('point')
+    this.props.map.off('click')
   }
 }
 
