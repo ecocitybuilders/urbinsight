@@ -16,6 +16,7 @@ const cityList = ['cusco', 'medellin', 'abudhabi', 'lima', 'budapest']
 function getRandomInt (min, max) {
   return Math.floor(Math.random() * (max - min)) + min
 }
+// need one of these for parcel request
 function cityObjectFunc (city) {
   if (Object.keys(cityObject).indexOf(city) !== -1) {
     return cityObject[city]
@@ -80,6 +81,13 @@ class MapView extends React.Component {
         }
       })
     })
+    let bounds = map.getBounds()
+    console.log(bounds)
+    console.log([[bounds.getSouthWest().lng, bounds.getSouthWest().lat],
+                 [bounds.getNorthWest().lng, bounds.getNorthWest().lat],
+                 [bounds.getNorthEast().lng, bounds.getNorthEast().lat],
+                 [bounds.getSouthEast().lng, bounds.getSouthEast().lat],
+                 [bounds.getSouthWest().lng, bounds.getSouthWest().lat]])
     // this._map = map
     this.setState({map: map})
   }

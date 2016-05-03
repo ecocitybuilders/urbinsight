@@ -3,6 +3,7 @@
 // Constants
 // ------------------------------------
 export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
+export const SURVEY_SAVED = 'SURVEY_SAVED'
 
 // ------------------------------------
 // Actions
@@ -21,17 +22,25 @@ function submitSurvey (responses): Action {
   }
 }
 
+function surveySaved (survey): Action {
+  return {
+    type: SURVEY_SAVED,
+    isFetching: false,
+    survey
+  }
+}
+
 export function surveySave (responses) {
   let config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `lat=${responses.lat}&lon=${responses.lon}&employment=${responses.employment}&healthcare=${responses.healthcare}&family=${responses.family}&stability=${responses.stability}&relationships=${responses.relationships}&recreation=${responses.recreation}&education=${responses.education}&vacation=${responses.vacation}&housing=${responses.housing}&environment=${responses.environment}&discrimination=${responses.discrimination}&religion=${responses.religion}&mobility=${responses.mobility}&movement=${responses.movement}&safety=${responses.safety}&governance=${responses.governance}&`
+    body: `lat=${responses.geoCoordinates[1]}&lon=${responses.geoCoordinates[0]}&employment=${responses.employment}&healthcare=${responses.healthcare}&family=${responses.family}&stability=${responses.stability}&relationships=${responses.relationships}&recreation=${responses.recreation}&education=${responses.education}&vacation=${responses.vacation}&housing=${responses.housing}&environment=${responses.environment}&discrimination=${responses.discrimination}&religion=${responses.religion}&mobility=${responses.mobility}&movement=${responses.movement}&safety=${responses.safety}&governance=${responses.governance}&`
     // body: responses
   }
   return (dispatch) => {
     dispatch(submitSurvey(responses))
     return fetch('http://localhost:3000/api/survey/create', config)
-      .then((response) => console.log(response))
+      .then((response) => dispatch(surveySaved))
   }
 }
 // This is a thunk, meaning it is a function that immediately
@@ -52,7 +61,8 @@ export function surveySave (responses) {
 // }
 
 export const actions = {
-  submitSurvey
+  submitSurvey,
+  surveySaved
 }
 
 // ------------------------------------
@@ -79,6 +89,11 @@ export default function survey (state = {
       return Object.assign({}, state, {
         isFetching: true,
         surveyResponses: action.responses
+      })
+    case SURVEY_SAVED:
+      return Object.assign({}, state, {
+        isFetching: false,
+        survey: action.survey
       })
     default:
       return state

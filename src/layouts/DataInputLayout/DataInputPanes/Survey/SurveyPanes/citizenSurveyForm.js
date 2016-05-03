@@ -17,11 +17,11 @@ class CitizenSurveyForm extends React.Component {
     super()
     this.submitForm = this.submitForm.bind(this)
     this.previousStep = this.previousStep.bind(this)
+    this.getData = this.getData.bind(this)
   }
   props: Props;
-  submitForm (e) {
-    e.preventDefault()
-    let data = {
+  getData () {
+    return {
       employment: this.refs.employment.getValue(),
       healthcare: this.refs.healthcare.getValue(),
       family: this.refs.family.getValue(),
@@ -39,6 +39,10 @@ class CitizenSurveyForm extends React.Component {
       safety: this.refs.safety.getValue(),
       governance: this.refs.governance.getValue()
     }
+  }
+  submitForm (e) {
+    e.preventDefault()
+    let data = this.getData()
     this.props.saveValues(data)
     // Why do I save them and then call them again here
     let responses = this.props.getValues()
@@ -49,24 +53,7 @@ class CitizenSurveyForm extends React.Component {
 
   previousStep (e) {
     e.preventDefault()
-    let data = {
-      employment: this.refs.employment.getValue(),
-      healthcare: this.refs.healthcare.getValue(),
-      family: this.refs.family.getValue(),
-      stability: this.refs.stability.getValue(),
-      relationships: this.refs.relationships.getValue(),
-      recreation: this.refs.recreation.getValue(),
-      education: this.refs.education.getValue(),
-      vacation: this.refs.vacation.getValue(),
-      housing: this.refs.housing.getValue(),
-      environment: this.refs.environment.getValue(),
-      discrimination: this.refs.discrimination.getValue(),
-      religion: this.refs.religion.getValue(),
-      mobility: this.refs.mobility.getValue(),
-      movement: this.refs.movement.getValue(),
-      safety: this.refs.safety.getValue(),
-      governance: this.refs.governance.getValue()
-    }
+    let data = this.getData()
     this.props.saveValues(data)
     this.props.previousStep()
   }

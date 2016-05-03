@@ -7,8 +7,7 @@ import CitizenSurveyForm from 'layouts/DataInputLayout/DataInputPanes/Survey/Sur
 import CitizenSurveySuccess from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveySuccess'
 
 let fieldValues = {
-  lon: null,
-  lat: null,
+  geoCoordinates: [null, null],
   employment: null,
   healthcare: null,
   family: null,
@@ -38,8 +37,7 @@ class CitizenSurvey extends React.Component {
     super()
     this.state = {
       active: 1,
-      lat: null,
-      lon: null
+      geoCoordinates: [null, null]
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
@@ -60,8 +58,7 @@ class CitizenSurvey extends React.Component {
   }
   formReset () {
     let fields = {
-      lon: null,
-      lat: null,
+      geoCoordinates: [null, null],
       employment: null,
       healthcare: null,
       family: null,
@@ -82,8 +79,7 @@ class CitizenSurvey extends React.Component {
     fieldValues = Object.assign({}, fieldValues, fields)
     this.setState({
       active: 1,
-      lat: null,
-      lon: null
+      geoCoordinates: [null, null]
     })
   }
   // this is confusing and should be streamlined
@@ -93,7 +89,7 @@ class CitizenSurvey extends React.Component {
     })()
   }
   updateValues (lat, lon) {
-    this.setState({lat: lat, lon: lon})
+    this.setState({geoCoordinates: [lon, lat]})
   }
   getValues () {
     return fieldValues
@@ -104,23 +100,26 @@ class CitizenSurvey extends React.Component {
       case 1:
         return <CitizenSurveyIntro nextStep={this.nextStep}/>
       case 2:
-        return <CitizenSurveyLocation previousStep={this.previousStep}
+        return <CitizenSurveyLocation
+          previousStep={this.previousStep}
           map={map}
           nextStep={this.nextStep}
           fieldValues={fieldValues}
           saveValues={this.saveValues}
-          lat={this.state.lat}
-          lon={this.state.lon}
+          lat={this.state.geoCoordinates[1]}
+          lon={this.state.geoCoordinates[0]}
           updateValues={this.updateValues}
           formReset={this.formReset}/>
       case 3:
-        return <CitizenSurveyForm previousStep={this.previousStep}
+        return <CitizenSurveyForm
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
           fieldValues={fieldValues}
+          getValues={this.getValues}
           saveValues={this.saveValues}
           submitSurvey={submitSurvey}
-          formReset={this.formReset}
-          getValues={this.getValues}
-          nextStep={this.nextStep}/>
+
+          />
       case 4:
         return <CitizenSurveySuccess
           isFetching={isFetching}
@@ -140,8 +139,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSurvey: (response) => {
-      dispatch(surveySave(response))
+    submitSurvey: (responses) => {
+      dispatch(surveySave(responses))
     }
   }
 }

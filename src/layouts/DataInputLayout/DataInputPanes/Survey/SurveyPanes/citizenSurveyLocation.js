@@ -31,10 +31,8 @@ class CitizenSurveyLocation extends React.Component {
   }
   nextStep (e) {
     e.preventDefault()
-    // There has to be an easier way to do this
     let data = {
-      lat: this.refs.lat.getValue(),
-      lon: this.refs.lon.getValue()
+      geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
     }
     this.props.saveValues(data)
     this.props.nextStep()

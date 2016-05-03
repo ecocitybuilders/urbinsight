@@ -9,8 +9,7 @@ exports.saveSurvey = function * () {
 
   try {
     var survey = new Survey({
-      lat: this.request.body.lat,
-      lon: this.request.body.lon,
+      geoCoordinates: [parseFloat(this.request.body.lon), parseFloat(this.request.body.lat)],
       employment: this.request.body.employment,
       healthcare: this.request.body.healthcare,
       family: this.request.body.family,
