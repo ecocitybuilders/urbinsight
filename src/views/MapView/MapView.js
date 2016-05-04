@@ -4,28 +4,27 @@ import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
-import _ from 'lodash'
+import { cityObjectFunc, geoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 // import MapGL from 'react-map-gl'
-const cityObject = {
-  cusco: [-71.9675, -13.5320],
-  medellin: [-75.5812, 6.2442],
-  abudhabi: [54.36745, 24.47608],
-  lima: [-77.0428, -12.0464],
-  budapest: [19.0402, 47.4979]
-}
-const cityList = ['cusco', 'medellin', 'abudhabi', 'lima', 'budapest']
-
-function getRandomInt (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min
-}
-// need one of these for parcel request
-function cityObjectFunc (city) {
-  if (Object.keys(cityObject).indexOf(city) !== -1) {
-    return cityObject[city]
-  } else {
-    return cityObject[cityList[getRandomInt(0, 5)]]
-  }
-}
+// const cityObject = {
+//   cusco: [-71.9675, -13.5320],
+//   medellin: [-75.5812, 6.2442],
+//   abudhabi: [54.36745, 24.47608],
+//   lima: [-77.0428, -12.0464],
+//   budapest: [19.0402, 47.4979]
+// }
+// const cityList = ['cusco', 'medellin', 'abudhabi', 'lima', 'budapest']
+// function getRandomInt (min, max) {
+//   return Math.floor(Math.random() * (max - min)) + min
+// }
+// // need one of these for parcel request
+// function cityObjectFunc (city) {
+//   if (Object.keys(cityObject).indexOf(city) !== -1) {
+//     return cityObject[city]
+//   } else {
+//     return cityObject[cityList[getRandomInt(0, 5)]]
+//   }
+// }
 type Props = {
   isAuthenticated: PropTypes.bool,
   fetchSurveys: PropTypes.func,
@@ -84,47 +83,14 @@ class MapView extends React.Component {
           'fill-opacity': 0.5
         }
       })
-    })
-    let bounds = map.getBounds()
-    let coords = [[bounds.getSouthWest().lng, bounds.getSouthWest().lat],
-                 [bounds.getNorthWest().lng, bounds.getNorthWest().lat],
-                 [bounds.getNorthEast().lng, bounds.getNorthEast().lat],
-                 [bounds.getSouthEast().lng, bounds.getSouthEast().lat],
-                 [bounds.getSouthWest().lng, bounds.getSouthWest().lat]]
-    // this._map = map
-    this.props.fetchSurveys(coords)
-    this.setState({map: map})
-  }
-  // write a GeoJSON compiler
-
-  componentWillUpdate (np, ns) {
-    let geojson = {'type': 'FeatureCollection',
-      'features': [
-
-      ]
-    }
-    if (np.surveys) {
-      np.surveys.surveys.forEach(function (survey) {
-        let obj = {'type': 'Feature',
-                   'geometry': {
-                     'type': 'Point',
-                     'coordinates': survey.geoCoordinates
-                   },
-                   'properties': {}
-                 }
-
-        _.forEach(survey, function (value, key) {
-          if (key !== 'geoCoordinates') {
-            obj.properties[key] = value
-          }
-        })
-        geojson.features.push(obj)
-      })
-      ns.map.addSource('surveys', {
+      map.addSource('surveys', {
         'type': 'geojson',
-        'data': geojson
+        'data': {
+          'type': 'FeatureCollection',
+          'features': []
+        }
       })
-      ns.map.addLayer({
+      map.addLayer({
         'id': 'surveys',
         'type': 'circle',
         'source': 'surveys',
@@ -133,16 +99,19 @@ class MapView extends React.Component {
           'circle-color': '#ec9918'
         }
       })
-    }
+    })
+    // this._map = map
+    this.props.fetchSurveys(boundsArrayGenerator(map.getBounds()))
+    map.on('dragend', (e) => {
+      this.props.fetchSurveys(boundsArrayGenerator(map.getBounds()))
+    })
+    this.setState({map: map})
   }
-
+  componentWillUpdate (np, ns) {
+    geoJSONCompiler(np.surveys, ns.map)
+  }
   componentWillUnmount () {
-    // if (this._map) {
-    //   this._map.remove()
-    // }
-    if (this.state.map) {
-      this.state.map.remove()
-    }
+    if (this.state.map) this.state.map.remove()
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 }
