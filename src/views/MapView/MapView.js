@@ -4,6 +4,7 @@ import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
+import _ from 'lodash'
 // import MapGL from 'react-map-gl'
 const cityObject = {
   cusco: [-71.9675, -13.5320],
@@ -27,7 +28,8 @@ function cityObjectFunc (city) {
 }
 type Props = {
   isAuthenticated: PropTypes.bool,
-  fetchSurveys: PropTypes.func
+  fetchSurveys: PropTypes.func,
+  surveys: PropTypes.object
 }
 
 class MapView extends React.Component {
@@ -93,6 +95,47 @@ class MapView extends React.Component {
     this.props.fetchSurveys(coords)
     this.setState({map: map})
   }
+  // write a GeoJSON compiler
+
+  componentWillUpdate (np, ns) {
+    let geojson = {'type': 'FeatureCollection',
+      'features': [
+
+      ]
+    }
+    if (np.surveys) {
+      np.surveys.surveys.forEach(function (survey) {
+        let obj = {'type': 'Feature',
+                   'geometry': {
+                     'type': 'Point',
+                     'coordinates': survey.geoCoordinates
+                   },
+                   'properties': {}
+                 }
+
+        _.forEach(survey, function (value, key) {
+          if (key !== 'geoCoordinates') {
+            obj.properties[key] = value
+          }
+        })
+        geojson.features.push(obj)
+      })
+      ns.map.addSource('surveys', {
+        'type': 'geojson',
+        'data': geojson
+      })
+      ns.map.addLayer({
+        'id': 'surveys',
+        'type': 'circle',
+        'source': 'surveys',
+        'paint': {
+          'circle-radius': 10,
+          'circle-color': '#ec9918'
+        }
+      })
+    }
+  }
+
   componentWillUnmount () {
     // if (this._map) {
     //   this._map.remove()
@@ -105,11 +148,13 @@ class MapView extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth } = state
+  const { auth, survey } = state
+  const { surveys } = survey
   const { isAuthenticated, errorMessage } = auth
   return {
     isAuthenticated,
-    errorMessage
+    errorMessage,
+    surveys
   }
 }
 

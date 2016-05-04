@@ -24,11 +24,10 @@ function submitSurvey (responses): Action {
   }
 }
 
-function surveySaved (survey): Action {
+function surveySaved (): Action {
   return {
     type: SURVEY_SAVED,
-    isFetching: false,
-    survey
+    isFetching: false
   }
 }
 
@@ -49,7 +48,6 @@ function surveysReceived (surveys): Action {
 }
 
 export function requestSurveys (bounds) {
-  console.log(bounds)
   let config = {
     method: 'GET',
     headers: new Headers(),
@@ -61,7 +59,7 @@ export function requestSurveys (bounds) {
   return (dispatch) => {
     dispatch(surveysRequest(bounds))
     return fetch(queryString, config)
-      .then((response) => response.json()).then((surveys) => console.log(surveys))
+      .then((response) => response.json()).then((surveys) => dispatch(surveysReceived(surveys)))
   }
 }
 
@@ -129,8 +127,7 @@ export default function survey (state = {
       })
     case SURVEY_SAVED:
       return Object.assign({}, state, {
-        isFetching: false,
-        survey: action.survey
+        isFetching: false
       })
     case SURVEYS_REQUEST:
       return Object.assign({}, state, {

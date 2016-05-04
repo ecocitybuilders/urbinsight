@@ -61,7 +61,6 @@ exports.getSurveys = function * () {
   } catch (err) {
     this.throw(err)
   }
-  console.log(surveys)
   this.status = 200
   this.body = { surveys: surveys }
 }
