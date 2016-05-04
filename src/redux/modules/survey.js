@@ -5,6 +5,7 @@
 export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
 export const SURVEY_SAVED = 'SURVEY_SAVED'
 export const SURVEYS_REQUEST = 'SURVEYS_REQUEST'
+export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
 
 // ------------------------------------
 // Actions
@@ -36,6 +37,14 @@ function surveysRequest (bounds): Action {
     type: SURVEYS_REQUEST,
     isFetching: true,
     bounds
+  }
+}
+
+function surveysReceived (surveys): Action {
+  return {
+    type: SURVEYS_RECEIVED,
+    isFetching: false,
+    surveys
   }
 }
 
@@ -89,7 +98,8 @@ export function surveySave (responses) {
 export const actions = {
   submitSurvey,
   surveySaved,
-  surveysRequest
+  surveysRequest,
+  surveysReceived
 }
 
 // ------------------------------------
@@ -125,7 +135,12 @@ export default function survey (state = {
     case SURVEYS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        bounds: actions.bounds
+        bounds: action.bounds
+      })
+    case SURVEYS_RECEIVED:
+      return Object.assign({}, state, {
+        isFetching: false,
+        surveys: action.surveys
       })
     default:
       return state
