@@ -22,7 +22,8 @@ class UmisDataForm extends React.Component {
   constructor () {
     super()
     this.state = {
-      active: 1
+      active: 1,
+      geoCoordinates: [null, null]
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
