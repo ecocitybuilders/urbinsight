@@ -20,7 +20,7 @@ export function cityObjectFunc (city) {
   }
 }
 
-export function geoJSONCompiler (resource, map) {
+export function surveyGeoJSONCompiler (resource, map) {
   let geojson = {
     'type': 'FeatureCollection',
     'features': []

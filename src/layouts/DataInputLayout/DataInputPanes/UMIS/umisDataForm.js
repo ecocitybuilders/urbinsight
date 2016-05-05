@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { auditSave } from 'redux/modules/audit'
 import UMISIntro from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDataIntro'
 import UMISParcelLocation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisParcelLocation'
 import UMISSourceInformation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSourceInformation'
@@ -9,7 +10,15 @@ import UMISDemographics from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPa
 import UMISWorkbookContainer from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisWorkbookContainer'
 import UMISComplete from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisComplete'
 
+type Props = {
+  dispatch: PropTypes.func.isRequired,
+  auditSubmit: PropTypes.func,
+  map: PropTypes.obj,
+  isFetching: PropTypes.bool
+}
+
 class UmisDataForm extends React.Component {
+  props: Props;
   constructor () {
     super()
     this.state = {
@@ -39,11 +48,15 @@ class UmisDataForm extends React.Component {
   }
 
   render () {
+    const { auditSubmit, map, isFetching } = this.props
     switch (this.state.active) {
       case 1:
         return <UMISIntro nextStep={this.nextStep} />
       case 2:
-        return <UMISParcelLocation previousStep={this.previousStep} nextStep={this.nextStep} />
+        return <UMISParcelLocation
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          map={map}/>
       case 3:
         return <UMISSourceInformation previousStep={this.previousStep} nextStep={this.nextStep} />
       case 4:
@@ -53,11 +66,34 @@ class UmisDataForm extends React.Component {
       case 6:
         return <UMISDemographics previousStep={this.previousStep} nextStep={this.nextStep} />
       case 7:
-        return <UMISWorkbookContainer previousStep={this.previousStep} nextStep={this.nextStep} />
+        return <UMISWorkbookContainer
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          isFetching={isFetching}
+          auditSubmit={auditSubmit}/>
       case 8:
         return <UMISComplete previousStep={this.previousStep} formReset={this.formReset} />
     }
   }
 }
 
-export default UmisDataForm
+const mapStateToProps = (state) => {
+  const { audit } = state
+  const { auditResponses, isFetching } = audit
+  return {
+    auditResponses,
+    isFetching
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    auditSubmit: (responses) => {
+      dispatch(auditSave(responses))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UmisDataForm)

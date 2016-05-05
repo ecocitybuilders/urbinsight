@@ -4,13 +4,17 @@ import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
-import { cityObjectFunc, geoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
+import { requestAudits } from 'redux/modules/audit'
+import { cityObjectFunc, surveyGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 // import MapGL from 'react-map-gl'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
-  fetchSurveys: PropTypes.func,
-  surveys: PropTypes.object
+  surveysFetch: PropTypes.func,
+  auditsFetch: PropTypes.func,
+  audits: PropTypes.object,
+  surveys: PropTypes.object,
+
 }
 
 class MapView extends React.Component {
@@ -81,16 +85,34 @@ class MapView extends React.Component {
           'circle-color': '#ec9918'
         }
       })
+      map.addSource('audits', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': []
+        }
+      })
+      map.addLayer({
+        'id': 'audits',
+        'type': 'circle',
+        'source': 'audits',
+        'paint': {
+          'circle-radius': 10,
+          'circle-color': '#e022d9'
+        }
+      })
     })
     // this._map = map
-    this.props.fetchSurveys(boundsArrayGenerator(map.getBounds()))
+    this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
+    this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     map.on('dragend', (e) => {
-      this.props.fetchSurveys(boundsArrayGenerator(map.getBounds()))
+      this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
+      this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
-    geoJSONCompiler(np.surveys, ns.map)
+    surveyGeoJSONCompiler(np.surveys, ns.map)
   }
   componentWillUnmount () {
     if (this.state.map) this.state.map.remove()
@@ -99,20 +121,25 @@ class MapView extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, survey } = state
+  const { auth, survey, audit } = state
+  const { audits } = audit
   const { surveys } = survey
   const { isAuthenticated, errorMessage } = auth
   return {
     isAuthenticated,
     errorMessage,
-    surveys
+    surveys,
+    audits
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchSurveys: (bounds) => {
+    surveysFetch: (bounds) => {
       dispatch(requestSurveys(bounds))
+    },
+    auditsFetch: (bounds) => {
+      dispatch(requestAudits(bounds))
     }
   }
 }

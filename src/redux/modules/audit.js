@@ -2,10 +2,10 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
-export const SURVEY_SAVED = 'SURVEY_SAVED'
-export const SURVEYS_REQUEST = 'SURVEYS_REQUEST'
-export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
+export const AUDIT_SUBMIT = 'AUDIT_SUBMIT'
+export const AUDIT_SAVED = 'AUDIT_SAVED'
+export const AUDITS_REQUEST = 'AUDITS_REQUEST'
+export const AUDITS_RECEIVED = 'AUDITS_RECEIVED'
 
 // ------------------------------------
 // Actions
@@ -16,54 +16,54 @@ export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
 // DOUBLE NOTE: there is currently a bug with babel-eslint where a `space-infix-ops` error is
 // incorrectly thrown when using arrow functions, hence the oddity.
 
-function submitSurvey (responses): Action {
+function auditSubmit (responses): Action {
   return {
-    type: SURVEY_SUBMIT,
+    type: AUDIT_SUBMIT,
     isFetching: true,
     responses
   }
 }
 
-function surveySaved (): Action {
+function auditSaved (): Action {
   return {
-    type: SURVEY_SAVED,
+    type: AUDIT_SAVED,
     isFetching: false
   }
 }
 
-function surveysRequest (bounds): Action {
+function auditsRequest (bounds): Action {
   return {
-    type: SURVEYS_REQUEST,
+    type: AUDITS_REQUEST,
     isFetching: true,
     bounds
   }
 }
 
-function surveysReceived (surveys): Action {
+function auditsReceived (surveys): Action {
   return {
-    type: SURVEYS_RECEIVED,
+    type: AUDITS_RECEIVED,
     isFetching: false,
     surveys
   }
 }
 
-export function requestSurveys (bounds) {
+export function requestAudits (bounds) {
   let config = {
     method: 'GET',
     headers: new Headers(),
     mode: 'cors',
     cache: 'default'
   }
-  let queryString = 'http://localhost:3000/api/surveys?a=' +
+  let queryString = 'http://localhost:3000/api/audits?a=' +
     `${bounds[0]}&b=${bounds[1]}&c=${bounds[2]}&d=${bounds[3]}&e=${bounds[4]}`
   return (dispatch) => {
-    dispatch(surveysRequest(bounds))
+    dispatch(auditsRequest(bounds))
     return fetch(queryString, config)
-      .then((response) => response.json()).then((surveys) => dispatch(surveysReceived(surveys)))
+      .then((response) => response.json()).then((audits) => dispatch(auditsReceived(audits)))
   }
 }
 
-export function surveySave (responses) {
+export function auditSave (responses) {
   let config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -71,9 +71,9 @@ export function surveySave (responses) {
     // body: responses
   }
   return (dispatch) => {
-    dispatch(submitSurvey(responses))
-    return fetch('http://localhost:3000/api/survey/create', config)
-      .then((response) => dispatch(surveySaved))
+    dispatch(auditSubmit(responses))
+    return fetch('http://localhost:3000/api/audit/create', config)
+      .then((response) => dispatch(auditSaved))
   }
 }
 // This is a thunk, meaning it is a function that immediately
@@ -94,10 +94,10 @@ export function surveySave (responses) {
 // }
 
 export const actions = {
-  submitSurvey,
-  surveySaved,
-  surveysRequest,
-  surveysReceived
+  auditSubmit,
+  auditSaved,
+  auditsRequest,
+  auditsReceived
 }
 
 // ------------------------------------
@@ -120,21 +120,21 @@ export default function survey (state = {
   isFetching: false
 }, action) {
   switch (action.type) {
-    case SURVEY_SUBMIT:
+    case AUDIT_SUBMIT:
       return Object.assign({}, state, {
         isFetching: true,
-        auditResponses: action.responses
+        surveyResponses: action.responses
       })
-    case SURVEY_SAVED:
+    case AUDIT_SAVED:
       return Object.assign({}, state, {
         isFetching: false
       })
-    case SURVEYS_REQUEST:
+    case AUDITS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         bounds: action.bounds
       })
-    case SURVEYS_RECEIVED:
+    case AUDITS_RECEIVED:
       return Object.assign({}, state, {
         isFetching: false,
         surveys: action.surveys
