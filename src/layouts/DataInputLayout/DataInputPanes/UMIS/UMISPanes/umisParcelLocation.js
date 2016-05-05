@@ -107,9 +107,14 @@ class UMISParcelLocation extends React.Component {
     })
     // this.props.map.on('mousedown', mouseDown, true)
     this.props.map.on('click', function (e) {
-      geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-      this.props.map.getSource('point').setData(geojson)
-      console.log(this.props.map.queryRenderedFeatures(e.point, { layers: ['lots'] }))
+      // geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+      // this.props.map.getSource('point').setData(geojson)
+      var features = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
+      if (features.length) {
+        this.props.map.setFilter('lots-hover', ['==', 'id_lote', features[0].properties.id_lote])
+      } else {
+        this.props.map.setFilter('lots-hover', ['==', 'id_lote', ''])
+      }
       this.updateGeoValues(e.lngLat.lat, e.lngLat.lng)
     }.bind(this))
   }

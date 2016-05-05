@@ -66,7 +66,8 @@ class MapView extends React.Component {
         'interactive': true,
         'paint': {
           'fill-color': '#ff0000',
-          'fill-opacity': 0.5
+          'fill-opacity': 0.5,
+          'fill-outline-color': '#ffffff'
         }
       })
       map.addSource('surveys', {
@@ -100,6 +101,18 @@ class MapView extends React.Component {
           'circle-radius': 10,
           'circle-color': '#e022d9'
         }
+      })
+      map.addLayer({
+        'id': 'lots-hover',
+        'type': 'fill',
+        'source': 'lots',
+        'source-layer': 'parcels',
+        'layout': {},
+        'paint': {
+          'fill-color': '#590303',
+          'fill-opacity': 0.5
+        },
+        'filter': ['==', 'id_lote', '']
       })
     })
     // this._map = map
