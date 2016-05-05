@@ -6,6 +6,8 @@ export const AUDIT_SUBMIT = 'AUDIT_SUBMIT'
 export const AUDIT_SAVED = 'AUDIT_SAVED'
 export const AUDITS_REQUEST = 'AUDITS_REQUEST'
 export const AUDITS_RECEIVED = 'AUDITS_RECEIVED'
+export const AUDIT_FORM_SAVE = 'AUDIT_FORM_SAVE'
+export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
 
 // ------------------------------------
 // Actions
@@ -44,6 +46,13 @@ function auditsReceived (surveys): Action {
     type: AUDITS_RECEIVED,
     isFetching: false,
     surveys
+  }
+}
+
+function auditFormSave (responses): Action {
+  return {
+    type: AUDIT_FORM_SAVE,
+    responses
   }
 }
 
@@ -97,7 +106,8 @@ export const actions = {
   auditSubmit,
   auditSaved,
   auditsRequest,
-  auditsReceived
+  auditsReceived,
+  auditFormSave
 }
 
 // ------------------------------------

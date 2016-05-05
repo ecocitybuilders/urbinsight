@@ -1,12 +1,8 @@
 import React, { PropTypes } from 'react'
-import { Button } from 'react-bootstrap'
-import { Input } from 'react-bootstrap'
-import { Col } from 'react-bootstrap'
-import { Grid } from 'react-bootstrap'
+import { Button, Input, Col, Grid } from 'react-bootstrap'
 
 type Props = {
   saveValues: PropTypes.func,
-  fieldValues: PropTYpes.object,
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
   map: PropTypes.object,
@@ -15,6 +11,7 @@ type Props = {
   lon: PropTypes.number,
   formReset: PropTypes.func
 }
+
 let geojson = {
   'type': 'FeatureCollection',
   'features': [{
@@ -33,7 +30,6 @@ class CitizenSurveyLocation extends React.Component {
     this.nextStep = this.nextStep.bind(this)
     this.updateValues = this.updateValues.bind(this)
     this.previousStep = this.previousStep.bind(this)
-    // this.state = {}
   }
   previousStep (e) {
     e.preventDefault()

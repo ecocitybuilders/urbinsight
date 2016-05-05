@@ -103,12 +103,11 @@ class CitizenSurvey extends React.Component {
       case 2:
         return <CitizenSurveyLocation
           previousStep={this.previousStep}
-          map={map}
           nextStep={this.nextStep}
-          fieldValues={fieldValues}
-          saveValues={this.saveValues}
+          map={map}
           lat={this.state.geoCoordinates[1]}
           lon={this.state.geoCoordinates[0]}
+          saveValues={this.saveValues}
           updateValues={this.updateValues}
           formReset={this.formReset}/>
       case 3:

@@ -28,6 +28,7 @@ class UmisDataForm extends React.Component {
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
     this.formReset = this.formReset.bind(this)
+    this.updateGeoValues = this.updateGeoValues.bind(this)
   }
 
   nextStep () {
@@ -41,11 +42,21 @@ class UmisDataForm extends React.Component {
       active: this.state.active - 1
     })
   }
-
+  // NEED A MORE ROBUST FORM RESET
   formReset () {
     this.setState({
       active: 1
     })
+  }
+
+  saveValues (fields) {
+    // Dispatch Audit Fields Save
+  }
+
+  updateGeoValues (lat, lon) {
+    this.setState({geoCoordinates: [lon, lat]})
+    // Update the geoCoordinates
+    // Does this make sense as a dispatch?
   }
 
   render () {
@@ -57,7 +68,12 @@ class UmisDataForm extends React.Component {
         return <UMISParcelLocation
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          map={map}/>
+          map={map}
+          lat={this.state.geoCoordinates[1]}
+          lon={this.state.geoCoordinates[0]}
+          saveValues={this.saveValues}
+          updateGeoValues={this.updateGeoValues}
+          formReset={this.formReset}/>
       case 3:
         return <UMISSourceInformation previousStep={this.previousStep} nextStep={this.nextStep} />
       case 4:
