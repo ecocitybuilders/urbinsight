@@ -6,25 +6,7 @@ import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { cityObjectFunc, geoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 // import MapGL from 'react-map-gl'
-// const cityObject = {
-//   cusco: [-71.9675, -13.5320],
-//   medellin: [-75.5812, 6.2442],
-//   abudhabi: [54.36745, 24.47608],
-//   lima: [-77.0428, -12.0464],
-//   budapest: [19.0402, 47.4979]
-// }
-// const cityList = ['cusco', 'medellin', 'abudhabi', 'lima', 'budapest']
-// function getRandomInt (min, max) {
-//   return Math.floor(Math.random() * (max - min)) + min
-// }
-// // need one of these for parcel request
-// function cityObjectFunc (city) {
-//   if (Object.keys(cityObject).indexOf(city) !== -1) {
-//     return cityObject[city]
-//   } else {
-//     return cityObject[cityList[getRandomInt(0, 5)]]
-//   }
-// }
+
 type Props = {
   isAuthenticated: PropTypes.bool,
   fetchSurveys: PropTypes.func,
