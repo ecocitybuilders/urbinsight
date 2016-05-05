@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { surveySave } from 'redux/modules/survey'
 import CitizenSurveyIntro from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyIntro'
@@ -29,7 +29,8 @@ let fieldValues = {
 type Props = {
   dispatch: PropTypes.func.isRequired,
   submitSurvey: PropTypes.func,
-  map: PropTypes.obj
+  map: PropTypes.obj,
+  isFetching: PropTypes.bool
 }
 class CitizenSurvey extends React.Component {
   props: Props;

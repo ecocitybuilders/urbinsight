@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import { Tabs } from 'react-bootstrap'
 import { Tab } from 'react-bootstrap'
-// import UmisDataForm from '../umis/UmisDataForm'
 import UmisDataForm from 'layouts/DataInputLayout/DataInputPanes/UMIS/umisDataForm'
 import CitizenSurvey from 'layouts/DataInputLayout/DataInputPanes/Survey/citizenSurvey'
 
@@ -41,7 +40,7 @@ class DataInputLayout extends React.Component {
         <span id='data-input-toggle' className={dataInputGlyphClass} onClick={this.update}></span>
         <Tabs bsStyle='tabs' defaultActiveKey={1} className={dataInputTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>
-            <UmisDataForm />
+            <UmisDataForm map={this.props.map} />
           </Tab>
           <Tab eventKey={2} title='Citizen Survey'>
             <CitizenSurvey map={this.props.map}/>
