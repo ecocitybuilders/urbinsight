@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { auditSave } from 'redux/modules/audit'
+import { auditSave, persistFeature } from 'redux/modules/audit'
 import UMISIntro from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDataIntro'
 import UMISParcelLocation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisParcelLocation'
 import UMISSourceInformation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSourceInformation'
@@ -13,6 +13,7 @@ import UMISComplete from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/
 type Props = {
   dispatch: PropTypes.func.isRequired,
   auditSubmit: PropTypes.func,
+  persistFeatureGeoJSON: PropTypes.func,
   map: PropTypes.obj,
   isFetching: PropTypes.bool
 }
@@ -60,7 +61,7 @@ class UmisDataForm extends React.Component {
   }
 
   render () {
-    const { auditSubmit, map, isFetching } = this.props
+    const { auditSubmit, persistFeatureGeoJSON, map, isFetching } = this.props
     switch (this.state.active) {
       case 1:
         return <UMISIntro nextStep={this.nextStep} />
@@ -73,7 +74,9 @@ class UmisDataForm extends React.Component {
           lon={this.state.geoCoordinates[0]}
           saveValues={this.saveValues}
           updateGeoValues={this.updateGeoValues}
-          formReset={this.formReset}/>
+          formReset={this.formReset}
+          persistFeatureGeoJSON={persistFeatureGeoJSON}
+          />
       case 3:
         return <UMISSourceInformation previousStep={this.previousStep} nextStep={this.nextStep} />
       case 4:
@@ -106,6 +109,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     auditSubmit: (responses) => {
       dispatch(auditSave(responses))
+    },
+    persistFeatureGeoJSON: (feature) => {
+      dispatch(persistFeature(feature))
     }
   }
 }

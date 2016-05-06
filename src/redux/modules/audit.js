@@ -8,6 +8,7 @@ export const AUDITS_REQUEST = 'AUDITS_REQUEST'
 export const AUDITS_RECEIVED = 'AUDITS_RECEIVED'
 export const AUDIT_FORM_SAVE = 'AUDIT_FORM_SAVE'
 export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
+export const PERSIST_FEATURE = 'PERSIST_FEATURE'
 
 // ------------------------------------
 // Actions
@@ -56,6 +57,13 @@ function auditFormSave (responses): Action {
   }
 }
 
+function persistFeatureGeoJSON (featureGeoJSON): Action {
+  return {
+    type: PERSIST_FEATURE,
+    featureGeoJSON
+  }
+}
+
 export function requestAudits (bounds) {
   let config = {
     method: 'GET',
@@ -85,6 +93,12 @@ export function auditSave (responses) {
       .then((response) => dispatch(auditSaved))
   }
 }
+
+export function persistFeature (featureGeoJSON) {
+  return (dispatch) => {
+    dispatch(persistFeatureGeoJSON(featureGeoJSON))
+  }
+}
 // This is a thunk, meaning it is a function that immediately
 // returns a function for lazy evaluation. It is incredibly useful for
 // creating async actions, especially when combined with redux-thunk!
@@ -107,7 +121,8 @@ export const actions = {
   auditSaved,
   auditsRequest,
   auditsReceived,
-  auditFormSave
+  auditFormSave,
+  persistFeatureGeoJSON
 }
 
 // ------------------------------------
@@ -148,6 +163,10 @@ export default function survey (state = {
       return Object.assign({}, state, {
         isFetching: false,
         surveys: action.surveys
+      })
+    case PERSIST_FEATURE:
+      return Object.assign({}, state, {
+        feature: action.featureGeoJSON
       })
     default:
       return state
