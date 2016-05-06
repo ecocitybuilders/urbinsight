@@ -9,7 +9,8 @@ type Props = {
   updateGeoValues: PropTypes.func,
   lat: PropTypes.number,
   lon: PropTypes.number,
-  formReset: PropTypes.func
+  formReset: PropTypes.func,
+  persistfeatureGeoJSON: PropTypes
 }
 
 let geojson = {
@@ -36,7 +37,7 @@ class UMISParcelLocation extends React.Component {
     this.props.formReset()
   }
   nextStep (e) {
-    e.preventDefault()
+    // e.preventDefault()
     let data = {
       geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
     }
@@ -54,7 +55,7 @@ class UMISParcelLocation extends React.Component {
     const { lat, lon } = this.props
     return (
       <div>
-        <h3>Place Parcel on the Map</h3>
+        <h3>Select Parcel to Audit on the Map</h3>
         <h5>To begin a parcel audit click the map to place a marker on the map where the data is derived from</h5>
         <h5>
           The marker can be moved by simply clicking the map again, the marker location will be
@@ -91,6 +92,14 @@ class UMISParcelLocation extends React.Component {
       </div>
     )
   }
+
+  cityObj: {
+    'lima': 'id_lote',
+    'budapest': 'id',
+    'cusco': 'id_lote_ca',
+    'abudhabi': 'plotid',
+    'medellin': 'cobama'
+  };
   componentDidMount () {
     this.props.map.addSource('point', {
       'type': 'geojson',
@@ -106,17 +115,30 @@ class UMISParcelLocation extends React.Component {
       }
     })
     // this.props.map.on('mousedown', mouseDown, true)
+    // how do I make this work for separate instances of cities
     this.props.map.on('click', function (e) {
-      // geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+      let cityObj = {
+        'lima': 'id_lote',
+        'budapest': 'id',
+        'cusco': 'gid',
+        'abudhabi': 'plotid',
+        'medellin': 'cobama'
+      }
+      let city = window.location.pathname.slice(1)
+      let cityTag = cityObj[city]
+      geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
       // this.props.map.getSource('point').setData(geojson)
-      var features = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
-      if (features.length) {
-        this.props.map.setFilter('lots-hover', ['==', 'id_lote', features[0].properties.id_lote])
+      var feature = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
+      var featureGeoJSON = feature[0]._vectorTileFeature.toGeoJSON()
+      if (feature.length) {
+        this.props.map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
       } else {
-        this.props.map.setFilter('lots-hover', ['==', 'id_lote', ''])
+        this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
       }
       this.updateGeoValues(e.lngLat.lat, e.lngLat.lng)
+      this.props.persistfeatureGeoJSON(featureGeoJSON)
     }.bind(this))
+
   }
   componentWillUnmount () {
     // I should probably do this once the survey submits
