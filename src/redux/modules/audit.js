@@ -1,3 +1,4 @@
+import { normalize, Schema, arrayOf } from 'normalizr'
 /* @flow */
 // ------------------------------------
 // Constants
@@ -9,6 +10,61 @@ export const AUDITS_RECEIVED = 'AUDITS_RECEIVED'
 export const AUDIT_FORM_SAVE = 'AUDIT_FORM_SAVE'
 export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
 export const PERSIST_FEATURE = 'PERSIST_FEATURE'
+
+const audit = new Schema('audits', {idAttribute: 1})
+audit.define({
+  sourceInformation: sourceInformation,
+  parcelDescription: parcelDescription,
+  workbooks: workbooks
+})
+const sourceInformation = new Schema('sourceInformation')
+// sourceInformation.define({
+//   author: '',
+//   date: '',
+//   neighborhoodID: '',
+//   timeHorizon: ''
+// })
+const parcelDescription = new Schema('parcelDescription')
+const parcelIdentification = new Schema('parcelIdentification')
+const buildingData = new Schema('buildingData')
+const demographics = new Schema('demographics')
+const demographicInputs = new Schema('demographicInputs')
+// parcelIdentification.define({
+//   parcelType: '',
+//   designatedLandUse: '',
+//   actualLandUse: '',
+//   parcelArea: '',
+//   buildingFootprint: ''
+// })
+// buildingData.define({
+//   buildingAttachmentType: '',
+//   numberOccupiedDwellingUnits: '',
+//   buildingAge: '',
+//   aboveGroundStories: '',
+//   belowGroundStories: '',
+//   interiorFloorSpace: '',
+//   separateDwellingUnits: '',
+//   foundationType: '',
+//   wallType: '',
+//   roofType: ''
+// })
+demographics.define({
+  seniors: demographicInputs,
+  adults: demographicInputs,
+  youth: demographicInputs
+})
+// demographicInputs.define({
+//   livingWorking: '',
+//   livingOffsiteWorking: '',
+//   visitingFullTimeWork: '',
+//   visitingPartTimeWork: ''
+// })
+parcelDescription.define({
+  parcelIdentification: parcelIdentification,
+  buildingData: buildingData,
+  demographics: demographics
+})
+const workbooks = new Schema('workbooks')
 
 // ------------------------------------
 // Actions
@@ -184,8 +240,7 @@ export default function survey (state = {
         audits: action.surveys
       })
     case AUDIT_FORM_SAVE:
-    // I'd imagine here that I would have to do state.audit and then reassign it from there
-      // console.log(state)
+      // if (state.audit_form) console.log(normalize(state.audit_form, audit))
       let cumlatativeAudit
       state.audit_form
         ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)

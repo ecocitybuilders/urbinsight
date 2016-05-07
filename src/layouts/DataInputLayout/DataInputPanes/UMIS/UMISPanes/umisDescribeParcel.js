@@ -1,29 +1,48 @@
 import React, { PropTypes } from 'react'
 import { Button, Input, Col } from 'react-bootstrap'
 
+type Props = {
+  previousStep: PropTypes.func,
+  nextStep: PropTypes.func,
+  saveValues: PropTypes.func,
+  audit: PropTypes.obj
+}
 class UMISDescribeParcel extends React.Component {
-  static propTypes = {
-    previousStep: PropTypes.func,
-    nextStep: PropTypes.func
-  };
+  props: Props;
   constructor (props) {
     super(props)
     this.nextStep = this.nextStep.bind(this)
   }
   nextStep (e) {
     e.preventDefault()
+    let data = {
+      parcelDescription: {
+        parcelIdentification: {
+          parcelType: this.refs.parcelType.getValue(),
+          designatedLandUse: this.refs.designatedLandUse.getValue(),
+          actualLandUse: this.refs.actualLandUse.getValue(),
+          parcelArea: this.refs.buildingFootprint.getValue(),
+          buildingFootprint: this.refs.buildingFootprint.getValue()
+        }
+      }
+    }
+    this.props.saveValues(data)
     this.props.nextStep()
   }
   render () {
+    const { audit } = this.props
     return (
       <div>
         <h3>Describe Parcel</h3>
-        {/* parcel.describeParcel.parcelIdentification.parcelType*/}
-        <Input type='select' label='Parcel Type:' placeholder='Generic Parcel'>
+        <Input ref='parcelType'
+          type='select'label='Parcel Type:' placeholder='Generic Parcel'
+          defaultValue={audit && audit.parcelDescription &&
+            audit.parcelDescription.parcelIdentification
+            ? audit.parcelDescription.parcelIdentification.parcelType
+            : ''}>
           <option value='Generic Parcel'>Generic Parcel</option>
         </Input>
-        {/* parcel.describeParcel.parcelIdentification.designatedLandUse*/}
-        <Input type='select' label='Designated Land Use:' placeholder=''>
+        <Input ref='designatedLandUse' type='select' label='Designated Land Use:' placeholder=''>
           <option value=''></option>
           <option value='Open Space'>Open Space</option>
           <option value='Residential'>Residential</option>
@@ -33,8 +52,7 @@ class UMISDescribeParcel extends React.Component {
           <option value='Industrial'>Industrial</option>
           <option value='Municipal'>Municipal</option>
         </Input>
-        {/* parcel.describeParcel.parcelIdentification.actuallanduse*/}
-        <Input type='select' label='Actual Land Use:' placeholder=''>
+        <Input ref='actualLandUse' type='select' label='Actual Land Use:' placeholder=''>
           <option value=''></option>
           <option value='Open Space'>Open Space</option>
           <option value='Residential'>Residential</option>
@@ -44,12 +62,8 @@ class UMISDescribeParcel extends React.Component {
           <option value='Industrial'>Industrial</option>
           <option value='Municipal'>Municipal</option>
         </Input>
-        {/* parcel.describeParcel.parcelIdentification.landArea*/}
-        <Input type='number' label='Parcel Area' />
-          {/* <label for='parcel-area'>Parcel Area (m<sup>2</sup>):</label>*/}
-        {/* parcel.describeParcel.parcelIdentification.buildingFootprint*/}
-        <Input type='number' label='Building Footprint' />
-          {/* <label for='building-footprint'>Building Footprint (m<sup>2</sup>):</label>*/}
+        <Input ref='parcelArea' type='number' label='Parcel Area' />
+        <Input ref='buildingFootprint' ype='number' label='Building Footprint' />
         <br/>
         <Col sm={6}>
           <Button bsStyle='info' onClick={this.props.previousStep}>

@@ -133,6 +133,7 @@
     "mongoose": "^4.4.12",
     "monk": "^1.0.1",
     "node-sass": "^3.3.3",
+    "normalizr": "^2.0.1",
     "passport-local": "^1.0.0",
     "pg": "^4.5.3",
     "postcss-loader": "^0.8.0",

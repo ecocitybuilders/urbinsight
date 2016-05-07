@@ -29,7 +29,7 @@ class UMISBuildingData extends React.Component {
           <option value='Mobile'>Mobile</option>
         </Input>
         {/* ng-model='parcel.describeParcel.buildingData.numberOccupiedDwellingUnits'*/}
-        <Input type='number' label='Number of Occupied Dwelling Units:' />
+        <Input label='Number of Occupied Dwelling Units:' type='number' />
          {/* ng-model='parcel.describeParcel.buildingData.buildingAge' */}
         <Input label='Building Age:' type='number'/>
          {/* ng-model='parcel.describeParcel.buildingData.aboveGroundStories' */}
