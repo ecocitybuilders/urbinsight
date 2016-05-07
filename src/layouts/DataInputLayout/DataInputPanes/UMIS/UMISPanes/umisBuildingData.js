@@ -36,7 +36,7 @@ class UMISBuildingData extends React.Component {
     return (
       <div>
         <h3>Building Data</h3>
-        <Input ref='buildingData' type='select' label='Buidling Attachment Type:' placeholder=''>
+        <Input ref='buildingAttachmentType' type='select' label='Buidling Attachment Type:' placeholder=''>
           <option value=''></option>
           <option value='No Building'>No Building</option>
           <option value='Single Family'>Single Family</option>
