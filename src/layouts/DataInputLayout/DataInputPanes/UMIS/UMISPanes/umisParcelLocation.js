@@ -35,23 +35,22 @@ class UMISParcelLocation extends React.Component {
     super(props)
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
+    this.onChange = this.onChange.bind(this)
     // this is for the selection of a parcel that doesn't exist
     // could be refactored to be drawings when approriate
-    if (typeof this.props.map.getSource('point') !== 'undefined') {
-      this.props.map.addSource('point', {
-        'type': 'geojson',
-        'data': geojson
-      })
-      this.props.map.addLayer({
-        'id': 'point',
-        'type': 'circle',
-        'source': 'point',
-        'paint': {
-          'circle-radius': 10,
-          'circle-color': '#29b381'
-        }
-      })
-    }
+    this.props.map.addSource('point', {
+      'type': 'geojson',
+      'data': geojson
+    })
+    this.props.map.addLayer({
+      'id': 'point',
+      'type': 'circle',
+      'source': 'point',
+      'paint': {
+        'circle-radius': 10,
+        'circle-color': '#29b381'
+      }
+    })
   }
   previousStep (e) {
     e.preventDefault()
@@ -65,13 +64,13 @@ class UMISParcelLocation extends React.Component {
     this.props.saveValues(data)
     this.props.nextStep()
   }
-  // unecessary function
-  // updateGeoValues (lat, lon) {
-  //   this.props.updateGeoValues(lat, lon)
-  // }
+
   // This is here to satisfy the warning
-  onChange () {
-    return
+  onChange (e) {
+    let data = {
+      geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
+    }
+    this.props.saveValues(data)
   }
 
   render () {
@@ -90,7 +89,8 @@ class UMISParcelLocation extends React.Component {
             label='Latitude'
             placeholder='Enter Latitude'
             value={audit ? audit.geoCoordinates[1] : ''}
-            onChange={this.onChange}/>
+            onChange={this.onChange}
+            />
         </Col>
         <Col md={3}>
           <Input type='text' ref='lon'
@@ -129,7 +129,7 @@ class UMISParcelLocation extends React.Component {
           }
         }]
       }
-      // This is to be able to on the fly dictate what unique id to use for parcel selection
+      // FIX This is to be able to on the fly dictate what unique id to use for parcel selection
       let city = window.location.pathname.slice(1)
       let cityTag = cityObj[city]
       let feature = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
@@ -152,7 +152,8 @@ class UMISParcelLocation extends React.Component {
   componentWillUnmount () {
     // I should probably do this once the survey submits
     // this.props.map.removeLayer('point')
-    // this.props.map.removeSource('point')
+    // FIX this throws an error saying some readOnly nonsense
+    this.props.map.removeSource('point')
     this.props.map.off('click')
   }
 }
