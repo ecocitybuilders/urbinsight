@@ -11,12 +11,14 @@ export const AUDIT_FORM_SAVE = 'AUDIT_FORM_SAVE'
 export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
 export const PERSIST_FEATURE = 'PERSIST_FEATURE'
 
-const audit = new Schema('audits', {idAttribute: 1})
+const audit = new Schema('audits')
 audit.define({
+  geoCoordinates: geoCoordinates,
   sourceInformation: sourceInformation,
   parcelDescription: parcelDescription,
   workbooks: workbooks
 })
+const geoCoordinates = new Schema('geoCoordinates')
 const sourceInformation = new Schema('sourceInformation')
 // sourceInformation.define({
 //   author: '',
@@ -245,6 +247,7 @@ export default function survey (state = {
       state.audit_form
         ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)
         : cumlatativeAudit = action.responses
+      // console.log(cumlatativeAudit)
       return Object.assign({}, state, {
         inProgress: true,
         audit_form: cumlatativeAudit

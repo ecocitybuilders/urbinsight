@@ -88,7 +88,7 @@ class UMISParcelLocation extends React.Component {
           <Input type='text' ref='lat'
             label='Latitude'
             placeholder='Enter Latitude'
-            value={audit ? audit.geoCoordinates[1] : ''}
+            value={audit && audit.geoCoordinates ? audit.geoCoordinates[1] : ''}
             onChange={this.onChange}
             />
         </Col>
@@ -96,7 +96,7 @@ class UMISParcelLocation extends React.Component {
           <Input type='text' ref='lon'
             label='Longitude'
             placeholder='Enter Longitude'
-            value={audit ? audit.geoCoordinates[0] : ''}
+            value={audit && audit.geoCoordinates ? audit.geoCoordinates[0] : ''}
             onChange={this.onChange}
             />
         </Col>
