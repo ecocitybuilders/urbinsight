@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { auditSave, persistFeature } from 'redux/modules/audit'
+import { auditSave, persistFeature, saveAuditForm, resetAuditForm } from 'redux/modules/audit'
 import UMISIntro from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDataIntro'
 import UMISParcelLocation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisParcelLocation'
 import UMISSourceInformation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSourceInformation'
@@ -14,7 +14,10 @@ type Props = {
   dispatch: PropTypes.func.isRequired,
   auditSubmit: PropTypes.func,
   persistFeatureGeoJSON: PropTypes.func,
+  auditFormSave: PropTypes.func,
+  auditFormReset: PropTypes.func,
   map: PropTypes.obj,
+  audit_form: PropTypes.obj,
   isFetching: PropTypes.bool
 }
 
@@ -28,8 +31,8 @@ class UmisDataForm extends React.Component {
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
+    this.saveValues = this.saveValues.bind(this)
     this.formReset = this.formReset.bind(this)
-    this.updateGeoValues = this.updateGeoValues.bind(this)
   }
 
   nextStep () {
@@ -45,23 +48,26 @@ class UmisDataForm extends React.Component {
   }
   // NEED A MORE ROBUST FORM RESET
   formReset () {
+    this.props.auditFormReset()
     this.setState({
-      active: 1
+      active: 1,
+      geoCoordinates: [null, null]
     })
   }
 
   saveValues (fields) {
     // Dispatch Audit Fields Save
+    this.props.auditFormSave(fields)
   }
 
-  updateGeoValues (lat, lon) {
-    this.setState({geoCoordinates: [lon, lat]})
-    // Update the geoCoordinates
-    // Does this make sense as a dispatch?
-  }
+  // updateGeoValues (lat, lon) {
+  //   this.setState({geoCoordinates: [lon, lat]})
+  //   // Update the geoCoordinates
+  //   // Does this make sense as a dispatch?
+  // }
 
   render () {
-    const { auditSubmit, persistFeatureGeoJSON, map, isFetching } = this.props
+    const { auditSubmit, persistFeatureGeoJSON, map, isFetching, audit_form } = this.props
     switch (this.state.active) {
       case 1:
         return <UMISIntro nextStep={this.nextStep} />
@@ -70,21 +76,31 @@ class UmisDataForm extends React.Component {
           previousStep={this.previousStep}
           nextStep={this.nextStep}
           map={map}
-          lat={this.state.geoCoordinates[1]}
-          lon={this.state.geoCoordinates[0]}
           saveValues={this.saveValues}
-          updateGeoValues={this.updateGeoValues}
           formReset={this.formReset}
+          audit={audit_form}
           persistFeatureGeoJSON={persistFeatureGeoJSON}
           />
       case 3:
-        return <UMISSourceInformation previousStep={this.previousStep} nextStep={this.nextStep} />
+        return <UMISSourceInformation
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          saveValues={this.saveValues}/>
       case 4:
-        return <UMISDescribeParcel previousStep={this.previousStep} nextStep={this.nextStep} />
+        return <UMISDescribeParcel
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          saveValues={this.saveValues}/>
       case 5:
-        return <UMISBuildingData previousStep={this.previousStep} nextStep={this.nextStep} />
+        return <UMISBuildingData
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          saveValues={this.saveValues}/>
       case 6:
-        return <UMISDemographics previousStep={this.previousStep} nextStep={this.nextStep} />
+        return <UMISDemographics
+          previousStep={this.previousStep}
+          nextStep={this.nextStep}
+          saveValues={this.saveValues}/>
       case 7:
         return <UMISWorkbookContainer
           previousStep={this.previousStep}
@@ -99,10 +115,12 @@ class UmisDataForm extends React.Component {
 
 const mapStateToProps = (state) => {
   const { audit } = state
-  const { auditResponses, isFetching } = audit
+  const { auditResponses, isFetching, feature, audit_form } = audit
   return {
     auditResponses,
-    isFetching
+    isFetching,
+    feature,
+    audit_form
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -112,6 +130,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     persistFeatureGeoJSON: (feature) => {
       dispatch(persistFeature(feature))
+    },
+    auditFormSave: (responses) => {
+      dispatch(saveAuditForm(responses))
+    },
+    auditFormReset: () => {
+      dispatch(resetAuditForm())
     }
   }
 }

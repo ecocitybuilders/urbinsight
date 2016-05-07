@@ -57,6 +57,12 @@ function auditFormSave (responses): Action {
   }
 }
 
+function auditFormReset (): Action {
+  return {
+    type: AUDIT_FORM_RESET
+  }
+}
+
 function persistFeatureGeoJSON (featureGeoJSON): Action {
   return {
     type: PERSIST_FEATURE,
@@ -99,6 +105,18 @@ export function persistFeature (featureGeoJSON) {
     dispatch(persistFeatureGeoJSON(featureGeoJSON))
   }
 }
+
+export function saveAuditForm (responses) {
+  return (dispatch) => {
+    dispatch(auditFormSave(responses))
+  }
+}
+
+export function resetAuditForm () {
+  return (dispatch) => {
+    dispatch(auditFormReset())
+  }
+}
 // This is a thunk, meaning it is a function that immediately
 // returns a function for lazy evaluation. It is incredibly useful for
 // creating async actions, especially when combined with redux-thunk!
@@ -122,6 +140,7 @@ export const actions = {
   auditsRequest,
   auditsReceived,
   auditFormSave,
+  auditFormReset,
   persistFeatureGeoJSON
 }
 
@@ -148,7 +167,7 @@ export default function survey (state = {
     case AUDIT_SUBMIT:
       return Object.assign({}, state, {
         isFetching: true,
-        surveyResponses: action.responses
+        auditResponses: action.responses
       })
     case AUDIT_SAVED:
       return Object.assign({}, state, {
@@ -162,7 +181,23 @@ export default function survey (state = {
     case AUDITS_RECEIVED:
       return Object.assign({}, state, {
         isFetching: false,
-        surveys: action.surveys
+        audits: action.surveys
+      })
+    case AUDIT_FORM_SAVE:
+    // I'd imagine here that I would have to do state.audit and then reassign it from there
+      // console.log(state)
+      let cumlatativeAudit
+      state.audit_form
+        ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)
+        : cumlatativeAudit = action.responses
+      return Object.assign({}, state, {
+        inProgress: true,
+        audit_form: cumlatativeAudit
+      })
+    case AUDIT_FORM_RESET:
+      return Object.assign({}, state, {
+        audit: {},
+        feature: {}
       })
     case PERSIST_FEATURE:
       return Object.assign({}, state, {

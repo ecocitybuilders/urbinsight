@@ -6,11 +6,9 @@ type Props = {
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
   map: PropTypes.object,
-  updateGeoValues: PropTypes.func,
-  lat: PropTypes.number,
-  lon: PropTypes.number,
   formReset: PropTypes.func,
-  persistFeatureGeoJSON: PropTypes
+  persistFeatureGeoJSON: PropTypes.func,
+  audit: PropTypes.obj
 }
 
 let geojson = {
@@ -36,7 +34,6 @@ class UMISParcelLocation extends React.Component {
   constructor (props) {
     super(props)
     this.nextStep = this.nextStep.bind(this)
-    this.updateGeoValues = this.updateGeoValues.bind(this)
     this.previousStep = this.previousStep.bind(this)
   }
   previousStep (e) {
@@ -51,16 +48,17 @@ class UMISParcelLocation extends React.Component {
     this.props.saveValues(data)
     this.props.nextStep()
   }
-  updateGeoValues (lat, lon) {
-    this.props.updateGeoValues(lat, lon)
-  }
+  // unecessary function
+  // updateGeoValues (lat, lon) {
+  //   this.props.updateGeoValues(lat, lon)
+  // }
   // This is here to satisfy the warning
   onChange () {
     return
   }
 
   render () {
-    const { lat, lon } = this.props
+    const { audit } = this.props
     return (
       <div>
         <h3>Select Parcel to Audit on the Map</h3>
@@ -74,14 +72,14 @@ class UMISParcelLocation extends React.Component {
           <Input type='text' ref='lat'
             label='Latitude'
             placeholder='Enter Latitude'
-            value={lat || ''}
+            value={audit ? audit.geoCoordinates[1] : ''}
             onChange={this.onChange}/>
         </Col>
         <Col md={3}>
           <Input type='text' ref='lon'
             label='Longitude'
             placeholder='Enter Longitude'
-            value={lon || ''}
+            value={audit ? audit.geoCoordinates[0] : ''}
             onChange={this.onChange}
             />
         </Col>
@@ -137,19 +135,20 @@ class UMISParcelLocation extends React.Component {
         this.props.map.getSource('point').setData(geojson)
         this.props.map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
         let featureGeoJSON = feature[0]._vectorTileFeature.toGeoJSON()
+        // I should probably only persist the feature on save instead of here
         this.props.persistFeatureGeoJSON(featureGeoJSON)
       } else {
         this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
         geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
         this.props.map.getSource('point').setData(geojson)
       }
-      this.updateGeoValues(e.lngLat.lat, e.lngLat.lng)
+      this.props.saveValues({geoCoordinates: [e.lngLat.lat, e.lngLat.lng]})
     }.bind(this))
   }
   componentWillUnmount () {
     // I should probably do this once the survey submits
-    this.props.map.removeLayer('point')
-    this.props.map.removeSource('point')
+    // this.props.map.removeLayer('point')
+    // this.props.map.removeSource('point')
     this.props.map.off('click')
   }
 }
