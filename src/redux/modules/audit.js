@@ -1,4 +1,7 @@
 import { normalize, Schema, arrayOf } from 'normalizr'
+window.normalize = normalize
+window.Schema = Schema
+window.arrayOf = arrayOf
 /* @flow */
 // ------------------------------------
 // Constants
@@ -18,7 +21,7 @@ audit.define({
   parcelDescription: parcelDescription,
   workbooks: workbooks
 })
-const geoCoordinates = new Schema('geoCoordinates')
+const geoCoordinates = new Schema('geoCoordinates', {idAttribute: 'id'})
 const sourceInformation = new Schema('sourceInformation')
 // sourceInformation.define({
 //   author: '',
@@ -242,7 +245,7 @@ export default function survey (state = {
         audits: action.surveys
       })
     case AUDIT_FORM_SAVE:
-      // if (state.audit_form) console.log(normalize(state.audit_form, audit))
+      console.log(normalize(action.responses, audit))
       let cumlatativeAudit
       state.audit_form
         ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)

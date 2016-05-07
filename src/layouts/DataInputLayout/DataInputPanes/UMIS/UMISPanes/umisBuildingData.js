@@ -1,25 +1,42 @@
 import React, { PropTypes } from 'react'
 import { Button, Input, Col } from 'react-bootstrap'
 
+type Props = {
+  saveValues: PropTypes.func,
+  previousStep: PropTypes.func,
+  nextStep: PropTypes.func
+}
+
 class UMISBuildingData extends React.Component {
-  static propTypes = {
-    previousStep: PropTypes.func,
-    nextStep: PropTypes.func
-  };
+  props: Props;
   constructor (props) {
     super(props)
     this.nextStep = this.nextStep.bind(this)
   }
   nextStep (e) {
     e.preventDefault()
+    let data = {
+      buildingData: {
+        buildingAttachmentType: this.refs.buildingAttachmentType.getValue(),
+        numberOccupiedDwellingUnits: this.refs.numberOccupiedDwellingUnits.getValue(),
+        buildingAge: this.refs.buildingAge.getValue(),
+        aboveGroundStories: this.refs.aboveGroundStories.getValue(),
+        belowGroundStories: this.refs.belowGroundStories.getValue(),
+        interiorFloorSpace: this.refs.interiorFloorSpace.getValue(),
+        separateDwellingUnits: this.refs.interiorFloorSpace.getValue(),
+        foundationType: this.refs.foundationType.getValue(),
+        wallType: this.refs.wallType.getValue(),
+        roofType: this.refs.roofType.getValue()
+      }
+    }
+    this.props.saveValues(data)
     this.props.nextStep()
   }
   render () {
     return (
       <div>
         <h3>Building Data</h3>
-        {/* ng-model='parcel.describeParcel.buildingData.buildingAttachmentType*/}
-        <Input type='select' label='Buidling Attachment Type:' placeholder=''>
+        <Input ref='buildingData' type='select' label='Buidling Attachment Type:' placeholder=''>
           <option value=''></option>
           <option value='No Building'>No Building</option>
           <option value='Single Family'>Single Family</option>
@@ -28,20 +45,13 @@ class UMISBuildingData extends React.Component {
           <option value='Row House'>Row House</option>
           <option value='Mobile'>Mobile</option>
         </Input>
-        {/* ng-model='parcel.describeParcel.buildingData.numberOccupiedDwellingUnits'*/}
-        <Input label='Number of Occupied Dwelling Units:' type='number' />
-         {/* ng-model='parcel.describeParcel.buildingData.buildingAge' */}
-        <Input label='Building Age:' type='number'/>
-         {/* ng-model='parcel.describeParcel.buildingData.aboveGroundStories' */}
-        <Input label='Above Ground Stories:' type='number'/>
-         {/* ng-model='parcel.describeParcel.buildingData.belowGroundStories'*/}
-        <Input label='Below Ground Stories:' type='number' />
-         {/* ng-model='parcel.describeParcel.buildingData.interiorFloorSpace'*/}
-        <Input label='Interior Floor Space:' type='number' />
-         {/* ng-model='parcel.describeParcel.buildingData.separateDwellingUnits'*/}
-        <Input label='Separate Dwelling Units:' type='number' />
-         {/* ng-model='parcel.describeParcel.buildingData.foundationType'*/}
-        <Input label='Foundation Type:' type='select' placeholder=''>
+        <Input ref='numberOccupiedDwellingUnits' label='Number of Occupied Dwelling Units:' type='number' />
+        <Input ref='buildingAge' label='Building Age:' type='number'/>
+        <Input ref='aboveGroundStories' label='Above Ground Stories:' type='number'/>
+        <Input ref='belowGroundStories' label='Below Ground Stories:' type='number' />
+        <Input ref='interiorFloorSpace' label='Interior Floor Space:' type='number' />
+        <Input ref='separateDwellingUnits' label='Separate Dwelling Units:' type='number' />
+        <Input ref='foundationType' label='Foundation Type:' type='select' placeholder=''>
           <option value=''></option>
           <option value='Slab-on-Grade'>Slab-on-Grade</option>
           <option value='Crawl Space'>Crawl Space</option>
@@ -49,8 +59,7 @@ class UMISBuildingData extends React.Component {
           <option value='Unconditioned Parking'>Unconditioned Parking</option>
           <option value='Full Basement'>Full Basement</option>
         </Input>
-         {/* ng-model='parcel.describeParcel.buildingData.wallType'*/}
-        <Input label='Wall Type:' type='select' placeholder=''>
+        <Input ref='wallType' label='Wall Type:' type='select' placeholder=''>
           <option value=''></option>
           <option value='Solid Masonry'>Solid Masonry</option>
           <option value='Concrete'>Concrete</option>
@@ -60,8 +69,7 @@ class UMISBuildingData extends React.Component {
           <option value='Mud'>Mud</option>
           <option value='Glass'>Glass</option>
         </Input>
-         {/* ng-model='parcel.describeParcel.buildingData.roofType'*/}
-        <Input label='Roof Type:' type='select' placeholder=''>
+        <Input ref='roofType' label='Roof Type:' type='select' placeholder=''>
           <option value=''></option>
           <option value='Flat'>Flat</option>
           <option value='Peaked Hard Surface'>Peaked Hard Surface</option>
