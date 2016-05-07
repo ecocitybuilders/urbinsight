@@ -35,6 +35,23 @@ class UMISParcelLocation extends React.Component {
     super(props)
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
+    // this is for the selection of a parcel that doesn't exist
+    // could be refactored to be drawings when approriate
+    if (typeof this.props.map.getSource('point') !== 'undefined') {
+      this.props.map.addSource('point', {
+        'type': 'geojson',
+        'data': geojson
+      })
+      this.props.map.addLayer({
+        'id': 'point',
+        'type': 'circle',
+        'source': 'point',
+        'paint': {
+          'circle-radius': 10,
+          'circle-color': '#29b381'
+        }
+      })
+    }
   }
   previousStep (e) {
     e.preventDefault()
@@ -100,21 +117,6 @@ class UMISParcelLocation extends React.Component {
   }
 
   componentDidMount () {
-    // this is for the selection of a parcel that doesn't exist
-    // could be refactored to be drawings when approriate
-    this.props.map.addSource('point', {
-      'type': 'geojson',
-      'data': geojson
-    })
-    this.props.map.addLayer({
-      'id': 'point',
-      'type': 'circle',
-      'source': 'point',
-      'paint': {
-        'circle-radius': 10,
-        'circle-color': '#29b381'
-      }
-    })
     // this.props.map.on('mousedown', mouseDown, true)
     this.props.map.on('click', function (e) {
       let geojson = {
@@ -132,7 +134,9 @@ class UMISParcelLocation extends React.Component {
       let cityTag = cityObj[city]
       let feature = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
       if (feature.length) {
-        this.props.map.getSource('point').setData(geojson)
+        if (typeof this.props.map.getSource('point') !== 'undefined') {
+          this.props.map.getSource('point').setData(geojson)
+        }
         this.props.map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
         let featureGeoJSON = feature[0]._vectorTileFeature.toGeoJSON()
         // I should probably only persist the feature on save instead of here

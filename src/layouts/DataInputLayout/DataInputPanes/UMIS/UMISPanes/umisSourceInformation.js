@@ -5,7 +5,8 @@ import DateTimeField from 'react-bootstrap-datetimepicker'
 type Props = {
   saveValues: PropTypes.func,
   previousStep: PropTypes.func,
-  nextStep: PropTypes.func
+  nextStep: PropTypes.func,
+  audit: PropTypes.obj
 }
 class UMISSourceInformation extends React.Component {
   props: Props;
@@ -27,18 +28,30 @@ class UMISSourceInformation extends React.Component {
     this.props.saveValues(data)
     this.props.nextStep()
   }
+  onChange () {
+    return
+  }
+  // {/*onChange={this.onChange}*/}
   render () {
+    const { audit } = this.props
     return (
       <div>
         <h3>Source Information</h3>
-        <Input ref='author' type='text' label='Author:' />
+        <Input ref='author' type='text' label='Author:' placeholder='Enter Name'
+          defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.author : ''}
+        />
         {/* parcel.date*/}
         <label htmlFor='umis-form-date'>Parcel Audit Date: </label>
-        <DateTimeField ref='date' id='umis-form-date'/>
+        <DateTimeField ref='date' id='umis-form-date'
+          defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.date : ''} />
          {/* These would be populated for valid values*/}
-        <Input ref='neighborhoodID' type='number' label='Neighborhood ID:' />
+        <Input ref='neighborhoodID' type='number' label='Neighborhood ID:'
+          defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.neighborhoodID : ''}
+        />
         {/* ng-model='parcel.timeHorizon'*/}
-        <Input ref='timeHorizon' label='Time Horizon:' type='select'>
+        <Input ref='timeHorizon' label='Time Horizon:' type='select'
+          defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.timeHorizon : ''}
+        >
           <option value='2014'>2014</option>
           <option value='2015'>2015</option>
           <option value='2016'>2016</option>

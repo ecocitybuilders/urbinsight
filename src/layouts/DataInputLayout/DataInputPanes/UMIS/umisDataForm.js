@@ -85,28 +85,34 @@ class UmisDataForm extends React.Component {
         return <UMISSourceInformation
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          saveValues={this.saveValues}/>
+          saveValues={this.saveValues}
+          audit={audit_form}/>
       case 4:
         return <UMISDescribeParcel
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          saveValues={this.saveValues}/>
+          saveValues={this.saveValues}
+          audit={audit_form}/>
       case 5:
         return <UMISBuildingData
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          saveValues={this.saveValues}/>
+          saveValues={this.saveValues}
+          audit={audit_form}/>
       case 6:
         return <UMISDemographics
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          saveValues={this.saveValues}/>
+          saveValues={this.saveValues}
+          audit={audit_form}/>
       case 7:
         return <UMISWorkbookContainer
           previousStep={this.previousStep}
           nextStep={this.nextStep}
           isFetching={isFetching}
-          auditSubmit={auditSubmit}/>
+          auditSubmit={auditSubmit}
+          saveValues={this.saveValues}
+          audit={audit_form}/>
       case 8:
         return <UMISComplete previousStep={this.previousStep} formReset={this.formReset} />
     }
