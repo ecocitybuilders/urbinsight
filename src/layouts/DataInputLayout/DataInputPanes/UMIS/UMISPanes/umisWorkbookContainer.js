@@ -4,11 +4,14 @@ import UMISWaterWorkbook from 'layouts/DataInputLayout/DataInputPanes/UMIS/Workb
 import UMISMaterialsWorkbook from 'layouts/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
 import UMISSubmit from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSubmit'
 
+type Props = {
+  saveValues: PropTypes.func,
+  nextStep: PropTypes.func,
+  previousStep: PropTypes.func,
+  audit: PropTypes.obj
+}
 class UMISWorkbookContainer extends React.Component {
-  static propTypes = {
-    nextStep: PropTypes.func,
-    previousStep: PropTypes.func
-  };
+  props: Props;
   static workbookPanes = {
     1: 'selection',
     2: 'water',
@@ -41,7 +44,7 @@ class UMISWorkbookContainer extends React.Component {
     })
   }
   nextStep (e) {
-    // e.preventDefault()
+    e.preventDefault()
     this.props.nextStep(e)
   }
   nextSection () {
@@ -63,6 +66,7 @@ class UMISWorkbookContainer extends React.Component {
     })
   }
   render () {
+    const { audit } = this.props
     switch (this.state.active) {
       case 1:
         return (
@@ -75,6 +79,8 @@ class UMISWorkbookContainer extends React.Component {
           <UMISWaterWorkbook
             prevSection={this.prevSection}
             nextSection={this.nextSection}
+            saveValues={this.props.saveValues}
+            audit={audit}
           />
         )
       case 3:
@@ -82,6 +88,8 @@ class UMISWorkbookContainer extends React.Component {
           <UMISMaterialsWorkbook
             prevSection={this.prevSection}
             nextSection={this.nextSection}
+            saveValues={this.props.saveValues}
+            audit={audit}
           />
         )
       case 4:
@@ -89,6 +97,8 @@ class UMISWorkbookContainer extends React.Component {
           <UMISSubmit
             prevSection={this.prevSection}
             nextStep={this.nextStep}
+            saveValues={this.props.saveValues}
+            audit={audit}
           />
         )
     }

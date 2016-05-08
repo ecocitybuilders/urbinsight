@@ -12,7 +12,6 @@ class UMISDemographics extends React.Component {
   constructor (props) {
     super(props)
     this.nextStep = this.nextStep.bind(this)
-    this.saveValues = this.saveValues.bind(this)
   }
   nextStep (e) {
     e.preventDefault()

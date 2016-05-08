@@ -31,7 +31,6 @@ class UMISSourceInformation extends React.Component {
   onChange () {
     return
   }
-  // {/*onChange={this.onChange}*/}
   render () {
     const { audit } = this.props
     return (
@@ -40,15 +39,12 @@ class UMISSourceInformation extends React.Component {
         <Input ref='author' type='text' label='Author:' placeholder='Enter Name'
           defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.author : ''}
         />
-        {/* parcel.date*/}
         <label htmlFor='umis-form-date'>Parcel Audit Date: </label>
         <DateTimeField ref='date' id='umis-form-date'
           defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.date : ''} />
-         {/* These would be populated for valid values*/}
         <Input ref='neighborhoodID' type='number' label='Neighborhood ID:'
           defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.neighborhoodID : ''}
         />
-        {/* ng-model='parcel.timeHorizon'*/}
         <Input ref='timeHorizon' label='Time Horizon:' type='select'
           defaultValue={audit && audit.sourceInformation ? audit.sourceInformation.timeHorizon : ''}
         >

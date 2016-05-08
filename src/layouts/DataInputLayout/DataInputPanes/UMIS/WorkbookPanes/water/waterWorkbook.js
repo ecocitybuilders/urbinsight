@@ -17,6 +17,7 @@ class UMISWaterWorkbook extends React.Component {
     this.props.nextSection()
   }
   render () {
+    console.log(this.props.children)
     return (
       <div>
         <h3>Water Workbook</h3>
