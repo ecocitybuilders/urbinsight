@@ -3,22 +3,89 @@ import { Button, Col } from 'react-bootstrap'
 import LandcoverPreCalc from './LandcoverPreCalc'
 import WaterDemandJunctions from './DemandJunctions'
 
+type Props = {
+  nextSection: PropTypes.func,
+  prevSection: PropTypes.func,
+  saveValues: PropTypes.func
+}
 class UMISWaterWorkbook extends React.Component {
-  static propTypes = {
-    nextSection: PropTypes.func,
-    prevSection: PropTypes.func
-  };
+  props: Props;
   constructor () {
     super()
     this.nextSection = this.nextSection.bind(this)
   }
   nextSection (e) {
     e.preventDefault()
+    // write a data generation function that checks for the refs presence and then will update the datastore
+    let data = {
+      water: {
+        landCoverPreCalc: {
+
+        },
+        demandJunctions: {
+          toilets: {
+            activeToilets: [{}],
+            numPersonsUsingToilets: 'number',
+            dailyPerPersonUsage: ''
+          },
+          hygiene: {
+            activeShowers: [{}],
+            typicalShowerDuration: '',
+            weeklyShowersPerPerson: '',
+            bathVolume: '',
+            bathsPerWeek: '',
+            minutesOfTapFlowPerVisit: '',
+            ablutionDuration: '',
+            numOccupantsUsingWashrooms: '',
+            numVisitsToWashroomPerOccupant: ''
+          },
+          kitchen: {
+            quantityOfMealsPerDay: '',
+            waterUsedPerMeal: '',
+            dishwashingWaterPerLoad: '',
+            loadsOfDishesPerDay: '',
+            waterConsumptionPerMeal: ''
+          },
+          laundry: {
+            personsUsingLaundry: '',
+            loadsPerWeekPerPerson: '',
+            waterConsumptionPerLoad: ''
+          },
+          drinking: {
+            personsDrinkingWaterOnSite: '',
+            avgQuantityOfDrink: '',
+            avgDrinksPerDayPerPerson: ''
+          },
+          landscape: {
+            irrigation: {
+              hoursPerWeek: ''
+            },
+            potsPools: {
+              litersPerLocation: '',
+              numPlantsPools: ''
+            }
+          },
+          surfaceCleaning: {
+            freqOfInteriorSurfaceCleaning: '',
+            quantityOfWaterUsedForSC: '',
+            numTimesVehicleCleaned: '',
+            quantityOfWaterUsedForVC: ''
+          },
+          evaporativeCooling: {
+            hoursPerDayDuringHotSeason: '',
+            litersConsumedPerHour: ''
+          },
+          waterCustomers: {
+            excessCapacityPerDay: '',
+            percentageOfExcessDistributed: ''
+          }
+        }
+      }
+    }
+    this.props.saveValues(data)
     this.props.nextSection()
   }
   render () {
-    console.log(this.props)
-
     return (
       <div>
         <h3>Water Workbook</h3>

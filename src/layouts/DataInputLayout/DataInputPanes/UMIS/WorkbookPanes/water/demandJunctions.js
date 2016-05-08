@@ -2,9 +2,6 @@ import React from 'react'
 import { Input } from 'react-bootstrap'
 
 class WaterDemandJunctions extends React.Component {
-  // constructor(){
-  //   super()
-  // }
   render () {
     return (
       <div>
@@ -30,7 +27,7 @@ class WaterDemandJunctions extends React.Component {
           ref='hygiene.numVisitsToWashroomPerOccupant' /><br />
         <h5>Kitchen</h5>
         <Input label='Quantity of Meals Per Day' type='number' ref='kitchen.quantityOfMealsPerDay' /><br />
-        <Input label='Water Used Per Meal' type='number' ref='kitchen.waterPerMeal' /><br />
+        <Input label='Water Used Per Meal' type='number' ref='kitchen.waterUsedPerMeal' /><br />
         <Input label='Dishwashing Water Per Load' type='number' ref='kitchen.dishwashingWaterPerLoad' /><br />
         <Input label='Loads of Dishes Per Day' type='number' ref='kitchen.loadsOfDishesPerDay' /><br />
         <Input label='Water Consumed Per Meal' type='number' ref='kitchen.waterConsumptionPerMeal' /><br />
@@ -72,26 +69,6 @@ class WaterDemandJunctions extends React.Component {
         <Input label='Percentage of Excess Distributed' type='number'
           ref='waterCustomers.percentageOfExcessDistributed' /><br />
         <br />
-        {/* <div class='col-sm-6'>
-        <a ui-sref='app.city.pilot.umis.form.waterWorkbook.landCoverPreCalc' class='btn btn-block btn-info'>
-          <span class='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-        </a>
-      </div>
-      <div class='col-sm-6'>
-        <a class='btn btn-block btn-success' ng-click='workbookSelection.workbookIterator()'>
-          Next Section <span class='glyphicon glyphicon-circle-arrow-right'></span>
-        </a>
-      </div>*/}
-      {/* <Col sm={6}>
-        <Button bsStyle='info'>
-          <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-        </Button>
-      </Col>
-      <Col sm={6}>
-        <Button bsStyle='success'>
-          Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-        </Button>
-      </Col>*/}
       </div>
     )
   }
