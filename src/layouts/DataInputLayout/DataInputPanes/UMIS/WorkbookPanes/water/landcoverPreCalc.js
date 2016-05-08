@@ -100,7 +100,7 @@ class LandcoverPreCalc extends React.Component {
       <div>
         <div>
           <h4>Land Cover Pre Calculation</h4>
-          <Input label='Percentage of parcel with Rainwater Catchment:' type='number' />
+          <Input label='Percentage of parcel with Rainwater Catchment:' type='number' ref='rainwaterCatchment'/>
           <h5>Surface Types</h5>
           <h6>Select the types that are present on the parcel.</h6>
           {listItems}

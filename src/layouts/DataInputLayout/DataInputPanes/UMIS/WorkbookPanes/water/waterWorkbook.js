@@ -17,12 +17,13 @@ class UMISWaterWorkbook extends React.Component {
     this.props.nextSection()
   }
   render () {
-    console.log(this.props.children)
+    console.log(this.props)
+
     return (
       <div>
         <h3>Water Workbook</h3>
-        <LandcoverPreCalc />
-        <WaterDemandJunctions />
+        <LandcoverPreCalc ref='landCoverPreCalc'/>
+        <WaterDemandJunctions ref='demandJunctions'/>
         <Col sm={6}>
           <Button bsStyle='info' onClick={this.props.prevSection}>
             <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
@@ -36,6 +37,7 @@ class UMISWaterWorkbook extends React.Component {
       </div>
     )
   }
+  componentDidMount () {}
 }
 
 export default UMISWaterWorkbook
