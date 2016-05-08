@@ -1,7 +1,5 @@
 import { normalize, Schema, arrayOf } from 'normalizr'
-window.normalize = normalize
-window.Schema = Schema
-window.arrayOf = arrayOf
+
 /* @flow */
 // ------------------------------------
 // Constants
@@ -23,47 +21,16 @@ audit.define({
 })
 const geoCoordinates = new Schema('geoCoordinates', {idAttribute: 'id'})
 const sourceInformation = new Schema('sourceInformation')
-// sourceInformation.define({
-//   author: '',
-//   date: '',
-//   neighborhoodID: '',
-//   timeHorizon: ''
-// })
 const parcelDescription = new Schema('parcelDescription')
 const parcelIdentification = new Schema('parcelIdentification')
 const buildingData = new Schema('buildingData')
 const demographics = new Schema('demographics')
 const demographicInputs = new Schema('demographicInputs')
-// parcelIdentification.define({
-//   parcelType: '',
-//   designatedLandUse: '',
-//   actualLandUse: '',
-//   parcelArea: '',
-//   buildingFootprint: ''
-// })
-// buildingData.define({
-//   buildingAttachmentType: '',
-//   numberOccupiedDwellingUnits: '',
-//   buildingAge: '',
-//   aboveGroundStories: '',
-//   belowGroundStories: '',
-//   interiorFloorSpace: '',
-//   separateDwellingUnits: '',
-//   foundationType: '',
-//   wallType: '',
-//   roofType: ''
-// })
 demographics.define({
   seniors: demographicInputs,
   adults: demographicInputs,
   youth: demographicInputs
 })
-// demographicInputs.define({
-//   livingWorking: '',
-//   livingOffsiteWorking: '',
-//   visitingFullTimeWork: '',
-//   visitingPartTimeWork: ''
-// })
 parcelDescription.define({
   parcelIdentification: parcelIdentification,
   buildingData: buildingData,
@@ -245,7 +212,7 @@ export default function survey (state = {
         audits: action.surveys
       })
     case AUDIT_FORM_SAVE:
-      console.log(normalize(action.responses, audit))
+      // console.log(normalize(action.responses, audit))
       let cumlatativeAudit
       state.audit_form
         ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)

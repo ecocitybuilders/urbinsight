@@ -4,7 +4,8 @@ import { Button, Input, Col } from 'react-bootstrap'
 type Props = {
   saveValues: PropTypes.func,
   previousStep: PropTypes.func,
-  nextStep: PropTypes.func
+  nextStep: PropTypes.func,
+  audit: PropTypes.obj
 }
 
 class UMISBuildingData extends React.Component {
@@ -33,10 +34,13 @@ class UMISBuildingData extends React.Component {
     this.props.nextStep()
   }
   render () {
+    const { audit } = this.props
     return (
       <div>
         <h3>Building Data</h3>
-        <Input ref='buildingAttachmentType' type='select' label='Buidling Attachment Type:' placeholder=''>
+        <Input ref='buildingAttachmentType' type='select' label='Buidling Attachment Type:' placeholder=''
+          defaultValue={audit && audit.buildingData ? audit.buildingData.buildingAttachmentType : ''}
+        >
           <option value=''></option>
           <option value='No Building'>No Building</option>
           <option value='Single Family'>Single Family</option>
@@ -45,13 +49,20 @@ class UMISBuildingData extends React.Component {
           <option value='Row House'>Row House</option>
           <option value='Mobile'>Mobile</option>
         </Input>
-        <Input ref='numberOccupiedDwellingUnits' label='Number of Occupied Dwelling Units:' type='number' />
-        <Input ref='buildingAge' label='Building Age:' type='number'/>
-        <Input ref='aboveGroundStories' label='Above Ground Stories:' type='number'/>
-        <Input ref='belowGroundStories' label='Below Ground Stories:' type='number' />
-        <Input ref='interiorFloorSpace' label='Interior Floor Space:' type='number' />
-        <Input ref='separateDwellingUnits' label='Separate Dwelling Units:' type='number' />
-        <Input ref='foundationType' label='Foundation Type:' type='select' placeholder=''>
+        <Input ref='numberOccupiedDwellingUnits' label='Number of Occupied Dwelling Units:' type='number'
+          defaultValue={audit && audit.buildingData ? audit.buildingData.numberOccupiedDwellingUnits : ''}/>
+        <Input ref='buildingAge' label='Building Age:' type='number'
+          defaultValue={audit && audit.buildingData ? audit.buildingData.buildingAge : ''}/>
+        <Input ref='aboveGroundStories' label='Above Ground Stories:' type='number'
+          defaultValue={audit && audit.buildingData ? audit.buildingData.aboveGroundStories : ''}/>
+        <Input ref='belowGroundStories' label='Below Ground Stories:' type='number'
+          defaultValue={audit && audit.buildingData ? audit.buildingData.belowGroundStories : ''}/>
+        <Input ref='interiorFloorSpace' label='Interior Floor Space:' type='number'
+          defaultValue={audit && audit.buildingData ? audit.buildingData.interiorFloorSpace : ''}/>
+        <Input ref='separateDwellingUnits' label='Separate Dwelling Units:' type='number'
+          defaultValue={audit && audit.buildingData ? audit.buildingData.separateDwellingUnits : ''}/>
+        <Input ref='foundationType' label='Foundation Type:' type='select' placeholder=''
+          defaultValue={audit && audit.buildingData ? audit.buildingData.foundationType : ''}>
           <option value=''></option>
           <option value='Slab-on-Grade'>Slab-on-Grade</option>
           <option value='Crawl Space'>Crawl Space</option>
@@ -59,7 +70,8 @@ class UMISBuildingData extends React.Component {
           <option value='Unconditioned Parking'>Unconditioned Parking</option>
           <option value='Full Basement'>Full Basement</option>
         </Input>
-        <Input ref='wallType' label='Wall Type:' type='select' placeholder=''>
+        <Input ref='wallType' label='Wall Type:' type='select' placeholder=''
+          defaultValue={audit && audit.buildingData ? audit.buildingData.wallType : ''}>
           <option value=''></option>
           <option value='Solid Masonry'>Solid Masonry</option>
           <option value='Concrete'>Concrete</option>
@@ -69,7 +81,8 @@ class UMISBuildingData extends React.Component {
           <option value='Mud'>Mud</option>
           <option value='Glass'>Glass</option>
         </Input>
-        <Input ref='roofType' label='Roof Type:' type='select' placeholder=''>
+        <Input ref='roofType' label='Roof Type:' type='select' placeholder=''
+          defaultValue={audit && audit.buildingData ? audit.buildingData.roofType : ''}>
           <option value=''></option>
           <option value='Flat'>Flat</option>
           <option value='Peaked Hard Surface'>Peaked Hard Surface</option>
