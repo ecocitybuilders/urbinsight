@@ -3,21 +3,17 @@ import { Button } from 'react-bootstrap'
 
 class UmisSubmit extends React.Component {
   static propTypes = {
-    nextStep: PropTypes.func,
+    nextSection: PropTypes.func,
     prevSection: PropTypes.func
   };
   constructor () {
     super()
-    this.nextStep = this.nextStep.bind(this)
-    this.previousSection = this.previousSection.bind(this)
+    this.nextSection = this.nextSection.bind(this)
   }
-  nextStep (e) {
+  nextSection (e) {
+    console.log('made it')
     e.preventDefault()
-    this.props.nextStep(e)
-  }
-  previousSection (e) {
-    e.preventDefault()
-    this.props.prevSection()
+    this.props.nextSection()
   }
   render () {
     return (
@@ -35,7 +31,7 @@ class UmisSubmit extends React.Component {
         </Button>
         {/* </Col>*/}
         {/* <Col sm={6}>*/}
-        <Button bsStyle='success' onClick={this.nextStep}>
+        <Button bsStyle='success' onClick={this.nextSection}>
           Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
         </Button>
         {/* </Col>*/}

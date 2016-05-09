@@ -33,6 +33,7 @@ class WaterDemandJunctions extends React.Component {
     newAmount.pop()
     return this.setState({showers: newAmount})
   }
+
   render () {
     let toilets = this.state.toilets.map(function (value) {
       let refString = 'toilets.activeToilets.' + value + '.flushVolume'

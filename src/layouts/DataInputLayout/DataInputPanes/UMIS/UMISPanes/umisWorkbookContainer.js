@@ -16,7 +16,8 @@ class UMISWorkbookContainer extends React.Component {
     1: 'selection',
     2: 'water',
     3: 'materials',
-    4: 'submit'
+    4: 'submit',
+    5: 'complete'
   };
 
   constructor () {
@@ -27,7 +28,8 @@ class UMISWorkbookContainer extends React.Component {
         1: true,
         2: false,
         3: false,
-        4: true
+        4: true,
+        5: true
       }
     }
     this.nextStep = this.nextStep.bind(this)
@@ -96,10 +98,14 @@ class UMISWorkbookContainer extends React.Component {
         return (
           <UMISSubmit
             prevSection={this.prevSection}
-            nextStep={this.nextStep}
+            nextSection={this.nextSection}
             saveValues={this.props.saveValues}
             audit={audit}
           />
+        )
+      case 5:
+        return (
+          <div>successful submit</div>
         )
     }
   }
