@@ -94,9 +94,9 @@ class DashboardQualitative extends React.Component {
       }
     ]
 
-    let questionsList = questions.map(function (question) {
+    let questionsList = questions.map(function (question, index) {
       return (
-        <div>
+        <div key={index}>
           <h4>{question.title}</h4>
           <h5>{question.description}</h5>
         </div>

@@ -112,9 +112,10 @@ class UmisDataForm extends React.Component {
           isFetching={isFetching}
           auditSubmit={auditSubmit}
           saveValues={this.saveValues}
-          audit={audit_form}/>
+          audit={audit_form}
+          map={map}/>
       case 8:
-        return <UMISComplete previousStep={this.previousStep} formReset={this.formReset} />
+        return <UMISComplete previousStep={this.previousStep} formReset={this.formReset}/>
     }
   }
 }

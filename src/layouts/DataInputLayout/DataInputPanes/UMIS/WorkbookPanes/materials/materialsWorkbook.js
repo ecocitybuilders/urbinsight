@@ -1,36 +1,43 @@
 import React, { PropTypes } from 'react'
 import { Button, Input, Col } from 'react-bootstrap'
-import MaterialsOptionA from './OptionA'
-import MaterialsOptionB from './OptionB'
-import MaterialsOptionC from './OptionC'
+import MaterialsWorkbookContainer from './materialsWorkbookContainer'
+
+type Props = {
+  nextSection: PropTypes.func,
+  prevSection: PropTypes.func
+}
 
 class UMISMaterialsWorkbook extends React.Component {
-  static propTypes = {
-    nextSection: PropTypes.func,
-    prevSection: PropTypes.func
-  };
+  props: Props;
   constructor () {
     super()
+    this.state = {
+      optionSelected: 'A'
+    }
     this.nextSection = this.nextSection.bind(this)
+    this.changeHandler = this.changeHandler.bind(this)
   }
   nextSection (e) {
     e.preventDefault()
     this.props.nextSection()
   }
+  changeHandler (value) {
+    this.setState({optionSelected: value})
+  }
   render () {
+    const optionSelected = this.state.optionSelected
     return (
       <div>
         <h3>Materials Workbook</h3>
 
         <h3>Estimate Demand</h3>
-        <Input name='optionSelection' label='Option A:' type='radio' />
-        <Input name='optionSelection' label='Option B:' type='radio' />
-        <Input name='optionSelection' label='Option C:' type='radio' />
-        {/* <div ng-show='optionSelected === 'A''> */}
-
-        <MaterialsOptionA/>
-        <MaterialsOptionB/>
-        <MaterialsOptionC/>
+        <Input name='optionSelection' label='Option A:' type='radio' checked={optionSelected === 'A'}
+          onChange={() => this.changeHandler('A')}/>
+        <Input name='optionSelection' label='Option B:' type='radio' checked={optionSelected === 'B'}
+          onChange={() => this.changeHandler('B')}/>
+        <Input name='optionSelection' label='Option C:' type='radio' checked={optionSelected === 'C'}
+          onChange={() => this.changeHandler('C')}/>
+        <MaterialsWorkbookContainer optionSelected={optionSelected}/>
         <Col sm={6}>
           <Button bsStyle='info' onClick={this.props.prevSection}>
             <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section

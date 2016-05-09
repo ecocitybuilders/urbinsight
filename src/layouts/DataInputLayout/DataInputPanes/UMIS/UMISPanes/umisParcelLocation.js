@@ -150,10 +150,6 @@ class UMISParcelLocation extends React.Component {
     }.bind(this))
   }
   componentWillUnmount () {
-    // I should probably do this once the survey submits
-    // this.props.map.removeLayer('point')
-    // FIX this throws an error saying some readOnly nonsense
-    this.props.map.removeSource('point')
     this.props.map.off('click')
   }
 }

@@ -23,9 +23,9 @@ class DashboardProjects extends React.Component {
         image: 'http://www.pps.org/images/stories/Rippowam1.jpg'
       }
     ]
-    let projectList = projects.map(function (project) {
+    let projectList = projects.map(function (project, index) {
       return (
-        <div>
+        <div key={index}>
           <Col md={3}>
             <img style={{width: '100%'}} src={project.image} />
           </Col>

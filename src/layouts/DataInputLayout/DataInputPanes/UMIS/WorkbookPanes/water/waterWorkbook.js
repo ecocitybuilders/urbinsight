@@ -18,28 +18,77 @@ let landCoverDataGenerator = function (obj) {
   }
   return returnObj
 }
+let toiletDataGenerator = function (obj, state) {
+  let returnArr = []
+  for (var i = 1; i <= state.toilets.length; i++) {
+    let refString = 'toilets.activeToilets.' + i + '.flushVolume'
+    returnArr.push({ id: i, flushVolume: obj[refString].getValue() })
+  }
+  return returnArr
+}
+let showerDataGenerator = function (obj, state) {
+  let returnArr = []
+  for (var i = 1; i <= state.showers.length; i++) {
+    let refString = 'showers.activeShowers.' + i + '.flowVolume'
+    returnArr.push({ id: i, flowVolume: obj[refString].getValue() })
+  }
+  return returnArr
+}
+
 class UMISWaterWorkbook extends React.Component {
   props: Props;
   constructor () {
     super()
+    this.state = {
+      toilets: [1],
+      showers: [1]
+    }
     this.nextSection = this.nextSection.bind(this)
+    this.addToilet = this.addToilet.bind(this)
+    this.addShower = this.addShower.bind(this)
+    this.removeToilet = this.removeToilet.bind(this)
+    this.removeShower = this.removeShower.bind(this)
   }
+  addToilet () {
+    let newAmount = this.state.toilets
+    newAmount.push(newAmount.length + 1)
+    return this.setState({toilets: newAmount})
+  }
+  removeToilet () {
+    let newAmount = this.state.toilets
+    newAmount.pop()
+    return this.setState({toilets: newAmount})
+  }
+  addShower () {
+    let newAmount = this.state.showers
+    newAmount.push(newAmount.length + 1)
+    return this.setState({showers: newAmount})
+  }
+  removeShower () {
+    let newAmount = this.state.showers
+    newAmount.pop()
+    return this.setState({showers: newAmount})
+  }
+
   nextSection (e) {
     e.preventDefault()
     let landCoverObj = landCoverDataGenerator(this.refs.landCoverPreCalc.refs)
     let demandObj = this.refs.demandJunctions.refs
+    let toiletArr = toiletDataGenerator(demandObj, this.state)
+    let showerArr = showerDataGenerator(demandObj, this.state)
     // write a data generation function that checks for the refs presence and then will update the datastore
+
     let data = {
       water: {
         landCoverPreCalc: landCoverObj,
         demandJunctions: {
           toilets: {
-            activeToilets: [{}],
+            activeToilets: toiletArr,
             numPersonsUsingToilets: demandObj['toilets.numPersonsUsingToilets'].getValue(),
             dailyPerPersonUsage: demandObj['toilets.dailyPerPersonUsage'].getValue()
           },
           hygiene: {
-            activeShowers: [{}],
+            activeShowers: showerArr,
             typicalShowerDuration: demandObj['hygiene.typicalShowerDuration'].getValue(),
             weeklyShowersPerPerson: demandObj['hygiene.weeklyShowersPerPerson'].getValue(),
             bathVolume: demandObj['hygiene.bathVolume'].getValue(),
@@ -96,11 +145,16 @@ class UMISWaterWorkbook extends React.Component {
     this.props.nextSection()
   }
   render () {
+    const { toilets, showers } = this.state
     return (
       <div>
         <h3>Water Workbook</h3>
         <LandcoverPreCalc ref='landCoverPreCalc'/>
-        <WaterDemandJunctions ref='demandJunctions'/>
+        <WaterDemandJunctions ref='demandJunctions' toilets={toilets} showers={showers}
+          addShower={this.addShower}
+          removeShower={this.removeShower}
+          addToilet={this.addToilet}
+          removeToilet={this.removeToilet}/>
         <Col sm={6}>
           <Button bsStyle='info' onClick={this.props.prevSection}>
             <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section

@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap'
 
 class UmisComplete extends React.Component {
   static propTypes = {
-    formReset: PropTypes.func
+    formReset: PropTypes.func,
+    map: PropTypes.object
   };
   render () {
     return (

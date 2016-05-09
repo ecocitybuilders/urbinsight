@@ -10,6 +10,7 @@ type Props = {
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
   audit: PropTypes.obj,
+  map: PropTypes.obj
 }
 class UMISWorkbookContainer extends React.Component {
   props: Props;
@@ -48,7 +49,6 @@ class UMISWorkbookContainer extends React.Component {
   }
   nextStep (e) {
     // e.preventDefault()
-    console.log('workbook container next step')
     this.props.nextStep()
   }
   nextSection () {
@@ -70,7 +70,7 @@ class UMISWorkbookContainer extends React.Component {
     })
   }
   render () {
-    const { audit } = this.props
+    const { audit, map } = this.props
     const workbookToggle = this.state.workbookToggle
     switch (this.state.active) {
       case 1:
@@ -111,6 +111,7 @@ class UMISWorkbookContainer extends React.Component {
         return (
           <UMISSuccess
             nextStep={this.nextStep}
+            map={map}
           />
         )
     }
