@@ -11,7 +11,6 @@ class UmisSubmit extends React.Component {
     this.nextSection = this.nextSection.bind(this)
   }
   nextSection (e) {
-    console.log('made it')
     e.preventDefault()
     this.props.nextSection()
   }

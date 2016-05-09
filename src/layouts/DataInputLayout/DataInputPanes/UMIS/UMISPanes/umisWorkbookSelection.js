@@ -19,8 +19,11 @@ class UMISWorkbookSelection extends React.Component {
     e.preventDefault()
     this.props.nextSection()
   }
+  // Do this to get rid of the warning
+  // handleClick () {
+  //
+  // }
   render () {
-    console.log(this.state)
     return (
       <div>
         <h3>Select which workbooks you would like to complete</h3>

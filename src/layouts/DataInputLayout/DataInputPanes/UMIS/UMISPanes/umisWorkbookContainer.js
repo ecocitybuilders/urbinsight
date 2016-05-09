@@ -3,12 +3,13 @@ import UMISWorkbookSelection from 'layouts/DataInputLayout/DataInputPanes/UMIS/U
 import UMISWaterWorkbook from 'layouts/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/water/waterWorkbook'
 import UMISMaterialsWorkbook from 'layouts/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
 import UMISSubmit from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSubmit'
+import UMISSuccess from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSuccess'
 
 type Props = {
   saveValues: PropTypes.func,
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
-  audit: PropTypes.obj
+  audit: PropTypes.obj,
 }
 class UMISWorkbookContainer extends React.Component {
   props: Props;
@@ -46,8 +47,9 @@ class UMISWorkbookContainer extends React.Component {
     })
   }
   nextStep (e) {
-    e.preventDefault()
-    this.props.nextStep(e)
+    // e.preventDefault()
+    console.log('workbook container next step')
+    this.props.nextStep()
   }
   nextSection () {
     let active = this.state.active + 1
@@ -69,6 +71,7 @@ class UMISWorkbookContainer extends React.Component {
   }
   render () {
     const { audit } = this.props
+    const workbookToggle = this.state.workbookToggle
     switch (this.state.active) {
       case 1:
         return (
@@ -76,7 +79,7 @@ class UMISWorkbookContainer extends React.Component {
             previousStep={this.props.previousStep}
             selectionHandler={this.selectionHandler}
             nextSection={this.nextSection}
-            workbookToggle={this.state.workbookToggle} />)
+            workbookToggle={workbookToggle} />)
       case 2:
         return (
           <UMISWaterWorkbook
@@ -106,7 +109,9 @@ class UMISWorkbookContainer extends React.Component {
         )
       case 5:
         return (
-          <div>successful submit</div>
+          <UMISSuccess
+            nextStep={this.nextStep}
+          />
         )
     }
   }
