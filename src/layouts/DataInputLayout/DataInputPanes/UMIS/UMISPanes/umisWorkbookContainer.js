@@ -75,7 +75,8 @@ class UMISWorkbookContainer extends React.Component {
           <UMISWorkbookSelection
             previousStep={this.props.previousStep}
             selectionHandler={this.selectionHandler}
-            nextSection={this.nextSection} />)
+            nextSection={this.nextSection}
+            workbookToggle={this.state.workbookToggle} />)
       case 2:
         return (
           <UMISWaterWorkbook

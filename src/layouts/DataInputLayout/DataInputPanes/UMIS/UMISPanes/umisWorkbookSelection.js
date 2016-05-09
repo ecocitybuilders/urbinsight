@@ -5,7 +5,8 @@ class UMISWorkbookSelection extends React.Component {
   static propTypes = {
     previousStep: PropTypes.func,
     selectionHandler: PropTypes.func,
-    nextSection: PropTypes.func
+    nextSection: PropTypes.func,
+    workbookToggle: PropTypes.obj
   };
   constructor () {
     super()
@@ -19,12 +20,15 @@ class UMISWorkbookSelection extends React.Component {
     this.props.nextSection()
   }
   render () {
+    console.log(this.state)
     return (
       <div>
         <h3>Select which workbooks you would like to complete</h3>
         {/* ng-model='workbookSelection.selectedWorkbooks.water' ng-change='workbookSelection.workbookGenerator()'*/}
-        <Input label='Water' type='checkbox' onClick={() => this.selectionHandler(2)}/>
-        <Input label='Materials' type='checkbox' onClick={() => this.selectionHandler(3)}/>
+        <Input label='Water' type='checkbox' onClick={() => this.selectionHandler(2)}
+          checked={this.props.workbookToggle[2]}/>
+        <Input label='Materials' type='checkbox' onClick={() => this.selectionHandler(3)}
+          checked={this.props.workbookToggle[3]}/>
         <Input label='Energy' type='checkbox' disabled='true'/>
         <Input label='Mobility' type='checkbox' disabled='true'/>
         <br />
