@@ -13,11 +13,11 @@ class MaterialsWorkbookContainer extends React.Component {
     const { optionSelected } = this.props
     switch (optionSelected) {
       case 'A':
-        return (<MaterialsOptionA/>)
+        return (<MaterialsOptionA ref='A'/>)
       case 'B':
-        return (<MaterialsOptionB/>)
+        return (<MaterialsOptionB ref='B'/>)
       case 'C':
-        return (<MaterialsOptionC/>)
+        return (<MaterialsOptionC ref='C'/>)
     }
   }
 }

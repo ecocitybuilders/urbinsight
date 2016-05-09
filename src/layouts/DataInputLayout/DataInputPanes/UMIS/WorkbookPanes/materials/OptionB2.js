@@ -2,6 +2,15 @@ import React from 'react'
 import { Input } from 'react-bootstrap'
 
 class MaterialsOptionB extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      units: 'KG'
+    }
+  }
+  changeHandler (value) {
+    this.setState({ units: value })
+  }
   render () {
     return (
       <div>
@@ -17,42 +26,42 @@ class MaterialsOptionB extends React.Component {
             <tr>
               <td><label htmlFor='usedPaper'>Used Paper</label></td>
               <td><Input type='number' ref='usedPaper' id='usedPaper' /></td>
-              <td>Full toilet paper roll</td>
+              <td>Full toilet paper roll (0.2 kg)</td>
             </tr>
             <tr>
               <td><label htmlFor='officeSupplies'>Office Supplies</label></td>
               <td><Input type='number' ref='officeSupplies' id='officeSupplies' /></td>
-              <td>Yellow Legal Pad</td>
+              <td>Yellow Legal Pad (0.2 kg)</td>
             </tr>
             <tr>
               <td><label htmlFor='phonebook'>Phonebook</label></td>
               <td><Input type='number' ref='phonebook' id='phonebook' /></td>
-              <td>Phonebook</td>
+              <td>Phonebook (1.8 kg)</td>
             </tr>
             <tr>
               <td><label htmlFor='newsprint'>Newsprint</label></td>
               <td><Input type='number' ref='newsprint' id='newsprint' /></td>
-              <td>Newspaper</td>
+              <td>Newspaper (0.6 kg/cubic dm)</td>
             </tr>
             <tr>
               <td><label htmlFor='computerPaper'>Computer Paper</label></td>
               <td><Input type='number' ref='computerPaper' id='computerPaper' /></td>
-              <td>Computer Paper</td>
+              <td>Computer Paper (0.4 kg/cubic dm)</td>
             </tr>
             <tr>
               <td><label htmlFor='corrugatedCardboard'>Corrugated Cardboard</label></td>
               <td><Input type='number' ref='corrugatedCardboard' id='corrugatedCardboard' /></td>
-              <td>Cardboard flattend, Loose</td>
+              <td>Cardboard flattend, Loose (0.03 kg/cubic dm)</td>
             </tr>
             <tr>
               <td><label htmlFor='mixedWastePaper'>Mixed Waste Paper</label></td>
               <td><Input type='number' ref='mixedWastePaper' id='mixedWastePaper' /></td>
-              <td>Mixed paper, Loose</td>
+              <td>Mixed paper, Loose (0.2 kg/cubic dm)</td>
             </tr>
             <tr>
               <td><label htmlFor='nonRecyclablePaper'>Non-recyclable Paper</label></td>
               <td><Input type='number' ref='nonRecyclablePaper' id='nonRecyclablePaper' /></td>
-              <td>Magazine, Loose</td>
+              <td>Magazine, Loose (0.6 kg/cubic dm)</td>
             </tr>
           </tbody>
         </table>
@@ -67,186 +76,208 @@ class MaterialsOptionB extends React.Component {
             <tr>
               <td><label htmlFor='starches'>Starches</label></td>
               <td><Input type='number' ref='starches' id='starches' /></td>
-              <td>Break, Bulk</td>
+              <td>Break, Bulk (0.3 kg/cubic dm)</td>
             </tr>
             <tr>
-              <td><label htmlFor='proteins'>Proteins</label></td>
-              <td><Input type='number' ref='proteins' id='proteins' /></td>
-              <td>
-                Fish, Scraps<br/>
-                Meat, Ground<br/>
-                Oyster Shells, Whole<br/>
-              </td>
-            </tr>
-
-            <tr>
-              <td><label htmlFor='dairy'>Dairy</label></td>
-              <td><Input type='number' ref='dairy' id='dairy' /></td>
-              <td>
-                Milk<br/>
-                Cheese<br/>
-                Butter<br/>
-              </td>
+              <td><label htmlFor='fish'>Proteins - Fish</label></td>
+              <td><Input type='number' ref='proteins.fish' id='fish' /></td>
+              <td>Fish, Scraps (0.7 kg/cubic dm)</td>
             </tr>
             <tr>
-              <td><label htmlFor='fats'>Fats</label></td>
-              <td><Input type='number' ref='fats' id='fats' /></td>
-              <td>
-                Solid Fat<br/>
-                Oil, Cooking<br/>
-              </td>
+              <td><label htmlFor='meat'>Proteins - Meat</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.proteins.meat' id='meat' /></td>
+              <td>Meat, Ground (0.8 kg/cubic dm)</td>
             </tr>
             <tr>
-              <td><label htmlFor='produce'>Produce</label></td>
-              <td><Input type='number' ref='produce' id='produce' /></td>
-              <td>
-                Produce waste, mixed<br/>
-                Food waste, as animal feed<br/>
-              </td>
+              <td><label htmlFor='shells'>Proteins - Oyster Shells</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.proteins.shells' id='shells' /></td>
+              <td>Oyster Shells, Whole (1.2 kg/cubic dm)</td>
             </tr>
             <tr>
-              <td><label htmlFor='otherOrganic'>Produce</label></td>
-              <td><Input type='number' ref='otherOrganic' id='otherOrganic' /></td>
-              <td>
-                Food waste, as animal feed<br/>
-              </td>
+              <td><label htmlFor='milk'>Dairy - Milk</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.dairy.milk' id='milk' /></td>
+              <td>Milk (1.0 kg/cubic dm)</td>
+            </tr>
+            <tr>
+              <td><label htmlFor='cheese'>Dairy - Cheese</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.dairy.cheese' id='cheese' /></td>
+              <td>Cheese (0.5 kg/cubic dm)</td>
+            </tr>
+            <tr>
+              <td><label htmlFor='butter'>Dairy - Butter</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.dairy.butter' id='butter' /></td>
+              <td>Butter (1.0 kg/cubic dm)</td>
+            </tr>
+            <tr>
+              <td><label htmlFor='solidFat'>Fats - Solid Fat</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.fats.solidFat' id='solidFat' /></td>
+              <td>Solid Fat (0.4 kg/cubic dm)</td>
+            </tr>
+            <tr>
+              <td><label htmlFor='oil'>Fats - Oil, Cooking</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.fats.cookingOil' id='oil' /></td>
+              <td>Oil, Cooking (0.9 kg/cubic dm)</td>
+            </tr>
+            <tr>
+              <td><label htmlFor='produceWaste'>Produce - Produce Waste</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.produce.produceWaste' id='produceWaste' /></td>
+              <td>Produce waste, mixed (0.9 kg/cubic dm)</td>
+            </tr>
+            <tr>
+              <td><label htmlFor='foodWaste'>Other - Food Waste</label></td>
+              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.organics.other.foodWaste' id='foodWaste' /></td>
+              <td>Food waste, as animal feed (0.6 kg/cubic dm)</td>
             </tr>
           </tbody>
         </table>
         <br/>
+        <label>Kilograms:<Input name='plasticUnits' type='radio'  value='KG' /></label>
+        <label>Percentage:<Input name='plasticUnits' type='radio' value='%' /></label>
         <table>
           <tbody>
-            <tr>
-              <th>Plastics</th>
-              <th>Amount</th>
-              <th>Types</th>
-            </tr>
-            <tr>
-              <td><label htmlFor='bottles'>Bottles</label></td>
-              <td><Input type='number' ref='bottles' id='bottles' /></td>
-              <td>
-                PETE large bottles<br/>
-                PETE small bottles<br/>
-                HDPE bottles, unpigmented<br/>
-                HDPE bottles, pigmented<br/>
-              </td>
-            </tr>
-            <tr>
-              <td><label htmlFor='film'>Film</label></td>
-              <td><Input type='number' ref='film' id='film' /></td>
-              <td>
-                HDPE beverage case<br/>
-                HDPE bread case<br/>
-                HDPE gallon container<br/>
-              </td>
-            </tr>
-            <tr>
-              <td><label htmlFor='bags'>Bags</label></td>
-              <td><Input type='number' ref='bags' id='bags' /></td>
-              <td>
-                Plastic bags (small)<br/>
-                Garbage bags (large)<br/>
-              </td>
-            </tr>
-            <tr>
-              <td><label htmlFor='packaging'>Packaging</label></td>
-              <td><Input type='number' ref='packaging' id='packaging'/></td>
-              <td>
-                Styrofoam kernels<br/>
-                Polystyrene foam<br/>
-                PET uncompacted<br/>
-              </td>
-            </tr>
-            <tr>
-              <td><label htmlFor='otherPlastics'>Other Plastics</label></td>
-              <td><Input type='number' ref='otherPlastics' id='otherPlastics' /></td>
-              <td>Other plastics</td>
-            </tr>
-          </tbody>
+          <tr>
+            <th>Plastics</th>
+            <th>Amount</th>
+            <th>Types</th>
+          </tr>
+          <tr>
+            <td><label htmlFor='largeBottles'>Bottles - PETE large bottles</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.bottles.largeBottles' id='largeBottles' /></td>
+            <td>PETE large bottles (0.05 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='smallBottles'>Bottles - PETE small bottles</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.bottles.smallBottles' id='smallBottles' /></td>
+            <td>PETE small bottles (0.02 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='unpigmented'>Bottles - HDPE bottles, unpigmented</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.bottles.unpigmented' id='unpigmented' /></td>
+            <td>HDPE bottles, unpigmented (0.02 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='pigmented'>Bottles - HDPE bottles, pigmented</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.bottles.pigmented' id='pigmented' /></td>
+            <td>HDPE bottles, pigmented (0.03 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='beverageCase'>Plastic Film - HDPE beverage case</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.film.beverageCase' id='beverageCase' /></td>
+            <td>HDPE beverage case (0.54 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='breadCase'>Plastic Film - HDPE bread case</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.film.breadCase' id='breadCase' /></td>
+            <td>HDPE bread case (0.68 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='gallonContainer'>Plastic Film - HDPE gallon container</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.film.gallonContainer' id='gallonContainer' /></td>
+            <td>HDPE gallon container (0.03 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='bags'>Bags - Plastic bags</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.bags.amount' id='bagsSmall' /></td>
+            <td>Plastic bags (0.01 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='styrofoam'>Packaging - Styrofoam Kernels</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.packaging.styrofoamKernels' id='styrofoam' /></td>
+            <td>Styrofoam kernels (0.004 kg/cubic dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='polystyrene'>Packaging - Polystyrene foam</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.packaging.polystyreneFoam' id='polystyrene' /></td>
+            <td>Polystyrene foam (0.01 kg/cubic dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='pet'>Packaging - PET uncompacted</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.packaging.petUncompacted' id='pet' /></td>
+            <td>PET uncompacted (0.02 kg/cubic dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='otherPlastics'>Other plastics</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.plastics.other.amount' id='otherPlastics' /></td>
+            <td>Other plastics</td>
+          </tr>
+        </tbody>
         </table>
         <br/>
+        <label>Kilograms:<Input name='textileUnits' type='radio'  value='KG' /></label>
+        <label>Percentage:<Input name='textileUnits' type='radio' value='%' /></label>
         <table>
           <tbody>
-            <tr>
-              <th>Textiles</th>
-              <th>Amount</th>
-              <th>Types</th>
-            </tr>
-            <tr>
-              <td>Clothes</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='sweaters'>Wool Sweaters</label></td>
-              <td><Input type='number' ref='sweaters' id='sweaters' /></td>
-              <td>Wool Sweaters</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='shirts'>Shirts</label></td>
-              <td><Input type='number' ref='shirts' id='shirts' /></td>
-              <td>Shirts</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='pants'>Pants</label></td>
-              <td><Input type='number' ref='pants' id='pants' /></td>
-              <td>Pants</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='socks'>Socks</label></td>
-              <td><Input type='number' ref='socks' id='socks' /></td>
-              <td>Socks</td>
-            </tr>
-            <tr>
-              <td>Shoes</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='leatherShoes'>Leather Pair</label></td>
-              <td><Input type='number' ref='leatherShoes' id='leatherShoes' /></td>
-              <td>Leather pair</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='canvasShoes'>Canvas Pair</label></td>
-              <td><Input type='number' ref='canvasShoes' id='canvasShoes' /></td>
-              <td>Canvas pair</td>
-            </tr>
-            <tr>
-              <td>Linens</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='towels'>Linens - Bath Towels</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.linens.towels' id='towels' /></td>
-              <td>Bath Towelskg)</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='sheets'>Linens - Sheets</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.linens.sheets' id='sheets' /></td>
-              <td>Sheets (1.9 kg)</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='tablecloths'>Large Textiles - Tablecloths</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.largeTextiles.tablecloths' id='tablecloths' /></td>
-              <td>Tablecloths (0.002 kg/sq dm)</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='carpet'>Large Textiles - Carpet</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.largeTextiles.carpet' id='carpet' /></td>
-              <td>Carpet (0.02 kg/sq dm)</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='canvas'>Large Textiles - Canvas</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.largeTextiles.canvas' id='canvas' /></td>
-              <td>Canvas (0.005 kg/sq dm)</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='looseClothing'>Mixed Clothing - Clothing, mixed loose</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.mixedClothing.looseClothing' id='looseClothing' /></td>
-              <td>Clothing, mixed loose (0.1 kg/cubic dm)</td>
-            </tr>
-            <tr>
-              <td><label htmlFor='compactClothing'>Mixed Clothing - Clothing, mixed compacted</label></td>
-              <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.mixedClothing.compactClothing' id='compactClothing' /></td>
-              <td>Clothing, mixed compacted(0.1 kg/cubic dm)</td>
-            </tr>
-          </tbody>
+          <tr>
+            <th>Textiles</th>
+            <th>Amount</th>
+            <th>Types</th>
+          </tr>
+          <tr>
+            <td><label htmlFor='sweaters'>Clothes - Wool Sweaters</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.clothes.sweaters' id='sweaters' /></td>
+            <td>Wool Sweaters (0.5 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='shirts'>Clothes - Shirts</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.clothes.shirts' id='shirts' /></td>
+            <td>Shirts (0.2 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='pants'>Clothes - Pants</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.clothes.pants' id='pants' /></td>
+            <td>Pants (0.6 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='socks'>Clothes - Socks</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.clothes.socks' id='socks' /></td>
+            <td>Socks (0.1 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='leatherShoes'>Shoes - Leather pair</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.shoes.leather' id='leatherShoes' /></td>
+            <td>Leather pair (0.9 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='canvasShoes'>Shoes - Canvas pair</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.shoes.canvas' id='canvasShoes' /></td>
+            <td>Canvas pair (0.8 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='towels'>Linens - Bath Towels</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.linens.towels' id='towels' /></td>
+            <td>Bath Towels (3.7 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='sheets'>Linens - Sheets</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.linens.sheets' id='sheets' /></td>
+            <td>Sheets (1.9 kg)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='tablecloths'>Large Textiles - Tablecloths</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.largeTextiles.tablecloths' id='tablecloths' /></td>
+            <td>Tablecloths (0.002 kg/sq dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='carpet'>Large Textiles - Carpet</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.largeTextiles.carpet' id='carpet' /></td>
+            <td>Carpet (0.02 kg/sq dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='canvas'>Large Textiles - Canvas</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.largeTextiles.canvas' id='canvas' /></td>
+            <td>Canvas (0.005 kg/sq dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='looseClothing'>Mixed Clothing - Clothing, mixed loose</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.mixedClothing.looseClothing' id='looseClothing' /></td>
+            <td>Clothing, mixed loose (0.1 kg/cubic dm)</td>
+          </tr>
+          <tr>
+            <td><label htmlFor='compactClothing'>Mixed Clothing - Clothing, mixed compacted</label></td>
+            <td><Input type='number' ng-model='parcel.workbooks.materials.estimateDemand.optionB.demandJunctions.textiles.mixedClothing.compactClothing' id='compactClothing' /></td>
+            <td>Clothing, mixed compacted(0.1 kg/cubic dm)</td>
+          </tr>
+        </tbody>
         </table>
         <br/>
         <label>Kilograms:<Input name='metalsUnits' type='radio'  value='KG' /></label>
