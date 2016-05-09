@@ -8,6 +8,16 @@ type Props = {
   prevSection: PropTypes.func,
   saveValues: PropTypes.func
 }
+
+let landCoverDataGenerator = function (obj) {
+  let returnObj = {}
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      returnObj[key] = obj[key].getValue()
+    }
+  }
+  return returnObj
+}
 class UMISWaterWorkbook extends React.Component {
   props: Props;
   constructor () {
@@ -16,68 +26,68 @@ class UMISWaterWorkbook extends React.Component {
   }
   nextSection (e) {
     e.preventDefault()
+    let landCoverObj = landCoverDataGenerator(this.refs.landCoverPreCalc.refs)
+    let demandObj = this.refs.demandJunctions.refs
     // write a data generation function that checks for the refs presence and then will update the datastore
     let data = {
       water: {
-        landCoverPreCalc: {
-
-        },
+        landCoverPreCalc: landCoverObj,
         demandJunctions: {
           toilets: {
             activeToilets: [{}],
-            numPersonsUsingToilets: 'number',
-            dailyPerPersonUsage: ''
+            numPersonsUsingToilets: demandObj['toilets.numPersonsUsingToilets'].getValue(),
+            dailyPerPersonUsage: demandObj['toilets.dailyPerPersonUsage'].getValue()
           },
           hygiene: {
             activeShowers: [{}],
-            typicalShowerDuration: '',
-            weeklyShowersPerPerson: '',
-            bathVolume: '',
-            bathsPerWeek: '',
-            minutesOfTapFlowPerVisit: '',
-            ablutionDuration: '',
-            numOccupantsUsingWashrooms: '',
-            numVisitsToWashroomPerOccupant: ''
+            typicalShowerDuration: demandObj['hygiene.typicalShowerDuration'].getValue(),
+            weeklyShowersPerPerson: demandObj['hygiene.weeklyShowersPerPerson'].getValue(),
+            bathVolume: demandObj['hygiene.bathVolume'].getValue(),
+            bathsPerWeek: demandObj['hygiene.bathsPerWeek'].getValue(),
+            minutesOfTapFlowPerVisit: demandObj['hygiene.minutesOfTapFlowPerVisit'].getValue(),
+            ablutionDuration: demandObj['hygiene.ablutionDuration'].getValue(),
+            numOccupantsUsingWashrooms: demandObj['hygiene.numOccupantsUsingWashrooms'].getValue(),
+            numVisitsToWashroomPerOccupant: demandObj['hygiene.numVisitsToWashroomPerOccupant'].getValue()
           },
           kitchen: {
-            quantityOfMealsPerDay: '',
-            waterUsedPerMeal: '',
-            dishwashingWaterPerLoad: '',
-            loadsOfDishesPerDay: '',
-            waterConsumptionPerMeal: ''
+            quantityOfMealsPerDay: demandObj['kitchen.quantityOfMealsPerDay'].getValue(),
+            waterUsedPerMeal: demandObj['kitchen.waterUsedPerMeal'].getValue(),
+            dishwashingWaterPerLoad: demandObj['kitchen.dishwashingWaterPerLoad'].getValue(),
+            loadsOfDishesPerDay: demandObj['kitchen.loadsOfDishesPerDay'].getValue(),
+            waterConsumptionPerMeal: demandObj['kitchen.waterConsumptionPerMeal'].getValue()
           },
           laundry: {
-            personsUsingLaundry: '',
-            loadsPerWeekPerPerson: '',
-            waterConsumptionPerLoad: ''
+            personsUsingLaundry: demandObj['laundry.personsUsingLaundry'].getValue(),
+            loadsPerWeekPerPerson: demandObj['laundry.loadsPerWeekPerPerson'].getValue(),
+            waterConsumptionPerLoad: demandObj['laundry.waterConsumptionPerLoad'].getValue()
           },
           drinking: {
-            personsDrinkingWaterOnSite: '',
-            avgQuantityOfDrink: '',
-            avgDrinksPerDayPerPerson: ''
+            personsDrinkingWaterOnSite: demandObj['drinking.personsDrinkingWaterOnSite'].getValue(),
+            avgQuantityOfDrink: demandObj['drinking.avgQuantityOfDrink'].getValue(),
+            avgDrinksPerDayPerPerson: demandObj['drinking.avgDrinksPerDayPerPerson'].getValue()
           },
           landscape: {
             irrigation: {
-              hoursPerWeek: ''
+              hoursPerWeek: demandObj['landscape.irrigation.hoursPerWeek'].getValue()
             },
             potsPools: {
-              litersPerLocation: '',
-              numPlantsPools: ''
+              litersPerLocation: demandObj['landscape.potsPools.litersPerLocation'].getValue(),
+              numPlantsPools: demandObj['landscape.potsPools.numPlantsPools'].getValue()
             }
           },
           surfaceCleaning: {
-            freqOfInteriorSurfaceCleaning: '',
-            quantityOfWaterUsedForSC: '',
-            numTimesVehicleCleaned: '',
-            quantityOfWaterUsedForVC: ''
+            freqOfInteriorSurfaceCleaning: demandObj['surfaceCleaning.freqOfInteriorSurfaceCleaning'].getValue(),
+            quantityOfWaterUsedForSC: demandObj['surfaceCleaning.quantityOfWaterUsedForSC'].getValue(),
+            numTimesVehicleCleaned: demandObj['surfaceCleaning.numTimesVehicleCleaned'].getValue(),
+            quantityOfWaterUsedForVC: demandObj['surfaceCleaning.quantityOfWaterUsedForVC'].getValue()
           },
           evaporativeCooling: {
-            hoursPerDayDuringHotSeason: '',
-            litersConsumedPerHour: ''
+            hoursPerDayDuringHotSeason: demandObj['evaporativeCooling.hoursPerDayDuringHotSeason'].getValue(),
+            litersConsumedPerHour: demandObj['evaporativeCooling.litersConsumedPerHour'].getValue()
           },
           waterCustomers: {
-            excessCapacityPerDay: '',
-            percentageOfExcessDistributed: ''
+            excessCapacityPerDay: demandObj['waterCustomers.excessCapacityPerDay'].getValue(),
+            percentageOfExcessDistributed: demandObj['waterCustomers.percentageOfExcessDistributed'].getValue()
           }
         }
       }

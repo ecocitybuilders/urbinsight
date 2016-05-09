@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input } from 'react-bootstrap'
+import { Input, Button } from 'react-bootstrap'
 
 class WaterDemandJunctions extends React.Component {
   render () {
@@ -8,7 +8,8 @@ class WaterDemandJunctions extends React.Component {
         <h4>Demand Junctions</h4>
           {/* Add functionaility to add a toilet*/}
         <h5>Toilets - Flush Volume</h5>
-        <Input label='Flush Volume:' type='number' ref='toilets.activeToilets.regUsedToiletA.flushVolume'/><br />
+        <Button><span className='glyphicon glyphicon-plus'></span></Button>
+        <Input label='Flush Volume:' type='number' ref='toilets.activeToilets.flushVolume'/><br />
         <Input label='Number of Persons Using Toilets:' type='number' ref='toilets.numPersonsUsingToilets'/><br />
         <Input label='Daily Usage Per Person:' type='number' ref='toilets.dailyPerPersonUsage'/><br />
         {/* <!-- Add functionality to add a shower -->*/}
