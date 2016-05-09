@@ -7,7 +7,136 @@ type Props = {
   prevSection: PropTypes.func,
   saveValues: PropTypes.func
 }
+let materialsWorkbookCalculator = function (refObj, state) {
+  let obj
+  switch (state.optionSelected) {
+    case 'A':
+    // Percentages
+      obj = refObj['A'].refs
+      return {
+        totalWeight: obj.totalWeight.getValue(),
+        paper: obj.paper.getValue(),
+        organics: obj.organics.getValue(),
+        plastics: obj.plastics.getValue(),
+        textiles: obj.textiles.getValue(),
+        metal: obj.metal.getValue(),
+        glass: obj.glass.getValue(),
+        trimmings: obj.trimmings.getValue(),
+        appliances: obj.appliances.getValue(),
+        hazardousWaste: obj.hazardousWaste.getValue(),
+        inertsAndOthers: obj.inertsAndOthers.getValue()
+      }
+    case 'B':
+    // Percentages
+      obj = refObj['B'].refs
+      return {
+        totalWeight: obj.totalWeight.getValue(),
+        paper: {
+          usedPaper: obj.usedPaper.getValue(),
+          officeSupplies: obj.officeSupplies.getValue(),
+          phonebook: obj.phonebook.getValue(),
+          newsprint: obj.newsprint.getValue(),
+          computerPaper: obj.computerPaper.getValue(),
+          corrugatedCardboard: obj.corrugatedCardboard.getValue(),
+          mixedWastePaper: obj.mixedWastePaper.getValue(),
+          nonRecyclablePaper: obj.nonRecyclablePaper.getValue()
+        },
+        organics: {
+          starches: obj.starches.getValue(),
+          proteins: obj.proteins.getValue(),
+          dairy: obj.dairy.getValue(),
+          fats: obj.fats.getValue(),
+          produce: obj.produce.getValue(),
+          other: obj.otherOrganic.getValue()
+        },
+        plastics: {
+          bottles: obj.bottles.getValue(),
+          film: obj.film.getValue(),
+          bags: obj.bags.getValue(),
+          packaging: obj.packaging.getValue(),
+          other: obj.otherPlastics.getValue()
+        },
+        textiles: {
+          clothes: {
+            sweaters: obj.sweaters.getValue(),
+            shirts: obj.shirts.getValue(),
+            pants: obj.pants.getValue(),
+            socks: obj.socks.getValue()
+          },
+          shoes: {
+            leatherShoes: obj.leatherShoes.getValue(),
+            canvasShoes: obj.canvasShoes.getValue()
+          },
+          linens: {
+            towels: obj.towels.getValue(),
+            sheets: obj.sheets.getValue()
+          },
+          largeTextiles: {
+            tablecloths: obj.tablecloths.getValue(),
+            carpet: obj.carpet.getValue(),
+            canvas: obj.canvas.getValue()
+          },
+          mixedClothing: {
+            looseClothing: obj.looseClothing.getValue(),
+            compactClothing: obj.compactClothing.getValue()
+          }
+        },
+        metals: {
+          steelCans: obj.steelCans.getValue(),
+          ferrousCans: obj.ferrousCans.getValue(),
+          petFood: obj.petFood.getValue(),
+          aluminumCans: obj.aluminumCans.getValue(),
+          oilFilters: obj.oilFilters.getValue(),
+          radiator: obj.radiator.getValue(),
+          aluminumFoil: obj.aluminumFoil.getValue(),
+          compositeMetal: obj.compositeMetal.getValue()
+        },
+        glass: {
+          bottles: obj.bottles.getValue(),
+          windows: obj.windows.getValue(),
+          mixedGlass: obj.mixedGlass.getValue()
+        },
+        trimmings: {
+          yardTrimming: obj.yardTrimming.getValue(),
+          grassClipping: obj.grassClipping.getValue(),
+          leaves: obj.leaves.getValue(),
+          largeLimbs: obj.largeLimbs.getValue(),
+          dryPrunings: obj.dryPrunings.getValue(),
+          greenPrunings: obj.greenPrunings.getValue(),
+          baledStraw: obj.baledStraw.getValue(),
+          looseStraw: obj.looseStraw.getValue(),
+          compost: obj.compost.getValue()
+        },
+        appliances: {
+          majorAppliances: obj.majorAppliances.getValue(),
+          lights: obj.lights.getValue(),
+          otherAppliances: obj.otherAppliances.getValue()
+        },
+        hazardousWaste: {
+          paints: obj.paints.getValue(),
+          antifreeze: obj.antifreeze.getValue(),
+          usedMotorOil: obj.usedMotorOil.getValue(),
+          motorVehicleBatteries: obj.motorVehicleBatteries.getValue(),
+          tires: obj.tires.getValue()
+        },
+        inertsAndOthers: {
+          concrete: obj.concrete.getValue(),
+          asphaltPaving: obj.asphaltPaving.getValue(),
+          asphaltRoofing: obj.asphaltRoofing.getValue(),
+          brick: obj.brick.getValue(),
+          fiberglassInsulation: obj.fiberglassInsulation.getValue(),
+          gypsum: obj.gypsum.getValue(),
+          woodAshes: obj.woodAshes.getValue()
+        }
+      }
+    case 'C':
+    // Item Count / Values
+      obj = refObj['C'].refs
+      return {
 
+      }
+  }
+}
 class UMISMaterialsWorkbook extends React.Component {
   props: Props;
   constructor () {
@@ -22,7 +151,7 @@ class UMISMaterialsWorkbook extends React.Component {
     e.preventDefault()
     let refObj = this.refs.workbookContainer.refs
     let data = {
-      materials: {}
+      materials: materialsWorkbookCalculator(refObj, this.state)
     }
     this.props.saveValues(data)
     this.props.nextSection()
@@ -31,70 +160,6 @@ class UMISMaterialsWorkbook extends React.Component {
     this.setState({optionSelected: value})
   }
 
-  let materialsWorkbookCalculator = function (refObj, state) {
-    switch (state.optionSelected) {
-      case 'A':
-      // Percentages
-        let obj = refObj['A'].refs
-        return {
-          totalWeight: obj.totalWeight.getValue(),
-          paper: obj.paper.getVaue(),
-          organics: obj.organics.getValue(),
-          plastics: obj.plastics.getValue(),
-          textiles: obj.textiles.getValue(),
-          metal: obj.metal.getValue(),
-          glass: obj.glass.getValue(),
-          trimmings: obj.trimmings.getValue(),
-          appliances: obj.appliances.getValue(),
-          hazardousWaste: obj.hazardousWaste.getValue(),
-          inertsAndOthers: obj.inertsAndOthers.getValue()
-        }
-      case 'B':
-      // Percentages
-        let obj = refObj['B'].refs
-        return {
-          totalWeight: obj.totalWeight.getValue()
-          paper: {
-            usedPaper: obj.usedPaper.getValue(),
-            officeSupplies: obj.officeSupplies.getValue(),
-            phonebook: obj.phonebook.getValue(),
-            newsprint: obj.newsprint.getValue(),
-            computerPaper: obj.computerPaper.getValue(),
-            corrugatedCardboard: obj.corrugatedCardboard.getValue(),
-            mixedWastePaper: obj.mixedWastePaper.getValue(),
-            nonRecyclablePaper: obj.nonRecyclablePaper.getValue()
-          },
-          organics: {
-            starches: obj.starches.getValue(),
-            proteins: obj.proteins.getValue(),
-            dairy: obj.dairy.getValue(),
-            fats: obj.fats.getValue(),
-            produce: obj.produce.getValue()
-            other: obj.otherOrganic.getValue()
-          },
-          plastics: {
-            bottles: obj.bottles.getValue(),
-            film: obj.film.getValue(),
-            bags: obj.bags.getValue(),
-            packaging: obj.packaging.getValue(),
-            other: obj.otherPlastics.getVlaue()
-          },
-          textiles: {
-            clothes: obj.clothes.getValue(),
-            shoes: obj.shoes.getValue(),
-            linens: obj.linens.getValue(),
-            largeTextiles: obj.largeTextiles.getValue(),
-            mixedClothing: obj.mixedClothing.getValue()
-          }
-        }
-      case 'C':
-      // Item Count / Values
-        let obj = refObj['C'].refs
-        return {
-
-        }
-    }
-  }
   render () {
     const optionSelected = this.state.optionSelected
     return (
