@@ -11,7 +11,7 @@ exports.saveAudit = function * () {
     parseFloat(this.request.body.geoCoordinates[0]),
     parseFloat(this.request.body.geoCoordinates[1])
   ]
-  console.log(tempAudit)
+
   try {
     var audit = new Audit(tempAudit)
     audit = yield audit.save()

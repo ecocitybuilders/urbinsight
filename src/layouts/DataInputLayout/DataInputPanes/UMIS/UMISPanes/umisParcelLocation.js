@@ -146,7 +146,7 @@ class UMISParcelLocation extends React.Component {
         geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
         this.props.map.getSource('point').setData(geojson)
       }
-      this.props.saveValues({geoCoordinates: [e.lngLat.lat, e.lngLat.lng]})
+      this.props.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
     }.bind(this))
   }
   componentWillUnmount () {

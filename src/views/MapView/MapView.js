@@ -5,7 +5,7 @@ import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
-import { cityObjectFunc, surveyGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
+import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 // import MapGL from 'react-map-gl'
 
 type Props = {
@@ -66,21 +66,54 @@ class MapView extends React.Component {
         'type': 'vector',
         'tiles': [tileLocation]
       })
+      // map.addLayer({
+      //   'id': 'lots',
+      //   'type': 'fill',
+      //   'source': 'lots',
+      //   'source-layer': 'parcels',
+      //   'layout': {
+      //     'visibility': 'visible'
+      //   },
+      //   'interactive': true,
+      //   'paint': {
+      //     'fill-color': '#ff0000',
+      //     'fill-opacity': 0.5,
+      //     'fill-outline-color': '#ffffff'
+      //   }
+      // })
+      map.addSource('auditedLots', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': []
+        }
+      })
+      // map.addLayer({
+      //   'id': 'auditedLots',
+      //   'type': 'fill',
+      //   'source': 'auditedLots',
+      //   'paint': {
+      //     'fill-color': '#e022d9',
+      //     'fill-opacity': 1,
+      //     'fill-outline-color': '#ffffff'
+      //   }
+      // })
+          //   'source-layer': 'parcels',
       map.addLayer({
-        'id': 'lots',
+        'id': 'auditedLots',
         'type': 'fill',
-        'source': 'lots',
-        'source-layer': 'parcels',
+        'source': 'auditedLots',
         'layout': {
           'visibility': 'visible'
         },
         'interactive': true,
         'paint': {
-          'fill-color': '#ff0000',
+          'fill-color': '#e022d9',
           'fill-opacity': 0.5,
           'fill-outline-color': '#ffffff'
         }
       })
+      window.map = map
       map.addSource('surveys', {
         'type': 'geojson',
         'data': {
@@ -141,15 +174,16 @@ class MapView extends React.Component {
     })
     // this._map = map
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
-    // this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
+    this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     map.on('dragend', (e) => {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
-      // this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
+      this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
     surveyGeoJSONCompiler(np.surveys, ns.map)
+    auditGeoJSONCompiler(np.audits, ns.map)
   }
   componentWillUnmount () {
     if (this.state.map) this.state.map.remove()

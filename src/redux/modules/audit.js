@@ -71,11 +71,11 @@ function auditsRequest (bounds): Action {
   }
 }
 
-function auditsReceived (surveys): Action {
+function auditsReceived (audits): Action {
   return {
     type: AUDITS_RECEIVED,
     isFetching: false,
-    surveys
+    audits
   }
 }
 
@@ -125,7 +125,10 @@ export function requestAudits (bounds) {
 export function auditSave (responses) {
   let config = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(responses)
     // body: responses
   }
@@ -225,7 +228,7 @@ export default function survey (state = {
     case AUDITS_RECEIVED:
       return Object.assign({}, state, {
         isFetching: false,
-        audits: action.surveys
+        audits: action.audits
       })
     case AUDIT_FORM_SAVE:
       // console.log(normalize(action.responses, audit))

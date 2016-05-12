@@ -6,7 +6,7 @@ class UMISWorkbookSelection extends React.Component {
     previousStep: PropTypes.func,
     selectionHandler: PropTypes.func,
     nextSection: PropTypes.func,
-    workbookToggle: PropTypes.obj
+    workbookToggle: PropTypes.object
   };
   constructor () {
     super()

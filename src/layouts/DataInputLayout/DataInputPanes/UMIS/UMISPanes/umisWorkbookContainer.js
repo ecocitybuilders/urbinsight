@@ -73,6 +73,7 @@ class UMISWorkbookContainer extends React.Component {
   }
   render () {
     const { audit, map, auditSubmit, feature } = this.props
+    const workbookToggle = this.state.workbookToggle
     switch (this.state.active) {
       case 1:
         return (
@@ -80,7 +81,7 @@ class UMISWorkbookContainer extends React.Component {
             previousStep={this.props.previousStep}
             selectionHandler={this.selectionHandler}
             nextSection={this.nextSection}
-            workbookToggle={this.state.workbookToggle} />)
+            workbookToggle={workbookToggle} />)
       case 2:
         return (
           <UMISWaterWorkbook
