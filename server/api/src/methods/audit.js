@@ -6,10 +6,14 @@ exports.saveAudit = function * () {
   }
 
   var Audit = require('mongoose').model('Audit')
-
+  var tempAudit = this.request.body
+  tempAudit.geoCoordinates = [
+    parseFloat(this.request.body.geoCoordinates[0]),
+    parseFloat(this.request.body.geoCoordinates[1])
+  ]
+  console.log(tempAudit)
   try {
-    var audit = new Audit({
-    })
+    var audit = new Audit(tempAudit)
     audit = yield audit.save()
   } catch (err) {
     this.throw(err)

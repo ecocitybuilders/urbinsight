@@ -11,16 +11,16 @@ type Props = {
   audit: PropTypes.obj
 }
 
-let geojson = {
-  'type': 'FeatureCollection',
-  'features': [{
-    'type': 'Feature',
-    'geometry': {
-      'type': 'Point',
-      'coordinates': [0, 0]
-    }
-  }]
-}
+// let geojson = {
+//   'type': 'FeatureCollection',
+//   'features': [{
+//     'type': 'Feature',
+//     'geometry': {
+//       'type': 'Point',
+//       'coordinates': [0, 0]
+//     }
+//   }]
+// }
 let cityObj = {
   'lima': 'id_lote',
   'budapest': 'id',
@@ -38,19 +38,19 @@ class UMISParcelLocation extends React.Component {
     this.onChange = this.onChange.bind(this)
     // this is for the selection of a parcel that doesn't exist
     // could be refactored to be drawings when approriate
-    this.props.map.addSource('point', {
-      'type': 'geojson',
-      'data': geojson
-    })
-    this.props.map.addLayer({
-      'id': 'point',
-      'type': 'circle',
-      'source': 'point',
-      'paint': {
-        'circle-radius': 10,
-        'circle-color': '#29b381'
-      }
-    })
+    // this.props.map.addSource('point', {
+    //   'type': 'geojson',
+    //   'data': geojson
+    // })
+    // this.props.map.addLayer({
+    //   'id': 'point',
+    //   'type': 'circle',
+    //   'source': 'point',
+    //   'paint': {
+    //     'circle-radius': 10,
+    //     'circle-color': '#29b381'
+    //   }
+    // })
   }
   previousStep (e) {
     e.preventDefault()

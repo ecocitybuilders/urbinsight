@@ -17,6 +17,17 @@ type Props = {
 
 }
 
+let geojson = {
+  'type': 'FeatureCollection',
+  'features': [{
+    'type': 'Feature',
+    'geometry': {
+      'type': 'Point',
+      'coordinates': [0, 0]
+    }
+  }]
+}
+
 class MapView extends React.Component {
   props: Props;
   constructor (props) {
@@ -113,6 +124,19 @@ class MapView extends React.Component {
           'fill-opacity': 0.5
         },
         'filter': ['==', 'id_lote', '']
+      })
+      map.addSource('point', {
+        'type': 'geojson',
+        'data': geojson
+      })
+      map.addLayer({
+        'id': 'point',
+        'type': 'circle',
+        'source': 'point',
+        'paint': {
+          'circle-radius': 10,
+          'circle-color': '#29b381'
+        }
       })
     })
     // this._map = map
