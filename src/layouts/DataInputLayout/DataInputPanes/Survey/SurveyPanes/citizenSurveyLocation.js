@@ -111,8 +111,7 @@ class CitizenSurveyLocation extends React.Component {
 
   componentWillUnmount () {
     // I should probably do this once the survey submits
-    this.props.map.removeLayer('point')
-    this.props.map.removeSource('point')
+
     this.props.map.off('click')
   }
 }

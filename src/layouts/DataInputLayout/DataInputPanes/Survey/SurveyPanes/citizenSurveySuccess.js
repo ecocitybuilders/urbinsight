@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react'
 import { Button } from 'react-bootstrap'
 
 type Props = {
-  formReset: PropTypes.func
+  formReset: PropTypes.func,
+  map: PropTypes.object
 }
 class CitizenSurveySuccess extends React.Component {
   props: Props;
@@ -14,6 +15,10 @@ class CitizenSurveySuccess extends React.Component {
       </div>
 
     )
+  }
+  componentDidMount () {
+    this.props.map.removeLayer('point')
+    this.props.map.removeSource('point')
   }
 }
 

@@ -2,6 +2,7 @@ var Koa = require('koa')
 var app = new Koa()
 var auth = require('./src/methods/auth')
 var survey = require('./src/methods/survey')
+var audit = require('./src/methods/audit')
 var path = require('path')
 var fs = require('fs')
 
@@ -67,9 +68,11 @@ router
   //   this.body = 'hello koa'
   // })
   .get('/api/surveys', survey.getSurveys)
+  .get('/api/audits', audit.getAudits)
   .post('/api/sessions/create', auth.signIn)
   .post('/api/user/create', auth.createUser)
   .post('/api/survey/create', survey.saveSurvey)
+  .post('/api/audit/create', audit.saveAudit)
 
 app.use(router.routes())
 app.use(router.allowedMethods())

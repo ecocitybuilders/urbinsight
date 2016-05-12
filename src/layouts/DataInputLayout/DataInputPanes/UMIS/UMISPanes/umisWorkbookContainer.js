@@ -9,8 +9,10 @@ type Props = {
   saveValues: PropTypes.func,
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
-  audit: PropTypes.obj,
-  map: PropTypes.obj
+  audit: PropTypes.object,
+  map: PropTypes.object,
+  auditSubmit: PropTypes.func,
+  feature: PropTypes.object
 }
 class UMISWorkbookContainer extends React.Component {
   props: Props;
@@ -70,7 +72,7 @@ class UMISWorkbookContainer extends React.Component {
     })
   }
   render () {
-    const { audit, map } = this.props
+    const { audit, map, auditSubmit, feature } = this.props
     switch (this.state.active) {
       case 1:
         return (
@@ -103,6 +105,8 @@ class UMISWorkbookContainer extends React.Component {
             prevSection={this.prevSection}
             nextSection={this.nextSection}
             saveValues={this.props.saveValues}
+            auditSubmit={auditSubmit}
+            feature={feature}
             audit={audit}
           />
         )

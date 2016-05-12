@@ -124,6 +124,7 @@ class CitizenSurvey extends React.Component {
         return <CitizenSurveySuccess
           isFetching={isFetching}
           formReset={this.formReset}
+          map={map}
           />
     }
   }

@@ -13,31 +13,31 @@ export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
 export const AUDIT_WORKBOOK_SAVE = 'AUDIT_WORKBOOK_SAVE'
 export const PERSIST_FEATURE = 'PERSIST_FEATURE'
 
-const audit = new Schema('audits')
-audit.define({
-  geoCoordinates: geoCoordinates,
-  sourceInformation: sourceInformation,
-  parcelDescription: parcelDescription,
-  workbooks: workbooks
-})
-const geoCoordinates = new Schema('geoCoordinates', {idAttribute: 'id'})
-const sourceInformation = new Schema('sourceInformation')
-const parcelDescription = new Schema('parcelDescription')
-const parcelIdentification = new Schema('parcelIdentification')
-const buildingData = new Schema('buildingData')
-const demographics = new Schema('demographics')
-const demographicInputs = new Schema('demographicInputs')
-demographics.define({
-  seniors: demographicInputs,
-  adults: demographicInputs,
-  youth: demographicInputs
-})
-parcelDescription.define({
-  parcelIdentification: parcelIdentification,
-  buildingData: buildingData,
-  demographics: demographics
-})
-const workbooks = new Schema('workbooks')
+// const audit = new Schema('audits')
+// audit.define({
+//   geoCoordinates: geoCoordinates,
+//   sourceInformation: sourceInformation,
+//   parcelDescription: parcelDescription,
+//   workbooks: workbooks
+// })
+// const geoCoordinates = new Schema('geoCoordinates', {idAttribute: 'id'})
+// const sourceInformation = new Schema('sourceInformation')
+// const parcelDescription = new Schema('parcelDescription')
+// const parcelIdentification = new Schema('parcelIdentification')
+// const buildingData = new Schema('buildingData')
+// const demographics = new Schema('demographics')
+// const demographicInputs = new Schema('demographicInputs')
+// demographics.define({
+//   seniors: demographicInputs,
+//   adults: demographicInputs,
+//   youth: demographicInputs
+// })
+// parcelDescription.define({
+//   parcelIdentification: parcelIdentification,
+//   buildingData: buildingData,
+//   demographics: demographics
+// })
+// const workbooks = new Schema('workbooks')
 
 // ------------------------------------
 // Actions
@@ -126,7 +126,7 @@ export function auditSave (responses) {
   let config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `lat=${responses.geoCoordinates[1]}&lon=${responses.geoCoordinates[0]}&employment=${responses.employment}&healthcare=${responses.healthcare}&family=${responses.family}&stability=${responses.stability}&relationships=${responses.relationships}&recreation=${responses.recreation}&education=${responses.education}&vacation=${responses.vacation}&housing=${responses.housing}&environment=${responses.environment}&discrimination=${responses.discrimination}&religion=${responses.religion}&mobility=${responses.mobility}&movement=${responses.movement}&safety=${responses.safety}&governance=${responses.governance}&`
+    body: JSON.stringify(responses)
     // body: responses
   }
   return (dispatch) => {

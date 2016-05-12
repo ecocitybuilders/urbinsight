@@ -17,9 +17,10 @@ type Props = {
   auditFormSave: PropTypes.func,
   auditFormReset: PropTypes.func,
   auditWorkbookSave: PropTypes.func,
-  map: PropTypes.obj,
-  audit_form: PropTypes.obj,
-  isFetching: PropTypes.bool
+  map: PropTypes.object,
+  audit_form: PropTypes.object,
+  isFetching: PropTypes.bool,
+  feature: PropTypes.object
 }
 
 class UmisDataForm extends React.Component {
@@ -72,7 +73,7 @@ class UmisDataForm extends React.Component {
   // }
 
   render () {
-    const { auditSubmit, persistFeatureGeoJSON, map, isFetching, audit_form } = this.props
+    const { auditSubmit, persistFeatureGeoJSON, map, isFetching, audit_form, feature } = this.props
     switch (this.state.active) {
       case 1:
         return <UMISIntro nextStep={this.nextStep} />
@@ -118,6 +119,7 @@ class UmisDataForm extends React.Component {
           auditSubmit={auditSubmit}
           saveValues={this.saveWorkbookValues}
           audit={audit_form}
+          feature={feature}
           map={map}/>
       case 8:
         return <UMISComplete previousStep={this.previousStep} formReset={this.formReset}/>

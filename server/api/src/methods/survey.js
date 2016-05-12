@@ -6,10 +6,12 @@ exports.saveSurvey = function * () {
   }
 
   var Survey = require('mongoose').model('Survey')
-
   try {
     var survey = new Survey({
-      geoCoordinates: [parseFloat(this.request.body.lon), parseFloat(this.request.body.lat)],
+      geoCoordinates: [
+        parseFloat(this.request.body.geoCoordinates[0]),
+        parseFloat(this.request.body.geoCoordinates[1])
+      ],
       employment: this.request.body.employment,
       healthcare: this.request.body.healthcare,
       family: this.request.body.family,

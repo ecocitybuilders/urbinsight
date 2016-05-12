@@ -4,14 +4,24 @@ import { Button } from 'react-bootstrap'
 class UmisSubmit extends React.Component {
   static propTypes = {
     nextSection: PropTypes.func,
-    prevSection: PropTypes.func
+    prevSection: PropTypes.func,
+    audit: PropTypes.object,
+    feature: PropTypes.object,
+    auditSubmit: PropTypes.func
   };
   constructor () {
     super()
     this.nextSection = this.nextSection.bind(this)
+    this.auditSubmit = this.auditSubmit.bind(this)
+  }
+  auditSubmit () {
+    let combinedAudit = this.props.audit
+    combinedAudit.feature = this.props.feature
+    this.props.auditSubmit(combinedAudit)
+    this.props.nextSection()
   }
   nextSection (e) {
-    e.preventDefault()
+    if (e) e.preventDefault()
     this.props.nextSection()
   }
   render () {
@@ -30,7 +40,7 @@ class UmisSubmit extends React.Component {
         </Button>
         {/* </Col>*/}
         {/* <Col sm={6}>*/}
-        <Button bsStyle='success' onClick={this.nextSection}>
+        <Button bsStyle='success' onClick={this.auditSubmit}>
           Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
         </Button>
         {/* </Col>*/}
