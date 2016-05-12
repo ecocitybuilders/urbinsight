@@ -88,17 +88,6 @@ class MapView extends React.Component {
           'features': []
         }
       })
-      // map.addLayer({
-      //   'id': 'auditedLots',
-      //   'type': 'fill',
-      //   'source': 'auditedLots',
-      //   'paint': {
-      //     'fill-color': '#e022d9',
-      //     'fill-opacity': 1,
-      //     'fill-outline-color': '#ffffff'
-      //   }
-      // })
-          //   'source-layer': 'parcels',
       map.addLayer({
         'id': 'auditedLots',
         'type': 'fill',
@@ -113,7 +102,6 @@ class MapView extends React.Component {
           'fill-outline-color': '#ffffff'
         }
       })
-      window.map = map
       map.addSource('surveys', {
         'type': 'geojson',
         'data': {

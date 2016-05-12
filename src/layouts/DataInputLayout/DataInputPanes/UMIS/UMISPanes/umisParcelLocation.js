@@ -138,7 +138,7 @@ class UMISParcelLocation extends React.Component {
           this.props.map.getSource('point').setData(geojson)
         }
         this.props.map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
-        let featureGeoJSON = feature[0]._vectorTileFeature.toGeoJSON()
+        let featureGeoJSON = feature[0].toJSON()
         // I should probably only persist the feature on save instead of here
         this.props.persistFeatureGeoJSON(featureGeoJSON)
       } else {

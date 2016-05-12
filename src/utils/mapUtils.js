@@ -56,7 +56,7 @@ export function auditGeoJSONCompiler (resource, map) {
   }
   if (resource) {
     resource.audits.forEach(function (audit) {
-      // if (typeof audit.feature === 'undefined') {
+      if (typeof audit.feature === 'undefined') {
         let obj = {'type': 'Feature',
                    'geometry': {
                      'type': 'Point',
@@ -70,14 +70,12 @@ export function auditGeoJSONCompiler (resource, map) {
           }
         })
         geojson.features.push(obj)
-      // } else {
-      //   auditedGeoJSON.features.push(audit.feature)
-      // }
+      } else {
+        auditedGeoJSON.features.push(audit.feature)
+      }
     })
-    // console.log(geojson)
-    // console.log(auditedGeoJSON)
     map.getSource('audits').setData(geojson)
-    // map.getSource('auditedLots').setData(auditedGeoJSON)
+    map.getSource('auditedLots').setData(auditedGeoJSON)
   }
 }
 export function boundsArrayGenerator (bounds) {
