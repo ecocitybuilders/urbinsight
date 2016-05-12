@@ -14,7 +14,8 @@ let materialsWorkbookCalculator = function (refObj, state) {
     // Percentages
       obj = refObj['A'].refs
       return {
-        'A': {
+        option: 'A',
+        data: {
           totalWeight: obj.totalWeight.getValue(),
           paper: obj.paper.getValue(),
           organics: obj.organics.getValue(),
@@ -32,7 +33,8 @@ let materialsWorkbookCalculator = function (refObj, state) {
     // Percentages
       obj = refObj['B'].refs
       return {
-        'B': {
+        option: 'B',
+        data: {
           totalWeight: obj.totalWeight.getValue(),
           paper: {
             usedPaper: obj.usedPaper.getValue(),
@@ -137,7 +139,8 @@ let materialsWorkbookCalculator = function (refObj, state) {
     // Item Count / Values
       obj = refObj['C'].refs
       return {
-        'C': {
+        option: 'C',
+        data: {
           paper: {
             usedPaper: obj.usedPaper.getValue(),
             officeSupplies: obj.officeSupplies.getValue(),
