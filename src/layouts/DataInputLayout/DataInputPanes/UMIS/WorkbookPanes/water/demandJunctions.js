@@ -28,14 +28,18 @@ class WaterDemandJunctions extends React.Component {
           {/* Add functionaility to add a toilet*/}
         <h5>Toilets - Flush Volume</h5>
         <Button onClick={this.props.addToilet}><span className='glyphicon glyphicon-plus'></span>Add Toilet</Button>
-        <Button onClick={this.props.removeToilet}><span className='glyphicon glyphicon-minus'></span>Remove Toilet</Button>
+        <Button onClick={this.props.removeToilet}>
+          <span className='glyphicon glyphicon-minus'></span>Remove Toilet
+        </Button>
         {toiletList}
         <Input label='Number of Persons Using Toilets:' type='number' ref='toilets.numPersonsUsingToilets'/><br />
         <Input label='Daily Usage Per Person:' type='number' ref='toilets.dailyPerPersonUsage'/><br />
         {/* <!-- Add functionality to add a shower -->*/}
         <h5>Hygiene</h5>
         <Button onClick={this.props.addShower}><span className='glyphicon glyphicon-plus'></span>Add Shower</Button>
-        <Button onClick={this.props.removeShower}><span className='glyphicon glyphicon-minus'></span>Remove Shower</Button>
+        <Button onClick={this.props.removeShower}>
+          <span className='glyphicon glyphicon-minus'></span>Remove Shower
+        </Button>
         {showerList}
         <Input label='Typical Shower Duration' type='number' ref='hygiene.typicalShowerDuration' /><br />
         <Input label='Weekly Showers Per Person' type='number' ref='hygiene.weeklyShowersPerPerson' /><br />
@@ -43,7 +47,7 @@ class WaterDemandJunctions extends React.Component {
         <Input label='Bath Volume' type='number' ref='hygiene.bathVolume' /><br />
         <Input label='Baths Per Weeks' type='number' ref='hygiene.bathsPerWeek' /><br />
         <Input label='Minutes of Tap Flow Per Visit' type='number' ref='hygiene.minutesOfTapFlowPerVisit' /><br />
-        <Input label='Ablution Furation' type='number' ref='hygiene.ablutionDuration' /><br />
+        <Input label='Ablution Duration' type='number' ref='hygiene.ablutionDuration' /><br />
         <Input label='Number of Occupants Using Washroom' type='number'
           ref='hygiene.numOccupantsUsingWashrooms' /><br />
         <Input label='Number of Visits to Washroom Per Occupant' type='number'
@@ -69,7 +73,7 @@ class WaterDemandJunctions extends React.Component {
         <h6>Irrigation</h6>
         <Input label='Hours Per Week' type='number' ref='landscape.irrigation.hoursPerWeek' /><br />
         <h6>Pots & Pools</h6>
-        <Input label='litersPerLocation' type='number' ref='landscape.potsPools.litersPerLocation' /><br />
+        <Input label='Liters Per Location' type='number' ref='landscape.potsPools.litersPerLocation' /><br />
         <Input label='Number of Plants or Pools' type='number' ref='landscape.potsPools.numPlantsPools' /><br />
 
         <h5>Surface Cleaning</h5>

@@ -16,6 +16,7 @@ type Props = {
   persistFeatureGeoJSON: PropTypes.func,
   auditFormSave: PropTypes.func,
   auditFormReset: PropTypes.func,
+  auditWorkbookSave: PropTypes.func,
   map: PropTypes.obj,
   audit_form: PropTypes.obj,
   isFetching: PropTypes.bool
@@ -32,6 +33,7 @@ class UmisDataForm extends React.Component {
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
     this.saveValues = this.saveValues.bind(this)
+    this.saveWorkbookValues = this.saveWorkbookValues.bind(this)
     this.formReset = this.formReset.bind(this)
   }
 
@@ -58,6 +60,9 @@ class UmisDataForm extends React.Component {
   saveValues (fields) {
     // Dispatch Audit Fields Save
     this.props.auditFormSave(fields)
+  }
+  saveWorkbookValues (workbook) {
+    this.props.auditWorkbookSave(workbook)
   }
 
   // updateGeoValues (lat, lon) {
@@ -111,7 +116,7 @@ class UmisDataForm extends React.Component {
           nextStep={this.nextStep}
           isFetching={isFetching}
           auditSubmit={auditSubmit}
-          saveValues={this.saveValues}
+          saveValues={this.saveWorkbookValues}
           audit={audit_form}
           map={map}/>
       case 8:
