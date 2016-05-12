@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { auditSave, persistFeature, saveAuditForm, resetAuditForm } from 'redux/modules/audit'
+import { auditSave, persistFeature, saveAuditForm, resetAuditForm, saveAuditWorkbook } from 'redux/modules/audit'
 import UMISIntro from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDataIntro'
 import UMISParcelLocation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisParcelLocation'
 import UMISSourceInformation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSourceInformation'
@@ -143,6 +143,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     auditFormReset: () => {
       dispatch(resetAuditForm())
+    },
+    auditWorkbookSave: (workbook) => {
+      dispatch(saveAuditWorkbook(workbook))
     }
   }
 }

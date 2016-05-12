@@ -206,6 +206,7 @@ export const actions = {
 export default function survey (state = {
   isFetching: false
 }, action) {
+  let cumlatativeAudit
   switch (action.type) {
     case AUDIT_SUBMIT:
       return Object.assign({}, state, {
@@ -228,7 +229,6 @@ export default function survey (state = {
       })
     case AUDIT_FORM_SAVE:
       // console.log(normalize(action.responses, audit))
-      let cumlatativeAudit
       state.audit_form
         ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)
         : cumlatativeAudit = action.responses
@@ -243,15 +243,15 @@ export default function survey (state = {
         feature: {}
       })
     case AUDIT_WORKBOOK_SAVE:
-      let cumlatativeWorkbooks
-      state.audit_form.workbooks
-        ? cumlatativeWorkbooks = Object.assign({}, state.audit_form.workbooks, action.workbook)
-        : cumlatativeWorkbooks = action.workbook
+      state.audit_form
+        ? cumlatativeAudit = state.audit_form
+        : cumlatativeAudit = {}
+      cumlatativeAudit.workbooks
+        ? cumlatativeAudit.workbooks = Object.assign({}, cumlatativeAudit.workbooks, action.workbook)
+        : cumlatativeAudit.workbooks = action.workbook
       return Object.assign({}, state, {
         inProgress: true,
-        audit_form: {
-          workbooks: cumlatativeWorkbooks
-        }
+        audit_form: cumlatativeAudit
       })
     case PERSIST_FEATURE:
       return Object.assign({}, state, {
