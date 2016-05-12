@@ -10,6 +10,7 @@ export const AUDITS_REQUEST = 'AUDITS_REQUEST'
 export const AUDITS_RECEIVED = 'AUDITS_RECEIVED'
 export const AUDIT_FORM_SAVE = 'AUDIT_FORM_SAVE'
 export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
+export const AUDIT_WORKBOOK_SAVE = 'AUDIT_WORKBOOK_SAVE'
 export const PERSIST_FEATURE = 'PERSIST_FEATURE'
 
 const audit = new Schema('audits')
@@ -98,6 +99,13 @@ function persistFeatureGeoJSON (featureGeoJSON): Action {
   }
 }
 
+function auditWorkbookSave (workbook): Action {
+  return {
+    type: AUDIT_WORKBOOK_SAVE,
+    workbook
+  }
+}
+
 export function requestAudits (bounds) {
   let config = {
     method: 'GET',
@@ -140,6 +148,12 @@ export function saveAuditForm (responses) {
   }
 }
 
+export function saveAuditWorkbook (workbook) {
+  return (dispatch) => {
+    dispatch(auditWorkbookSave(workbook))
+  }
+}
+
 export function resetAuditForm () {
   return (dispatch) => {
     dispatch(auditFormReset())
@@ -169,6 +183,7 @@ export const actions = {
   auditsReceived,
   auditFormSave,
   auditFormReset,
+  auditWorkbookSave,
   persistFeatureGeoJSON
 }
 
@@ -226,6 +241,17 @@ export default function survey (state = {
       return Object.assign({}, state, {
         audit: {},
         feature: {}
+      })
+    case AUDIT_WORKBOOK_SAVE:
+      let cumlatativeWorkbooks
+      state.audit_form.workbooks
+        ? cumlatativeWorkbooks = Object.assign({}, state.audit_form.workbooks, action.workbook)
+        : cumlatativeWorkbooks = action.workbook
+      return Object.assign({}, state, {
+        inProgress: true,
+        audit_form: {
+          workbooks: cumlatativeWorkbooks
+        }
       })
     case PERSIST_FEATURE:
       return Object.assign({}, state, {
