@@ -4,7 +4,8 @@ import { Button } from 'react-bootstrap'
 class UmisComplete extends React.Component {
   static propTypes = {
     formReset: PropTypes.func,
-    map: PropTypes.object
+    map: PropTypes.object,
+    cityTag: PropTypes.string
   };
   render () {
     return (
@@ -17,6 +18,9 @@ class UmisComplete extends React.Component {
         {/* </Col>*/}
       </div>
     )
+  }
+  componentDidMount () {
+    this.props.map.setFilter('lots-hover', ['==', this.props.cityTag, ''])
   }
 }
 

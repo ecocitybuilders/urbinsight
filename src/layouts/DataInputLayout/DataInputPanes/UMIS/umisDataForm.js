@@ -22,7 +22,13 @@ type Props = {
   isFetching: PropTypes.bool,
   feature: PropTypes.object
 }
-
+let cityObj = {
+  'lima': 'id_lote',
+  'budapest': 'id',
+  'cusco': 'gid',
+  'abudhabi': 'plotid',
+  'medellin': 'cobama'
+}
 class UmisDataForm extends React.Component {
   props: Props;
   constructor () {
@@ -65,6 +71,13 @@ class UmisDataForm extends React.Component {
   saveWorkbookValues (workbook) {
     this.props.auditWorkbookSave(workbook)
   }
+  componentDidMount () {
+    let city = window.location.pathname.slice(1)
+    let cityTag = cityObj[city]
+    this.setState({
+      cityTag: cityTag
+    })
+  }
 
   // updateGeoValues (lat, lon) {
   //   this.setState({geoCoordinates: [lon, lat]})
@@ -82,6 +95,7 @@ class UmisDataForm extends React.Component {
           previousStep={this.previousStep}
           nextStep={this.nextStep}
           map={map}
+          cityTag={this.state.cityTag}
           saveValues={this.saveValues}
           formReset={this.formReset}
           audit={audit_form}
@@ -122,7 +136,11 @@ class UmisDataForm extends React.Component {
           feature={feature}
           map={map}/>
       case 8:
-        return <UMISComplete previousStep={this.previousStep} formReset={this.formReset}/>
+        return <UMISComplete
+          previousStep={this.previousStep}
+          formReset={this.formReset}
+          map={map}
+          cityTag={this.state.cityTag}/>
     }
   }
 }

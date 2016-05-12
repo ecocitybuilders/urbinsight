@@ -8,7 +8,8 @@ type Props = {
   map: PropTypes.object,
   formReset: PropTypes.func,
   persistFeatureGeoJSON: PropTypes.func,
-  audit: PropTypes.obj
+  audit: PropTypes.obj,
+  cityTag: PropTypes.string
 }
 
 // let geojson = {
@@ -21,13 +22,6 @@ type Props = {
 //     }
 //   }]
 // }
-let cityObj = {
-  'lima': 'id_lote',
-  'budapest': 'id',
-  'cusco': 'gid',
-  'abudhabi': 'plotid',
-  'medellin': 'cobama'
-}
 
 class UMISParcelLocation extends React.Component {
   props: Props;
@@ -129,9 +123,9 @@ class UMISParcelLocation extends React.Component {
           }
         }]
       }
+      let cityTag = this.props.cityTag
       // FIX This is to be able to on the fly dictate what unique id to use for parcel selection
-      let city = window.location.pathname.slice(1)
-      let cityTag = cityObj[city]
+
       let feature = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
       if (feature.length) {
         if (typeof this.props.map.getSource('point') !== 'undefined') {

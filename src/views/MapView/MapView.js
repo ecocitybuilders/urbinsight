@@ -66,21 +66,21 @@ class MapView extends React.Component {
         'type': 'vector',
         'tiles': [tileLocation]
       })
-      // map.addLayer({
-      //   'id': 'lots',
-      //   'type': 'fill',
-      //   'source': 'lots',
-      //   'source-layer': 'parcels',
-      //   'layout': {
-      //     'visibility': 'visible'
-      //   },
-      //   'interactive': true,
-      //   'paint': {
-      //     'fill-color': '#ff0000',
-      //     'fill-opacity': 0.5,
-      //     'fill-outline-color': '#ffffff'
-      //   }
-      // })
+      map.addLayer({
+        'id': 'lots',
+        'type': 'fill',
+        'source': 'lots',
+        'source-layer': 'parcels',
+        'layout': {
+          'visibility': 'visible'
+        },
+        'interactive': true,
+        'paint': {
+          'fill-color': '#ff0000',
+          'fill-opacity': 0.5,
+          'fill-outline-color': '#ffffff'
+        }
+      })
       map.addSource('auditedLots', {
         'type': 'geojson',
         'data': {
@@ -98,7 +98,7 @@ class MapView extends React.Component {
         'interactive': true,
         'paint': {
           'fill-color': '#e022d9',
-          'fill-opacity': 0.5,
+          'fill-opacity': 1,
           'fill-outline-color': '#ffffff'
         }
       })
