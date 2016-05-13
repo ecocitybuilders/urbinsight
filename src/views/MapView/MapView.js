@@ -167,6 +167,10 @@ class MapView extends React.Component {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
+    map.on('click', (e) => {
+      let feature = map.queryRenderedFeatures(e.point, {layers: ['auditedLots', 'audits', 'surveys']})
+      console.log(feature)
+    })
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
