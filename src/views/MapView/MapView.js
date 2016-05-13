@@ -160,7 +160,7 @@ class MapView extends React.Component {
         }
       })
     })
-    // this._map = map
+    this._map = map
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     map.on('dragend', (e) => {
@@ -172,7 +172,7 @@ class MapView extends React.Component {
       if (!features.length) return
       let feature = features[0]
       // console.log(feature)
-      let popup = new mapboxgl.Popup()
+      new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
         .setHTML(JSON.stringify(feature.properties))
         .addTo(map)
@@ -180,6 +180,8 @@ class MapView extends React.Component {
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
+    // console.log(np)
+    // console.log(ns)
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }

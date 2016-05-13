@@ -42,42 +42,46 @@ export function surveyGeoJSONCompiler (resource, map) {
       })
       geojson.features.push(obj)
     })
+    // console.log(map)
     map.getSource('surveys').setData(geojson)
   }
 }
 export function auditGeoJSONCompiler (resource, map) {
-  let geojson = {
-    'type': 'FeatureCollection',
-    'features': []
-  }
-  let auditedGeoJSON = {
-    'type': 'FeatureCollection',
-    'features': []
-  }
   if (resource) {
-    resource.audits.forEach(function (audit) {
-      if (typeof audit.feature === 'undefined') {
-        let obj = {'type': 'Feature',
-                   'geometry': {
-                     'type': 'Point',
-                     'coordinates': audit.geoCoordinates
-                   },
-                   'properties': {}
-                 }
-        _.forEach(audit, function (value, key) {
-          if (key !== 'geoCoordinates') {
-            obj.properties[key] = value
-          }
-        })
-        geojson.features.push(obj)
-      } else {
-        // reassign the workbooks to be under properties
-        audit.feature.properties.workbooks = JSON.stringify(audit.workbooks)
-        auditedGeoJSON.features.push(audit.feature)
-      }
-    })
-    map.getSource('audits').setData(geojson)
-    map.getSource('auditedLots').setData(auditedGeoJSON)
+    let geojson = {
+      'type': 'FeatureCollection',
+      'features': resource.audits
+    }
+  // let auditedGeoJSON = {
+  //   'type': 'FeatureCollection',
+  //   'features': []
+  // }
+  // if (resource) {
+  //   resource.audits.forEach(function (audit) {
+  //     if (typeof audit.feature === 'undefined') {
+  //       let obj = {'type': 'Feature',
+  //                  'geometry': {
+  //                    'type': 'Point',
+  //                    'coordinates': audit.geoCoordinates
+  //                  },
+  //                  'properties': {}
+  //                }
+  //       _.forEach(audit, function (value, key) {
+  //         if (key !== 'geoCoordinates') {
+  //           obj.properties[key] = value
+  //         }
+  //       })
+  //       geojson.features.push(obj)
+  //     } else {
+  //       // reassign the workbooks to be under properties
+  //       audit.feature.properties.workbooks = JSON.stringify(audit.workbooks)
+  //       auditedGeoJSON.features.push(audit.feature)
+      // }
+    // })
+  // console.log(geojson)
+  // console.log(map)
+    map.getSource('auditedLots').setData(geojson)
+    // map.getSource('auditedLots').setData(auditedGeoJSON)
   }
 }
 export function boundsArrayGenerator (bounds) {

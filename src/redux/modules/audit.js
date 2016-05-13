@@ -122,18 +122,18 @@ export function requestAudits (bounds) {
   }
 }
 
-export function auditSave (responses) {
+export function auditSave (geoJSON) {
   let config = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(responses)
+    body: JSON.stringify(geoJSON)
     // body: responses
   }
   return (dispatch) => {
-    dispatch(auditSubmit(responses))
+    dispatch(auditSubmit(geoJSON))
     return fetch('http://localhost:3000/api/audit/create', config)
       .then((response) => dispatch(auditSaved))
   }
@@ -213,8 +213,8 @@ export default function survey (state = {
   switch (action.type) {
     case AUDIT_SUBMIT:
       return Object.assign({}, state, {
-        isFetching: true,
-        auditResponses: action.responses
+        isFetching: true
+        // auditResponses: action.responses
       })
     case AUDIT_SAVED:
       return Object.assign({}, state, {

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Button } from 'react-bootstrap'
+import _ from 'lodash'
 
 class UmisSubmit extends React.Component {
   static propTypes = {
@@ -15,9 +16,29 @@ class UmisSubmit extends React.Component {
     this.auditSubmit = this.auditSubmit.bind(this)
   }
   auditSubmit () {
-    let combinedAudit = this.props.audit
-    combinedAudit.feature = this.props.feature
-    this.props.auditSubmit(combinedAudit)
+    // this function builds the geojson from the audit and the feature selected or point if no feature
+    let audit = this.props.audit
+    let feature = this.props.feature
+    let geoJSON
+    if (typeof feature !== 'undefined') {
+      feature.properties = Object.assign({}, this.props.feature.properties, audit)
+      geoJSON = feature
+    } else {
+      let geoCoordinates = audit.geoCoordinates
+      let auditWithoutGeo = _.omit(audit, ['geoCoordinates'])
+      // need to remove geoCoordinates from this audit
+      geoJSON = {
+        'type': 'Feature',
+        'geometry': {
+          'type': 'Point',
+          'coordinates': geoCoordinates
+        },
+        'properties': auditWithoutGeo
+      }
+    }
+    // console.log('submit geojson')
+    // console.log(geoJSON)
+    this.props.auditSubmit(geoJSON)
     this.props.nextSection()
   }
   nextSection (e) {
@@ -29,18 +50,18 @@ class UmisSubmit extends React.Component {
       <div>
         <h3>Submit Parcel Audit</h3>
         <br />
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         {/* <Col sm={6} offset={3}>
           <Button id='submit-button' ng-click='umisSubmit()' type='submit'
           className='btn btn-danger btn-lg btn-block' ui-sref='app.city.pilot.umis.form.endPage'>Submit</Button>

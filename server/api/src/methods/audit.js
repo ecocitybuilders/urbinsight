@@ -6,14 +6,11 @@ exports.saveAudit = function * () {
   }
 
   var Audit = require('mongoose').model('Audit')
+  // This is a geoJSON
   var tempAudit = this.request.body
-  tempAudit.geoCoordinates = [
-    parseFloat(this.request.body.geoCoordinates[0]),
-    parseFloat(this.request.body.geoCoordinates[1])
-  ]
-
   try {
     var audit = new Audit(tempAudit)
+    console.log(audit)
     audit = yield audit.save()
   } catch (err) {
     this.throw(err)
@@ -34,13 +31,16 @@ exports.getAudits = function * () {
                 splitLngLat(this.query.c),
                 splitLngLat(this.query.d),
                 splitLngLat(this.query.a)]
+  let interim = coords.map(function (point) {
+    return [parseFloat(point[0]), parseFloat(point[1])]
+  })
   var Audit = require('mongoose').model('Audit')
   try {
-    var audits = yield Audit.find({'geoCoordinates':
+    var audits = yield Audit.find({'geometry':
       { $geoWithin:
         { $geometry:
           { type: 'Polygon',
-            coordinates: [coords]
+            coordinates: [interim]
           }
         }
       }
@@ -48,6 +48,7 @@ exports.getAudits = function * () {
   } catch (err) {
     this.throw(err)
   }
+  console.log(audits)
   this.status = 200
   this.body = { audits: audits }
 }

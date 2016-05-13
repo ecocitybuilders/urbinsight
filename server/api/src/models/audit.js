@@ -5,67 +5,72 @@
 
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-
 var AuditSchema = new Schema({
-  feature: {},
-  geoCoordinates: { type: Array, default: [0, 0] },
-  sourceInformation: {
-    author: String,
-    date: { type: Date, default: Date.now },
-    neighborhoodID: Number,
-    timeHorizon: Number
+  'type': { type: String, default: 'Feature' },
+  'geometry': {
+    'type': { type: String, default: 'Polygon' },
+    'coordinates': { type: Array, default: [0, 0] }
   },
-  parcelIdentification: {
-    'parcelType': { type: String, default: 'Generic Parcel' },
-    'designatedLandUse': { type: String, default: 'Residential' },
-    'actualLandUse': { type: String, default: 'Residential' },
-    'landArea': { type: Number, default: 0 },
-    'buildingFootprint': { type: Number, default: 0 }
-  },
-  buildingData: {
-    'buildingAttachmentType': { type: String, default: 'Single Family' },
-    'numberOccupiedDwellingUnits': { type: Number, default: 0 },
-    'buildingAge': { type: Number, default: 0 },
-    'aboveGroundStories': { type: Number, default: 0 },
-    'belowGroundStories': { type: Number, default: 0 },
-    'interiorFloorSpace': { type: Number, default: 0 },
-    'separateDwellingUnits': { type: Number, default: 0 },
-    'foundationType': { type: String, default: 'Slab-on-Grade' },
-    'wallType': { type: String, default: 'Solid Masonry' },
-    'roofType': { type: String, default: 'Peaked Hard Surface' }
-  },
-  demographics: {
-    'seniors': {
-      'livingWorking': { type: Number, default: 0 },
-      'livingOffWorking': { type: Number, default: 0 },
-      'visitingWork': { type: Number, default: 0 },
-      'visitingPartTimeWork': { type: Number, default: 0 }
+  properties: {
+    sourceInformation: {
+      author: String,
+      date: { type: Date, default: Date.now },
+      neighborhoodID: Number,
+      timeHorizon: Number
     },
-    'adults': {
-      'livingWorking': { type: Number, default: 0 },
-      'livingOffWorking': { type: Number, default: 0 },
-      'visitingWork': { type: Number, default: 0 },
-      'visitingPartTimeWork': { type: Number, default: 0 }
+    parcelIdentification: {
+      'parcelType': { type: String, default: 'Generic Parcel' },
+      'designatedLandUse': { type: String, default: 'Residential' },
+      'actualLandUse': { type: String, default: 'Residential' },
+      'landArea': { type: Number, default: 0 },
+      'buildingFootprint': { type: Number, default: 0 }
     },
-    'youth': {
-      'livingWorking': { type: Number, default: 0 },
-      'livingOffWorking': { type: Number, default: 0 },
-      'visitingWork': { type: Number, default: 0 },
-      'visitingPartTimeWork': { type: Number, default: 0 }
-    }
-  },
-  workbooks: {
-    water: {
-      landCoverPreCalc: {},
-      demandJunctions: {}
+    buildingData: {
+      'buildingAttachmentType': { type: String, default: 'Single Family' },
+      'numberOccupiedDwellingUnits': { type: Number, default: 0 },
+      'buildingAge': { type: Number, default: 0 },
+      'aboveGroundStories': { type: Number, default: 0 },
+      'belowGroundStories': { type: Number, default: 0 },
+      'interiorFloorSpace': { type: Number, default: 0 },
+      'separateDwellingUnits': { type: Number, default: 0 },
+      'foundationType': { type: String, default: 'Slab-on-Grade' },
+      'wallType': { type: String, default: 'Solid Masonry' },
+      'roofType': { type: String, default: 'Peaked Hard Surface' }
     },
-    materials: {
-      'A': {},
-      'B': {},
-      'C': {},
-      data: {}
+    demographics: {
+      'seniors': {
+        'livingWorking': { type: Number, default: 0 },
+        'livingOffWorking': { type: Number, default: 0 },
+        'visitingWork': { type: Number, default: 0 },
+        'visitingPartTimeWork': { type: Number, default: 0 }
+      },
+      'adults': {
+        'livingWorking': { type: Number, default: 0 },
+        'livingOffWorking': { type: Number, default: 0 },
+        'visitingWork': { type: Number, default: 0 },
+        'visitingPartTimeWork': { type: Number, default: 0 }
+      },
+      'youth': {
+        'livingWorking': { type: Number, default: 0 },
+        'livingOffWorking': { type: Number, default: 0 },
+        'visitingWork': { type: Number, default: 0 },
+        'visitingPartTimeWork': { type: Number, default: 0 }
+      }
+    },
+    workbooks: {
+      water: {
+        landCoverPreCalc: {},
+        demandJunctions: {}
+      },
+      materials: {
+        'A': {},
+        'B': {},
+        'C': {},
+        data: {}
+      }
     }
   }
+
 })
 
 mongoose.model('Audit', AuditSchema)

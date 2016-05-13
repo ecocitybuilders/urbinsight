@@ -30,21 +30,6 @@ class UMISParcelLocation extends React.Component {
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
     this.onChange = this.onChange.bind(this)
-    // this is for the selection of a parcel that doesn't exist
-    // could be refactored to be drawings when approriate
-    // this.props.map.addSource('point', {
-    //   'type': 'geojson',
-    //   'data': geojson
-    // })
-    // this.props.map.addLayer({
-    //   'id': 'point',
-    //   'type': 'circle',
-    //   'source': 'point',
-    //   'paint': {
-    //     'circle-radius': 10,
-    //     'circle-color': '#29b381'
-    //   }
-    // })
   }
   previousStep (e) {
     e.preventDefault()
@@ -139,6 +124,7 @@ class UMISParcelLocation extends React.Component {
       } else {
         this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
         geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+        console.log(this.props.map)
         this.props.map.getSource('point').setData(geojson)
       }
       this.props.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
