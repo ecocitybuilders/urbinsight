@@ -168,8 +168,14 @@ class MapView extends React.Component {
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
     map.on('click', (e) => {
-      let feature = map.queryRenderedFeatures(e.point, {layers: ['auditedLots', 'audits', 'surveys']})
+      let features = map.queryRenderedFeatures(e.point, {layers: ['auditedLots', 'audits', 'surveys']})
+      if (!features.length) return
+      let feature = features[0]
       console.log(feature)
+      let popup = new mapboxgl.Popup()
+        .setLngLat(map.unproject(e.point))
+        .setHTML(JSON.stringify(feature.properties))
+        .addTo(map)
     })
     this.setState({map: map})
   }

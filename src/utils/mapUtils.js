@@ -71,6 +71,8 @@ export function auditGeoJSONCompiler (resource, map) {
         })
         geojson.features.push(obj)
       } else {
+        // reassign the workbooks to be under properties
+        audit.feature.properties.workbooks = JSON.stringify(audit.workbooks)
         auditedGeoJSON.features.push(audit.feature)
       }
     })
