@@ -124,7 +124,18 @@ class UMISParcelLocation extends React.Component {
       } else {
         this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
         geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-        console.log(this.props.map)
+        // console.log(this.props)
+        if (typeof this.props.map.getLayer('point') === 'undefined') {
+          this.props.map.addLayer({
+            'id': 'point',
+            'type': 'circle',
+            'source': 'point',
+            'paint': {
+              'circle-radius': 10,
+              'circle-color': '#29b381'
+            }
+          })
+        }
         this.props.map.getSource('point').setData(geojson)
       }
       this.props.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})

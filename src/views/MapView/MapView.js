@@ -81,7 +81,7 @@ class MapView extends React.Component {
           'fill-outline-color': '#ffffff'
         }
       })
-      map.addSource('auditedLots', {
+      map.addSource('auditPolygons', {
         'type': 'geojson',
         'data': {
           'type': 'FeatureCollection',
@@ -89,9 +89,9 @@ class MapView extends React.Component {
         }
       })
       map.addLayer({
-        'id': 'auditedLots',
+        'id': 'auditPolygons',
         'type': 'fill',
-        'source': 'auditedLots',
+        'source': 'auditPolygons',
         'layout': {
           'visibility': 'visible'
         },
@@ -118,7 +118,7 @@ class MapView extends React.Component {
           'circle-color': '#ec9918'
         }
       })
-      map.addSource('audits', {
+      map.addSource('auditPoints', {
         'type': 'geojson',
         'data': {
           'type': 'FeatureCollection',
@@ -126,9 +126,9 @@ class MapView extends React.Component {
         }
       })
       map.addLayer({
-        'id': 'audits',
+        'id': 'auditPoints',
         'type': 'circle',
-        'source': 'audits',
+        'source': 'auditPoints',
         'paint': {
           'circle-radius': 10,
           'circle-color': '#e022d9'

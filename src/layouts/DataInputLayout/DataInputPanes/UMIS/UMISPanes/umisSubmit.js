@@ -31,7 +31,7 @@ class UmisSubmit extends React.Component {
         'type': 'Feature',
         'geometry': {
           'type': 'Point',
-          'coordinates': geoCoordinates
+          'coordinates': [parseFloat(geoCoordinates[0]), parseFloat(geoCoordinates[1])]
         },
         'properties': auditWithoutGeo
       }

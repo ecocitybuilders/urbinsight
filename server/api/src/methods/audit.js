@@ -48,7 +48,6 @@ exports.getAudits = function * () {
   } catch (err) {
     this.throw(err)
   }
-  console.log(audits)
   this.status = 200
   this.body = { audits: audits }
 }
