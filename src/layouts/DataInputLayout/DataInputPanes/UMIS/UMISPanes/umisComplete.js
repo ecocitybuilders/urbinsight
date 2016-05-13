@@ -12,6 +12,21 @@ class UmisComplete extends React.Component {
       <div>
         <h2 style={{'textAlign': 'center'}}>Congratulations you've finished a parcel audit</h2>
         {/* <Col sm={6} offset={6}>*/}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <Button bsStyle='info' onClick={this.props.formReset}>
           <span className='glyphicon glyphicon-circle-arrow-left'></span>Return to Beginning
         </Button>

@@ -29,6 +29,18 @@ class UmisSubmit extends React.Component {
       <div>
         <h3>Submit Parcel Audit</h3>
         <br />
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
         {/* <Col sm={6} offset={3}>
           <Button id='submit-button' ng-click='umisSubmit()' type='submit'
           className='btn btn-danger btn-lg btn-block' ui-sref='app.city.pilot.umis.form.endPage'>Submit</Button>
