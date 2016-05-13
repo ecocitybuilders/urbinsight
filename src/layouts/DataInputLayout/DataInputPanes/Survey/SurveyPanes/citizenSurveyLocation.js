@@ -88,20 +88,21 @@ class CitizenSurveyLocation extends React.Component {
   }
 
   componentDidMount () {
-    this.props.map.addSource('point', {
-      'type': 'geojson',
-      'data': geojson
-    })
-    this.props.map.addLayer({
-      'id': 'point',
-      'type': 'circle',
-      'source': 'point',
-      'paint': {
-        'circle-radius': 10,
-        'circle-color': '#3887be'
-      }
-    })
+    // this.props.map.addSource('point', {
+    //   'type': 'geojson',
+    //   'data': geojson
+    // })
+    // this.props.map.addLayer({
+    //   'id': 'point',
+    //   'type': 'circle',
+    //   'source': 'point',
+    //   'paint': {
+    //     'circle-radius': 10,
+    //     'circle-color': '#3887be'
+    //   }
+    // })
     // this.props.map.on('mousedown', mouseDown, true)
+    this.props.map.off('click')
     this.props.map.on('click', function (e) {
       geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
       this.props.map.getSource('point').setData(geojson)

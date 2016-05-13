@@ -112,6 +112,7 @@ class UMISParcelLocation extends React.Component {
 
   componentDidMount () {
     // this.props.map.on('mousedown', mouseDown, true)
+    this.props.map.off('click')
     this.props.map.on('click', function (e) {
       let geojson = {
         'type': 'FeatureCollection',

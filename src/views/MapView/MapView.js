@@ -171,7 +171,7 @@ class MapView extends React.Component {
       let features = map.queryRenderedFeatures(e.point, {layers: ['auditedLots', 'audits', 'surveys']})
       if (!features.length) return
       let feature = features[0]
-      console.log(feature)
+      // console.log(feature)
       let popup = new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
         .setHTML(JSON.stringify(feature.properties))
