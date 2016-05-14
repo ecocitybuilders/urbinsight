@@ -160,6 +160,7 @@ class MapView extends React.Component {
         }
       })
     })
+    // this will essentially be the reducer of the workbooks
     let auditHTMLFormatter = function (properties) {
       // Workbook Calculator
       let workbooks = properties.workbooks
