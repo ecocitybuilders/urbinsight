@@ -1,5 +1,7 @@
 'use strict'
 
+// lngLat is being save as floats
+
 exports.saveAudit = function * () {
   if (!this.request.body) {
     this.throw('The body is empty', 400)
@@ -7,9 +9,9 @@ exports.saveAudit = function * () {
 
   var Audit = require('mongoose').model('Audit')
   // This is a geoJSON
-  var tempAudit = this.request.body
+  // var tempAudit = this.request.body
   try {
-    var audit = new Audit(tempAudit)
+    var audit = new Audit(this.request.body)
     console.log(audit)
     audit = yield audit.save()
   } catch (err) {

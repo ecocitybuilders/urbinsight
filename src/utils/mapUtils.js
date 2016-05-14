@@ -46,6 +46,12 @@ export function surveyGeoJSONCompiler (resource, map) {
     map.getSource('surveys').setData(geojson)
   }
 }
+// Create a point and polygon based geojson
+// Iterate through the features returned.
+// separate them out and then add them to the respective source
+// Need to flatten the values into strings before passing them to the source
+// So that they could be queried and rendered on click
+
 export function auditGeoJSONCompiler (resource, map) {
   if (resource) {
     let pointGeojson = {
@@ -56,7 +62,9 @@ export function auditGeoJSONCompiler (resource, map) {
       'type': 'FeatureCollection',
       'features': []
     }
+    // Make this functional by using map
     resource.audits.forEach(function (audit) {
+      audit.properties.id = audit._id
       if (audit.geometry.type === 'Point') {
         pointGeojson.features.push(audit)
       } else if (audit.geometry.type === 'Polygon') {

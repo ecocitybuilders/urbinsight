@@ -160,6 +160,16 @@ class MapView extends React.Component {
         }
       })
     })
+    let auditHTMLFormatter = function (properties) {
+      // Workbook Calculator
+      let workbooks = properties.workbooks
+      // Demographics Display / Calculator
+      let demographics = properties.demographics
+      let buildingData = properties.buildingData
+      let parcelIdentification = properties.parcelIdentification
+      // This should include the user before other things
+      let sourceInformation = properties.sourceInformation
+    }
     this._map = map
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
@@ -168,10 +178,19 @@ class MapView extends React.Component {
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
     map.on('click', (e) => {
-      let features = map.queryRenderedFeatures(e.point, {layers: ['auditedLots', 'audits', 'surveys']})
+      // Array of Audits currently in the state
+      let audits = this.props.audits.audits
+      let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
       if (!features.length) return
       let feature = features[0]
-      // console.log(feature)
+      // Need to ignore the fact that the audits are having the id added to their props to maintain state
+      // If the feature is found in the current state, which is always should be reassign the feature to be the audit
+      audits.forEach(function (audit) {
+        if (audit._id === feature.properties.id) {
+          feature = audit
+        }
+      })
+      // Where to introduce the calculator
       new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
         .setHTML(JSON.stringify(feature.properties))
@@ -180,8 +199,6 @@ class MapView extends React.Component {
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
-    // console.log(np)
-    // console.log(ns)
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }
@@ -190,7 +207,7 @@ class MapView extends React.Component {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 }
-
+// Audits change test
 const mapStateToProps = (state) => {
   const { auth, survey, audit } = state
   const { audits } = audit
