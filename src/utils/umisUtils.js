@@ -65,7 +65,7 @@ UMIS.Materials.totalConsumption.textiles = function (workbook) {
 }
 UMIS.Materials.totalConsumption.metals = function (workbook) {
   if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.metals / 100)
+    return workbook.data.totalWeight * (workbook.data.metal / 100)
   }
   return
 }
@@ -256,7 +256,6 @@ var totalConsumption = {
 }
 // parcel.properties
 const calculateTotals = function (parcel) {
-  console.log(_)
   parcel.totalDemand = {}
   _.forEach(totalConsumption, function (resourceCalcFunction, resource) {
     if (typeof parcel.workbooks[resource] !== 'undefined') {

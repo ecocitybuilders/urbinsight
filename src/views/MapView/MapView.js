@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM, { render } from 'react-dom'
+
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
@@ -16,6 +17,34 @@ type Props = {
   audits: PropTypes.object,
   surveys: PropTypes.object,
 
+}
+
+class TestComponent extends React.Component {
+  static propTypes = {
+    totalDemand: PropTypes.object
+  };
+  render () {
+    const { totalDemand } = this.props
+    return (
+      <div>
+        <div>
+          <h3>Water</h3>
+          <h4><strong>Toilets:</strong>{totalDemand.water.Toilet}</h4>
+          <h4><strong>Hygiene:</strong>{totalDemand.water.Hygiene}</h4>
+          <h4><strong>Kitchen:</strong>{totalDemand.water.Kitchen}</h4>
+          <h4><strong>Laundry:</strong>{totalDemand.water.Laundry}</h4>
+          <h4><strong>Drinking:</strong>{totalDemand.water.Drinking}</h4>
+          <h4><strong>Surface Cleaning:</strong>{(totalDemand.water['Surface Cleaning'])}</h4>
+          <h4><strong>Evaporative Cooling:</strong>{(totalDemand.water['Evaporative Cooling'])}</h4>
+          <h4><strong>Water Customers:</strong>{(totalDemand.water['Water Customers'])}</h4>
+        </div>
+        <div>
+          <h3>Materials</h3>
+          <h4><strong></strong></h4>
+        </div>
+      </div>
+    )
+  }
 }
 
 let geojson = {
@@ -162,16 +191,6 @@ class MapView extends React.Component {
       })
     })
     // this will essentially be the reducer of the workbooks
-    let auditHTMLFormatter = function (properties) {
-      // Workbook Calculator
-      let workbooks = properties.workbooks
-      // Demographics Display / Calculator
-      let demographics = properties.demographics
-      let buildingData = properties.buildingData
-      let parcelIdentification = properties.parcelIdentification
-      // This should include the user before other things
-      let sourceInformation = properties.sourceInformation
-    }
     this._map = map
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
@@ -193,26 +212,34 @@ class MapView extends React.Component {
         }
       })
       // Where to introduce the calculator
+      // console.log(test)
+      // console.log(feature.properties)
+      let div = document.createElement('div')
       calculateTotals(feature.properties)
-      console.log(feature)
-      new mapboxgl.Popup()
+      let popup = new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
-        .setHTML(
-          `<div>
-           <h3>Water</h3>
-            <h4><strong>Toilets:</strong>${feature.properties.totalDemand.water.Toilets}</h4>
-            <h4><strong>Hygiene:</strong>${feature.properties.totalDemand.water.Hygiene}</h4>
-            <h4><strong>Kitchen:</strong>${feature.properties.totalDemand.water.Kitchen}</h4>
-            <h4><strong>Laundry:</strong>${feature.properties.totalDemand.water.Laundry}</h4>
-            <h4><strong>Drinking:</strong>${feature.properties.totalDemand.water.Drinking}</h4>
-            <h4><strong>Surface Cleaning:</strong>${(feature.properties.totalDemand.water['Surface Cleaning'])}</h4>
-            <h4><strong>Evaporative Cooling:</strong>${(feature.properties.totalDemand.water['EvaporativeCooling'])}</h4>
-            <h4><strong>Water Customers:</strong>${(feature.properties.totalDemand.water['Water Customers'])}</h4>
-          </div>`)
-        .addTo(map)
+        .setDOMContent(div)
+      render(<TestComponent totalDemand={feature.properties.totalDemand}/>, div, () => {
+        popup.addTo(map)
+      })
     })
     this.setState({map: map})
   }
+  // `<div>
+  //   <h3>Water</h3>
+  //   <h4><strong>Toilets:</strong>${feature.properties.totalDemand.water.Toilets}</h4>
+  //   <h4><strong>Hygiene:</strong>${feature.properties.totalDemand.water.Hygiene}</h4>
+  //   <h4><strong>Kitchen:</strong>${feature.properties.totalDemand.water.Kitchen}</h4>
+  //   <h4><strong>Laundry:</strong>${feature.properties.totalDemand.water.Laundry}</h4>
+  //   <h4><strong>Drinking:</strong>${feature.properties.totalDemand.water.Drinking}</h4>
+  //   <h4><strong>Surface Cleaning:</strong>${(feature.properties.totalDemand.water['Surface Cleaning'])}</h4>
+  //   <h4><strong>Evaporative Cooling:</strong>${(feature.properties.totalDemand.water['Evaporative Cooling'])}</h4>
+  //   <h4><strong>Water Customers:</strong>${(feature.properties.totalDemand.water['Water Customers'])}</h4>
+  // </div>
+  // <div>
+  //   <h3>Materials</h3>
+  //   <h4><strong>
+  // </div>`
   componentWillUpdate (np, ns) {
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
