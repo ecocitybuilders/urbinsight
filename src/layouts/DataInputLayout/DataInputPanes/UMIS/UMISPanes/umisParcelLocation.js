@@ -12,17 +12,6 @@ type Props = {
   cityTag: PropTypes.string
 }
 
-// let geojson = {
-//   'type': 'FeatureCollection',
-//   'features': [{
-//     'type': 'Feature',
-//     'geometry': {
-//       'type': 'Point',
-//       'coordinates': [0, 0]
-//     }
-//   }]
-// }
-
 class UMISParcelLocation extends React.Component {
   props: Props;
   constructor (props) {

@@ -28,19 +28,29 @@ class TestComponent extends React.Component {
     return (
       <div>
         <div>
+          {/* I could definitely just generate these */}
           <h3>Water</h3>
-          <h4><strong>Toilets:</strong>{totalDemand.water.Toilet}</h4>
-          <h4><strong>Hygiene:</strong>{totalDemand.water.Hygiene}</h4>
-          <h4><strong>Kitchen:</strong>{totalDemand.water.Kitchen}</h4>
-          <h4><strong>Laundry:</strong>{totalDemand.water.Laundry}</h4>
-          <h4><strong>Drinking:</strong>{totalDemand.water.Drinking}</h4>
-          <h4><strong>Surface Cleaning:</strong>{(totalDemand.water['Surface Cleaning'])}</h4>
-          <h4><strong>Evaporative Cooling:</strong>{(totalDemand.water['Evaporative Cooling'])}</h4>
-          <h4><strong>Water Customers:</strong>{(totalDemand.water['Water Customers'])}</h4>
+          <h4><strong>Toilets: </strong>{totalDemand.water.Toilet}</h4>
+          <h4><strong>Hygiene: </strong>{totalDemand.water.Hygiene}</h4>
+          <h4><strong>Kitchen: </strong>{totalDemand.water.Kitchen}</h4>
+          <h4><strong>Laundry: </strong>{(totalDemand.water.Laundry).toFixed(4)}</h4>
+          <h4><strong>Drinking: </strong>{totalDemand.water.Drinking}</h4>
+          <h4><strong>Surface Cleaning: </strong>{(totalDemand.water['Surface Cleaning'])}</h4>
+          <h4><strong>Evaporative Cooling: </strong>{(totalDemand.water['Evaporative Cooling'])}</h4>
+          <h4><strong>Water Customers: </strong>{(totalDemand.water['Water Customers'])}</h4>
         </div>
         <div>
           <h3>Materials</h3>
-          <h4><strong></strong></h4>
+          <h4><strong>Paper: </strong>{totalDemand.materials.Paper}</h4>
+          <h4><strong>Organics: </strong>{totalDemand.materials.Organics}</h4>
+          <h4><strong>Plastics: </strong>{totalDemand.materials.Plastics}</h4>
+          <h4><strong>Textiles: </strong>{totalDemand.materials.Textiles}</h4>
+          <h4><strong>Metals: </strong>{totalDemand.materials.Metals}</h4>
+          <h4><strong>Glass: </strong>{totalDemand.materials.Glass}</h4>
+          <h4><strong>Trimmings: </strong>{totalDemand.materials.Trimmings}</h4>
+          <h4><strong>Appliances: </strong>{totalDemand.materials.paper}</h4>
+          <h4><strong>Hazardous Waste: </strong>{totalDemand.materials['Hazardous Waste']}</h4>
+          <h4><strong>Inerts and Others: </strong>{totalDemand.materials['Inerts and Others']}</h4>
         </div>
       </div>
     )
@@ -73,7 +83,6 @@ class MapView extends React.Component {
     }
   }
   render () {
-    // style={this.mapStyle}
     const { isAuthenticated } = this.props
     return (
       <div id='mapContainer'>
@@ -84,7 +93,6 @@ class MapView extends React.Component {
       </div>
     )
   }
-  // <Dashboard />
   componentDidMount () {
     let city = window.location.pathname.slice(1)
     let tileLocation = 'http://localhost:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
@@ -209,13 +217,14 @@ class MapView extends React.Component {
       audits.forEach(function (audit) {
         if (audit._id === feature.properties.id) {
           feature = audit
+          return
         }
       })
       // Where to introduce the calculator
-      // console.log(test)
-      // console.log(feature.properties)
       let div = document.createElement('div')
+      // Create an Document Element, then will use render to attach the React Node to it.
       calculateTotals(feature.properties)
+      console.log(feature.properties)
       let popup = new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
         .setDOMContent(div)
@@ -225,21 +234,6 @@ class MapView extends React.Component {
     })
     this.setState({map: map})
   }
-  // `<div>
-  //   <h3>Water</h3>
-  //   <h4><strong>Toilets:</strong>${feature.properties.totalDemand.water.Toilets}</h4>
-  //   <h4><strong>Hygiene:</strong>${feature.properties.totalDemand.water.Hygiene}</h4>
-  //   <h4><strong>Kitchen:</strong>${feature.properties.totalDemand.water.Kitchen}</h4>
-  //   <h4><strong>Laundry:</strong>${feature.properties.totalDemand.water.Laundry}</h4>
-  //   <h4><strong>Drinking:</strong>${feature.properties.totalDemand.water.Drinking}</h4>
-  //   <h4><strong>Surface Cleaning:</strong>${(feature.properties.totalDemand.water['Surface Cleaning'])}</h4>
-  //   <h4><strong>Evaporative Cooling:</strong>${(feature.properties.totalDemand.water['Evaporative Cooling'])}</h4>
-  //   <h4><strong>Water Customers:</strong>${(feature.properties.totalDemand.water['Water Customers'])}</h4>
-  // </div>
-  // <div>
-  //   <h3>Materials</h3>
-  //   <h4><strong>
-  // </div>`
   componentWillUpdate (np, ns) {
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)

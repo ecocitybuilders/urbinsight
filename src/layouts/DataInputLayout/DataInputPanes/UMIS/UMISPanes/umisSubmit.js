@@ -2,14 +2,16 @@ import React, { PropTypes } from 'react'
 import { Button } from 'react-bootstrap'
 import _ from 'lodash'
 
+type Props = {
+  nextSection: PropTypes.func,
+  prevSection: PropTypes.func,
+  audit: PropTypes.object,
+  feature: PropTypes.object,
+  auditSubmit: PropTypes.func
+}
+
 class UmisSubmit extends React.Component {
-  static propTypes = {
-    nextSection: PropTypes.func,
-    prevSection: PropTypes.func,
-    audit: PropTypes.object,
-    feature: PropTypes.object,
-    auditSubmit: PropTypes.func
-  };
+  props: Props;
   constructor () {
     super()
     this.nextSection = this.nextSection.bind(this)
@@ -36,8 +38,6 @@ class UmisSubmit extends React.Component {
         'properties': auditWithoutGeo
       }
     }
-    // console.log('submit geojson')
-    // console.log(geoJSON)
     this.props.auditSubmit(geoJSON)
     this.props.nextSection()
   }
@@ -62,21 +62,12 @@ class UmisSubmit extends React.Component {
         <br/>
         <br/>
         <br/>
-        {/* <Col sm={6} offset={3}>
-          <Button id='submit-button' ng-click='umisSubmit()' type='submit'
-          className='btn btn-danger btn-lg btn-block' ui-sref='app.city.pilot.umis.form.endPage'>Submit</Button>
-
-        </Col>*/}
-        {/* <Col sm={6}>*/}
         <Button bsStyle='info' onClick={this.props.prevSection}>
           <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
         </Button>
-        {/* </Col>*/}
-        {/* <Col sm={6}>*/}
         <Button bsStyle='success' onClick={this.auditSubmit}>
           Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
         </Button>
-        {/* </Col>*/}
       </div>
     )
   }
