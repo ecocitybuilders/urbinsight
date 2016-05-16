@@ -19,7 +19,7 @@ type Props = {
 
 }
 
-class TestComponent extends React.Component {
+class UMISPopUpComponent extends React.Component {
   static propTypes = {
     totalDemand: PropTypes.object
   };
@@ -212,25 +212,31 @@ class MapView extends React.Component {
       let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
       if (!features.length) return
       let feature = features[0]
+      if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
+        audits.forEach(function (audit) {
+          if (audit._id === feature.properties.id) {
+            feature = audit
+            return
+          }
+        })
+        // Where to introduce the calculator
+        let div = document.createElement('div')
+        // Create an Document Element, then will use render to attach the React Node to it.
+        calculateTotals(feature.properties)
+        let popup = new mapboxgl.Popup()
+          .setLngLat(map.unproject(e.point))
+          .setDOMContent(div)
+        render(<UMISPopUpComponent totalDemand={feature.properties.totalDemand}/>, div, () => {
+          popup.addTo(map)
+        })
+      } else {
+        new mapboxgl.Popup()
+          .setLngLat(map.unproject(e.point))
+          .setHTML(JSON.stringify(feature.properties))
+          .addTo(map)
+      }
       // Need to ignore the fact that the audits are having the id added to their props to maintain state
       // If the feature is found in the current state, which is always should be reassign the feature to be the audit
-      audits.forEach(function (audit) {
-        if (audit._id === feature.properties.id) {
-          feature = audit
-          return
-        }
-      })
-      // Where to introduce the calculator
-      let div = document.createElement('div')
-      // Create an Document Element, then will use render to attach the React Node to it.
-      calculateTotals(feature.properties)
-      console.log(feature.properties)
-      let popup = new mapboxgl.Popup()
-        .setLngLat(map.unproject(e.point))
-        .setDOMContent(div)
-      render(<TestComponent totalDemand={feature.properties.totalDemand}/>, div, () => {
-        popup.addTo(map)
-      })
     })
     this.setState({map: map})
   }
