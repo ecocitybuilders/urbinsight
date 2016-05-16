@@ -161,7 +161,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(auditSave(responses))
     },
     persistFeatureGeoJSON: (feature) => {
-      console.log(feature)
       dispatch(persistFeature(feature))
     },
     auditFormSave: (responses) => {

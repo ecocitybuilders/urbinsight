@@ -72,6 +72,7 @@ class WaterDemandJunctions extends React.Component {
         <h5>Landscape</h5>
         <h6>Irrigation</h6>
         <Input label='Hours Per Week' type='number' ref='landscape.irrigation.hoursPerWeek' /><br />
+        <Input label='Average Flow Rate' type='number' ref='landscape.irrigation.avgFlowRate' /><br />
         <h6>Pots & Pools</h6>
         <Input label='Liters Per Location' type='number' ref='landscape.potsPools.litersPerLocation' /><br />
         <Input label='Number of Plants or Pools' type='number' ref='landscape.potsPools.numPlantsPools' /><br />

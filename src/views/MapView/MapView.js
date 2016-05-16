@@ -192,6 +192,7 @@ class MapView extends React.Component {
         }
       })
       // Where to introduce the calculator
+      console.log(feature)
       new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
         .setHTML(JSON.stringify(feature.properties))
