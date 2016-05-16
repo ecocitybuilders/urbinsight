@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
+import calculateTotals from 'utils/umisUtils'
 // import MapGL from 'react-map-gl'
 
 type Props = {
@@ -192,10 +193,22 @@ class MapView extends React.Component {
         }
       })
       // Where to introduce the calculator
+      calculateTotals(feature.properties)
       console.log(feature)
       new mapboxgl.Popup()
         .setLngLat(map.unproject(e.point))
-        .setHTML(JSON.stringify(feature.properties))
+        .setHTML(
+          `<div>
+           <h3>Water</h3>
+            <h4><strong>Toilets:</strong>${feature.properties.totalDemand.water.Toilets}</h4>
+            <h4><strong>Hygiene:</strong>${feature.properties.totalDemand.water.Hygiene}</h4>
+            <h4><strong>Kitchen:</strong>${feature.properties.totalDemand.water.Kitchen}</h4>
+            <h4><strong>Laundry:</strong>${feature.properties.totalDemand.water.Laundry}</h4>
+            <h4><strong>Drinking:</strong>${feature.properties.totalDemand.water.Drinking}</h4>
+            <h4><strong>Surface Cleaning:</strong>${(feature.properties.totalDemand.water['Surface Cleaning'])}</h4>
+            <h4><strong>Evaporative Cooling:</strong>${(feature.properties.totalDemand.water['EvaporativeCooling'])}</h4>
+            <h4><strong>Water Customers:</strong>${(feature.properties.totalDemand.water['Water Customers'])}</h4>
+          </div>`)
         .addTo(map)
     })
     this.setState({map: map})

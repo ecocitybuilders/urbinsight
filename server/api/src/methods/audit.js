@@ -12,7 +12,6 @@ exports.saveAudit = function * () {
   // var tempAudit = this.request.body
   try {
     var audit = new Audit(this.request.body)
-    console.log(audit)
     audit = yield audit.save()
   } catch (err) {
     this.throw(err)

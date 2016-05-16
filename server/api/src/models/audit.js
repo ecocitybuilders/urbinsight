@@ -59,13 +59,13 @@ var AuditSchema = new Schema({
     },
     workbooks: {
       water: {
-        landCoverPreCalc: {},
-        demandJunctions: {}
+        data: {
+          landCoverPreCalc: {},
+          demandJunctions: {}
+        }
       },
       materials: {
-        'A': {},
-        'B': {},
-        'C': {},
+        option: {},
         data: {}
       }
     }

@@ -1,4 +1,4 @@
-import { _ } from 'lodash'
+import _ from 'lodash'
 // let countProperties = function (obj) {
 //   let count = 0
 //   for (var prop in obj) {
@@ -99,9 +99,6 @@ UMIS.Materials.totalConsumption.inertsAndOthers = function (workbook) {
   }
   return
 }
-// var landscapce = function (workbook) {
-//  return workbook.demandJunctions.landscape
-// }
 
 UMIS.Water = {}
 UMIS.Water.totalConsumption = {}
@@ -110,7 +107,7 @@ UMIS.Water.totalConsumption = {}
 UMIS.Water.averageFlush = function (workbook) {
   let toilets = workbook.data.demandJunctions.toilets.activeToilets
   var totalFlushVolume = 0
-  toilets.forEach(toilets, function (obj) {
+  toilets.forEach(function (obj) {
     totalFlushVolume += obj.flushVolume
   })
   return totalFlushVolume / toilets.length
@@ -159,11 +156,11 @@ UMIS.Water.totalConsumption.drinking = function (workbook) {
             obj.avgDrinksPerDayPerPerson)
 }
 
-UMIS.Water.totalConsumption.landscape = function (workbook, parcel) {
-  var functions = UMIS.Water.totalConsumption.landscape
-  return functions.unmediatedRainfall(workbook, parcel) + functions.totalIrrigation(workbook) +
-    functions.totalPotsPools(workbook)
-}
+// UMIS.Water.totalConsumption.landscape = function (workbook, parcel) {
+//   var functions = UMIS.Water.totalConsumption.landscape
+//   return functions.unmediatedRainfall(workbook, parcel) + functions.totalIrrigation(workbook) +
+//     functions.totalPotsPools(workbook)
+// }
 
 UMIS.Water.runOffLitersPerDay = function (workbook) {
   return UMIS.Water.unmediatedRainfall(workbook) *
@@ -177,22 +174,20 @@ UMIS.Water.infiltrationPerDay = function (workbook) {
 
 UMIS.Water.unmediatedRainfall = function (workbook, parcel) {
   var obj1 = workbook.data.demandJunctions.landscape
-  return ( obj1.weather.seasonTotal / obj1.weather.seasonLength) *
+  return (obj1.weather.seasonTotal / obj1.weather.seasonLength) *
             parcel.describeParcel.landArea *
-              workbook.data
-                      .landCoverPreCalculation
-                      .percentageOfParcelWithRainwaterCatchment
+            workbook.data.landCoverPreCalculation.percentageOfParcelWithRainwaterCatchment
 }
 
-UMIS.Water.totalConsumption.landscape.totalPotsPools = function (workbook) {
-  var obj = workbook.data.demandJunctions.landscape.potsPools
-  return (obj.litersPerLocation + obj.numPlantsPools) / 7
-}
-
-UMIS.Water.totalConsumption.landscape.totalIrrigation = function (workbook) {
-  var obj = workbook.data.demandJunctions.landscape.irrigation
-  return (obj.hoursPerWeek * obj.avgFlowRate) * 60 / 7
-}
+// UMIS.Water.totalConsumption.landscape.totalPotsPools = function (workbook) {
+//   var obj = workbook.data.demandJunctions.landscape.potsPools
+//   return (obj.litersPerLocation + obj.numPlantsPools) / 7
+// }
+//
+// UMIS.Water.totalConsumption.landscape.totalIrrigation = function (workbook) {
+//   var obj = workbook.data.demandJunctions.landscape.irrigation
+//   return (obj.hoursPerWeek * obj.avgFlowRate) * 60 / 7
+// }
 
 UMIS.Water.totalConsumption.surfaceCleaning = function (workbook) {
   var obj = workbook.data.demandJunctions.surfaceCleaning
@@ -211,9 +206,9 @@ UMIS.Water.totalConsumption.waterCustomers = function (workbook) {
   return (obj.excessCapacityPerDay * obj.percentageOfExcessDistributed) * 1000
 }
 
+// THIS is what I am Working on
 UMIS.Water.averagePermeability = function (workbook, surfaceType) {
-  return  workbook.data
-                 .landCoverPreCalculation
+  return workbook.data.landCoverPreCalculation
                  .surfaceTypes[surfaceType]
                  .effectivePermeability *
           workbook.data
@@ -224,56 +219,51 @@ UMIS.Water.averagePermeability = function (workbook, surfaceType) {
 
 UMIS.Water.totalAveragePermeability = function (workbook) {
   var total = 0
-  workbook.data
-          .landCoverPreCalculation
-          .surfaceTypes
-          .forEach(function (surfaceType) {
+  workbook.data.landCoverPreCalculation.surfaceTypes.forEach(function (surfaceType) {
     total += UMIS.Water.averagePermeability(workbook, surfaceType)
   })
   return total
 }
 
-
-  var totalConsumption = {
-    water: function (workbook, parcel) {
-      var result = {}
-      result.Toilets = UMIS.Water.totalConsumption.toilets(workbook, parcel)
-      result.Hygiene = UMIS.Water.totalConsumption.hygiene(workbook)
-      result.Kitchen = UMIS.Water.totalConsumption.kitchen(workbook)
-      result.Laundry = UMIS.Water.totalConsumption.laundry(workbook)
-      result.Drinking = UMIS.Water.totalConsumption.drinking(workbook)
-      // result['Landscape'] = UMIS.Water.totalConsumption.landscape(workbook, parcel)
-      result['Surface Cleaning'] = UMIS.Water.totalConsumption.surfaceCleaning(workbook)
-      result['Evaporative Cooling'] = UMIS.Water.totalConsumption.evaporativeCooling(workbook)
-      result['Water Customers'] = UMIS.Water.totalConsumption.waterCustomers(workbook)
-      parcel.totalDemand.water = result
-      return result
-    },
-    materials: function (workbook, parcel) {          var result = {}
-      result.Paper = UMIS.Materials.totalConsumption.paper(workbook)
-      result.Organics = UMIS.Materials.totalConsumption.organics(workbook)
-      result.Plastics = UMIS.Materials.totalConsumption.plastics(workbook)
-      result.Textiles = UMIS.Materials.totalConsumption.textiles(workbook)
-      result.Metals = UMIS.Materials.totalConsumption.metals(workbook)
-      result.Glass = UMIS.Materials.totalConsumption.glass(workbook)
-      result.Trimmings = UMIS.Materials.totalConsumption.trimmings(workbook)
-      result.Appliances = UMIS.Materials.totalConsumption.appliances(workbook)
-      result['Hazardous Waste'] = UMIS.Materials.totalConsumption.hazardousWaste(workbook)
-      result['Inerts and Others'] = UMIS.Materials.totalConsumption.inertsAndOthers(workbook)
-      parcel.totalDemand.materials = result
-      return result
-    }
+var totalConsumption = {
+  water: function (workbook, parcel) {
+    var result = {}
+    result.Toilets = UMIS.Water.totalConsumption.toilets(workbook, parcel)
+    result.Hygiene = UMIS.Water.totalConsumption.hygiene(workbook)
+    result.Kitchen = UMIS.Water.totalConsumption.kitchen(workbook)
+    result.Laundry = UMIS.Water.totalConsumption.laundry(workbook)
+    result.Drinking = UMIS.Water.totalConsumption.drinking(workbook)
+    // result['Landscape'] = UMIS.Water.totalConsumption.landscape(workbook, parcel)
+    result['Surface Cleaning'] = UMIS.Water.totalConsumption.surfaceCleaning(workbook)
+    result['Evaporative Cooling'] = UMIS.Water.totalConsumption.evaporativeCooling(workbook)
+    result['Water Customers'] = UMIS.Water.totalConsumption.waterCustomers(workbook)
+    return result
+  },
+  materials: function (workbook) {
+    var result = {}
+    result.Paper = UMIS.Materials.totalConsumption.paper(workbook)
+    result.Organics = UMIS.Materials.totalConsumption.organics(workbook)
+    result.Plastics = UMIS.Materials.totalConsumption.plastics(workbook)
+    result.Textiles = UMIS.Materials.totalConsumption.textiles(workbook)
+    result.Metals = UMIS.Materials.totalConsumption.metals(workbook)
+    result.Glass = UMIS.Materials.totalConsumption.glass(workbook)
+    result.Trimmings = UMIS.Materials.totalConsumption.trimmings(workbook)
+    result.Appliances = UMIS.Materials.totalConsumption.appliances(workbook)
+    result['Hazardous Waste'] = UMIS.Materials.totalConsumption.hazardousWaste(workbook)
+    result['Inerts and Others'] = UMIS.Materials.totalConsumption.inertsAndOthers(workbook)
+    return result
   }
-
+}
+// parcel.properties
 const calculateTotals = function (parcel) {
+  console.log(_)
   parcel.totalDemand = {}
-  angular.forEach(totalConsumption, function (resourceCalcFunction, resource) {
+  _.forEach(totalConsumption, function (resourceCalcFunction, resource) {
     if (typeof parcel.workbooks[resource] !== 'undefined') {
-      resourceCalcfunction (parcel.workbooks[resource], parcel)
+      parcel.totalDemand[resource] = resourceCalcFunction(parcel.workbooks[resource], parcel)
     }
   })
   return parcel
 }
 
-
-export default UMIS
+export default calculateTotals
