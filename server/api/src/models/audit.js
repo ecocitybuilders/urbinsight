@@ -65,7 +65,7 @@ var AuditSchema = new Schema({
         }
       },
       materials: {
-        option: {},
+        option: { type: String },
         data: {}
       }
     }

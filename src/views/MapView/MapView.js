@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import ReactDOM, { render } from 'react-dom'
-
+import { Button } from 'react-bootstrap'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import { connect } from 'react-redux'
@@ -18,8 +18,8 @@ type Props = {
   surveys: PropTypes.object,
 
 }
-
-class UMISPopUpComponent extends React.Component {
+// turn these into functional stateless components
+class WaterWorkbookPopUp extends React.Component {
   static propTypes = {
     totalDemand: PropTypes.object
   };
@@ -27,33 +27,80 @@ class UMISPopUpComponent extends React.Component {
     const { totalDemand } = this.props
     return (
       <div>
-        <div>
-          {/* I could definitely just generate these */}
-          <h3>Water</h3>
-          <h4><strong>Toilets: </strong>{totalDemand.water.Toilet}</h4>
-          <h4><strong>Hygiene: </strong>{totalDemand.water.Hygiene}</h4>
-          <h4><strong>Kitchen: </strong>{totalDemand.water.Kitchen}</h4>
-          <h4><strong>Laundry: </strong>{(totalDemand.water.Laundry).toFixed(4)}</h4>
-          <h4><strong>Drinking: </strong>{totalDemand.water.Drinking}</h4>
-          <h4><strong>Surface Cleaning: </strong>{(totalDemand.water['Surface Cleaning'])}</h4>
-          <h4><strong>Evaporative Cooling: </strong>{(totalDemand.water['Evaporative Cooling'])}</h4>
-          <h4><strong>Water Customers: </strong>{(totalDemand.water['Water Customers'])}</h4>
-        </div>
-        <div>
-          <h3>Materials</h3>
-          <h4><strong>Paper: </strong>{totalDemand.materials.Paper}</h4>
-          <h4><strong>Organics: </strong>{totalDemand.materials.Organics}</h4>
-          <h4><strong>Plastics: </strong>{totalDemand.materials.Plastics}</h4>
-          <h4><strong>Textiles: </strong>{totalDemand.materials.Textiles}</h4>
-          <h4><strong>Metals: </strong>{totalDemand.materials.Metals}</h4>
-          <h4><strong>Glass: </strong>{totalDemand.materials.Glass}</h4>
-          <h4><strong>Trimmings: </strong>{totalDemand.materials.Trimmings}</h4>
-          <h4><strong>Appliances: </strong>{totalDemand.materials.paper}</h4>
-          <h4><strong>Hazardous Waste: </strong>{totalDemand.materials['Hazardous Waste']}</h4>
-          <h4><strong>Inerts and Others: </strong>{totalDemand.materials['Inerts and Others']}</h4>
-        </div>
+        {/* I could definitely just generate these */}
+        <h3>Water</h3>
+        <h4><strong>Toilets: </strong>{totalDemand.water.Toilet}</h4>
+        <h4><strong>Hygiene: </strong>{totalDemand.water.Hygiene}</h4>
+        <h4><strong>Kitchen: </strong>{totalDemand.water.Kitchen}</h4>
+        <h4><strong>Laundry: </strong>{(totalDemand.water.Laundry).toFixed(4)}</h4>
+        <h4><strong>Drinking: </strong>{totalDemand.water.Drinking}</h4>
+        <h4><strong>Surface Cleaning: </strong>{(totalDemand.water['Surface Cleaning'])}</h4>
+        <h4><strong>Evaporative Cooling: </strong>{(totalDemand.water['Evaporative Cooling'])}</h4>
+        <h4><strong>Water Customers: </strong>{(totalDemand.water['Water Customers'])}</h4>
+        <Button block bsStyle='info' onClick={this.props.nextStep}>
+          Next Resource <span className='glyphicon glyphicon-circle-arrow-right'></span>
+        </Button>
       </div>
     )
+  }
+}
+class MaterialsWorkbookPopUp extends React.Component {
+  static propTypes = {
+    totalDemand: PropTypes.object,
+    nextStep: PropTypes.func
+  };
+  render () {
+    const { totalDemand } = this.props
+    return (
+      <div>
+        <h3>Materials</h3>
+        <h4><strong>Paper: </strong>{totalDemand.materials.Paper}</h4>
+        <h4><strong>Organics: </strong>{totalDemand.materials.Organics}</h4>
+        <h4><strong>Plastics: </strong>{totalDemand.materials.Plastics}</h4>
+        <h4><strong>Textiles: </strong>{totalDemand.materials.Textiles}</h4>
+        <h4><strong>Metals: </strong>{totalDemand.materials.Metals}</h4>
+        <h4><strong>Glass: </strong>{totalDemand.materials.Glass}</h4>
+        <h4><strong>Trimmings: </strong>{totalDemand.materials.Trimmings}</h4>
+        <h4><strong>Appliances: </strong>{totalDemand.materials.paper}</h4>
+        <h4><strong>Hazardous Waste: </strong>{totalDemand.materials['Hazardous Waste']}</h4>
+        <h4><strong>Inerts and Others: </strong>{totalDemand.materials['Inerts and Others']}</h4>
+        <Button block bsStyle='info' onClick={this.props.previousStep}>
+          <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Resource
+        </Button>
+      </div>
+    )
+  }
+}
+class UMISPopUpComponent extends React.Component {
+  static propTypes = {
+    totalDemand: PropTypes.object
+  };
+  constructor () {
+    super()
+    this.state = {
+      active: 1
+    }
+    this.nextStep = this.nextStep.bind(this)
+    this.previousStep = this.previousStep.bind(this)
+  }
+  nextStep () {
+    this.setState({
+      active: this.state.active + 1
+    })
+  }
+  previousStep () {
+    this.setState({
+      active: this.state.active - 1
+    })
+  }
+  render () {
+    const { totalDemand } = this.props
+    switch (this.state.active) {
+      case 1:
+        return <WaterWorkbookPopUp nextStep={this.nextStep} totalDemand={totalDemand} />
+      case 2:
+        return <MaterialsWorkbookPopUp previousStep={this.previousStep} totalDemand={totalDemand} />
+    }
   }
 }
 
