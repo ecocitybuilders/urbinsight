@@ -55,7 +55,6 @@ class UmisDataForm extends React.Component {
       active: this.state.active - 1
     })
   }
-  // NEED A MORE ROBUST FORM RESET
   formReset () {
     this.props.auditFormReset()
     this.setState({
@@ -78,12 +77,6 @@ class UmisDataForm extends React.Component {
       cityTag: cityTag
     })
   }
-
-  // updateGeoValues (lat, lon) {
-  //   this.setState({geoCoordinates: [lon, lat]})
-  //   // Update the geoCoordinates
-  //   // Does this make sense as a dispatch?
-  // }
 
   render () {
     const { auditSubmit, persistFeatureGeoJSON, map, isFetching, audit_form, feature } = this.props
