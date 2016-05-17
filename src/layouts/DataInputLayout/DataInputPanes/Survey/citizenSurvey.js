@@ -111,6 +111,7 @@ class CitizenSurvey extends React.Component {
           saveValues={this.saveValues}
           updateValues={this.updateValues}
           formReset={this.formReset}
+          inputOpened={this.props.inputOpened}
           audits={this.props.audits}/>
 
       case 3:

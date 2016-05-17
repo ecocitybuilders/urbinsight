@@ -102,8 +102,8 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
       }
     }]
   }
-  if (keyword === 'featureSelection') {
-    map.on('click', (e) => {
+  map.on('click', (e) => {
+    if (keyword === 'featureSelection') {
       let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
       if (!features.length) return
       let feature = features[0]
@@ -112,7 +112,6 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
       if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
         // this should be sent through redux most likely
         // Array of Audits currently in the state
-        // let audits = this.props.audits.audits
         options.audits.forEach(function (audit) {
           if (audit._id === feature.properties.id) feature = audit; return
         })
@@ -127,11 +126,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         popup.setHTML(JSON.stringify(feature.properties))
           .addTo(map)
       }
-      // Need to ignore the fact that the audits are having the id added to their props to maintain state
-      // If the feature is found in the current state, which is always should be reassign the feature to be the audit
-    })
-  } else if (keyword === 'umisLocation') {
-    map.on('click', function (e) {
+    } else if (keyword === 'umisLocation') {
       let cityTag = options.cityTag
       // Check if a feature exists in the parcel map
       let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
@@ -166,15 +161,23 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
             }
           })
         }
-        // Update the point source
       }
       options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
-    })
-  } else {
-    map.on('click', function (e) {
+    } else if (keyword === 'surveyLocation') {
       geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
       map.getSource('point').setData(geojson)
+      if (typeof map.getLayer('point') === 'undefined') {
+        map.addLayer({
+          'id': 'point',
+          'type': 'circle',
+          'source': 'point',
+          'paint': {
+            'circle-radius': 10,
+            'circle-color': '#29b381'
+          }
+        })
+      }
       options.updateValues(e.lngLat.lat, e.lngLat.lng)
-    })
-  }
+    }
+  })
 }
