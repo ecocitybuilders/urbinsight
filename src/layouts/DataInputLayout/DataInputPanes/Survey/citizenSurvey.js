@@ -29,8 +29,9 @@ let fieldValues = {
 type Props = {
   dispatch: PropTypes.func.isRequired,
   submitSurvey: PropTypes.func,
-  map: PropTypes.obj,
-  isFetching: PropTypes.bool
+  map: PropTypes.object,
+  isFetching: PropTypes.bool,
+  audits: PropTypes.audits
 }
 class CitizenSurvey extends React.Component {
   props: Props;
@@ -109,7 +110,9 @@ class CitizenSurvey extends React.Component {
           lon={this.state.geoCoordinates[0]}
           saveValues={this.saveValues}
           updateValues={this.updateValues}
-          formReset={this.formReset}/>
+          formReset={this.formReset}
+          audits={this.props.audits}/>
+
       case 3:
         return <CitizenSurveyForm
           previousStep={this.previousStep}

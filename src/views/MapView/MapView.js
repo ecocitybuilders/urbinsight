@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react'
-import ReactDOM, { render } from 'react-dom'
+import ReactDOM from 'react-dom'
+// , { render }
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
-import UMISPopUp from 'containers/UMISPopUp'
+// import UMISPopUp from 'containers/UMISPopUp'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
-import calculateTotals from 'utils/umisUtils'
+import { mapClickHandlerSwitcher } from 'utils/mapUtils'
+// import calculateTotals from 'utils/umisUtils'
 // import MapGL from 'react-map-gl'
 
 type Props = {
@@ -44,12 +46,12 @@ class MapView extends React.Component {
     }
   }
   render () {
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, audits } = this.props
     return (
       <div id='mapContainer'>
         <div id='map'>
           <DataDashboardLayout />
-          {isAuthenticated && <DataInputLayout map={this.state.map}/>}
+          {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
       </div>
     )
@@ -167,35 +169,10 @@ class MapView extends React.Component {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
-    map.on('click', (e) => {
-      let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
-      if (!features.length) return
-      let feature = features[0]
-      let popup = new mapboxgl.Popup()
-        .setLngLat(map.unproject(e.point))
-      if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
-        // Array of Audits currently in the state
-        let audits = this.props.audits.audits
-        audits.forEach(function (audit) {
-          if (audit._id === feature.properties.id) feature = audit; return
-        })
-        let div = document.createElement('div')
-        // Create an Document Element, then will use render to attach the React Node to it.
-        calculateTotals(feature.properties)
-        popup.setDOMContent(div)
-        render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
-          popup.addTo(map)
-        })
-      } else {
-        popup.setHTML(JSON.stringify(feature.properties))
-          .addTo(map)
-      }
-      // Need to ignore the fact that the audits are having the id added to their props to maintain state
-      // If the feature is found in the current state, which is always should be reassign the feature to be the audit
-    })
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
+    if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits.audits})
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }

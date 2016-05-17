@@ -1,4 +1,9 @@
 import _ from 'lodash'
+import React from 'react'
+import { render } from 'react-dom'
+import UMISPopUp from 'containers/UMISPopUp'
+import calculateTotals from 'utils/umisUtils'
+
 const cityObject = {
   cusco: [-71.9675, -13.5320],
   medellin: [-75.5812, 6.2442],
@@ -81,4 +86,95 @@ export function boundsArrayGenerator (bounds) {
           [bounds.getNorthEast().lng, bounds.getNorthEast().lat],
           [bounds.getSouthEast().lng, bounds.getSouthEast().lat],
           [bounds.getSouthWest().lng, bounds.getSouthWest().lat]]
+}
+// switch is the one you are going to
+// if keyword is featureSelection then options object needs to contain audits
+// otherwise it will need to be cityTag, persistFeatureGeoJSON, saveValues
+export function mapClickHandlerSwitcher (map, keyword, options) {
+  map.off('click')
+  let geojson = {
+    'type': 'FeatureCollection',
+    'features': [{
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Point',
+        'coordinates': [0, 0]
+      }
+    }]
+  }
+  if (keyword === 'featureSelection') {
+    map.on('click', (e) => {
+      let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
+      if (!features.length) return
+      let feature = features[0]
+      let popup = new mapboxgl.Popup()
+        .setLngLat(map.unproject(e.point))
+      if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
+        // this should be sent through redux most likely
+        // Array of Audits currently in the state
+        // let audits = this.props.audits.audits
+        options.audits.forEach(function (audit) {
+          if (audit._id === feature.properties.id) feature = audit; return
+        })
+        let div = document.createElement('div')
+        // Create an Document Element, then will use render to attach the React Node to it.
+        calculateTotals(feature.properties)
+        popup.setDOMContent(div)
+        render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
+          popup.addTo(map)
+        })
+      } else {
+        popup.setHTML(JSON.stringify(feature.properties))
+          .addTo(map)
+      }
+      // Need to ignore the fact that the audits are having the id added to their props to maintain state
+      // If the feature is found in the current state, which is always should be reassign the feature to be the audit
+    })
+  } else if (keyword === 'umisLocation') {
+    map.on('click', function (e) {
+      let cityTag = options.cityTag
+      // Check if a feature exists in the parcel map
+      let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
+      // If Yes
+      if (feature.length > 0) {
+        // Set the point source to be empty if its not undefined
+        if (typeof map.getSource('point') !== 'undefined') {
+          map.getSource('point').setData(geojson)
+        }
+        // Set the filter to be Selected
+        map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
+        // Get selected feature geojson
+        let featureGeoJSON = feature[0].toJSON()
+        // I should probably only persist the feature on save instead of here
+        // Save Feature
+        options.persistFeatureGeoJSON(featureGeoJSON)
+      } else {
+        // Blank out filter
+        map.setFilter('lots-hover', ['==', cityTag, ''])
+        // set default geoJSON feature coordinates
+        geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+        // If the the point layer doesn't already exist add it
+        map.getSource('point').setData(geojson)
+        if (typeof map.getLayer('point') === 'undefined') {
+          map.addLayer({
+            'id': 'point',
+            'type': 'circle',
+            'source': 'point',
+            'paint': {
+              'circle-radius': 10,
+              'circle-color': '#29b381'
+            }
+          })
+        }
+        // Update the point source
+      }
+      options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
+    })
+  } else {
+    map.on('click', function (e) {
+      geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+      map.getSource('point').setData(geojson)
+      options.updateValues(e.lngLat.lat, e.lngLat.lng)
+    })
+  }
 }

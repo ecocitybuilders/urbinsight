@@ -20,7 +20,9 @@ type Props = {
   map: PropTypes.object,
   audit_form: PropTypes.object,
   isFetching: PropTypes.bool,
-  feature: PropTypes.object
+  feature: PropTypes.object,
+  inputOpened: PropTypes.bool,
+  audits: PropTypes.object
 }
 let cityObj = {
   'lima': 'id_lote',
@@ -93,6 +95,9 @@ class UmisDataForm extends React.Component {
           formReset={this.formReset}
           audit={audit_form}
           persistFeatureGeoJSON={persistFeatureGeoJSON}
+          inputOpened={this.props.inputOpened}
+          // I pass audits here which probably isn't they way..possibly send dispatch
+          audits={this.props.audits}
           />
       case 3:
         return <UMISSourceInformation

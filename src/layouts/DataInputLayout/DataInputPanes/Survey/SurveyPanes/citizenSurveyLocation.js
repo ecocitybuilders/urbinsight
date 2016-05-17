@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Button, Input, Col, Grid } from 'react-bootstrap'
+import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
   saveValues: PropTypes.func,
@@ -9,18 +10,8 @@ type Props = {
   updateValues: PropTypes.func,
   lat: PropTypes.number,
   lon: PropTypes.number,
-  formReset: PropTypes.func
-}
-
-let geojson = {
-  'type': 'FeatureCollection',
-  'features': [{
-    'type': 'Feature',
-    'geometry': {
-      'type': 'Point',
-      'coordinates': [0, 0]
-    }
-  }]
+  formReset: PropTypes.func,
+  audits: PropTypes.object
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -88,32 +79,18 @@ class CitizenSurveyLocation extends React.Component {
   }
 
   componentDidMount () {
-    // this.props.map.addSource('point', {
-    //   'type': 'geojson',
-    //   'data': geojson
-    // })
-    // this.props.map.addLayer({
-    //   'id': 'point',
-    //   'type': 'circle',
-    //   'source': 'point',
-    //   'paint': {
-    //     'circle-radius': 10,
-    //     'circle-color': '#3887be'
-    //   }
-    // })
-    // this.props.map.on('mousedown', mouseDown, true)
-    this.props.map.off('click')
-    this.props.map.on('click', function (e) {
-      geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-      this.props.map.getSource('point').setData(geojson)
-      this.updateValues(e.lngLat.lat, e.lngLat.lng)
-    }.bind(this))
+    mapClickHandlerSwitcher(this.props.map, 'surveyLocation', {updateValues: this.updateValues})
   }
-
+  componentWillReceiveProps (np) {
+    if (!np.inputOpened) {
+      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
+    } else {
+      // switch this.props to np
+      mapClickHandlerSwitcher(this.props.map, 'surveyLocation', {updateValues: this.updateValues})
+    }
+  }
   componentWillUnmount () {
-    // I should probably do this once the survey submits
-
-    this.props.map.off('click')
+    mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: this.props.audits.audits})
   }
 }
 

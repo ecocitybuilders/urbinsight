@@ -18,7 +18,6 @@ class CitizenSurveySuccess extends React.Component {
   }
   componentDidMount () {
     this.props.map.removeLayer('point')
-    this.props.map.removeSource('point')
   }
 }
 

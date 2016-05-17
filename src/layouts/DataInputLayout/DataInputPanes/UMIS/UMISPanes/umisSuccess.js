@@ -32,19 +32,8 @@ class UMISSuccess extends React.Component {
     )
   }
   componentWillUnmount () {
-    let geojson = {
-      'type': 'FeatureCollection',
-      'features': [{
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [0, 0]
-        }
-      }]
-    }
     this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
     this.props.map.removeLayer('point')
-    this.props.map.getSource('point').setData(geojson)
   }
 }
 

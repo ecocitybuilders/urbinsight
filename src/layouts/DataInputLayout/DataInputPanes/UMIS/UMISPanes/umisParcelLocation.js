@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Input, Col, Button } from 'react-bootstrap'
+import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
   saveValues: PropTypes.func,
@@ -9,7 +10,8 @@ type Props = {
   formReset: PropTypes.func,
   persistFeatureGeoJSON: PropTypes.func,
   audit: PropTypes.obj,
-  cityTag: PropTypes.string
+  cityTag: PropTypes.string,
+  audits: PropTypes.object
 }
 
 class UMISParcelLocation extends React.Component {
@@ -25,14 +27,12 @@ class UMISParcelLocation extends React.Component {
     this.props.formReset()
   }
   nextStep (e) {
-    // e.preventDefault()
     let data = {
       geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
     }
     this.props.saveValues(data)
     this.props.nextStep()
   }
-
   // This is here to satisfy the warning
   onChange (e) {
     let data = {
@@ -85,53 +85,24 @@ class UMISParcelLocation extends React.Component {
   }
 
   componentDidMount () {
-    // this.props.map.on('mousedown', mouseDown, true)
-    this.props.map.off('click')
-    this.props.map.on('click', function (e) {
-      let geojson = {
-        'type': 'FeatureCollection',
-        'features': [{
-          'type': 'Feature',
-          'geometry': {
-            'type': 'Point',
-            'coordinates': [0, 0]
-          }
-        }]
-      }
-      let cityTag = this.props.cityTag
-      // FIX This is to be able to on the fly dictate what unique id to use for parcel selection
-
-      let feature = this.props.map.queryRenderedFeatures(e.point, {layers: ['lots']})
-      if (feature.length) {
-        if (typeof this.props.map.getSource('point') !== 'undefined') {
-          this.props.map.getSource('point').setData(geojson)
-        }
-        this.props.map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
-        let featureGeoJSON = feature[0].toJSON()
-        // I should probably only persist the feature on save instead of here
-        this.props.persistFeatureGeoJSON(featureGeoJSON)
-      } else {
-        this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
-        geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-        // console.log(this.props)
-        if (typeof this.props.map.getLayer('point') === 'undefined') {
-          this.props.map.addLayer({
-            'id': 'point',
-            'type': 'circle',
-            'source': 'point',
-            'paint': {
-              'circle-radius': 10,
-              'circle-color': '#29b381'
-            }
-          })
-        }
-        this.props.map.getSource('point').setData(geojson)
-      }
-      this.props.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
-    }.bind(this))
+    mapClickHandlerSwitcher(this.props.map, 'umisLocation',
+      {cityTag: this.props.cityTag,
+       persistFeatureGeoJSON: this.props.persistFeatureGeoJSON,
+       saveValues: this.props.saveValues})
+  }
+  componentWillReceiveProps (np) {
+    if (!np.inputOpened) {
+      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
+    } else {
+      // switch this.props to np
+      mapClickHandlerSwitcher(this.props.map, 'umisLocation',
+        {cityTag: this.props.cityTag,
+         persistFeatureGeoJSON: this.props.persistFeatureGeoJSON,
+         saveValues: this.props.saveValues})
+    }
   }
   componentWillUnmount () {
-    this.props.map.off('click')
+    mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: this.props.audits.audits})
   }
 }
 

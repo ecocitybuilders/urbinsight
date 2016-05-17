@@ -6,7 +6,8 @@ import UmisDataForm from 'layouts/DataInputLayout/DataInputPanes/UMIS/umisDataFo
 import CitizenSurvey from 'layouts/DataInputLayout/DataInputPanes/Survey/citizenSurvey'
 
 type Props = {
-  map: PropTypes.object.isRequired
+  map: PropTypes.object.isRequired,
+  audits: PropTypes.object
 }
 class DataInputLayout extends React.Component {
   props: Props;
@@ -40,10 +41,10 @@ class DataInputLayout extends React.Component {
         <span id='data-input-toggle' className={dataInputGlyphClass} onClick={this.update}></span>
         <Tabs bsStyle='tabs' defaultActiveKey={1} className={dataInputTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>
-            <UmisDataForm map={this.props.map} />
+            <UmisDataForm map={this.props.map} inputOpened={this.state.opened} audits={this.props.audits}/>
           </Tab>
           <Tab eventKey={2} title='Citizen Survey'>
-            <CitizenSurvey map={this.props.map}/>
+            <CitizenSurvey map={this.props.map} inputOpened={this.state.opened} audits={this.props.audits}/>
           </Tab>
         </Tabs>
       </div>
