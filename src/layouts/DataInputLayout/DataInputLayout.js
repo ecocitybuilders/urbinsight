@@ -27,7 +27,6 @@ class DataInputLayout extends React.Component {
 
   handleSelect (key) {
     let newActiveInput = this.state.activeInput === 'UMIS' ? 'Survey' : 'UMIS'
-    console.log(newActiveInput)
     this.setState({
       key: key,
       activeInput: newActiveInput

@@ -84,7 +84,7 @@ class CitizenSurveyLocation extends React.Component {
   componentWillReceiveProps (np) {
     if (np.activeInput === 'Survey' && np.inputOpened) {
       mapClickHandlerSwitcher(np.map, 'surveyLocation', {updateValues: this.updateValues})
-    } else {
+    } else if (!np.inputOpened) {
       // switch this.props to np
       mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
     }
