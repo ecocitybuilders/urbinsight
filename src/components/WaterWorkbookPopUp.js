@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 
 const WaterWorkbookPopUp = (props) => <div>
   <h3>Water</h3>
-  <h4><strong>Toilets: </strong>{props.totalDemand.water.Toilet}</h4>
+  <h4><strong>Toilets: </strong>{props.totalDemand.water.Toilets}</h4>
   <h4><strong>Hygiene: </strong>{props.totalDemand.water.Hygiene}</h4>
   <h4><strong>Kitchen: </strong>{props.totalDemand.water.Kitchen}</h4>
   <h4><strong>Laundry: </strong>{(props.totalDemand.water.Laundry).toFixed(4)}</h4>
