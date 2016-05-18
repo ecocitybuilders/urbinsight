@@ -10,24 +10,6 @@ class UMISPopUp extends React.Component {
     this.state = {
       active: 1
     }
-    // const { totalDemand } = props
-    // dataArray = []
-    // for (var key in totalDemand.water) {
-    //   if (totalDemand.water.hasOwnProperty(key)) {
-    //     dataArray.push([key, totalDemand.water[key]])
-    //   }
-    // }
-    // chartData = {
-    //   bindto: '#waterPopUpChart',
-    //   data: {
-    //     columns: dataArray,
-    //     type: 'pie'
-    //   },
-    //   size: {
-    //     width: 200,
-    //     height: 200
-    //   }
-    // }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
   }
