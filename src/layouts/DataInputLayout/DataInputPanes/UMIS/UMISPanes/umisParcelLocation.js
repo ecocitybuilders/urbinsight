@@ -97,12 +97,8 @@ class UMISParcelLocation extends React.Component {
          persistFeatureGeoJSON: np.persistFeatureGeoJSON,
          saveValues: np.saveValues})
     } else if (!np.inputOpened) {
-      // switch this.props to np
+      if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
       mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
-      // mapClickHandlerSwitcher(this.props.map, 'umisLocation',
-      //   {cityTag: this.props.cityTag,
-      //    persistFeatureGeoJSON: this.props.persistFeatureGeoJSON,
-      //    saveValues: this.props.saveValues})
     }
   }
   componentWillUnmount () {

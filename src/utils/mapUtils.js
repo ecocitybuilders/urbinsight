@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import { render } from 'react-dom'
 import UMISPopUp from 'containers/UMISPopUp'
+import SurveyPopUp from 'components/SurveyPopUp'
 import calculateTotals from 'utils/umisUtils'
 
 const cityObject = {
@@ -123,8 +124,11 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
           popup.addTo(map)
         })
       } else {
-        popup.setHTML(JSON.stringify(feature.properties))
-          .addTo(map)
+        let div = document.createElement('div')
+        popup.setDOMContent(div)
+        render(<SurveyPopUp survey={feature.properties}/>, div, () => {
+          popup.addTo(map)
+        })
       }
     } else if (keyword === 'umisLocation') {
       let cityTag = options.cityTag
