@@ -22,7 +22,8 @@ type Props = {
   isFetching: PropTypes.bool,
   feature: PropTypes.object,
   inputOpened: PropTypes.bool,
-  audits: PropTypes.object
+  audits: PropTypes.object,
+  activeInput: PropTypes.string
 }
 let cityObj = {
   'lima': 'id_lote',
@@ -98,6 +99,7 @@ class UmisDataForm extends React.Component {
           inputOpened={this.props.inputOpened}
           // I pass audits here which probably isn't they way..possibly send dispatch
           audits={this.props.audits}
+          activeInput={this.props.activeInput}
           />
       case 3:
         return <UMISSourceInformation

@@ -82,16 +82,14 @@ class CitizenSurveyLocation extends React.Component {
     mapClickHandlerSwitcher(this.props.map, 'surveyLocation', {updateValues: this.updateValues})
   }
   componentWillReceiveProps (np) {
-    console.log(np)
-    if (!np.inputOpened) {
-      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
+    if (np.activeInput === 'Survey' && np.inputOpened) {
+      mapClickHandlerSwitcher(np.map, 'surveyLocation', {updateValues: this.updateValues})
     } else {
       // switch this.props to np
-      mapClickHandlerSwitcher(np.map, 'surveyLocation', {updateValues: this.updateValues})
+      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
     }
   }
   componentWillUnmount () {
-    console.log('im unmount')
     mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: this.props.audits.audits})
   }
 }

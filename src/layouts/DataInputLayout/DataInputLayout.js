@@ -14,13 +14,24 @@ class DataInputLayout extends React.Component {
   constructor () {
     super()
     this.state = {
-      opened: false
+      opened: false,
+      activeInput: 'UMIS'
     }
     this.update = this.update.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
   }
   update (e) {
     // Set state calls render so necessary changes need to go before setState is called
     this.setState({opened: !this.state.opened})
+  }
+
+  handleSelect (key) {
+    let newActiveInput = this.state.activeInput === 'UMIS' ? 'Survey' : 'UMIS'
+    console.log(newActiveInput)
+    this.setState({
+      key: key,
+      activeInput: newActiveInput
+    })
   }
   render () {
     let dataInputClass = classNames({'data-input-opened': this.state.opened})
@@ -39,12 +50,15 @@ class DataInputLayout extends React.Component {
     return (
       <div id='data-input' className={dataInputClass}>
         <span id='data-input-toggle' className={dataInputGlyphClass} onClick={this.update}></span>
-        <Tabs bsStyle='tabs' defaultActiveKey={1} className={dataInputTabsClass} justified>
+        <Tabs bsStyle='tabs' activeKey={this.state.key}
+          onSelect={this.handleSelect} className={dataInputTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>
-            <UmisDataForm map={this.props.map} inputOpened={this.state.opened} audits={this.props.audits}/>
+            <UmisDataForm map={this.props.map} inputOpened={this.state.opened}
+              audits={this.props.audits} activeInput={this.state.activeInput}/>
           </Tab>
           <Tab eventKey={2} title='Citizen Survey'>
-            <CitizenSurvey map={this.props.map} inputOpened={this.state.opened} audits={this.props.audits}/>
+            <CitizenSurvey map={this.props.map} inputOpened={this.state.opened}
+              audits={this.props.audits} activeInput={this.state.activeInput}/>
           </Tab>
         </Tabs>
       </div>

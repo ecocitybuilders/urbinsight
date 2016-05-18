@@ -31,7 +31,9 @@ type Props = {
   submitSurvey: PropTypes.func,
   map: PropTypes.object,
   isFetching: PropTypes.bool,
-  audits: PropTypes.audits
+  audits: PropTypes.audits,
+  inputOpened: PropTypes.bool,
+  activeInput: PropTypes.string
 }
 class CitizenSurvey extends React.Component {
   props: Props;
@@ -112,7 +114,9 @@ class CitizenSurvey extends React.Component {
           updateValues={this.updateValues}
           formReset={this.formReset}
           inputOpened={this.props.inputOpened}
-          audits={this.props.audits}/>
+          audits={this.props.audits}
+          activeInput={this.props.activeInput}
+          />
 
       case 3:
         return <CitizenSurveyForm
