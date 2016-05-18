@@ -21,7 +21,6 @@ class DataInputLayout extends React.Component {
     this.handleSelect = this.handleSelect.bind(this)
   }
   update (e) {
-    // Set state calls render so necessary changes need to go before setState is called
     this.setState({opened: !this.state.opened})
   }
 

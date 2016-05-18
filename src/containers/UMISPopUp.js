@@ -1,16 +1,33 @@
 import React, { PropTypes } from 'react'
 import WaterWorkbookPopUp from 'components/WaterWorkbookPopUp'
 import MaterialsWorkbookPopUp from 'components/MaterialsWorkbookPopUp'
-
 class UMISPopUp extends React.Component {
   static propTypes = {
     totalDemand: PropTypes.object
   };
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       active: 1
     }
+    // const { totalDemand } = props
+    // dataArray = []
+    // for (var key in totalDemand.water) {
+    //   if (totalDemand.water.hasOwnProperty(key)) {
+    //     dataArray.push([key, totalDemand.water[key]])
+    //   }
+    // }
+    // chartData = {
+    //   bindto: '#waterPopUpChart',
+    //   data: {
+    //     columns: dataArray,
+    //     type: 'pie'
+    //   },
+    //   size: {
+    //     width: 200,
+    //     height: 200
+    //   }
+    // }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
   }
@@ -28,11 +45,15 @@ class UMISPopUp extends React.Component {
     const { totalDemand } = this.props
     switch (this.state.active) {
       case 1:
-        return <WaterWorkbookPopUp nextStep={this.nextStep} totalDemand={totalDemand} />
+        return (<div>
+          <div style={{height: 100}} id='waterPopUpChart'></div>
+          <WaterWorkbookPopUp nextStep={this.nextStep} totalDemand={totalDemand} />
+        </div>)
       case 2:
         return <MaterialsWorkbookPopUp previousStep={this.previousStep} totalDemand={totalDemand} />
     }
   }
+
 }
 
 export default UMISPopUp
