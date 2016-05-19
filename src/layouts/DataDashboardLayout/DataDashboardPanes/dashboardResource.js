@@ -3,7 +3,6 @@ import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
 import _ from 'lodash'
 
-let chart
 // Load classes based on the Data model using classNames
 class DashboardResourcePane extends React.Component {
   static propTypes = {
@@ -12,7 +11,8 @@ class DashboardResourcePane extends React.Component {
   constructor () {
     super()
     this.state = {
-      totalData: {}
+      totalData: {},
+      chart: {}
     }
   }
   componentDidMount () {
@@ -28,17 +28,21 @@ class DashboardResourcePane extends React.Component {
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
     // am I making a bunch of extra of charts
     chartObj.data.json = this.state.totalData
-    chart = c3.generate(chartObj)
+    let chart = c3.generate(chartObj)
+    this.setState({
+      chart: chart
+    })
   }
   componentDidUpdate (pp, ps) {
-    chart.load({json: ps.totalData})
+    if (ps.chart.load) ps.chart.load({json: ps.totalData})
   }
   componentWillReceiveProps (np) {
     let newTotalData = {}
-    let resource = np.resource
     if (np.audits && np.audits.audits.length > 0) {
-      np.audits.audits.forEach((audit) => {
-        _.forEach(audit.totalDemand[resource], (value, key) => {
+      const resource = np.resource
+      np.audits.audits.forEach(function (audit) {
+        // let demandObj = audit.totalDemand()
+        _.forEach(audit.properties.totalDemand[resource], function (value, key) {
           typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
         })
       })
