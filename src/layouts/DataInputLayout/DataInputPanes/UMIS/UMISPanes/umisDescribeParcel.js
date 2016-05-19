@@ -65,11 +65,11 @@ class UMISDescribeParcel extends React.Component {
           <option value='Industrial'>Industrial</option>
           <option value='Municipal'>Municipal</option>
         </Input>
-        <Input ref='parcelArea' type='number' label='Parcel Area'
+        <Input ref='parcelArea' type='number' label='Parcel Area' min={0}
           defaultValue={audit && audit.parcelIdentification
             ? audit.parcelIdentification.parcelArea
             : ''}/>
-        <Input ref='buildingFootprint' type='number' label='Building Footprint'
+        <Input ref='buildingFootprint' type='number' label='Building Footprint' min={0}
           defaultValue={audit && audit.parcelIdentification
             ? audit.parcelIdentification.buildingFootprint
             : ''} />

@@ -29,26 +29,27 @@ class DashboardResourcePane extends React.Component {
   componentWillReceiveProps (np) {
     let totalData = {}
     let dataArray = []
-    if (np.audits && np.audits.audits.length > 0) {
-      np.audits.audits.forEach(function (audit) {
-        calculateTotals(audit)
-      })
-      console.log('done calculating')
-      np.audits.audits.forEach(function (audit) {
-        console.log(audit)
-        _.forEach(audit.totalDemand.water, function (value, key) {
-          if (typeof totalData[key] === 'undefined') {
-            totalData[key] = [value]
-          } else {
-            totalData[key].push(value)
-          }
-        })
-      })
-      _.forEach(totalData, function (value, key) {
-        dataArray.push([key].concat(value))
-      })
-      console.log(dataArray)
-    }
+    // if (np.audits && np.audits.audits.length > 0) {
+    //   np.audits.audits.forEach(function (audit) {
+    //     calculateTotals(audit)
+    //     console.log(audit)
+    //   })
+    //   console.log('done calculating')
+    //   np.audits.audits.forEach(function (audit) {
+    //     console.log(audit)
+    //     _.forEach(audit.totalDemand.water, function (value, key) {
+    //       if (typeof totalData[key] === 'undefined') {
+    //         totalData[key] = [value]
+    //       } else {
+    //         totalData[key].push(value)
+    //       }
+    //     })
+    //   })
+    //   _.forEach(totalData, function (value, key) {
+    //     dataArray.push([key].concat(value))
+    //   })
+    //   console.log(dataArray)
+    // }
   }
   render () {
     const mountId = 'sample-chart-' + this.props.resource

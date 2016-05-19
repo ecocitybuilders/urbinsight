@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Button } from 'react-bootstrap'
 import _ from 'lodash'
+import calculateTotals from 'utils/umisUtils'
 
 type Props = {
   nextSection: PropTypes.func,
@@ -38,6 +39,7 @@ class UmisSubmit extends React.Component {
         'properties': auditWithoutGeo
       }
     }
+    calculateTotals(geoJSON)
     this.props.auditSubmit(geoJSON)
     this.props.nextSection()
   }

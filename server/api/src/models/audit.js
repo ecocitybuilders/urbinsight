@@ -68,7 +68,8 @@ var AuditSchema = new Schema({
         option: { type: String },
         data: {}
       }
-    }
+    },
+    totalDemand: {}
   }
 
 })

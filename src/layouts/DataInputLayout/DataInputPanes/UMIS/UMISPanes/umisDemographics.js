@@ -48,7 +48,7 @@ class UMISDemographics extends React.Component {
         <h5>List number of residents</h5>
         <br/>
         <h4>Seniors and Retired</h4>
-        <Input ref='seniorLivingWorking' label='Living and Working on Parcel:' type='number'
+        <Input ref='seniorLivingWorking' label='Living and Working on Parcel:' type='number' min={0}
           defaultValue={audit && audit.demographics && audit.demographics.seniors
             ? audit.demographics.seniors.livingWorking : ''} />
         <Input ref='seniorLivingOffsiteWorking' label='Living on Parcel, Working/Studying Offsite:' type='number'

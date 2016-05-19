@@ -32,7 +32,7 @@ exports.getAudits = function * () {
                 splitLngLat(this.query.c),
                 splitLngLat(this.query.d),
                 splitLngLat(this.query.a)]
-  let interim = coords.map(function (point) {
+  let parsedCoords = coords.map(function (point) {
     return [parseFloat(point[0]), parseFloat(point[1])]
   })
   var Audit = require('mongoose').model('Audit')
@@ -41,7 +41,7 @@ exports.getAudits = function * () {
       { $geoWithin:
         { $geometry:
           { type: 'Polygon',
-            coordinates: [interim]
+            coordinates: [parsedCoords]
           }
         }
       }
