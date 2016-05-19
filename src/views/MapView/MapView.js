@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-// , { render }
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 // import UMISPopUp from 'containers/UMISPopUp'
@@ -9,8 +8,6 @@ import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
-// import calculateTotals from 'utils/umisUtils'
-// import MapGL from 'react-map-gl'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
@@ -50,7 +47,7 @@ class MapView extends React.Component {
     return (
       <div id='mapContainer'>
         <div id='map'>
-          <DataDashboardLayout />
+          <DataDashboardLayout audits={audits} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
       </div>

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import classNames from 'classnames'
-import { Tabs } from 'react-bootstrap'
-import { Tab } from 'react-bootstrap'
+import { Tabs, Tab } from 'react-bootstrap'
+// import { connect } from 'react-redux'
 import DashboardResourcePane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardResource'
 import DashboardSocioeconomicPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardSocioeconomic'
 import DashboardEnvironmentalAirPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardEnvironmentalAir'
@@ -10,7 +10,11 @@ import DashboardEnvironmentalSoilPane from 'layouts/DataDashboardLayout/DataDash
 import DashboardProjects from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardProjects'
 import DashboardQualitative from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardQualitative'
 
+type Props = {
+  audits: PropTypes.object
+}
 class DataDashboard extends React.Component {
+  props: Props;
   constructor () {
     super()
     this.state = {
@@ -20,7 +24,6 @@ class DataDashboard extends React.Component {
   }
 
   update (e) {
-    // Set state calls render so necessary changes need to go before setState is called
     this.setState({opened: !this.state.opened})
   }
 
@@ -48,19 +51,19 @@ class DataDashboard extends React.Component {
           <Tab eventKey={1} title='Urban Metabolism'>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
               <Tab eventKey={1} title='Energy'>
-                <DashboardResourcePane resource='energy' />
+                <DashboardResourcePane resource='energy' audits={this.props.audits}/>
               </Tab>
               <Tab eventKey={2} title='Water'>
-                <DashboardResourcePane resource='water'/>
+                <DashboardResourcePane resource='water' audits={this.props.audits}/>
               </Tab>
               <Tab eventKey={3} title='Materials'>
-                <DashboardResourcePane resource='materials'/>
+                <DashboardResourcePane resource='materials' audits={this.props.audits}/>
               </Tab>
               <Tab eventKey={4} title='Food'>
-                <DashboardResourcePane resource='food'/>
+                <DashboardResourcePane resource='food' audits={this.props.audits}/>
               </Tab>
               <Tab eventKey={5} title='Mobility'>
-                <DashboardResourcePane resource='mobility'/>
+                <DashboardResourcePane resource='mobility' audits={this.props.audits}/>
               </Tab>
             </Tabs>
           </Tab>
@@ -109,5 +112,21 @@ class DataDashboard extends React.Component {
     )
   }
 }
+
+// const mapStateToProps = (state) => {
+//   const { audit } = state
+//   const { isFetching } = audit
+//   return {
+//     isFetching
+//   }
+// }
+//
+// const mapDispatchToProps = (dispatch) => {
+//   return {}
+// }
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(DataDashboard)
 
 export default DataDashboard
