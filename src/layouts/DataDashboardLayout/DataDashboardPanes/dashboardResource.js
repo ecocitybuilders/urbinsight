@@ -1,15 +1,18 @@
 import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
+import calculateTotals from 'utils/umisUtils'
+import _ from 'lodash'
 
 // To Be Replaced with Actual Function Data
-let exampleData = {
+let paneData = {
   bindto: '#sample-chart-',
   data: {
     columns: [
             ['data1', 30, 200, 100, 400, 150, 250],
             ['data2', 50, 20, 10, 40, 15, 25]
-    ]
+    ],
+    type: 'pie'
   }
 }
 // Load classes based on the Data model using classNames
@@ -18,10 +21,34 @@ class DashboardResourcePane extends React.Component {
     resource: PropTypes.string.isRequired
   };
   componentDidMount () {
-    exampleData.size = {width: (screen.width / 4)}
-    exampleData.bindto = '#sample-chart-' + this.props.resource
+    paneData.size = {width: (screen.width / 4)}
+    paneData.bindto = '#sample-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
-    c3.generate(exampleData)
+    c3.generate(paneData)
+  }
+  componentWillReceiveProps (np) {
+    let totalData = {}
+    let dataArray = []
+    if (np.audits && np.audits.audits.length > 0) {
+      np.audits.audits.forEach(function (audit) {
+        calculateTotals(audit)
+      })
+      console.log('done calculating')
+      np.audits.audits.forEach(function (audit) {
+        console.log(audit)
+        _.forEach(audit.totalDemand.water, function (value, key) {
+          if (typeof totalData[key] === 'undefined') {
+            totalData[key] = [value]
+          } else {
+            totalData[key].push(value)
+          }
+        })
+      })
+      _.forEach(totalData, function (value, key) {
+        dataArray.push([key].concat(value))
+      })
+      console.log(dataArray)
+    }
   }
   render () {
     const mountId = 'sample-chart-' + this.props.resource

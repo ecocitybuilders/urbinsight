@@ -27,10 +27,7 @@ class UMISPopUp extends React.Component {
     const { totalDemand } = this.props
     switch (this.state.active) {
       case 1:
-        return (<div>
-          <div style={{height: 100}} id='waterPopUpChart'></div>
-          <WaterWorkbookPopUp nextStep={this.nextStep} totalDemand={totalDemand} />
-        </div>)
+        return <WaterWorkbookPopUp nextStep={this.nextStep} totalDemand={totalDemand} />
       case 2:
         return <MaterialsWorkbookPopUp previousStep={this.previousStep} totalDemand={totalDemand} />
     }
