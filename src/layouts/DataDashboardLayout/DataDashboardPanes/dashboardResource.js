@@ -1,58 +1,55 @@
 import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
-import calculateTotals from 'utils/umisUtils'
 import _ from 'lodash'
 
-// To Be Replaced with Actual Function Data
-let paneData = {
-  bindto: '#sample-chart-',
-  data: {
-    columns: [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
-    ],
-    type: 'pie'
-  }
-}
+let chart
 // Load classes based on the Data model using classNames
 class DashboardResourcePane extends React.Component {
   static propTypes = {
     resource: PropTypes.string.isRequired
   };
+  constructor () {
+    super()
+    this.state = {
+      totalData: {}
+    }
+  }
   componentDidMount () {
-    paneData.size = {width: (screen.width / 4)}
-    paneData.bindto = '#sample-chart-' + this.props.resource
+    let chartObj = {
+      bindto: '#resource-chart-',
+      data: {
+        json: {},
+        type: 'pie'
+      }
+    }
+    chartObj.size = {width: (screen.width / 4)}
+    chartObj.bindto = '#resource-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
-    c3.generate(paneData)
+    // am I making a bunch of extra of charts
+    chartObj.data.json = this.state.totalData
+    chart = c3.generate(chartObj)
+  }
+  componentDidUpdate (pp, ps) {
+    chart.load({json: ps.totalData})
   }
   componentWillReceiveProps (np) {
-    let totalData = {}
-    let dataArray = []
-    // if (np.audits && np.audits.audits.length > 0) {
-    //   np.audits.audits.forEach(function (audit) {
-    //     calculateTotals(audit)
-    //     console.log(audit)
-    //   })
-    //   console.log('done calculating')
-    //   np.audits.audits.forEach(function (audit) {
-    //     console.log(audit)
-    //     _.forEach(audit.totalDemand.water, function (value, key) {
-    //       if (typeof totalData[key] === 'undefined') {
-    //         totalData[key] = [value]
-    //       } else {
-    //         totalData[key].push(value)
-    //       }
-    //     })
-    //   })
-    //   _.forEach(totalData, function (value, key) {
-    //     dataArray.push([key].concat(value))
-    //   })
-    //   console.log(dataArray)
-    // }
+    let newTotalData = {}
+    let resource = np.resource
+    if (np.audits && np.audits.audits.length > 0) {
+      np.audits.audits.forEach((audit) => {
+        _.forEach(audit.totalDemand[resource], (value, key) => {
+          typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
+        })
+      })
+    }
+    this.setState({
+      totalData: newTotalData
+    })
   }
+
   render () {
-    const mountId = 'sample-chart-' + this.props.resource
+    const mountId = 'resource-chart-' + this.props.resource
     return (
       <div>
         <div className='dashboard-pane'>

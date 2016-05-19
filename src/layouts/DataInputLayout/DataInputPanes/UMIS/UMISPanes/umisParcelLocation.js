@@ -102,7 +102,8 @@ class UMISParcelLocation extends React.Component {
     }
   }
   componentWillUnmount () {
-    mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: this.props.audits.audits})
+    let audits = this.props.audits ? this.props.audits.audits : {}
+    mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: audits})
   }
 }
 

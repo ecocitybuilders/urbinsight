@@ -118,7 +118,6 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         })
         let div = document.createElement('div')
         // Create an Document Element, then will use render to attach the React Node to it.
-        calculateTotals(feature.properties)
         popup.setDOMContent(div)
         render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
           popup.addTo(map)

@@ -40,6 +40,7 @@ class UmisSubmit extends React.Component {
       }
     }
     calculateTotals(geoJSON)
+    console.log(geoJSON)
     this.props.auditSubmit(geoJSON)
     this.props.nextSection()
   }
@@ -52,8 +53,6 @@ class UmisSubmit extends React.Component {
       <div>
         <h3>Submit Parcel Audit</h3>
         <br />
-        <br/>
-        <br/>
         <br/>
         <br/>
         <br/>

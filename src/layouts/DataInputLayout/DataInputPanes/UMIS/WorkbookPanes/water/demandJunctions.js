@@ -33,7 +33,7 @@ class WaterDemandJunctions extends React.Component {
         </Button>
         {toiletList}
         <Input label='Number of Persons Using Toilets:' type='number' ref='toilets.numPersonsUsingToilets'/><br />
-        <Input label='Daily Usage Per Person:' type='number' ref='toilets.dailyPerPersonUsage'/><br />
+        <Input label='Daily Usage Per Person:' type='number' ref='toilets.dailyPerPersonUsage' defaultValue={0}/><br />
         {/* <!-- Add functionality to add a shower -->*/}
         <h5>Hygiene</h5>
         <Button onClick={this.props.addShower}><span className='glyphicon glyphicon-plus'></span>Add Shower</Button>

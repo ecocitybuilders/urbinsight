@@ -27,7 +27,7 @@ UMIS.Calculations.totalEffectiveOccupancy = function (parcel) {
   var total = 0
   var ageTypes = ['seniors', 'adults', 'youth']
   ageTypes.forEach(function (ageType) {
-    total += UMIS.Calculations.effectiveOccupancyByAge(parcel, ageType)
+    total += parseFloat(UMIS.Calculations.effectiveOccupancyByAge(parcel, ageType))
   })
   return total
 }
@@ -140,8 +140,9 @@ UMIS.Water.totalConsumption.hygiene.avgShowerConsumption = function (workbook) {
 
 UMIS.Water.totalConsumption.kitchen = function (workbook) {
   var obj = workbook.data.demandJunctions.kitchen
-  return obj.quantityOfMealsPerDay * obj.waterUsedPerMeal + obj.dishwashingWaterPerLoad * obj.loadsOfDishesPerDay +
-    obj.waterConsumptionPerMeal
+  return parseFloat(obj.quantityOfMealsPerDay * obj.waterUsedPerMeal +
+    obj.dishwashingWaterPerLoad * obj.loadsOfDishesPerDay +
+    obj.waterConsumptionPerMeal)
 }
 
 UMIS.Water.totalConsumption.laundry = function (workbook) {
@@ -256,10 +257,11 @@ var totalConsumption = {
 }
 // parcel.properties
 const calculateTotals = function (parcel) {
-  parcel.totalDemand = {}
+  parcel.properties.totalDemand = {}
   _.forEach(totalConsumption, function (resourceCalcFunction, resource) {
-    if (typeof parcel.workbooks[resource] !== 'undefined') {
-      parcel.totalDemand[resource] = resourceCalcFunction(parcel.workbooks[resource], parcel)
+    if (typeof parcel.properties.workbooks[resource] !== 'undefined') {
+      parcel.properties.totalDemand[resource] =
+        resourceCalcFunction(parcel.properties.workbooks[resource], parcel.properties)
     }
   })
   return parcel
