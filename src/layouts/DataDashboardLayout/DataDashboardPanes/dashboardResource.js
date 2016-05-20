@@ -56,10 +56,11 @@ class DashboardResourcePane extends React.Component {
 
   render () {
     const mountId = 'resource-chart-' + this.props.resource
+    const displayValue = _.isEmpty(this.state.totalData) ? 'none' : 'inline'
     return (
       <div>
         <div className='dashboard-pane'>
-          {!(_.isEmpty(this.state.totalData)) && <div className='resource-chart-container' id={mountId}></div>}
+          <div className='resource-chart-container' style={{display: displayValue}}id={mountId}></div>
           {_.isEmpty(this.state.totalData) && <div><h3>No Audit Data</h3></div>}
             {/* I'm A Graphic based on water consumption and availability*/}
           <div id='kpi-indicators'>
