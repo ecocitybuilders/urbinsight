@@ -135,7 +135,6 @@ class DashboardQualitative extends React.Component {
   }
   componentDidUpdate (pp, ps) {
     if (ps.chart.load && typeof pp.surveys !== 'undefined') {
-      chartObj.data.json = ps.totalData
       ps.chart.load({
         json: ps.totalData,
         keys: {
@@ -199,6 +198,9 @@ class DashboardQualitative extends React.Component {
     // style='min-width: 400px max-width: 95% height: 275px margin: 20px 25px 25px 10px' ng-hide='showNoDataMessage'
     return (
       <div>
+        <h3>
+          Average Response - Quality of Life
+        </h3>
         <div id='survey-results'></div>
         {questionsList}
       </div>

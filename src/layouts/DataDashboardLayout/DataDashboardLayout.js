@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import { Tabs, Tab } from 'react-bootstrap'
-// import { connect } from 'react-redux'
 import DashboardResourcePane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardResource'
 import DashboardSocioeconomicPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardSocioeconomic'
 import DashboardEnvironmentalAirPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardEnvironmentalAir'
@@ -65,7 +64,10 @@ class DataDashboard extends React.Component {
               </Tab>
             </Tabs>
           </Tab>
-          <Tab eventKey={2} title='Environmental'>
+          <Tab eventKey={2} title='Qualitative'>
+            <DashboardQualitative surveys={this.props.surveys} />
+          </Tab>
+          <Tab eventKey={3} title='Environmental' disabled>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
               <Tab eventKey={1} title='Air'>
                 <DashboardEnvironmentalAirPane />
@@ -78,7 +80,7 @@ class DataDashboard extends React.Component {
               </Tab>
             </Tabs>
           </Tab>
-          <Tab eventKey={3} title='Socioeconomic'>
+          <Tab eventKey={4} title='Socioeconomic' disabled>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
               <Tab eventKey={1} title='Demographics'>
                 <DashboardSocioeconomicPane indicator='demographics'/>
@@ -95,13 +97,8 @@ class DataDashboard extends React.Component {
               </Tab>
             </Tabs>
           </Tab>
-          <Tab eventKey={4} title='Qualitative'>
-            <h3>
-              Average Response - Quality of Life
-            </h3>
-            <DashboardQualitative surveys={this.props.surveys} />
-          </Tab>
-          <Tab eventKey={5} title='Projects'>
+
+          <Tab eventKey={5} title='Projects' disabled>
             <h2 style={{textAlign: 'center'}}>Community Based Projects</h2>
             <DashboardProjects />
           </Tab>
@@ -110,21 +107,5 @@ class DataDashboard extends React.Component {
     )
   }
 }
-
-// const mapStateToProps = (state) => {
-//   const { audit } = state
-//   const { isFetching } = audit
-//   return {
-//     isFetching
-//   }
-// }
-//
-// const mapDispatchToProps = (dispatch) => {
-//   return {}
-// }
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(DataDashboard)
 
 export default DataDashboard
