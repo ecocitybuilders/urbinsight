@@ -29,13 +29,10 @@ class DataDashboard extends React.Component {
   }
 
   render () {
-    let dashboardClass = classNames({'dashboard-opened': this.state.opened,
-                                     'visualization-dashboard': true
-    })
+    let dashboardClass = classNames({'dashboard-opened': this.state.opened})
     let dashboardTabsClass = classNames({
       'dashboard-opened-tabs': this.state.opened,
-      'dashboard-closed-tabs': !this.state.opened,
-      'dashboard-tabs': true
+      'dashboard-closed-tabs': !this.state.opened
     })
     let dashboardGlyphClass = classNames({
       'glyphicon': true,
@@ -46,7 +43,7 @@ class DataDashboard extends React.Component {
 
     return (
 
-      <div className={dashboardClass}>
+      <div id='visualization-dashboard' className={dashboardClass}>
         <span className={dashboardGlyphClass} onClick={this.update}></span>
         <Tabs bsStyle='tabs' defaultActiveKey={1} className={dashboardTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>

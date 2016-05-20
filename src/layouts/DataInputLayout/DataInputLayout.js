@@ -35,8 +35,7 @@ class DataInputLayout extends React.Component {
     let dataInputClass = classNames({'data-input-opened': this.state.opened})
     let dataInputTabsClass = classNames({
       'dashboard-opened-tabs': this.state.opened,
-      'data-input-closed-tabs': !this.state.opened,
-      'dashboard-tabs-resources': true
+      'dashboard-closed-tabs': !this.state.opened
     })
     let dataInputGlyphClass = classNames({
       'glyphicon': true,
