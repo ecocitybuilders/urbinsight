@@ -9,22 +9,22 @@ let chartObj = {
   bindto: '#survey-results',
   data: {
     json: [
-      {name: 'employment', value: 3},
-      {name: 'healthcare', value: 0},
-      {name: 'family', value: 2},
-      {name: 'stability', value: 3},
-      {name: 'relationships', value: 4},
-      {name: 'recreation', value: 1},
-      {name: 'education', value: 2},
-      {name: 'vacation', value: 3},
-      {name: 'housing', value: 4},
-      {name: 'environment', value: 2},
-      {name: 'discrimination', value: 1},
-      {name: 'religion', value: 2},
-      {name: 'mobility', value: 4},
-      {name: 'movement', value: 3},
-      {name: 'safety', value: 1},
-      {name: 'governance', value: 2}
+      {name: 'Employment', value: 0},
+      {name: 'Healthcare', value: 0},
+      {name: 'Family', value: 0},
+      {name: 'Stability', value: 0},
+      {name: 'Relationships', value: 0},
+      {name: 'Recreation', value: 0},
+      {name: 'Education', value: 0},
+      {name: 'Vacation', value: 0},
+      {name: 'Housing', value: 0},
+      {name: 'Environment', value: 0},
+      {name: 'Discrimination', value: 0},
+      {name: 'Religion', value: 0},
+      {name: 'Mobility', value: 0},
+      {name: 'Movement', value: 0},
+      {name: 'Safety', value: 0},
+      {name: 'Governance', value: 0}
     ],
     keys: {
       x: 'name',
@@ -104,6 +104,9 @@ class DashboardQualitative extends React.Component {
     let surveys = surveysObj.surveys
     let responsesPerQuestion = {}
     var results = {}
+    let capitalizeFirstLetter = function (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    }
     surveys.forEach(function (survey) {
       _.forEach(survey, function (response, question) {
         if (['__v', '_id', 'geoCoordinates'].indexOf(question) < 0) {
@@ -119,36 +122,22 @@ class DashboardQualitative extends React.Component {
       })
     })
     return Object.keys(results).map(function (key) {
-      // debugger
-      if (!responsesPerQuestion[key]) return {name: key, value: 0}
-      return {name: key, value: results[key] / responsesPerQuestion[key]}
+      if (!responsesPerQuestion[key]) return {name: capitalizeFirstLetter(key), value: 0}
+      return {name: capitalizeFirstLetter(key), value: results[key] / responsesPerQuestion[key]}
     })
-    // let newObj = {}
-    // a.forEach(function(obj){
-    //   newObj[obj.name] = [obj.value]
-    // })
-    // console.log(a)
-    // return a
   }
   componentDidMount () {
     chartObj.size = {width: (screen.width / 2.2)}
-    // chartObj.data.json = this.state.totalData
     let chart = c3.generate(chartObj)
-    // console.log(chart)
     this.setState({
       chart: chart
     })
   }
   componentDidUpdate (pp, ps) {
     if (ps.chart.load && typeof pp.surveys !== 'undefined') {
-      // console.log(ps.totalData)
       chartObj.data.json = ps.totalData
-      // console.log(chartObj)
-      // c3.generate(chartObj)
-      // ps.chart.load({json: ps.totalData})
       ps.chart.load({
         json: ps.totalData,
-        // unload: true,
         keys: {
           x: 'name',
           value: ['value']
@@ -162,10 +151,6 @@ class DashboardQualitative extends React.Component {
     if (typeof np.surveys !== 'undefined') {
       newTotalData = this.generateSurveyTotals(np.surveys)
     }
-    // // let chartDataArray = ['Average Response']
-    // // newTotalData.forEach(function (obj) {
-    // //   chartDataArray.push(obj.value)
-    // // })
     this.setState({
       totalData: newTotalData
     })
