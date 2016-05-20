@@ -5,12 +5,9 @@ import _ from 'lodash'
 let chartObj = {
   bindto: '#survey-results',
   data: {
-    json: [{}],
-    keys: {
-//      x: 'name', // it's possible to specify 'x' when category axis
-      x: 'name',
-      value: ['value']
-    },
+    columns: [
+      ['Average Response', 4, 5, 3, 1, 5, 0, 4, 4, 2, 3, 1, 3, 4, 4, 4, 4]
+    ],
     type: 'bar',
     color: function (color, d) {
       return colors[d.index]
@@ -24,9 +21,9 @@ let chartObj = {
   axis: {
     x: {
       type: 'category',
-    //   categories: ['Employment', 'Healthcare', 'Family', 'Stability', 'Relationships',
-    //               'Recreation', 'Education', 'Vacation', 'Housing', 'Environment',
-    //               'Discrimination', 'Religion', 'Mobility', 'Movement', 'Safety', 'Governance' ],
+      categories: ['Employment', 'Healthcare', 'Family', 'Stability', 'Relationships',
+                  'Recreation', 'Education', 'Vacation', 'Housing', 'Environment',
+                  'Discrimination', 'Religion', 'Mobility', 'Movement', 'Safety', 'Governance' ],
       tick: {
         rotate: 75,
         multiline: false
@@ -83,7 +80,7 @@ class DashboardQualitative extends React.Component {
   constructor () {
     super()
     this.state = {
-      totalData: [{}],
+      totalData: [],
       chart: {},
       noData: true
     }
@@ -101,13 +98,14 @@ class DashboardQualitative extends React.Component {
             value = 0
           } else {
             value = parseInt(response)
-            responsesPerQuestion[question] = responsesPerQuestion[question] ? responsesPerQuestion[question]++ : 1
+            responsesPerQuestion[question] = responsesPerQuestion[question] ? responsesPerQuestion[question] += 1 : 1
           }
           results[question] = results[question] ? results[question] += value : value
         }
       })
     })
     return Object.keys(results).map(function (key) {
+      // debugger
       if (!responsesPerQuestion[key]) return {name: key, value: 0}
       return {name: key, value: results[key] / responsesPerQuestion[key]}
     })
@@ -121,17 +119,23 @@ class DashboardQualitative extends React.Component {
     })
   }
   componentDidUpdate (pp, ps) {
-    console.log(ps.totalData)
-    if (ps.chart.load) ps.chart.load({json: ps.totalData})
+    // console.log(ps.totalData)
+    if (ps.chart.load && typeof pp.surveys !== 'undefined') {
+      ps.chart.load({columns: ps.totalData})
+    }
   }
 
   componentWillReceiveProps (np) {
-    let newTotalData = [{}]
-    if (np.surveys) {
+    var newTotalData = []
+    if (typeof np.surveys !== 'undefined') {
       newTotalData = this.generateSurveyTotals(np.surveys)
     }
+    let chartDataArray = ['Average Response']
+    newTotalData.forEach(function (obj) {
+      chartDataArray.push(obj.value)
+    })
     this.setState({
-      totalData: newTotalData
+      totalData: [chartDataArray]
     })
   }
 
