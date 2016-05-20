@@ -11,7 +11,8 @@ import DashboardProjects from 'layouts/DataDashboardLayout/DataDashboardPanes/Da
 import DashboardQualitative from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardQualitative'
 
 type Props = {
-  audits: PropTypes.object
+  audits: PropTypes.object,
+  surveys: PropTypes.object
 }
 class DataDashboard extends React.Component {
   props: Props;
@@ -101,7 +102,7 @@ class DataDashboard extends React.Component {
             <h3>
               Average Response - Quality of Life
             </h3>
-            <DashboardQualitative />
+            <DashboardQualitative surveys={this.props.surveys} />
           </Tab>
           <Tab eventKey={5} title='Projects'>
             <h2 style={{textAlign: 'center'}}>Community Based Projects</h2>

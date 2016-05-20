@@ -1,12 +1,16 @@
 import React from 'react'
 import c3 from 'c3'
+import _ from 'lodash'
 
-let exampleData = {
+let chartObj = {
   bindto: '#survey-results',
   data: {
-    columns: [
-      ['Average Response', 4, 5, 3, 1, 5, 0, 4, 4, 2, 3, 1, 3, 4, 4, 4, 4]
-    ],
+    json: [{}],
+    keys: {
+//      x: 'name', // it's possible to specify 'x' when category axis
+      x: 'name',
+      value: ['value']
+    },
     type: 'bar',
     color: function (color, d) {
       return colors[d.index]
@@ -20,9 +24,9 @@ let exampleData = {
   axis: {
     x: {
       type: 'category',
-      categories: ['Employment', 'Healthcare', 'Family', 'Stability', 'Relationships',
-                   'Recreation', 'Education', 'Vacation', 'Housing', 'Environment',
-                   'Discrimination', 'Religion', 'Mobility', 'Movement', 'Safety', 'Governance' ],
+    //   categories: ['Employment', 'Healthcare', 'Family', 'Stability', 'Relationships',
+    //               'Recreation', 'Education', 'Vacation', 'Housing', 'Environment',
+    //               'Discrimination', 'Religion', 'Mobility', 'Movement', 'Safety', 'Governance' ],
       tick: {
         rotate: 75,
         multiline: false
@@ -54,12 +58,81 @@ let colors = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
               '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5',
               '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f',
               '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
-
+// switch (response) {
+//   case 'excellent':
+//     results[question] += 5
+//     break
+//   case 'good':
+//     results[question] += 4
+//     break
+//   case 'adequate':
+//     results[question] += 3
+//     break
+//   case 'insufficient':
+//     results[question] += 2
+//     break
+//   case 'absent':
+//     results[question] += 1
+//     break
+//   case 'unknown':
+//     results[question] += 0
+//     break
+//   default:
+// }
 class DashboardQualitative extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      totalData: [{}],
+      chart: {},
+      noData: true
+    }
+  }
 
+  generateSurveyTotals (surveysObj) {
+    let surveys = surveysObj.surveys
+    let responsesPerQuestion = {}
+    var results = {}
+    surveys.forEach(function (survey) {
+      _.forEach(survey, function (response, question) {
+        if (['__v', '_id', 'geoCoordinates'].indexOf(question) < 0) {
+          let value
+          if (response === '') {
+            value = 0
+          } else {
+            value = parseInt(response)
+            responsesPerQuestion[question] = responsesPerQuestion[question] ? responsesPerQuestion[question]++ : 1
+          }
+          results[question] = results[question] ? results[question] += value : value
+        }
+      })
+    })
+    return Object.keys(results).map(function (key) {
+      if (!responsesPerQuestion[key]) return {name: key, value: 0}
+      return {name: key, value: results[key] / responsesPerQuestion[key]}
+    })
+  }
   componentDidMount () {
-    exampleData.size = {width: (screen.width / 2.2)}
-    c3.generate(exampleData)
+    chartObj.size = {width: (screen.width / 2.2)}
+    chartObj.data.columns = this.state.totalData
+    let chart = c3.generate(chartObj)
+    this.setState({
+      chart: chart
+    })
+  }
+  componentDidUpdate (pp, ps) {
+    console.log(ps.totalData)
+    if (ps.chart.load) ps.chart.load({json: ps.totalData})
+  }
+
+  componentWillReceiveProps (np) {
+    let newTotalData = [{}]
+    if (np.surveys) {
+      newTotalData = this.generateSurveyTotals(np.surveys)
+    }
+    this.setState({
+      totalData: newTotalData
+    })
   }
 
   render () {
@@ -102,7 +175,7 @@ class DashboardQualitative extends React.Component {
         </div>
       )
     })
-    // style='min-width: 400px; max-width: 95%; height: 275px; margin: 20px 25px 25px 10px;' ng-hide='showNoDataMessage'
+    // style='min-width: 400px max-width: 95% height: 275px margin: 20px 25px 25px 10px' ng-hide='showNoDataMessage'
     return (
       <div>
         <div id='survey-results' ></div>

@@ -43,11 +43,11 @@ class MapView extends React.Component {
     }
   }
   render () {
-    const { isAuthenticated, audits } = this.props
+    const { isAuthenticated, audits, surveys } = this.props
     return (
       <div id='mapContainer'>
         <div id='map'>
-          <DataDashboardLayout audits={audits} />
+          <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
       </div>
