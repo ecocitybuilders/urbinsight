@@ -12,7 +12,8 @@ class DashboardResourcePane extends React.Component {
     super()
     this.state = {
       totalData: {},
-      chart: {}
+      chart: {},
+      noData: true
     }
   }
   componentDidMount () {
@@ -21,6 +22,7 @@ class DashboardResourcePane extends React.Component {
       data: {
         json: {},
         type: 'pie'
+
       }
     }
     chartObj.size = {width: (screen.width / 4)}
@@ -57,9 +59,9 @@ class DashboardResourcePane extends React.Component {
     return (
       <div>
         <div className='dashboard-pane'>
-          <div className='resource-chart-container' id={mountId}>
+          <div className='resource-chart-container' id={mountId}></div>
+          {_.isEmpty(this.state.totalData) && <div><h3>No Audit Data</h3></div>}
             {/* I'm A Graphic based on water consumption and availability*/}
-          </div>
           <div id='kpi-indicators'>
             <h2>KPI Indicators</h2>
             <div>
