@@ -50,19 +50,19 @@ class DataDashboard extends React.Component {
         <Tabs bsStyle='tabs' defaultActiveKey={1} className={dashboardTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
-              <Tab eventKey={1} title='Energy'>
-                <DashboardResourcePane resource='energy' audits={this.props.audits}/>
-              </Tab>
-              <Tab eventKey={2} title='Water'>
+              <Tab eventKey={1} title='Water'>
                 <DashboardResourcePane resource='water' audits={this.props.audits}/>
               </Tab>
-              <Tab eventKey={3} title='Materials'>
+              <Tab eventKey={2} title='Materials'>
                 <DashboardResourcePane resource='materials' audits={this.props.audits}/>
               </Tab>
-              <Tab eventKey={4} title='Food'>
+              <Tab eventKey={3} title='Energy' disabled>
+                <DashboardResourcePane resource='energy' audits={this.props.audits}/>
+              </Tab>
+              <Tab eventKey={4} title='Food' disabled>
                 <DashboardResourcePane resource='food' audits={this.props.audits}/>
               </Tab>
-              <Tab eventKey={5} title='Mobility'>
+              <Tab eventKey={5} title='Mobility' disabled>
                 <DashboardResourcePane resource='mobility' audits={this.props.audits}/>
               </Tab>
             </Tabs>
