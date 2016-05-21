@@ -7,7 +7,13 @@ var bcrypt = require('../../../lib/bcrypt-thunk') // version that supports yield
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var co = require('co')
-
+// var userSchema = new Schema({
+//   username: {type: String, required: true},
+//   email: {type: String, required: true},
+//   password: {type: String, required: true},
+//   role: {type: String, required: false},
+//   profile: {} // for extra information
+// })
 var UserSchema = new Schema({
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true }
