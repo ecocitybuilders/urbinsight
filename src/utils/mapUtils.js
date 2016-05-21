@@ -159,7 +159,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
             'type': 'circle',
             'source': 'point',
             'paint': {
-              'circle-radius': 10,
+              'circle-radius': 5,
               'circle-color': '#29b381'
             }
           })
@@ -175,7 +175,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
           'type': 'circle',
           'source': 'point',
           'paint': {
-            'circle-radius': 10,
+            'circle-radius': 5,
             'circle-color': '#29b381'
           }
         })

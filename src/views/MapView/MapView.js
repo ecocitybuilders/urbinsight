@@ -8,6 +8,7 @@ import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
+import geojson from 'utils/geojson2'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
@@ -17,7 +18,7 @@ type Props = {
   surveys: PropTypes.object
 }
 
-let geojson = {
+let geojson1 = {
   'type': 'FeatureCollection',
   'features': [{
     'type': 'Feature',
@@ -112,7 +113,7 @@ class MapView extends React.Component {
         'type': 'circle',
         'source': 'surveys',
         'paint': {
-          'circle-radius': 10,
+          'circle-radius': 5,
           'circle-color': '#ec9918'
         }
       })
@@ -128,7 +129,7 @@ class MapView extends React.Component {
         'type': 'circle',
         'source': 'auditPoints',
         'paint': {
-          'circle-radius': 10,
+          'circle-radius': 5,
           'circle-color': '#e022d9'
         }
       })
@@ -146,15 +147,29 @@ class MapView extends React.Component {
       })
       map.addSource('point', {
         'type': 'geojson',
-        'data': geojson
+        'data': geojson1
       })
       map.addLayer({
         'id': 'point',
         'type': 'circle',
         'source': 'point',
         'paint': {
-          'circle-radius': 10,
+          'circle-radius': 5,
           'circle-color': '#29b381'
+        }
+      })
+      map.addSource('comunas', {
+        'type': 'geojson',
+        'data': geojson
+      })
+
+      map.addLayer({
+        'id': 'comunas',
+        'type': 'fill',
+        'source': 'comunas',
+        'paint': {
+          'fill-color': '#33ff33',
+          'fill-opacity': 0.5
         }
       })
     })
