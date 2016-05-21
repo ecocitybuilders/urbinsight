@@ -8,7 +8,6 @@ import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
-import geojson from 'utils/geojson2'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
@@ -160,7 +159,7 @@ class MapView extends React.Component {
       })
       map.addSource('comunas', {
         'type': 'geojson',
-        'data': geojson
+        'data': 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326&typename=medellin%3Acomuna_corrigimiento&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature'
       })
 
       map.addLayer({
