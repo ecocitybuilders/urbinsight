@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
+import LayerSelection from 'layouts/LayerSelectionLayout/LayerSelection'
 // import UMISPopUp from 'containers/UMISPopUp'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
@@ -47,6 +48,7 @@ class MapView extends React.Component {
     return (
       <div id='mapContainer'>
         <div id='map'>
+          <LayerSelection />
           <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
@@ -157,20 +159,21 @@ class MapView extends React.Component {
           'circle-color': '#29b381'
         }
       })
-      map.addSource('comunas', {
-        'type': 'geojson',
-        'data': 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326&typename=medellin%3Acomuna_corrigimiento&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature'
-      })
-
-      map.addLayer({
-        'id': 'comunas',
-        'type': 'fill',
-        'source': 'comunas',
-        'paint': {
-          'fill-color': '#33ff33',
-          'fill-opacity': 0.5
-        }
-      })
+      // map.addSource('comunas', {
+      //   'type': 'geojson',
+      //   'data': 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326
+      // &typename=medellin%3Acomuna_corrigimiento&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature'
+      // })
+      //
+      // map.addLayer({
+      //   'id': 'comunas',
+      //   'type': 'fill',
+      //   'source': 'comunas',
+      //   'paint': {
+      //     'fill-color': '#33ff33',
+      //     'fill-opacity': 0.5
+      //   }
+      // })
     })
     // this will essentially be the reducer of the workbooks
     this._map = map
