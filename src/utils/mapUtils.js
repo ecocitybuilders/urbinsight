@@ -113,21 +113,6 @@ export function baseLayerandSource (map, tileLocation) {
         'circle-color': '#29b381'
       }
     })
-    // map.addSource('comunas', {
-    //   'type': 'geojson',
-    //   'data': 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326
-    // &typename=medellin%3Acomuna_corrigimiento&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature'
-    // })
-    //
-    // map.addLayer({
-    //   'id': 'comunas',
-    //   'type': 'fill',
-    //   'source': 'comunas',
-    //   'paint': {
-    //     'fill-color': '#33ff33',
-    //     'fill-opacity': 0.5
-    //   }
-    // })
   })
 }
 

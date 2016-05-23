@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
+import OpenLayers from 'static/scripts/OpenLayersSLDmin'
 
 type Props = {
   city: PropTypes.string,
@@ -54,7 +55,7 @@ class LayerSelection extends React.Component {
         'type': 'geojson',
         'data': sourceString
       })
-      debugger
+      // features[0].geometry.type
       this.props.map.addLayer({
         'id': layerName,
         'type': 'fill',
@@ -75,6 +76,7 @@ class LayerSelection extends React.Component {
     this.setState({opened: !this.state.opened})
   }
   render () {
+    console.log(OpenLayers)
     let layerListClass = classNames({'layer-list-opened': this.state.opened})
     let listOfLayers = this.props.layerList.map(function (layer) {
       return (
