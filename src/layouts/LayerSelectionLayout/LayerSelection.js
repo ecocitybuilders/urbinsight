@@ -46,7 +46,7 @@ class LayerSelection extends React.Component {
   }
   layerSelected (layerName) {
     let sourceString = 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326' +
-    `&typename=medellin%3A${layerName}&outputFormat=json&version=1.0.0` +
+    `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
     '&service=WFS&request=GetFeature'
     let sourceExist = this.props.map.getSource(layerName)
     if (typeof sourceExist === 'undefined') {
@@ -54,13 +54,15 @@ class LayerSelection extends React.Component {
         'type': 'geojson',
         'data': sourceString
       })
+      debugger
       this.props.map.addLayer({
         'id': layerName,
         'type': 'fill',
         'source': layerName,
         'paint': {
           'fill-color': '#33ff33',
-          'fill-opacity': 0.5
+          'fill-opacity': 0.5,
+          'fill-outline-color': '#000000'
         }
       })
     } else {
@@ -68,6 +70,7 @@ class LayerSelection extends React.Component {
       this.props.map.removeSource(layerName)
     }
   }
+
   update (e) {
     this.setState({opened: !this.state.opened})
   }
@@ -78,7 +81,9 @@ class LayerSelection extends React.Component {
         <LayerLink key={layer.name} name={layer.name} layerSelected={this.layerSelected}
           title={layer.name.split('_')
             .map(function (word) {
-              return word[0].toUpperCase() + word.slice(1)
+              if (typeof word[0] !== 'undefined') {
+                return word[0].toUpperCase() + word.slice(1)
+              }
             })
             .join(' ')}/>
       )
@@ -90,7 +95,6 @@ class LayerSelection extends React.Component {
       'layer-list-icon-open': this.state.opened,
       'layer-list-icon-closed': !this.state.opened
     })
-    console.log(glyphClass)
     return (
       <div id='layer-selection' className={layerListClass}>
         <span
