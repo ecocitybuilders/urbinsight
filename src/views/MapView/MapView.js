@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
-import { mapClickHandlerSwitcher } from 'utils/mapUtils'
+import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
@@ -16,17 +16,6 @@ type Props = {
   auditsFetch: PropTypes.func,
   audits: PropTypes.object,
   surveys: PropTypes.object
-}
-
-let geojson1 = {
-  'type': 'FeatureCollection',
-  'features': [{
-    'type': 'Feature',
-    'geometry': {
-      'type': 'Point',
-      'coordinates': [0, 0]
-    }
-  }]
 }
 
 class MapView extends React.Component {
@@ -41,7 +30,8 @@ class MapView extends React.Component {
         center: cityObjectFunc(window.location.pathname.slice(1)),
         zoom: 15
       },
-      city: window.location.pathname.slice(1)
+      city: window.location.pathname.slice(1),
+      layerList: []
     }
   }
   render () {
@@ -49,7 +39,7 @@ class MapView extends React.Component {
     return (
       <div id='mapContainer'>
         <div id='map'>
-          <LayerSelection city={this.state.city}/>
+          <LayerSelection map={this.state.map} city={this.state.city} layerList={this.state.layerList}/>
           <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
@@ -61,122 +51,14 @@ class MapView extends React.Component {
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
-    map.on('style.load', function () {
-      map.addSource('lots', {
-        'type': 'vector',
-        'tiles': [tileLocation]
-      })
-      map.addLayer({
-        'id': 'lots',
-        'type': 'fill',
-        'source': 'lots',
-        'source-layer': 'parcels',
-        'layout': {
-          'visibility': 'visible'
-        },
-        'interactive': true,
-        'paint': {
-          'fill-color': '#ff0000',
-          'fill-opacity': 0.5,
-          'fill-outline-color': '#ffffff'
-        }
-      })
-      map.addSource('auditPolygons', {
-        'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': []
-        }
-      })
-      map.addLayer({
-        'id': 'auditPolygons',
-        'type': 'fill',
-        'source': 'auditPolygons',
-        'layout': {
-          'visibility': 'visible'
-        },
-        'interactive': true,
-        'paint': {
-          'fill-color': '#e022d9',
-          'fill-opacity': 1,
-          'fill-outline-color': '#ffffff'
-        }
-      })
-      map.addSource('surveys', {
-        'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': []
-        }
-      })
-      map.addLayer({
-        'id': 'surveys',
-        'type': 'circle',
-        'source': 'surveys',
-        'paint': {
-          'circle-radius': 5,
-          'circle-color': '#ec9918'
-        }
-      })
-      map.addSource('auditPoints', {
-        'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': []
-        }
-      })
-      map.addLayer({
-        'id': 'auditPoints',
-        'type': 'circle',
-        'source': 'auditPoints',
-        'paint': {
-          'circle-radius': 5,
-          'circle-color': '#e022d9'
-        }
-      })
-      map.addLayer({
-        'id': 'lots-hover',
-        'type': 'fill',
-        'source': 'lots',
-        'source-layer': 'parcels',
-        'layout': {},
-        'paint': {
-          'fill-color': '#590303',
-          'fill-opacity': 0.5
-        },
-        'filter': ['==', 'id_lote', '']
-      })
-      map.addSource('point', {
-        'type': 'geojson',
-        'data': geojson1
-      })
-      map.addLayer({
-        'id': 'point',
-        'type': 'circle',
-        'source': 'point',
-        'paint': {
-          'circle-radius': 5,
-          'circle-color': '#29b381'
-        }
-      })
-      // map.addSource('comunas', {
-      //   'type': 'geojson',
-      //   'data': 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326
-      // &typename=medellin%3Acomuna_corrigimiento&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature'
-      // })
-      //
-      // map.addLayer({
-      //   'id': 'comunas',
-      //   'type': 'fill',
-      //   'source': 'comunas',
-      //   'paint': {
-      //     'fill-color': '#33ff33',
-      //     'fill-opacity': 0.5
-      //   }
-      // })
-    })
-    // this will essentially be the reducer of the workbooks
-    this._map = map
+    baseLayerandSource(map, tileLocation)
+    if (typeof this.state.city !== 'undefined') {
+      let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
+        `${this.state.city}/featuretypes.json`
+      fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+        .then((response) => response.json())
+        .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
+    }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     map.on('dragend', (e) => {

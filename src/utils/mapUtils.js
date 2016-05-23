@@ -3,7 +3,133 @@ import React from 'react'
 import { render } from 'react-dom'
 import UMISPopUp from 'containers/UMISPopUp'
 import SurveyPopUp from 'components/SurveyPopUp'
-import calculateTotals from 'utils/umisUtils'
+
+export function baseLayerandSource (map, tileLocation) {
+  let geojson = {
+    'type': 'FeatureCollection',
+    'features': [{
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Point',
+        'coordinates': [0, 0]
+      }
+    }]
+  }
+  map.on('style.load', function () {
+    map.addSource('lots', {
+      'type': 'vector',
+      'tiles': [tileLocation]
+    })
+    map.addLayer({
+      'id': 'lots',
+      'type': 'fill',
+      'source': 'lots',
+      'source-layer': 'parcels',
+      'layout': {
+        'visibility': 'visible'
+      },
+      'interactive': true,
+      'paint': {
+        'fill-color': '#ff0000',
+        'fill-opacity': 0.5,
+        'fill-outline-color': '#ffffff'
+      }
+    })
+    map.addSource('auditPolygons', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': []
+      }
+    })
+    map.addLayer({
+      'id': 'auditPolygons',
+      'type': 'fill',
+      'source': 'auditPolygons',
+      'layout': {
+        'visibility': 'visible'
+      },
+      'interactive': true,
+      'paint': {
+        'fill-color': '#e022d9',
+        'fill-opacity': 1,
+        'fill-outline-color': '#ffffff'
+      }
+    })
+    map.addSource('surveys', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': []
+      }
+    })
+    map.addLayer({
+      'id': 'surveys',
+      'type': 'circle',
+      'source': 'surveys',
+      'paint': {
+        'circle-radius': 5,
+        'circle-color': '#ec9918'
+      }
+    })
+    map.addSource('auditPoints', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': []
+      }
+    })
+    map.addLayer({
+      'id': 'auditPoints',
+      'type': 'circle',
+      'source': 'auditPoints',
+      'paint': {
+        'circle-radius': 5,
+        'circle-color': '#e022d9'
+      }
+    })
+    map.addLayer({
+      'id': 'lots-hover',
+      'type': 'fill',
+      'source': 'lots',
+      'source-layer': 'parcels',
+      'layout': {},
+      'paint': {
+        'fill-color': '#590303',
+        'fill-opacity': 0.5
+      },
+      'filter': ['==', 'id_lote', '']
+    })
+    map.addSource('point', {
+      'type': 'geojson',
+      'data': geojson
+    })
+    map.addLayer({
+      'id': 'point',
+      'type': 'circle',
+      'source': 'point',
+      'paint': {
+        'circle-radius': 5,
+        'circle-color': '#29b381'
+      }
+    })
+    // map.addSource('comunas', {
+    //   'type': 'geojson',
+    //   'data': 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326
+    // &typename=medellin%3Acomuna_corrigimiento&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature'
+    // })
+    //
+    // map.addLayer({
+    //   'id': 'comunas',
+    //   'type': 'fill',
+    //   'source': 'comunas',
+    //   'paint': {
+    //     'fill-color': '#33ff33',
+    //     'fill-opacity': 0.5
+    //   }
+    // })
+  })
+}
 
 const cityObject = {
   cusco: [-71.9675, -13.5320],
