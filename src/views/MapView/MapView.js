@@ -40,7 +40,8 @@ class MapView extends React.Component {
         style: 'mapbox://styles/thissaysnothing/cijever1v00098xm3zso2fvk7',
         center: cityObjectFunc(window.location.pathname.slice(1)),
         zoom: 15
-      }
+      },
+      city: window.location.pathname.slice(1)
     }
   }
   render () {
@@ -48,7 +49,7 @@ class MapView extends React.Component {
     return (
       <div id='mapContainer'>
         <div id='map'>
-          <LayerSelection />
+          <LayerSelection city={this.state.city}/>
           <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
@@ -56,8 +57,7 @@ class MapView extends React.Component {
     )
   }
   componentDidMount () {
-    let city = window.location.pathname.slice(1)
-    let tileLocation = 'http://localhost:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
+    let tileLocation = 'http://localhost:5001/data/city/lots/' + this.state.city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
