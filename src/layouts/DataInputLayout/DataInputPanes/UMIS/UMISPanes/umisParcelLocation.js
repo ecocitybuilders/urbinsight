@@ -98,11 +98,11 @@ class UMISParcelLocation extends React.Component {
          saveValues: np.saveValues})
     } else if (!np.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
-      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits.audits})
+      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits})
     }
   }
   componentWillUnmount () {
-    let audits = this.props.audits ? this.props.audits.audits : {}
+    let audits = this.props.audits ? this.props.audits : {}
     mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: audits})
   }
 }

@@ -236,7 +236,7 @@ export default function survey (state = {
     case AUDITS_RECEIVED:
       return Object.assign({}, state, {
         isFetching: false,
-        audits: action.audits
+        audits: action.audits.audits
       })
     case AUDIT_FORM_SAVE:
       // console.log(normalize(action.responses, audit))

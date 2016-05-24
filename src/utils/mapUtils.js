@@ -180,7 +180,7 @@ export function auditGeoJSONCompiler (resource, map) {
       'features': []
     }
     // Make this functional by using map
-    resource.audits.forEach(function (audit) {
+    resource.forEach(function (audit) {
       audit.properties.id = audit._id
       if (audit.geometry.type === 'Point') {
         pointGeojson.features.push(audit)

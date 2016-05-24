@@ -7,7 +7,7 @@ import _ from 'lodash'
 class DashboardResourcePane extends React.Component {
   static propTypes = {
     resource: PropTypes.string.isRequired,
-    audits: PropTypes.object
+    audits: PropTypes.array
   };
   constructor () {
     super()
@@ -41,22 +41,26 @@ class DashboardResourcePane extends React.Component {
   }
   componentWillReceiveProps (np) {
     let newTotalData = {}
-    if (np.audits && np.audits.audits.length > 0) {
-      const resource = np.resource
-      np.audits.audits.forEach(function (audit) {
-        // let demandObj = audit.totalDemand()
-        _.forEach(audit.properties.totalDemand[resource], function (value, key) {
-          typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
+    if (typeof np.audits !== 'undefined') {
+      if (typeof this.props.audits === 'undefined' ||
+        np.audits.length !== this.props.audits.length
+      ) {
+        const resource = np.resource
+        np.audits.forEach(function (audit) {
+          // let demandObj = audit.totalDemand()
+          _.forEach(audit.properties.totalDemand[resource], function (value, key) {
+            typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
+          })
         })
-      })
+        this.setState({
+          totalData: newTotalData
+        })
+      }
     }
-    this.setState({
-      totalData: newTotalData
-    })
   }
   shouldComponentUpdate (np, ns) {
     if (typeof np.audits !== 'undefined' && typeof this.props.audits !== 'undefined') {
-      return np.audits.audits.length !== this.props.audits.audits.length
+      return np.audits.length !== this.props.audits.length
     }
     return true
   }

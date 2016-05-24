@@ -68,7 +68,7 @@ class MapView extends React.Component {
     this.setState({map: map})
   }
   componentWillUpdate (np, ns) {
-    if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits.audits})
+    if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits})
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }
