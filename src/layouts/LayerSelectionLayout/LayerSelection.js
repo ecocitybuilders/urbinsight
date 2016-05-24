@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
+import { Input } from 'react-bootstrap'
 import OpenLayers from 'static/scripts/OpenLayersSLDmin'
 
 type Props = {
@@ -31,7 +32,7 @@ class LayerLink extends React.Component {
       'selected-layer': this.state.selected
     })
     return (
-      <li onClick={this.layerSelected} className={linkClass}>{this.props.title}</li>
+      <Input label={this.props.title} type='checkbox' onClick={this.layerSelected} className={linkClass} />
     )
   }
 }
@@ -50,12 +51,14 @@ class LayerSelection extends React.Component {
     `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
     '&service=WFS&request=GetFeature'
     let sourceExist = this.props.map.getSource(layerName)
+    let layerExist = this.props.map.getLayer(layerName)
     if (typeof sourceExist === 'undefined') {
       this.props.map.addSource(layerName, {
         'type': 'geojson',
         'data': sourceString
       })
-      // features[0].geometry.type
+    }
+    if (typeof layerExist === 'undefined') {
       this.props.map.addLayer({
         'id': layerName,
         'type': 'fill',
@@ -66,9 +69,9 @@ class LayerSelection extends React.Component {
           'fill-outline-color': '#000000'
         }
       })
+      // features[0].geometry.type
     } else {
       this.props.map.removeLayer(layerName)
-      this.props.map.removeSource(layerName)
     }
   }
 
@@ -76,7 +79,6 @@ class LayerSelection extends React.Component {
     this.setState({opened: !this.state.opened})
   }
   render () {
-    console.log(OpenLayers)
     let layerListClass = classNames({'layer-list-opened': this.state.opened})
     let listOfLayers = this.props.layerList.map(function (layer) {
       return (
@@ -102,9 +104,9 @@ class LayerSelection extends React.Component {
         <span
           className={glyphClass}
           onClick={this.update}></span>
-        <ul style={{'display': displayList}}>
+        <div style={{'display': displayList}}>
           {listOfLayers}
-        </ul>
+        </div>
       </div>
     )
   }

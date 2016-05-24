@@ -6,7 +6,8 @@ import _ from 'lodash'
 // Load classes based on the Data model using classNames
 class DashboardResourcePane extends React.Component {
   static propTypes = {
-    resource: PropTypes.string.isRequired
+    resource: PropTypes.string.isRequired,
+    audits: PropTypes.object
   };
   constructor () {
     super()
@@ -52,6 +53,12 @@ class DashboardResourcePane extends React.Component {
     this.setState({
       totalData: newTotalData
     })
+  }
+  shouldComponentUpdate (np, ns) {
+    if (typeof np.audits !== 'undefined' && typeof this.props.audits !== 'undefined') {
+      return np.audits.audits.length !== this.props.audits.audits.length
+    }
+    return true
   }
 
   render () {
