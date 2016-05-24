@@ -40,14 +40,13 @@ class DashboardResourcePane extends React.Component {
     if (ps.chart.load) ps.chart.load({json: ps.totalData})
   }
   componentWillReceiveProps (np) {
-    let newTotalData = {}
     if (typeof np.audits !== 'undefined') {
       if (typeof this.props.audits === 'undefined' ||
         np.audits.length !== this.props.audits.length
       ) {
         const resource = np.resource
+        let newTotalData = {}
         np.audits.forEach(function (audit) {
-          // let demandObj = audit.totalDemand()
           _.forEach(audit.properties.totalDemand[resource], function (value, key) {
             typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
           })
@@ -57,6 +56,7 @@ class DashboardResourcePane extends React.Component {
         })
       }
     }
+    // console.log(this.state.totalData)
   }
   shouldComponentUpdate (np, ns) {
     if (typeof np.audits !== 'undefined' && typeof this.props.audits !== 'undefined') {

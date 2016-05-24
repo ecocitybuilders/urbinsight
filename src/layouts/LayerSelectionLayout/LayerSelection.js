@@ -50,31 +50,85 @@ class LayerSelection extends React.Component {
     let sourceString = 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326' +
     `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
     '&service=WFS&request=GetFeature'
+    let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
+
     let sourceExist = this.props.map.getSource(layerName)
     let layerExist = this.props.map.getLayer(layerName)
+    let mapboxStyleObjs = []
+    const { map } = this.props
     if (typeof sourceExist === 'undefined') {
       this.props.map.addSource(layerName, {
         'type': 'geojson',
         'data': sourceString
       })
+
+      // fetch('http://geonode.urbinsight.com/geoserver/rest/styles/cusco_tcobertura_vegetal.sld')
+      // window.localStorage.setItem(layerName, )
     }
     if (typeof layerExist === 'undefined') {
-      this.props.map.addLayer({
-        'id': layerName,
-        'type': 'fill',
-        'source': layerName,
-        'paint': {
-          'fill-color': '#33ff33',
-          'fill-opacity': 0.5,
-          'fill-outline-color': '#000000'
-        }
-      })
-      // features[0].geometry.type
+      fetch(styleString,
+      {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+        .then((response) => response.text())
+        .then(function (sld) {
+          let format = new OpenLayers.Format.SLD({
+            multipleSymbolizers: true,
+            namedLayersAsArray: true
+          })
+          let styleObj = format.read(sld)
+
+          styleObj.namedLayers.map((layer) => {
+            layer.userStyles.forEach((style) => {
+              style.rules.forEach((rule) => {
+                rule.symbolizers.forEach((symbolizer) => {
+                  let styleType
+                  if (symbolizer.CLASS_NAME.split('.').indexOf('Point') > -1) {
+                    styleType = 'point'
+                  } else if (symbolizer.CLASS_NAME.split('.').indexOf('Line') > -1) {
+                    styleType = 'line'
+                  } else if (symbolizer.CLASS_NAME.split('.').indexOf('Polygon') > -1) {
+                    styleType = 'polygon'
+                  }
+                  let styleSpec = {}
+                  styleSpec['source'] = layerName
+                  styleSpec['id'] = layerName
+                  switch (styleType) {
+                    case 'point':
+                      styleSpec['type'] = 'circle'
+                      styleSpec['paint'] = {
+                        'circle-radius': symbolizer.pointRadius,
+                        'circle-color': symbolizer.fillColor.substring(0, 7)
+                      }
+                      break
+                    case 'line':
+                      styleSpec['type'] = 'line'
+                      styleSpec['paint'] = {
+                        'line-color': symbolizer.strokeColor.substring(0, 7),
+                        'line-opacity': 0.8,
+                        'line-width': 2
+                      }
+                      break
+                    case 'polygon':
+                      styleSpec['type'] = 'fill'
+                      styleSpec['paint'] = {
+                        'fill-color': symbolizer.fillColor.substring(0, 7),
+                        'fill-opacity': 0.8,
+                        'fill-outline-color': symbolizer.strokeColor
+                      }
+                      break
+                  }
+                  mapboxStyleObjs.push(styleSpec)
+                })
+              })
+            })
+          })
+          mapboxStyleObjs.forEach(function (styleObj) {
+            map.addLayer(styleObj)
+          })
+        })
     } else {
       this.props.map.removeLayer(layerName)
     }
   }
-
   update (e) {
     this.setState({opened: !this.state.opened})
   }
