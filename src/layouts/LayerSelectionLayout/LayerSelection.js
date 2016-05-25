@@ -51,7 +51,6 @@ class LayerSelection extends React.Component {
     `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
     '&service=WFS&request=GetFeature'
     let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
-
     let sourceExist = this.props.map.getSource(layerName)
     let layerExist = this.props.map.getLayer(layerName)
     let mapboxStyleObjs = []
@@ -112,15 +111,17 @@ class LayerSelection extends React.Component {
                       styleSpec['paint'] = {
                         'fill-color': symbolizer.fillColor.substring(0, 7),
                         'fill-opacity': 0.8,
-                        'fill-outline-color': symbolizer.strokeColor
+                        'fill-outline-color': symbolizer.strokeColor || '#000000'
                       }
                       break
                   }
+                  if (rule.filter) styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
                   mapboxStyleObjs.push(styleSpec)
                 })
               })
             })
           })
+          window.map = map
           mapboxStyleObjs.forEach(function (styleObj) {
             map.addLayer(styleObj)
           })
