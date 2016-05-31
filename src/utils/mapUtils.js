@@ -344,6 +344,8 @@ export function mapboxStyleGenerator (sldObj, layerName) {
             styleSpec['id'] = newlayerName
             styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
           }
+          // console.log(layerDispatch)
+          // layerDispatch(styleSpec.id)
           mapboxStyleObjs.push(styleSpec)
         })
       })

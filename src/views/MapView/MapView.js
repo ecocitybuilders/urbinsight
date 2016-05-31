@@ -79,15 +79,17 @@ class MapView extends React.Component {
 }
 // Audits change test
 const mapStateToProps = (state) => {
-  const { auth, survey, audit } = state
+  const { auth, survey, audit, layer } = state
   const { audits } = audit
   const { surveys } = survey
   const { isAuthenticated, errorMessage } = auth
+  const { layers } = layer
   return {
     isAuthenticated,
     errorMessage,
     surveys,
-    audits
+    audits,
+    layers
   }
 }
 

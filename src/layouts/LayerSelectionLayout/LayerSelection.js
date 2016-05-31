@@ -3,12 +3,16 @@ import classNames from 'classnames'
 import LayerLink from 'components/LayerLink'
 import OpenLayers from 'static/scripts/OpenLayersSLDmin'
 import { mapboxStyleGenerator } from 'utils/mapUtils'
+import { connect } from 'react-redux'
+import { addLayer, removeLayer } from 'redux/modules/audit'
 
 type Props = {
   city: PropTypes.string,
   layerList: PropTypes.array,
   map: PropTypes.object,
-  layerSelected: PropTypes.func
+  layerSelected: PropTypes.func,
+  layerAdded: PropTypes.func,
+  layerRemoved: PropTypes.func
 }
 
 class LayerSelection extends React.Component {
@@ -52,12 +56,17 @@ class LayerSelection extends React.Component {
           let sldObj = format.read(sld)
           let mapboxStyleObjs = mapboxStyleGenerator(sldObj, layerName)
           mapboxStyleObjs.forEach(function (styleObj) {
+            console.log(this.props)
+            this.props.layerAdded(styleObj.id)
             map.addLayer(styleObj)
           })
         })
     } else {
       map.getStyle().layers.forEach((layer) => {
-        layer.id.includes(layerName) ? this.props.map.removeLayer(layer.id) : null
+        if (layer.id.includes(layerName)) {
+          this.props.layerRemoved(layer.id)
+          this.props.map.removeLayer(layer.id)
+        }
       })
     }
   }
@@ -100,4 +109,25 @@ class LayerSelection extends React.Component {
   }
 }
 
-export default LayerSelection
+const mapStateToProps = (state) => {
+  const { layer } = state
+  const { layers } = layer
+  return {
+    layers
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    layerAdded: (layerID) => {
+      dispatch(addLayer(layerID))
+    },
+    layerRemoved: (layerID) => {
+      dispatch(removeLayer(layerID))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LayerSelection)

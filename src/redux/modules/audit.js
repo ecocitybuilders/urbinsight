@@ -13,6 +13,7 @@ export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
 export const AUDIT_WORKBOOK_SAVE = 'AUDIT_WORKBOOK_SAVE'
 export const PERSIST_FEATURE = 'PERSIST_FEATURE'
 
+// THIS IS ALL RELATED TO NORMALIZER WHICH MAKES IT EASIER TO DEAL WITH NESTED DATA STRUCTS
 // const audit = new Schema('audits')
 // audit.define({
 //   geoCoordinates: geoCoordinates,
