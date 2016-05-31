@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import { Input } from 'react-bootstrap'
 import OpenLayers from 'static/scripts/OpenLayersSLDmin'
+import { mapboxStyleGenerator } from 'utils/mapUtils'
 
 type Props = {
   city: PropTypes.string,
@@ -36,6 +37,7 @@ class LayerLink extends React.Component {
     )
   }
 }
+
 class LayerSelection extends React.Component {
   props: Props;
   constructor () {
@@ -46,6 +48,7 @@ class LayerSelection extends React.Component {
     this.update = this.update.bind(this)
     this.layerSelected = this.layerSelected.bind(this)
   }
+
   layerSelected (layerName) {
     let sourceString = 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326' +
     `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
@@ -53,10 +56,10 @@ class LayerSelection extends React.Component {
     let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
     let sourceExist = this.props.map.getSource(layerName)
     let layerExist = this.props.map.getLayer(layerName)
-    let mapboxStyleObjs = []
+
     const { map } = this.props
     if (typeof sourceExist === 'undefined') {
-      this.props.map.addSource(layerName, {
+      map.addSource(layerName, {
         'type': 'geojson',
         'data': sourceString
       })
@@ -73,65 +76,14 @@ class LayerSelection extends React.Component {
             multipleSymbolizers: true,
             namedLayersAsArray: true
           })
-          let styleObj = format.read(sld)
-
-          styleObj.namedLayers.map((layer) => {
-            layer.userStyles.forEach((style) => {
-              style.rules.forEach((rule) => {
-                rule.symbolizers.forEach((symbolizer) => {
-                  let styleType
-                  if (symbolizer.CLASS_NAME.split('.').indexOf('Point') > -1) {
-                    styleType = 'point'
-                  } else if (symbolizer.CLASS_NAME.split('.').indexOf('Line') > -1) {
-                    styleType = 'line'
-                  } else if (symbolizer.CLASS_NAME.split('.').indexOf('Polygon') > -1) {
-                    styleType = 'polygon'
-                  }
-                  let styleSpec = {}
-                  styleSpec['source'] = layerName
-                  styleSpec['id'] = layerName
-                  switch (styleType) {
-                    case 'point':
-                      styleSpec['type'] = 'circle'
-                      styleSpec['paint'] = {
-                        'circle-radius': symbolizer.pointRadius,
-                        'circle-color': symbolizer.fillColor.substring(0, 7)
-                      }
-                      break
-                    case 'line':
-                      styleSpec['type'] = 'line'
-                      styleSpec['paint'] = {
-                        'line-color': symbolizer.strokeColor.substring(0, 7),
-                        'line-opacity': 0.8,
-                        'line-width': 2
-                      }
-                      break
-                    case 'polygon':
-                      styleSpec['type'] = 'fill'
-                      styleSpec['paint'] = {
-                        'fill-color': symbolizer.fillColor.substring(0, 7),
-                        'fill-opacity': 0.8,
-                        'fill-outline-color': symbolizer.strokeColor || '#000000'
-                      }
-                      break
-                  }
-                  if (rule.filter !== null) {
-                    let newlayerName = layerName + '_' + rule.filter.value.split(' ')
-                      .map(function (val) { return val.toLowerCase() }).join('_')
-                    styleSpec['id'] = newlayerName
-                    styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
-                  }
-                  mapboxStyleObjs.push(styleSpec)
-                })
-              })
-            })
-          })
+          let sldObj = format.read(sld)
+          let mapboxStyleObjs = mapboxStyleGenerator(sldObj, layerName)
           mapboxStyleObjs.forEach(function (styleObj) {
             map.addLayer(styleObj)
           })
         })
     } else {
-      this.props.map.getStyle().layers.forEach((layer) => {
+      map.getStyle().layers.forEach((layer) => {
         layer.id.includes(layerName) ? this.props.map.removeLayer(layer.id) : null
       })
     }

@@ -295,3 +295,59 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
     }
   })
 }
+
+export function mapboxStyleGenerator (sldObj, layerName) {
+  let mapboxStyleObjs = []
+  sldObj.namedLayers.map((layer) => {
+    layer.userStyles.forEach((style) => {
+      style.rules.forEach((rule) => {
+        rule.symbolizers.forEach((symbolizer) => {
+          let styleType
+          if (symbolizer.CLASS_NAME.split('.').indexOf('Point') > -1) {
+            styleType = 'point'
+          } else if (symbolizer.CLASS_NAME.split('.').indexOf('Line') > -1) {
+            styleType = 'line'
+          } else if (symbolizer.CLASS_NAME.split('.').indexOf('Polygon') > -1) {
+            styleType = 'polygon'
+          }
+          let styleSpec = {}
+          styleSpec['source'] = layerName
+          styleSpec['id'] = layerName
+          switch (styleType) {
+            case 'point':
+              styleSpec['type'] = 'circle'
+              styleSpec['paint'] = {
+                'circle-radius': symbolizer.pointRadius,
+                'circle-color': symbolizer.fillColor.substring(0, 7)
+              }
+              break
+            case 'line':
+              styleSpec['type'] = 'line'
+              styleSpec['paint'] = {
+                'line-color': symbolizer.strokeColor.substring(0, 7),
+                'line-opacity': 0.8,
+                'line-width': 2
+              }
+              break
+            case 'polygon':
+              styleSpec['type'] = 'fill'
+              styleSpec['paint'] = {
+                'fill-color': symbolizer.fillColor.substring(0, 7),
+                'fill-opacity': 0.8,
+                'fill-outline-color': symbolizer.strokeColor || '#000000'
+              }
+              break
+          }
+          if (rule.filter !== null) {
+            let newlayerName = layerName + '_' + rule.filter.value.split(' ')
+              .map(function (val) { return val.toLowerCase() }).join('_')
+            styleSpec['id'] = newlayerName
+            styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
+          }
+          mapboxStyleObjs.push(styleSpec)
+        })
+      })
+    })
+  })
+  return mapboxStyleObjs
+}
