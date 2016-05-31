@@ -115,19 +115,25 @@ class LayerSelection extends React.Component {
                       }
                       break
                   }
-                  if (rule.filter) styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
+                  if (rule.filter !== null) {
+                    let newlayerName = layerName + '_' + rule.filter.value.split(' ')
+                      .map(function (val) { return val.toLowerCase() }).join('_')
+                    styleSpec['id'] = newlayerName
+                    styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
+                  }
                   mapboxStyleObjs.push(styleSpec)
                 })
               })
             })
           })
-          window.map = map
           mapboxStyleObjs.forEach(function (styleObj) {
             map.addLayer(styleObj)
           })
         })
     } else {
-      this.props.map.removeLayer(layerName)
+      this.props.map.getStyle().layers.forEach((layer) => {
+        layer.id.includes(layerName) ? this.props.map.removeLayer(layer.id) : null
+      })
     }
   }
   update (e) {
