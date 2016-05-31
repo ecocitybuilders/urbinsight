@@ -24,13 +24,13 @@ function layerRemove (layerID): Action {
 
 export function addLayer (layerID) {
   return (dispatch) => {
-    dispatch(layerAdd(layerID))
+    return dispatch(layerAdd(layerID))
   }
 }
 
 export function removeLayer (layerID) {
   return (dispatch) => {
-    dispatch(layerRemove(layerID))
+    return dispatch(layerRemove(layerID))
   }
 }
 
@@ -46,16 +46,17 @@ export const actions = {
 export default function layer (state = {
   layers: []
 }, action) {
-  let newLayerList
+  let newLayerList = []
   switch (action.type) {
     case LAYER_ADD:
-      newLayerList = this.state.layers.push(action.layerID)
+      newLayerList = state.layers.slice(0)
+      newLayerList.push(action.layerID)
       return Object.assign({}, state, {
         layers: newLayerList
       })
     case LAYER_REMOVE:
-      newLayerList = this.state.layers
-      _.remove(newLayerList, (layer) => { return layer.id === action.layerID })
+      newLayerList = state.layers.slice(0)
+      _.remove(newLayerList, (layer) => { return layer === action.layerID })
       return Object.assign({}, state, {
         layers: newLayerList
       })

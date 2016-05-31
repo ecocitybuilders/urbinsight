@@ -4,7 +4,7 @@ import LayerLink from 'components/LayerLink'
 import OpenLayers from 'static/scripts/OpenLayersSLDmin'
 import { mapboxStyleGenerator } from 'utils/mapUtils'
 import { connect } from 'react-redux'
-import { addLayer, removeLayer } from 'redux/modules/audit'
+import { addLayer, removeLayer } from 'redux/modules/layer'
 
 type Props = {
   city: PropTypes.string,
@@ -33,7 +33,7 @@ class LayerSelection extends React.Component {
     let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
     let sourceExist = this.props.map.getSource(layerName)
     let layerExist = this.props.map.getLayer(layerName)
-
+    let layerAdded = this.props.layerAdded
     const { map } = this.props
     if (typeof sourceExist === 'undefined') {
       map.addSource(layerName, {
@@ -55,9 +55,8 @@ class LayerSelection extends React.Component {
           })
           let sldObj = format.read(sld)
           let mapboxStyleObjs = mapboxStyleGenerator(sldObj, layerName)
-          mapboxStyleObjs.forEach(function (styleObj) {
-            console.log(this.props)
-            this.props.layerAdded(styleObj.id)
+          mapboxStyleObjs.forEach((styleObj) => {
+            layerAdded(styleObj.id)
             map.addLayer(styleObj)
           })
         })
