@@ -107,18 +107,18 @@
   }
 
   .layer-list-icon-open {
-    padding-right: 15px;
     padding-top: 5px;
     float: right;
     display: block;
+    position: sticky;
+    z-index: 5;
+    width: 10%;
+    text-align: center;
   }
   .layer-list-icon-closed {
     padding-top: 8px;
     padding-left: 9px;
     float: left;
-  }
-  .selected-layer {
-    background-color: rgb(113, 196, 237);
   }
   .data-input-toggle  {
    padding-left: 12.5px;

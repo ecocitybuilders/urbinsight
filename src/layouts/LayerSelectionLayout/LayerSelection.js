@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
+// import { LayerLink } from 'components/LayerLink'
 import { Input } from 'react-bootstrap'
 import OpenLayers from 'static/scripts/OpenLayersSLDmin'
 import { mapboxStyleGenerator } from 'utils/mapUtils'
@@ -89,6 +90,7 @@ class LayerSelection extends React.Component {
     }
   }
   update (e) {
+    e.preventDefault()
     this.setState({opened: !this.state.opened})
   }
   render () {
@@ -108,24 +110,22 @@ class LayerSelection extends React.Component {
     let displayList = this.state.opened ? 'inherit' : 'none'
     let glyphClass = classNames({
       'glyphicon': true,
-      'glyphicon-list': true,
+      'glyphicon-remove': this.state.opened,
       'layer-list-icon-open': this.state.opened,
+      'glyphicon-list': !this.state.opened,
       'layer-list-icon-closed': !this.state.opened
     })
     return (
       <div id='layer-selection' className={layerListClass}>
-        <span
+        <div
           className={glyphClass}
-          onClick={this.update}></span>
-        <div style={{'display': displayList}}>
+          onClick={this.update}></div>
+        <div style={{'display': displayList, 'float': 'left', width: '90%', 'paddingLeft': '20px'}}>
           {listOfLayers}
         </div>
       </div>
     )
   }
-  componentDidMount () {
-
-  }
 }
-// .then((layerList) => console.log(layerList))
+
 export default LayerSelection
