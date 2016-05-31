@@ -36,7 +36,7 @@ class LayerSelection extends React.Component {
         'type': 'geojson',
         'data': sourceString
       })
-
+// Still looking to do the localStorage interaction
       // fetch('http://geonode.urbinsight.com/geoserver/rest/styles/cusco_tcobertura_vegetal.sld')
       // window.localStorage.setItem(layerName, )
     }
@@ -67,15 +67,18 @@ class LayerSelection extends React.Component {
   }
   render () {
     let layerListClass = classNames({'layer-list-opened': this.state.opened})
-    let listOfLayers = this.props.layerList.map((layer) => {
-      return <LayerLink key={layer.name} name={layer.name} layerSelected={this.layerSelected}
-        title={layer.name.split('_')
+    let listOfLayers = this.props.layerList.map(function (layer) {
+      return (
+        <LayerLink key={layer.name} name={layer.name} layerSelected={this.layerSelected}
+          title={layer.name.split('_')
             .map(function (word) {
               if (typeof word[0] !== 'undefined') {
                 return word[0].toUpperCase() + word.slice(1)
               }
             })
-            .join(' ')}/> })
+            .join(' ')}/>
+      )
+    }.bind(this))
     let displayList = this.state.opened ? 'inherit' : 'none'
     let glyphClass = classNames({
       'glyphicon': true,
