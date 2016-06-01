@@ -158,31 +158,70 @@ class DashboardQualitative extends React.Component {
   render () {
     let questions = [
       {
-        title: 'Im a Question Title',
+        title: '1. How would you describe your level of access to adequate employment?',
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       },
       {
-        title: 'Im a Question Title',
+        title: '2. How would you describe your level of access to healthcare and health services?',
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       },
       {
-        title: 'Im a Question Title',
+        title: '3. How would you describe your ability to provide care for family members as needed?',
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       },
       {
-        title: 'Im a Question Title',
+        title: '4. How would you describe stability in your daily life?',
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       },
       {
-        title: 'Im a Question Title',
+        title: '5. How do you describes your level of access to opportunities to develop healthy social relations?',
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       },
       {
-        title: 'Im a Question Title',
+        title: '6. How do you descrive your level of access to recreational opportunities and activities?',
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       },
       {
-        title: 'Im a Question Title',
+        title: '7. How would you describe your level of access to knowledge for futhering your education?',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: '8. How would you describe your level of vacation(time-off) time you have?',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: '9. How would you describe your shelter/housing?',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: '10. How do you describe your living environment? (this includes access to natural resources)',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: `11. How would you describe the level of respect and non-discrimination
+            you experience in your daily life?`,
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: '12. How would you describe your level of freedom to practice your religion?',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: '13. How would you describe your level of access to mobility?',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: '14. How do you describe your level of freedom of movement?',
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: `15. How do you describe your level of safety and
+          the absence of physical violence or criminality in your daily life?`,
+        description: 'Im a description that is a bit longer to understand what is happening with the questions'
+      },
+      {
+        title: `16. How do you describe your ability to participate
+          in your communitys political, governance-based and decision-making processes?`,
         description: 'Im a description that is a bit longer to understand what is happening with the questions'
       }
     ]
