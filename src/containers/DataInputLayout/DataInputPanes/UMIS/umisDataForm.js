@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { auditSave, persistFeature, saveAuditForm, resetAuditForm, saveAuditWorkbook } from 'redux/modules/audit'
-import UMISIntro from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDataIntro'
-import UMISParcelLocation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisParcelLocation'
-import UMISSourceInformation from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSourceInformation'
-import UMISDescribeParcel from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDescribeParcel'
-import UMISBuildingData from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisBuildingData'
-import UMISDemographics from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisDemographics'
-import UMISWorkbookContainer from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisWorkbookContainer'
-import UMISComplete from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisComplete'
+import UMISIntro from './UMISPanes/UmisDataIntro'
+import UMISParcelLocation from './UMISPanes/UmisParcelLocation'
+import UMISSourceInformation from './UMISPanes/UmisSourceInformation'
+import UMISDescribeParcel from './UMISPanes/UmisDescribeParcel'
+import UMISBuildingData from './UMISPanes/UmisBuildingData'
+import UMISDemographics from './UMISPanes/UmisDemographics'
+import UMISWorkbookContainer from './UMISPanes/UmisWorkbookContainer'
+import UMISComplete from './UMISPanes/UmisComplete'
 
 type Props = {
   dispatch: PropTypes.func.isRequired,

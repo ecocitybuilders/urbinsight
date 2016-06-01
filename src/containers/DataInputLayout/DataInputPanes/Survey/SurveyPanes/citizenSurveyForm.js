@@ -29,6 +29,7 @@ class CitizenSurveyForm extends React.Component {
     questions.forEach(function (question) {
       questionValues[question] = this.refs[question].getValue()
     }.bind(this))
+    console.log(questionValues)
     return questionValues
   }
   submitForm (e) {

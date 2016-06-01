@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import { Tabs } from 'react-bootstrap'
 import { Tab } from 'react-bootstrap'
-import UmisDataForm from 'layouts/DataInputLayout/DataInputPanes/UMIS/umisDataForm'
-import CitizenSurvey from 'layouts/DataInputLayout/DataInputPanes/Survey/citizenSurvey'
+import UmisDataForm from './DataInputPanes/UMIS/umisDataForm'
+import CitizenSurvey from './DataInputPanes/Survey/citizenSurvey'
 
 type Props = {
   map: PropTypes.object.isRequired,

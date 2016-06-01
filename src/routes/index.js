@@ -12,7 +12,7 @@ import MapView from 'views/MapView/MapView'
     // <IndexRoute component={HomeView} />
 export default (store) => (
   <Route path='/' component={CoreLayout}>
-    <IndexRoute component={MapView} />
-    <Route path='/:city' component={MapView} />
+    {/*<IndexRoute component={MapView} />*/}
+    <Route path=':city' component={MapView} />
   </Route>
 )

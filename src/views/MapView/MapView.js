@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
-import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
-import LayerSelection from 'layouts/LayerSelectionLayout/LayerSelection'
+import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
+import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
+import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
@@ -44,7 +44,10 @@ class MapView extends React.Component {
           <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
-        <pre id='features'></pre>
+        <div id='features'>
+          <h6 className='features-tab'>View Features</h6>
+          <span className='glyphicon glyphicon-remove'/>
+        </div>
       </div>
     )
   }

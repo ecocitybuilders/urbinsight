@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import UMISWorkbookSelection from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/umisWorkbookSelection'
-import UMISWaterWorkbook from 'layouts/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/water/waterWorkbook'
-import UMISMaterialsWorkbook from 'layouts/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
-import UMISSubmit from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSubmit'
-import UMISSuccess from 'layouts/DataInputLayout/DataInputPanes/UMIS/UMISPanes/UmisSuccess'
+import UMISWorkbookSelection from './umisWorkbookSelection'
+import UMISWaterWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/water/waterWorkbook'
+import UMISMaterialsWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
+import UMISSubmit from './UmisSubmit'
+import UMISSuccess from './UmisSuccess'
 
 type Props = {
   saveValues: PropTypes.func,

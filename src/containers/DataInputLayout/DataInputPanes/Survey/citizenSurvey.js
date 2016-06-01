@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { surveySave } from 'redux/modules/survey'
-import CitizenSurveyIntro from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyIntro'
-import CitizenSurveyLocation from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyLocation'
-import CitizenSurveyForm from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveyForm'
-import CitizenSurveySuccess from 'layouts/DataInputLayout/DataInputPanes/Survey/SurveyPanes/citizenSurveySuccess'
+import CitizenSurveyIntro from './SurveyPanes/citizenSurveyIntro'
+import CitizenSurveyLocation from './SurveyPanes/citizenSurveyLocation'
+import CitizenSurveyForm from './SurveyPanes/citizenSurveyForm'
+import CitizenSurveySuccess from './SurveyPanes/citizenSurveySuccess'
 
 let fieldValues = {
   geoCoordinates: [null, null],

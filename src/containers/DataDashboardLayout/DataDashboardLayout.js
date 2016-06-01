@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import { Tabs, Tab } from 'react-bootstrap'
-import DashboardResourcePane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardResource'
-import DashboardSocioeconomicPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardSocioeconomic'
-import DashboardEnvironmentalAirPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardEnvironmentalAir'
-import DashboardEnvironmentalWaterPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardEnvironmentalWater'
-import DashboardEnvironmentalSoilPane from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardEnvironmentalSoil'
-import DashboardProjects from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardProjects'
-import DashboardQualitative from 'layouts/DataDashboardLayout/DataDashboardPanes/DashboardQualitative'
+import DashboardResourcePane from './DataDashboardPanes/DashboardResource'
+import DashboardSocioeconomicPane from './DataDashboardPanes/DashboardSocioeconomic'
+import DashboardEnvironmentalAirPane from './DataDashboardPanes/DashboardEnvironmentalAir'
+import DashboardEnvironmentalWaterPane from './DataDashboardPanes/DashboardEnvironmentalWater'
+import DashboardEnvironmentalSoilPane from './DataDashboardPanes/DashboardEnvironmentalSoil'
+import DashboardProjects from './DataDashboardPanes/DashboardProjects'
+import DashboardQualitative from './DataDashboardPanes/DashboardQualitative'
 
 type Props = {
   audits: PropTypes.object,
