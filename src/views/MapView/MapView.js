@@ -80,18 +80,17 @@ class MapView extends React.Component {
     if (np.layers.length > 0) {
       ns.map.on('mousemove', (e) => {
         var features = ns.map.queryRenderedFeatures(e.point, { layers: np.layers })
-        htmlString = `<table id="features-table">
-                            <tr className='feature-row'>
-                              <td>Key</td>
-                              <td>Value</td>
-                            </tr>`
+        htmlString = ''
         if (features.length >= 1) {
           features.forEach((feature) => {
+            htmlString += `<table id="features-table"><tr className='feature-row'>
+              <td class='row-heading' colspan='2'>${feature.layer.id}</td>
+            </tr>`
             _.forEach(feature.properties, (value, key) => {
-              htmlString += '<tr><td>' + key + '</td><td>' + value + '</td></tr>'
+              htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
             })
           })
-          htmlString += '</table>'
+          htmlString += '</table></br></br>'
         } else {
           htmlString = '<div>No Feature Selected</div>'
         }
