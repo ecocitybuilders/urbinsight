@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import DataInputLayout from 'layouts/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'layouts/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'layouts/LayerSelectionLayout/LayerSelection'
-// import UMISPopUp from 'containers/UMISPopUp'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
@@ -20,6 +19,7 @@ type Props = {
 
 class MapView extends React.Component {
   props: Props;
+
   constructor (props) {
     super(props)
     this.state = {
@@ -34,6 +34,7 @@ class MapView extends React.Component {
       layerList: []
     }
   }
+
   render () {
     const { isAuthenticated, audits, surveys } = this.props
     return (
@@ -43,9 +44,11 @@ class MapView extends React.Component {
           <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
+        <pre id='features'></pre>
       </div>
     )
   }
+
   componentDidMount () {
     let tileLocation = 'http://localhost:5001/data/city/lots/' + this.state.city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
@@ -67,11 +70,28 @@ class MapView extends React.Component {
     })
     this.setState({map: map})
   }
+
   componentWillUpdate (np, ns) {
+    // This is the changing the mouse interaction to be able to see the properties
+    ns.map.off('mousemove')
+    if (np.layers.length > 0) {
+      ns.map.on('mousemove', (e) => {
+        var features = ns.map.queryRenderedFeatures(e.point, { layers: np.layers })
+        let htmlString = ''
+        if (features.length > 0) {
+          features.forEach((feature) => {
+            htmlString += JSON.stringify(feature.properties, null, 2)
+            return
+          })
+        }
+        document.getElementById('features').innerHTML = htmlString
+      })
+    }
     if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits})
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }
+
   componentWillUnmount () {
     if (this.state.map) this.state.map.remove()
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())

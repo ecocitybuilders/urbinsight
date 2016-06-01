@@ -60,6 +60,18 @@
    float: right;
    /*position: fixed;*/
   }
+  #features {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 15%;
+    width: 350px;
+    height: 400px;
+    overflow: auto;
+    background: rgba(255, 255, 255, 0.8);
+  }
   #layer-selection {
     height: 30px;
     width: 30px;
