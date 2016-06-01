@@ -76,21 +76,20 @@ class MapView extends React.Component {
   componentWillUpdate (np, ns) {
     // This is the changing the mouse interaction to be able to see the properties
     ns.map.off('mousemove')
+    let htmlString = '<div>No Layers Selected</div>'
     if (np.layers.length > 0) {
       ns.map.on('mousemove', (e) => {
         var features = ns.map.queryRenderedFeatures(e.point, { layers: np.layers })
-        let htmlString = `<table id="features-table">
+        htmlString = `<table id="features-table">
                             <tr className='feature-row'>
                               <td>Key</td>
                               <td>Value</td>
                             </tr>`
-        if (features.length > 0) {
+        if (features.length >= 1) {
           features.forEach((feature) => {
             _.forEach(feature.properties, (value, key) => {
               htmlString += '<tr><td>' + key + '</td><td>' + value + '</td></tr>'
-              return
             })
-            return
           })
           htmlString += '</table>'
         } else {
@@ -98,7 +97,10 @@ class MapView extends React.Component {
         }
         document.getElementById('features').innerHTML = htmlString
       })
+    } else {
+      document.getElementById('features').innerHTML = htmlString
     }
+
     if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits})
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
