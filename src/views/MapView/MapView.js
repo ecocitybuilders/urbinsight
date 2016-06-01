@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom'
 import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
+import FeatureList from 'components/FeatureList'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
+import _ from 'lodash'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
@@ -44,10 +46,7 @@ class MapView extends React.Component {
           <DataDashboardLayout audits={audits} surveys={surveys} />
           {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
         </div>
-        <div id='features'>
-          <h6 className='features-tab'>View Features</h6>
-          <span className='glyphicon glyphicon-remove'/>
-        </div>
+        <FeatureList />
       </div>
     )
   }
@@ -80,12 +79,22 @@ class MapView extends React.Component {
     if (np.layers.length > 0) {
       ns.map.on('mousemove', (e) => {
         var features = ns.map.queryRenderedFeatures(e.point, { layers: np.layers })
-        let htmlString = ''
+        let htmlString = `<table id="features-table">
+                            <tr className='feature-row'>
+                              <td>Key</td>
+                              <td>Value</td>
+                            </tr>`
         if (features.length > 0) {
           features.forEach((feature) => {
-            htmlString += JSON.stringify(feature.properties, null, 2)
+            _.forEach(feature.properties, (value, key) => {
+              htmlString += '<tr><td>' + key + '</td><td>' + value + '</td></tr>'
+              return
+            })
             return
           })
+          htmlString += '</table>'
+        } else {
+          htmlString = '<div>No Feature Selected</div>'
         }
         document.getElementById('features').innerHTML = htmlString
       })
