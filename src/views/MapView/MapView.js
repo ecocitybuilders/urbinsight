@@ -80,7 +80,7 @@ class MapView extends React.Component {
   componentWillUpdate (np, ns) {
     // This is the changing the mouse interaction to be able to see the properties
     ns.map.off('mousemove')
-    let htmlString = '<div>No Layers Selected</div>'
+    let htmlString = '<div id="layers-selected">No Layers Selected</div>'
     if (np.layers.length > 0) {
       ns.map.on('mousemove', (e) => {
         var features = ns.map.queryRenderedFeatures(e.point, { layers: np.layers })
