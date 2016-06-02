@@ -67,7 +67,7 @@ class AppHeader extends React.Component {
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
               <NavItem eventKey={4} href='#'>About</NavItem>
               <NavItem eventKey={5} href='#'>Help</NavItem>
-              {!isAuthenticated && <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login</NavItem>}
+              {!isAuthenticated && <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login | Sign Up</NavItem>}
               {isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>}
             </Nav>
           </Navbar.Collapse>

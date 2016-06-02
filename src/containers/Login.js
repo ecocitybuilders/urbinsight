@@ -64,7 +64,7 @@ export class Login extends React.Component {
           <Modal.Body>
             <h3 style={{ display: this.state.authToggle === 'login' ? 'inline' : 'none' }}>Login</h3>
             <h3 style={{ display: this.state.authToggle === 'signup' ? 'inline' : 'none' }}>Sign Up</h3>
-            <form>
+            <form style={{'marginTop': '15px'}}>
               <Input type='email' ref='username' placeholder='Email'/>
               <Input type='password' ref='password' placeholder='Password' />
               <Input type='password' ref='confirm-password' placeholder='Confirm Password'
