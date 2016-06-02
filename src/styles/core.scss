@@ -332,7 +332,8 @@
     right: 0;
     bottom: 0;
     background: rgba(255, 255, 255, 0.8);
-    border-radius: 5px
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
   }
   .features-list-open {
     margin-top: 27.5vh;
@@ -341,9 +342,7 @@
     overflow: auto;
   }
   .features-list-closed {
-    margin-top: 45vh;
-    // width: 30px;
-    // height: 120px;
+    margin-top: 42.5vh;
     width: 30px;
     height: 150px;
   }

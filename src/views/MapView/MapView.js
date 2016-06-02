@@ -32,7 +32,8 @@ class MapView extends React.Component {
         center: cityObjectFunc(window.location.pathname.slice(1)),
         zoom: 15
       },
-      city: window.location.pathname.slice(1),
+      // This is unmaintainable need to standardize city names
+      city: window.location.pathname.slice(1) === 'abudhabi' ? 'abu_dhabi' : window.location.pathname.slice(1),
       layerList: []
     }
   }
@@ -52,7 +53,9 @@ class MapView extends React.Component {
   }
 
   componentDidMount () {
-    let tileLocation = 'http://localhost:5001/data/city/lots/' + this.state.city + '/{z}/{x}/{y}.mvt'
+    // CHANGE (This is unmaintainable...need to standardize citynames)
+    let city = this.state.city === 'abu_dhabi' ? 'abudhabi' : this.state.city
+    let tileLocation = 'http://localhost:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
