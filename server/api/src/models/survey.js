@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var SurveySchema = new Schema({
+  'user': String,
   'geoCoordinates': { type: Array, default: [0, 0] },
   // 'lat': Number,
   // 'lon': Number,

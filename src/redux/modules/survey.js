@@ -64,18 +64,15 @@ export function requestSurveys (bounds) {
 }
 
 export function surveySave (responses) {
-  // console.log(responses)
-  // console.log(JSON.stringify(responses))
+  let interimResponses = responses
+  interimResponses.user = localStorage.getItem('id_token')
   let config = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json' },
-    body: JSON.stringify(responses)
-    // body: `lat=${responses.geoCoordinates[1]}&lon=${responses.geoCoordinates[0]}&employment=${responses.employment}&healthcare=${responses.healthcare}&family=${responses.family}&stability=${responses.stability}&relationships=${responses.relationships}&recreation=${responses.recreation}&education=${responses.education}&vacation=${responses.vacation}&housing=${responses.housing}&environment=${responses.environment}&discrimination=${responses.discrimination}&religion=${responses.religion}&mobility=${responses.mobility}&movement=${responses.movement}&safety=${responses.safety}&governance=${responses.governance}&`
-    // body: responses
+    body: JSON.stringify(interimResponses)
   }
-  // return
   return (dispatch) => {
     dispatch(submitSurvey(responses))
     return fetch('http://localhost:3000/api/survey/create', config)
