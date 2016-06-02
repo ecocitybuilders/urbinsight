@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
-import { Input } from 'react-bootstrap'
+import { Checkbox } from 'react-bootstrap'
 
 const LayerLink = (props) => <div>
-  <Input label={props.title} type='checkbox'
+  <Checkbox label={props.title} type='checkbox'
     onClick={() => props.layerSelected(props.name)}
   />
 </div>
