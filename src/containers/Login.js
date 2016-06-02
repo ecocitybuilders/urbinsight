@@ -14,9 +14,12 @@ export class Login extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      showModal: props.modalStatus
+      showModal: props.modalStatus,
+      authToggle: 'login'
     }
     this.close = this.close.bind(this)
+    this.handleLoginClick = this.handleLoginClick.bind(this)
+    this.handleSignUpClick = this.handleSignUpClick.bind(this)
   }
   close () {
     this.props.statusChange()
@@ -24,18 +27,30 @@ export class Login extends React.Component {
   componentWillReceiveProps (props) {
     this.setState({showModal: props.modalStatus})
   }
-  handleLoginClick (event) {
-    const username = this.refs.username.refs.input
-    const password = this.refs.password.refs.input
-    const creds = { username: username.value.trim(), password: password.value.trim() }
-    this.props.onLoginClick(creds)
+  handleLoginClick () {
+    if (this.state.authToggle !== 'login') {
+      this.setState({
+        authToggle: 'login'
+      })
+    } else {
+      const username = this.refs.username.refs.input
+      const password = this.refs.password.refs.input
+      const creds = { username: username.value.trim(), password: password.value.trim() }
+      this.props.onLoginClick(creds)
+    }
   }
 
-  handleSignUpClick (event) {
-    const username = this.refs.username.refs.input
-    const password = this.refs.password.refs.input
-    const creds = { username: username.value.trim(), password: password.value.trim() }
-    this.props.onSignUpClick(creds)
+  handleSignUpClick () {
+    if (this.state.authToggle !== 'signup') {
+      this.setState({
+        authToggle: 'signup'
+      })
+    } else {
+      const username = this.refs.username.refs.input
+      const password = this.refs.password.refs.input
+      const creds = { username: username.value.trim(), password: password.value.trim() }
+      this.props.onSignUpClick(creds)
+    }
   }
   render () {
     return (
@@ -47,23 +62,27 @@ export class Login extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <h3 style={{ display: this.state.authToggle === 'login' ? 'inline' : 'none' }}>Login</h3>
+            <h3 style={{ display: this.state.authToggle === 'signup' ? 'inline' : 'none' }}>Sign Up</h3>
             <form>
               <Input type='email' ref='username' placeholder='Email'/>
               <Input type='password' ref='password' placeholder='Password' />
+              <Input type='password' ref='confirm-password' placeholder='Confirm Password'
+                style={{ display: this.state.authToggle === 'signup' ? 'inline' : 'none' }}/>
             </form>
             {/* <EmailSignInForm />*/}
           </Modal.Body>
           <Modal.Footer id='login-modal-footer'>
             <div className='login-button-helper'>
-              <Button onClick={(event) => this.handleLoginClick(event)}
+              <Button onClick={this.handleLoginClick}
                 className='auth-buttons'
-                bsStyle='primary' bsSize='large' block>LOGIN
+                bsStyle='primary' bsSize='large' block>{this.state.authToggle === 'login' ? 'Submit' : 'Login'}
               </Button>
             </div>
             <div className='login-button-helper'>
-              <Button onClick={(event) => this.handleSignUpClick(event)}
+              <Button onClick={this.handleSignUpClick}
                 className='auth-buttons'
-                bsStyle='success' bsSize='large' block>SIGN UP
+                bsStyle='success' bsSize='large' block>{this.state.authToggle === 'signup' ? 'Submit' : 'Sign Up'}
               </Button>
             </div>
           </Modal.Footer>
