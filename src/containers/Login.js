@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react'
-import { Modal, Button, Input, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { Modal, Button, Input } from 'react-bootstrap'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 // import { EmailSignInForm } from 'redux-auth/bootstrap-theme'
+// FormGroup, ControlLabel, FormControl
 type Props = {
   modalStatus: PropTypes.bool,
   statusChange: PropTypes.func,
