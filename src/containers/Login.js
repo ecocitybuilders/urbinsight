@@ -15,6 +15,11 @@ const isEmail = function (email) {
   return re.test(email)
 }
 
+const validatePassword = function (password) {
+  let re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+  return re.test(password)
+}
+
 export class Login extends React.Component {
   props: Props;
 
@@ -75,15 +80,10 @@ export class Login extends React.Component {
     }
   }
   getPasswordValidationState () {
-    // if (this.state.password.length > 6) {
-    //   return 'success'
-    // } else {
-    //   return 'warning'
-    // }
     if (this.state.password.length === 0) {
       return null
     } else {
-      return this.state.password.length > 6 ? 'success' : 'warning'
+      return validatePassword(this.state.password) ? 'success' : 'error'
     }
   }
   getPasswordConfirmValidationState () {
