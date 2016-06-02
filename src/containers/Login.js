@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import { Modal, Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 // import { EmailSignInForm } from 'redux-auth/bootstrap-theme'
-// FormGroup, ControlLabel, FormControl
 type Props = {
   modalStatus: PropTypes.bool,
   statusChange: PropTypes.func,
@@ -72,6 +71,12 @@ export class Login extends React.Component {
     }
   }
 
+  handleChange (e) {
+    var obj = {}
+    obj[e.target.id] = e.target.value
+    this.setState(obj)
+  }
+
   getEmailValidationState () {
     if (this.state.email.length === 0) {
       return null
@@ -79,6 +84,7 @@ export class Login extends React.Component {
       return isEmail(this.state.email) ? 'success' : 'error'
     }
   }
+
   getPasswordValidationState () {
     if (this.state.password.length === 0) {
       return null
@@ -86,6 +92,7 @@ export class Login extends React.Component {
       return validatePassword(this.state.password) ? 'success' : 'error'
     }
   }
+
   getPasswordConfirmValidationState () {
     if (this.state.confirm.length === 0) {
       return null
@@ -93,11 +100,7 @@ export class Login extends React.Component {
       return this.state.password === this.state.confirm ? 'success' : 'error'
     }
   }
-  handleChange (e) {
-    var obj = {}
-    obj[e.target.id] = e.target.value
-    this.setState(obj)
-  }
+
   render () {
     return (
       <div>
@@ -155,12 +158,6 @@ export class Login extends React.Component {
                 <FormControl.Feedback />
               </FormGroup>
             </form>
-            {/*<form style={{'marginTop': '15px'}}>
-              <Input type='email' ref='username' placeholder='Email'/>
-              <Input type='password' ref='password' placeholder='Password' />
-              <Input type='password' ref='confirm-password' placeholder='Confirm Password'
-                style={{ display: this.state.authToggle === 'signup' ? 'inline' : 'none' }}/>
-            </form>*/}
           </Modal.Body>
           <Modal.Footer id='login-modal-footer'>
             <div className='login-button-helper'>
