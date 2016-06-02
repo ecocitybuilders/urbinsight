@@ -47,10 +47,9 @@ export class Login extends React.Component {
         authToggle: 'login'
       })
     } else {
-      debugger
-      const username = this.refs.username.refs.input
-      const password = this.refs.password.refs.input
-      const creds = { username: username.value.trim(), password: password.value.trim() }
+      const username = this.refs.username
+      const password = this.refs.password
+      const creds = { username: username.props.value.trim(), password: password.props.value.trim() }
       this.props.onLoginClick(creds)
     }
   }
@@ -61,10 +60,9 @@ export class Login extends React.Component {
         authToggle: 'signup'
       })
     } else {
-      debugger
-      const username = this.refs.username.refs.input
-      const password = this.refs.password.refs.input
-      const creds = { username: username.value.trim(), password: password.value.trim() }
+      const username = this.refs.username
+      const password = this.refs.password
+      const creds = { username: username.props.value.trim(), password: password.props.value.trim() }
       this.props.onSignUpClick(creds)
     }
   }
