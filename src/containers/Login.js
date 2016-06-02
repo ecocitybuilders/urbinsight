@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Modal, Button, Input, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
-// const { Feedback } = FormControl
+import { Modal, Button, Input, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 // import { EmailSignInForm } from 'redux-auth/bootstrap-theme'
 type Props = {
@@ -25,8 +24,8 @@ export class Login extends React.Component {
     this.handleLoginClick = this.handleLoginClick.bind(this)
     this.handleSignUpClick = this.handleSignUpClick.bind(this)
     // this.getEmailValidationState = this.getEmailValidationState.bind(this)
-    this.getPasswordValidationState = this.getPasswordValidationState.bind(this)
-    this.getPasswordConfirmValidationState = this.getPasswordConfirmValidationState.bind(this)
+    // this.getPasswordValidationState = this.getPasswordValidationState.bind(this)
+    // this.getPasswordConfirmValidationState = this.getPasswordConfirmValidationState.bind(this)
   }
   close () {
     this.props.statusChange()
@@ -59,20 +58,26 @@ export class Login extends React.Component {
       this.props.onSignUpClick(creds)
     }
   }
-  getValidationState () {
-    return 'success'
-  }
-  getPasswordValidationState () {
-    return 'warning'
-  }
-  getPasswordConfirmValidationState () {
-    return 'warning'
-  }
-  handleChange (e, type) {
-    var obj = {}
-    obj[type] = e.target.value
-    this.setState(obj)
-  }
+  // getEmailValidationState () {
+  //   return 'success'
+  // }
+  // getPasswordValidationState () {
+  //   // if (this.state.passwordValue.length > 6) {
+  //   //   return 'success'
+  //   // } else {
+  //   //   return 'warning'
+  //   // }
+  //   this.state.passwordValue.length > 6 ? 'success' : 'warning'
+  // }
+  // getPasswordConfirmValidationState () {
+  //   return 'warning'
+  // }
+  // handleChange (e, type) {
+  //   debugger
+  //   var obj = {}
+  //   obj[type] = e.target.value
+  //   this.setState(obj)
+  // }
   render () {
     return (
       <div>
@@ -85,7 +90,7 @@ export class Login extends React.Component {
           <Modal.Body>
             <h3 style={{ display: this.state.authToggle === 'login' ? 'inline' : 'none' }}>Login</h3>
             <h3 style={{ display: this.state.authToggle === 'signup' ? 'inline' : 'none' }}>Sign Up</h3>
-          {/* <form>
+            {/* <form>
               <FormGroup
                 controlId='email'
                 validationState={this.getEmailValidationState()}
