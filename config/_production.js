@@ -8,5 +8,13 @@ export default () => ({
     chunkModules : true,
     colors : true
   },
-  compiler_public_path: '/'
+  compiler_public_path: '/',
+  proxy: {
+    enabled: true,
+    options: {
+      // koa-proxy options
+      host: 'http://localhost:8000',
+      match: /^\/api\/.*/
+    }
+  }
 })
