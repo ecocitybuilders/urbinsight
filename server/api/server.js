@@ -3,6 +3,7 @@ var app = new Koa()
 var auth = require('./src/methods/auth')
 var survey = require('./src/methods/survey')
 var audit = require('./src/methods/audit')
+var keys = require('./keys')
 var path = require('path')
 var fs = require('fs')
 
@@ -26,7 +27,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
   }
 })
 
-app.keys = ['your-session-secret', 'another-session-secret']
+app.keys = keys
 // sessions
 const convert = require('koa-convert')
 const session = require('koa-generic-session')
