@@ -122,15 +122,6 @@ export function requestAudits (bounds) {
       .then((response) => response.json()).then((audits) => dispatch(auditsReceived(audits)))
   }
 }
-// for requesting the SLD
-// fetch('http://geonode.urbinsight.com/geoserver/rest/styles/cusco_tcobertura_vegetal.sld',
-// {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
-//   .then((response) => response.blob())
-//   .then(function(huh) {reader.addEventListener("loadend",
-//     function (){
-//       console.log(reader.result)
-//     })
-//     reader.readAsArrayBuffer(huh)})
 export function auditSave (geoJSON) {
   let config = {
     method: 'POST',
