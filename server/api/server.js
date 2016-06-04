@@ -50,10 +50,10 @@ app.use(convert(session({
 
 // bodyParser
 const bodyParser = require('koa-bodyparser')
-app.use(bodyParser())
+app.use(convert(bodyParser()))
 
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(convert(passport.initialize()))
+app.use(convert(passport.session()))
 // function * (next) {
 //   console.log('here')
 //   // var body = yield parse(this, { limit: '1kb' })
@@ -75,7 +75,7 @@ router
   .post('/api/survey/create', survey.saveSurvey)
   .post('/api/audit/create', audit.saveAudit)
 
-app.use(router.routes())
-app.use(router.allowedMethods())
+app.use(convert(router.routes()))
+app.use(convert(router.allowedMethods()))
 
 app.listen(8000)
