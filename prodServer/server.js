@@ -1,9 +1,9 @@
 var Koa = require('koa')
 var app = new Koa()
-var auth = require('./src/methods/auth')
-var survey = require('./src/methods/survey')
-var audit = require('./src/methods/audit')
-var keys = require('./keys')
+var auth = require('./api/src/methods/auth')
+var survey = require('./api/src/methods/survey')
+var audit = require('./api/src/methods/audit')
+var keys = require('./api/keys')
 var path = require('path')
 var fs = require('fs')
 
@@ -20,7 +20,7 @@ mongoose.connection.on('error', function (err) {
   console.log(err)
 })
 // Load the models
-const modelsPath = path.normalize(path.join(__dirname)) + '/src/models'
+const modelsPath = path.normalize(path.join(__dirname)) + '/api/src/models'
 fs.readdirSync(modelsPath).forEach(function (file) {
   if (~file.indexOf('js')) {
     require(modelsPath + '/' + file)
@@ -43,17 +43,17 @@ var storeObj = {
 // app.use(convert(csrf.middleware))
 const passport = require('koa-passport')
 
-require('../config/passport')(passport)
+require('./config/passport')(passport)
 app.use(convert(session({
   store: new MongoStore(storeObj)
 })))
 
 // bodyParser
 const bodyParser = require('koa-bodyparser')
-app.use(bodyParser())
+app.use(convert(bodyParser()))
 
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(convert(passport.initialize()))
+app.use(convert(passport.session()))
 // function * (next) {
 //   console.log('here')
 //   // var body = yield parse(this, { limit: '1kb' })
@@ -75,7 +75,7 @@ router
   .post('/api/survey/create', survey.saveSurvey)
   .post('/api/audit/create', audit.saveAudit)
 
-app.use(router.routes())
-app.use(router.allowedMethods())
+app.use(convert(router.routes()))
+app.use(convert(router.allowedMethods()))
 
 app.listen(8000)
