@@ -27,7 +27,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
   }
 })
 
-app.keys = ['x24cuy1thorg!i3943tad235', 'aiodf%hoei902#c4ty2h232']
+app.keys = keys
 // sessions
 const convert = require('koa-convert')
 const session = require('koa-generic-session')
