@@ -26,7 +26,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
     require(modelsPath + '/' + file)
   }
 })
-
+console.log(keys)
 app.keys = keys
 // sessions
 const convert = require('koa-convert')
