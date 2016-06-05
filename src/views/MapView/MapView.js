@@ -56,7 +56,7 @@ class MapView extends React.Component {
   componentDidMount () {
     // CHANGE (This is unmaintainable...need to standardize citynames)
     let city = this.state.city === 'abu_dhabi' ? 'abudhabi' : this.state.city
-    let tileLocation = 'http://localhost:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
+    let tileLocation = 'http://162.243.138.8:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
