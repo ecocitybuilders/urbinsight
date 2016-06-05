@@ -27,7 +27,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
   }
 })
 
-app.keys = keys
+app.keys = ['x24cuy1thorg!i3943tad235', 'aiodf%hoei902#c4ty2h232']
 // sessions
 const convert = require('koa-convert')
 const session = require('koa-generic-session')
@@ -50,10 +50,10 @@ app.use(convert(session({
 
 // bodyParser
 const bodyParser = require('koa-bodyparser')
-app.use(convert(bodyParser()))
+app.use(bodyParser())
 
-app.use(convert(passport.initialize()))
-app.use(convert(passport.session()))
+app.use(passport.initialize())
+app.use(passport.session())
 
 router
   .get('/api/surveys', survey.getSurveys)
@@ -63,7 +63,7 @@ router
   .post('/api/survey/create', survey.saveSurvey)
   .post('/api/audit/create', audit.saveAudit)
 
-app.use(convert(router.routes()))
-app.use(convert(router.allowedMethods()))
+app.use(router.routes())
+app.use(router.allowedMethods())
 
 app.listen(8000)
