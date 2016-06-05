@@ -28,7 +28,7 @@ const APP_ENTRY_PATH = paths.base(config.dir_client) + '/main.js'
 webpackConfig.entry = {
   app: __DEV__
     ? [APP_ENTRY_PATH, `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`]
-    : [APP_ENTRY_PATH],
+    : ['whatwg-fetch', APP_ENTRY_PATH],
   vendor: config.compiler_vendor
 }
 

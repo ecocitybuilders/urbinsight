@@ -1,5 +1,5 @@
 // import { normalize, Schema, arrayOf } from 'normalizr'
-
+import 'whatwg-fetch'
 /* @flow */
 // ------------------------------------
 // Constants
