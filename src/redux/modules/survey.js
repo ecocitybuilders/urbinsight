@@ -1,5 +1,6 @@
 /* @flow */
 import 'whatwg-fetch'
+import server_endpoint from 'utils/serverUtils'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -55,7 +56,7 @@ export function requestSurveys (bounds) {
     mode: 'cors',
     cache: 'default'
   }
-  let queryString = 'http://localhost:8000/api/surveys?a=' +
+  let queryString = 'http://' + server_endpoint + ':8000/api/surveys?a=' +
     `${bounds[0]}&b=${bounds[1]}&c=${bounds[2]}&d=${bounds[3]}&e=${bounds[4]}`
   return (dispatch) => {
     dispatch(surveysRequest(bounds))
@@ -76,7 +77,7 @@ export function surveySave (responses) {
   }
   return (dispatch) => {
     dispatch(submitSurvey(responses))
-    return fetch('http://localhost:8000/api/survey/create', config)
+    return fetch('http://' + server_endpoint + ':8000/api/survey/create', config)
       .then((response) => dispatch(surveySaved))
   }
 }

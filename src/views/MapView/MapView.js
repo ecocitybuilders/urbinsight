@@ -9,6 +9,7 @@ import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
+import server_endpoint from 'utils/serverUtils'
 import _ from 'lodash'
 
 type Props = {
@@ -56,7 +57,7 @@ class MapView extends React.Component {
   componentDidMount () {
     // CHANGE (This is unmaintainable...need to standardize citynames)
     let city = this.state.city === 'abu_dhabi' ? 'abudhabi' : this.state.city
-    let tileLocation = 'http://localhost:5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
+    let tileLocation = 'http://' + server_endpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
