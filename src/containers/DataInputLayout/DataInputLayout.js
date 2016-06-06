@@ -46,7 +46,8 @@ class DataInputLayout extends React.Component {
     })
     return (
       <div id='data-input' className={dataInputClass}>
-        <span id='data-input-toggle' className={dataInputGlyphClass} onClick={this.update}></span>
+        <span style={{'zIndex': 1000}} id='data-input-toggle' className={dataInputGlyphClass}
+          onClick={this.update}></span>
         <Tabs bsStyle='tabs' activeKey={this.state.key}
           onSelect={this.handleSelect} className={dataInputTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>

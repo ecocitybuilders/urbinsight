@@ -21,26 +21,16 @@ class Homepage extends React.Component {
         <div id='homepage-heading'>
           <h2 id='homepage-intro-text'>Where Communites Locate Themselves</h2>
           <h1 id='homepage-intro-title'>Urbinsight</h1>
-           {/*<img id='homepage-slideshow-image' src={Slide1} alt='...' />*/}
         </div>
         <Carousel style={{'zIndex': 2, 'marginTop': '25px'}}>
           <Carousel.Item>
             <img width={screen.width} className='homepage-slideshow-image' src={Slide1} alt='...' />
-            {/*<Carousel.Caption>
-              <h3>Where Communities Locate Themselves</h3>
-            </Carousel.Caption>*/}
           </Carousel.Item>
           <Carousel.Item>
             <img width={screen.width} className='homepage-slideshow-image' src={Slide2} alt='...' />
-            {/*<Carousel.Caption>
-              <h3>Visualizing Urban Metabolism Systems</h3>
-            </Carousel.Caption>*/}
           </Carousel.Item>
           <Carousel.Item>
             <img width={screen.width} className='homepage-slideshow-image' src={Slide3} alt='...' />
-            {/*<Carousel.Caption>
-              <h3>Defining and Measuring Neighborhood Ecologies</h3>
-            </Carousel.Caption>*/}
           </Carousel.Item>
         </Carousel>
         <div className='intro-text-frame'>

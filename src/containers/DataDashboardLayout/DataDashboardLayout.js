@@ -43,7 +43,7 @@ class DataDashboard extends React.Component {
     return (
 
       <div id='visualization-dashboard' className={dashboardClass}>
-        <span className={dashboardGlyphClass} onClick={this.update}></span>
+        <span style={{'zIndex': 1000}} className={dashboardGlyphClass} onClick={this.update}></span>
         <Tabs bsStyle='tabs' defaultActiveKey={1} className={dashboardTabsClass} justified>
           <Tab eventKey={1} title='Urban Metabolism'>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
