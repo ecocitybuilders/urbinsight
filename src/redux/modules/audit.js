@@ -1,9 +1,7 @@
 // import { normalize, Schema, arrayOf } from 'normalizr'
 import 'whatwg-fetch'
-// import config from '../../../config'
-//
-// console.log(config)
 import server_endpoint from 'utils/serverUtils'
+
 /* @flow */
 // ------------------------------------
 // Constants

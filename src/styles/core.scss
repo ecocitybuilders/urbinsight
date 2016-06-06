@@ -18,6 +18,125 @@
    text-decoration: none;
   }
 
+  @media screen and (min-width: 777px) {
+    #homepage-intro-title {
+      position: absolute;
+      // top: 4em;
+      left: 2em;
+      color: #fff;
+      font-size: 72px;
+    }
+    #homepage-intro-text {
+      position: absolute;
+      top: 4.5em;
+      left: 5em;
+      color: #fff;
+      // margin-bottom: -20em;
+    }
+    #homepage-heading {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 20em;
+      z-index: 3;
+    }
+  }
+
+  @media screen and (max-width: 776px) {
+    #homepage-heading {
+      display: none;
+    }
+  }
+
+  .intro-text{
+    font-family: 'Lato', sans-serif;
+    padding: 40px 40px 40px 40px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .intro-text-frame{
+    background-color: #fff;
+    padding-top: 0px;
+    width: 100%;
+  }
+
+  #partner-process{
+  width: 100%;
+  height: 75px;
+  background-color: rgb(220,220,220);
+  margin: 0;
+}
+
+#partner-process-text{
+  margin: 0;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-size: 2.5em;
+  padding-top: 20px;
+  font-weight: 5px;
+}
+
+#process-intro{
+  background-color: rgba(160,206,226,0.3);
+  width: 100%;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+
+}
+
+#process-intro-image {
+  // position: absolute;
+  // left: 0;
+  // top: 500;
+}
+
+#process-intro-text{
+  z-index: 100;
+  position: absolute;
+  color: #fff;
+  font-size: 22px;
+  // padding-top: 7.5em;
+  top: 40em;
+  left: 0;
+  padding-left: 7.5em;
+  padding-right: 7.5em;
+  text-align: justify;
+}
+
+#process-list-title{
+  background-color: rgb(30,30,30);
+  margin: 0;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#process-list-title-text{
+  color: rgb(220,220,220);
+  font-family: "Lato", sans-serif;
+  text-align: center;
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#process-list{
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 50px;
+  padding-left: 50px;
+}
+#process-list-items > li{
+  font-family: "Lato", sans-serif;
+  padding-bottom: 10px;
+  font-size: 18px;
+}
+
+#homepage-slideshow-image {
+  width: 100%;
+  object-fit: cover;
+}
   #header-logo {
    margin-top: -.8em;
   }
@@ -308,16 +427,6 @@
   }
 
   .features-tab {
-
-    // transform: rotate(270deg);
-	  // transform-origin: top left 0;
-    // // width: 120px;
-    // // height: 30px;
-    // // text-align: center;
-    //
-    // // top: 50%;
-    // // left: 50%;
-    // margin-top: 100px;
     position: absolute;
     top: 50%;
     left: 50%;
