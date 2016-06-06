@@ -4,6 +4,7 @@ import Logo from 'static/images/urbinsight_logo_v1.png'
 import Login from 'containers/Login'
 import { loginUser, logoutUser, signUpUser } from 'redux/modules/auth'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import { capitalizeFirstLetter } from 'utils/generalUtils'
 
 type Props = {
   dispatch: PropTypes.func.isRequired,
@@ -39,13 +40,23 @@ class AppHeader extends React.Component {
   render () {
     const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick, onSignUpClick } =
     this.props
+    const returnedModal = window.location.pathname.slice(1) !== '' && !this.state.LoginModalOpened ?
+      <Login errorMessage={errorMessage}
+        onLoginClick={onLoginClick}
+        onSignUpClick={onSignUpClick}
+        modalStatus={!isAuthenticated}
+        statusChange={this.statusChange}
+     /> : null
     return (
       <div>
         <Navbar inverse fluid fixedTop isAuthenticated={isAuthenticated}
           errorMessage={errorMessage} dispatch={dispatch}>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href='#'><img id='header-logo' src={Logo}></img></a>
+              <a style={{'display': 'inline-block'}} href='http://www.urbinsight.com'>
+                <img className='header-logo' src={Logo} />
+              </a>
+              <h3 className='city-title'>{capitalizeFirstLetter(window.location.pathname.slice(1))}</h3>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -72,14 +83,7 @@ class AppHeader extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-         {!this.state.LoginModalOpened &&
-           <Login errorMessage={errorMessage}
-             onLoginClick={onLoginClick}
-             onSignUpClick={onSignUpClick}
-             modalStatus={!isAuthenticated}
-             statusChange={this.statusChange}
-          />
-        }
+         {returnedModal}
       </div>
     )
   }

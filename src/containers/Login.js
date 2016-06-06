@@ -106,8 +106,8 @@ export class Login extends React.Component {
       <div>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title id='login-modal-title'>
-              <img id='header-logo' src={Logo}></img>
+            <Modal.Title className='login-modal-title'>
+              <img className='header-logo' src={Logo}></img>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>

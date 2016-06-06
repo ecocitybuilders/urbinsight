@@ -7,7 +7,7 @@ import imbabareport2 from 'static/images/imbaba-report2.png'
 
 class Homepage extends React.Component {
   componentDidMount () {
-    $('#homepage-intro-text').typed({
+    $('.homepage-intro-text').typed({
       strings: ['Where Communites Locate Themselves', 'Visualizing Urban Metabolisms',
       'Defining and Measuring Neighborhood Ecologies'],
       backDelay: 2000,
@@ -18,9 +18,9 @@ class Homepage extends React.Component {
   render () {
     return (
       <div>
-        <div id='homepage-heading'>
-          <h2 id='homepage-intro-text'>Where Communites Locate Themselves</h2>
-          <h1 id='homepage-intro-title'>Urbinsight</h1>
+        <div className='homepage-heading'>
+          <h2 className='homepage-intro-text'>Where Communites Locate Themselves</h2>
+          <h1 className='homepage-intro-title'>Urbinsight</h1>
         </div>
         <Carousel style={{'zIndex': 2, 'marginTop': '25px'}}>
           <Carousel.Item>
@@ -34,19 +34,19 @@ class Homepage extends React.Component {
           </Carousel.Item>
         </Carousel>
         <div className='intro-text-frame'>
-          <h3 className='intro-text'>
+          <h3>
             Creating informative and actionable datasets in one of the primary challenges of increasing urban resilience.
             {/* Our solution is a dynamic mapping platform that visualizes multiple data types and facilitates citizen engagement.
             Urbinsight is designed through a community oriented process which leverages residents' inherent spatial knowledge to create more robust knowledge systems.*/}
           </h3>
         </div>
-        <div id='partner-process'>
-          <h2 id='partner-process-text'>Partners + Process</h2>
+        <div className='partner-process-header'>
+          <h2>Partners + Process</h2>
         </div>
         <div>
-          <div id='process-intro'>
-            <img id='process-intro-image' src={imbabareport2} style={{'width': '100%'}} />
-            {/* <h4 id='process-intro-text'>
+          <div className='process-intro'>
+            <img src={imbabareport2} />
+            {/* <h4>
               We are committed to a process of ground level engagement rooted in a participatory reasearch framework,
               creating the context for communities to articulate their own desires for community betterment. This invovles a multi-stage process centered around community input at each level of the spatial analysis.
               This allows the process to dynamically evolve and become more responsive over time.
@@ -54,11 +54,11 @@ class Homepage extends React.Component {
           </div>
         </div>
         <div >
-          <div id='process-list-title'>
-            <h3 id='process-list-title-text'>The urbinsight framework is defined by partnerships at multiple levels.</h3>
+          <div className='process-list-header'>
+            <h3>The urbinsight framework is defined by partnerships at multiple levels.</h3>
           </div>
-          <div id='process-list'>
-            <ul id='process-list-items'>
+          <div className='process-list'>
+            <ul>
               <li><strong>Community:</strong> Our primary focus is to identify a <strong>C</strong>ommunity <strong>B</strong>ased <strong>O</strong>rganization who can lead and inform the community engagement process.</li>
               <li><strong>Institution:</strong> We look towards working with education institutions and partners to implement curriculum related to participatory research and geographic information systems.</li>
               <li><strong>Municipal:</strong> City level partners are instrumental in providing us with data and information to help guide and frame the ground level analysis which the communities contribute to.</li>

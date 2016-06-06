@@ -1,6 +1,8 @@
 import React from 'react'
 import c3 from 'c3'
 import _ from 'lodash'
+import { capitalizeFirstLetter } from 'utils/generalUtils'
+
 let colors = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
               '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5',
               '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f',
@@ -104,9 +106,6 @@ class DashboardQualitative extends React.Component {
     let surveys = surveysObj.surveys
     let responsesPerQuestion = {}
     var results = {}
-    let capitalizeFirstLetter = function (str) {
-      return str.charAt(0).toUpperCase() + str.slice(1)
-    }
     surveys.forEach(function (survey) {
       _.forEach(survey, function (response, question) {
         if (['__v', '_id', 'geoCoordinates'].indexOf(question) < 0) {
