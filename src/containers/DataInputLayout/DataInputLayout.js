@@ -32,7 +32,10 @@ class DataInputLayout extends React.Component {
     })
   }
   render () {
-    let dataInputClass = classNames({'data-input-opened': this.state.opened})
+    let dataInputClass = classNames({
+      'data-input-opened': this.state.opened,
+      'data-input-closed': !this.state.opened
+    })
     let dataInputTabsClass = classNames({
       'dashboard-opened-tabs': this.state.opened,
       'dashboard-closed-tabs': !this.state.opened

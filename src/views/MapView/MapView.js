@@ -29,7 +29,7 @@ class MapView extends React.Component {
       mapToken: 'pk.eyJ1IjoidGhpc3NheXNub3RoaW5nIiwiYSI6IjFNbHllT2MifQ.5F7AhW2FxnpENc8eiE-HUA',
       mapView: {
         container: 'map',
-        style: 'mapbox://styles/mapbox/satellite-v9',
+        style: 'mapbox://styles/mapbox/satellite-streets-v9',
         center: cityObjectFunc(window.location.pathname.slice(1)),
         zoom: 15
       },

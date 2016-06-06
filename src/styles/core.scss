@@ -150,11 +150,10 @@
   }
 
   #map {
-   position: fixed;
    top: 6vh;
    bottom: 0;
    width: 100%;
-   z-index: 1;
+   height: 94vh;
   }
 
   #visualization-dashboard {
@@ -174,10 +173,8 @@
    background-color: white;
    border-radius: 10px;
    opacity: 0.9;
-   z-index: 2;
    position: relative;
    float: right;
-   /*position: fixed;*/
   }
 
   #layer-selection {
@@ -252,6 +249,10 @@
    width: 50% !important;
    height: 75% !important;
    overflow: auto;
+   z-index: 3;
+  }
+  .data-input-closed {
+    z-index: 1;
   }
 
   .data-input-opened-glyph {
@@ -433,13 +434,15 @@
     width: 150px;
     transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
     text-align: center;
+    // z-index: 0;
   }
   .features-list {
     position: absolute;
-    z-index: 3;
     top: 0;
     right: 0;
     bottom: 0;
+    z-index: 1;
+    opacity: .99;
     background: rgba(255, 255, 255, 0.8);
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
