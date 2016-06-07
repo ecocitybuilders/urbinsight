@@ -13,11 +13,20 @@ class DashboardResourcePane extends React.Component {
   constructor () {
     super()
     this.state = {
-      totalData: {},
+      chartData: {},
       chart: {},
+      chartWidth: window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4,
       noData: true
     }
+    this.handleResize = this.handleResize.bind(this)
   }
+
+  handleResize (e) {
+    let width = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
+    this.state.chart.resize({'width': width})
+    this.setState({chartWidth: width})
+  }
+
   componentDidMount () {
     let chartObj = {
       bindto: '#resource-chart-',
@@ -27,19 +36,24 @@ class DashboardResourcePane extends React.Component {
 
       }
     }
-    let size = screen.width / 4
-    // chartObj.size = {width: size}
+
+    chartObj.size = {width: this.state.chartWidth}
     chartObj.bindto = '#resource-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
     // am I making a bunch of extra of charts
-    chartObj.data.json = this.state.totalData
+    chartObj.data.json = this.state.chartData
     let chart = c3.generate(chartObj)
     this.setState({
       chart: chart
     })
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize)
   }
   componentDidUpdate (pp, ps) {
-    if (ps.chart.load) ps.chart.load({json: ps.totalData})
+    if (ps.chart.load) ps.chart.load({json: ps.chartData})
   }
   componentWillReceiveProps (np) {
     if (typeof np.audits !== 'undefined') {
@@ -54,13 +68,14 @@ class DashboardResourcePane extends React.Component {
           })
         })
         this.setState({
-          totalData: newTotalData
+          chartData: newTotalData
         })
       }
     }
     // console.log(this.state.totalData)
   }
   shouldComponentUpdate (np, ns) {
+    // This is will create a problem if the same number of features is in view even though they are different
     if (typeof np.audits !== 'undefined' && typeof this.props.audits !== 'undefined') {
       return np.audits.length !== this.props.audits.length
     }
@@ -69,16 +84,16 @@ class DashboardResourcePane extends React.Component {
 
   render () {
     const mountId = 'resource-chart-' + this.props.resource
-    const displayValue = _.isEmpty(this.state.totalData) ? 'none' : 'inherit'
+    const displayValue = _.isEmpty(this.state.chartData) ? 'none' : 'inherit'
     return (
       <div>
         <div className='dashboard-pane'>
           <Row>
             <Col md={6}>
-              {_.isEmpty(this.state.totalData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
-              <div className='resource-chart-container'
-                style={{display: displayValue, width: '100%', 'min-height': '320px', 'height': '320px'}}
-                id={mountId}></div>
+              {_.isEmpty(this.state.chartData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
+              {!_.isEmpty(this.state.chartData) && <div className='resource-chart-container'
+                style={{display: displayValue, width: '100%', 'minHeight': '320px', 'height': '320px'}}
+                id={mountId}></div>}
             </Col>
             <Col md={6}>
               <div className='kpi-indicators'>
