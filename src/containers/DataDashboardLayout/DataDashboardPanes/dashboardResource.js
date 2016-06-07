@@ -10,13 +10,14 @@ class DashboardResourcePane extends React.Component {
     resource: PropTypes.string.isRequired,
     audits: PropTypes.array
   };
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       chartData: {},
       chart: {},
       chartWidth: window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4,
-      noData: true
+      noData: true,
+      mountId: 'resource-chart-' + props.resource
     }
     this.handleResize = this.handleResize.bind(this)
   }
@@ -24,20 +25,18 @@ class DashboardResourcePane extends React.Component {
   handleResize (e) {
     let width = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
     this.state.chart.resize({'width': width})
-    this.setState({chartWidth: width})
+    // this.setState({chartWidth: width})
   }
 
   componentDidMount () {
     let chartObj = {
-      bindto: '#resource-chart-',
       data: {
         json: {},
         type: 'pie'
-
       }
     }
-
-    chartObj.size = {width: this.state.chartWidth}
+    let size = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
+    chartObj.size = {width: size}
     chartObj.bindto = '#resource-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
     // am I making a bunch of extra of charts
@@ -52,8 +51,8 @@ class DashboardResourcePane extends React.Component {
   componentWillUnmount () {
     window.removeEventListener('resize', this.handleResize)
   }
-  componentDidUpdate (pp, ps) {
-    if (ps.chart.load) ps.chart.load({json: ps.chartData})
+  componentWillUpdate (pp, ps) {
+    if (this.state.chart.load) this.state.chart.load({json: ps.chartData})
   }
   componentWillReceiveProps (np) {
     if (typeof np.audits !== 'undefined') {
@@ -83,7 +82,6 @@ class DashboardResourcePane extends React.Component {
   }
 
   render () {
-    const mountId = 'resource-chart-' + this.props.resource
     const displayValue = _.isEmpty(this.state.chartData) ? 'none' : 'inherit'
     return (
       <div>
@@ -91,9 +89,9 @@ class DashboardResourcePane extends React.Component {
           <Row>
             <Col md={6}>
               {_.isEmpty(this.state.chartData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
-              {!_.isEmpty(this.state.chartData) && <div className='resource-chart-container'
+              <div className='resource-chart-container'
                 style={{display: displayValue, width: '100%', 'minHeight': '320px', 'height': '320px'}}
-                id={mountId}></div>}
+                id={this.state.mountId}></div>
             </Col>
             <Col md={6}>
               <div className='kpi-indicators'>
