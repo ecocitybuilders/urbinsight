@@ -304,7 +304,16 @@ export function mapboxStyleGenerator (sldObj, layerName) {
   let mapboxStyleObjs = []
   sldObj.namedLayers.map((layer) => {
     layer.userStyles.forEach((style) => {
+      let styleSpec = {}
+      styleSpec['source'] = layerName
+      styleSpec['id'] = layerName
+      let dataDriven
+      let propertyValue
+      let paintType
+      let stops = []
       style.rules.forEach((rule) => {
+        dataDriven = rule.filter !== null
+        propertyValue = rule.filter.property
         rule.symbolizers.forEach((symbolizer) => {
           let styleType
           if (symbolizer.CLASS_NAME.split('.').indexOf('Point') > -1) {
@@ -314,16 +323,17 @@ export function mapboxStyleGenerator (sldObj, layerName) {
           } else if (symbolizer.CLASS_NAME.split('.').indexOf('Polygon') > -1) {
             styleType = 'polygon'
           }
-          let styleSpec = {}
-          styleSpec['source'] = layerName
-          styleSpec['id'] = layerName
-          debugger
           switch (styleType) {
             case 'point':
               styleSpec['type'] = 'circle'
-              styleSpec['paint'] = {
-                'circle-radius': symbolizer.pointRadius,
-                'circle-color': symbolizer.fillColor.substring(0, 7)
+              if (dataDriven) {
+                paintType = 'circle-radius'
+                stops.push([rule.filter.value, symbolizer.fillColor.substring(0, 7)])
+              } else {
+                styleSpec['paint'] = {
+                  'circle-radius': symbolizer.pointRadius,
+                  'circle-color': symbolizer.fillColor.substring(0, 7)
+                }
               }
               break
             case 'line':
@@ -336,28 +346,30 @@ export function mapboxStyleGenerator (sldObj, layerName) {
               break
             case 'polygon':
               styleSpec['type'] = 'fill'
-              styleSpec['paint'] = {
-                'fill-color': symbolizer.fillColor.substring(0, 7),
-                'fill-opacity': 0.8
-              }
-              if (typeof symbolizer.strokeColor !== 'undefined') {
-                styleSpec.paint['fill-outline-color'] = symbolizer.strokeColor || '#000000'
+              if (dataDriven) {
+                paintType = 'fill-color'
+                stops.push([rule.filter.value, symbolizer.fillColor.substring(0, 7)])
+              } else {
+                styleSpec['paint'] = {
+                  'fill-color': symbolizer.fillColor.substring(0, 7),
+                  'fill-opacity': 0.8
+                }
+                if (typeof symbolizer.strokeColor !== 'undefined') {
+                  styleSpec.paint['fill-outline-color'] = symbolizer.strokeColor || '#000000'
+                }
               }
               break
           }
-          if (rule.filter !== null) {
-            let filterNameAddendum = typeof rule.filter.value === 'number'
-              ? rule.filter.value
-              : rule.filter.value.split(' ').map(function (val) { return val.toLowerCase() }).join('_')
-            let newlayerName = layerName + '_' + filterNameAddendum
-            styleSpec['id'] = newlayerName
-            styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
-          }
-          // console.log(layerDispatch)
-          // layerDispatch(styleSpec.id)
-          mapboxStyleObjs.push(styleSpec)
         })
       })
+      if (dataDriven) {
+        styleSpec.paint = {}
+        styleSpec.paint[paintType] = {}
+        styleSpec.paint[paintType]['property'] = propertyValue
+        styleSpec.paint[paintType]['stops'] = stops.reverse()
+      }
+      debugger
+      mapboxStyleObjs.push(styleSpec)
     })
   })
   return mapboxStyleObjs

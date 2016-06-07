@@ -111,6 +111,7 @@ class MapView extends React.Component {
         [e.point.x - width / 2, e.point.y - width / 2],
         [e.point.x + width / 2, e.point.x - width / 2]],
         { layers: np.layers })
+      window.map = ns.map
       ns.map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
       if (features.length) {
         features.forEach((feature) => {
