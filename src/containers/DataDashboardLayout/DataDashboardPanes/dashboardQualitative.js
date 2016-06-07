@@ -126,7 +126,7 @@ class DashboardQualitative extends React.Component {
     })
   }
   componentDidMount () {
-    chartObj.size = {width: (screen.width / 2.2)}
+    chartObj.size = {width: (window.innerWidth / 2.2)}
     let chart = c3.generate(chartObj)
     this.setState({
       chart: chart
