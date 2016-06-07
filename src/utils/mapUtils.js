@@ -311,9 +311,11 @@ export function mapboxStyleGenerator (sldObj, layerName) {
       let propertyValue
       let paintType
       let stops = []
+      let categorical
       style.rules.forEach((rule) => {
         dataDriven = rule.filter !== null
-        propertyValue = rule.filter.property
+        propertyValue = dataDriven ? rule.filter.property : null
+        categorical = dataDriven && rule.filter.type === '=='
         rule.symbolizers.forEach((symbolizer) => {
           let styleType
           if (symbolizer.CLASS_NAME.split('.').indexOf('Point') > -1) {
@@ -365,10 +367,10 @@ export function mapboxStyleGenerator (sldObj, layerName) {
       if (dataDriven) {
         styleSpec.paint = {}
         styleSpec.paint[paintType] = {}
+        categorical ? styleSpec.paint[paintType]['type'] = 'categorical' : null
         styleSpec.paint[paintType]['property'] = propertyValue
         styleSpec.paint[paintType]['stops'] = stops.reverse()
       }
-      debugger
       mapboxStyleObjs.push(styleSpec)
     })
   })

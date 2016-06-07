@@ -106,12 +106,9 @@ class MapView extends React.Component {
     ns.map.off('mousemove')
     ns.map.on('mousemove', (e) => {
       let htmlString = ''
-      var width = 5
-      var features = ns.map.queryRenderedFeatures([
-        [e.point.x - width / 2, e.point.y - width / 2],
-        [e.point.x + width / 2, e.point.x - width / 2]],
+      // debugger
+      var features = ns.map.queryRenderedFeatures(e.point,
         { layers: np.layers })
-      window.map = ns.map
       ns.map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
       if (features.length) {
         features.forEach((feature) => {
