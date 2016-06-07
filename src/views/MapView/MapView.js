@@ -104,8 +104,8 @@ class MapView extends React.Component {
 
   componentWillUpdate (np, ns) {
     ns.map.off('mousemove')
-    let htmlString = ''
     ns.map.on('mousemove', (e) => {
+      let htmlString = ''
       var width = 5
       var features = ns.map.queryRenderedFeatures([
         [e.point.x - width / 2, e.point.y - width / 2],

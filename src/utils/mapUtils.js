@@ -220,26 +220,29 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
       let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
       if (!features.length) return
       let feature = features[0]
-      let popup = new mapboxgl.Popup()
-        .setLngLat(map.unproject(e.point))
-      if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
-        // this should be sent through redux most likely
-        // Array of Audits currently in the state
-        options.audits.forEach(function (audit) {
-          if (audit._id === feature.properties.id) feature = audit; return
-        })
-        let div = document.createElement('div')
-        // Create an Document Element, then will use render to attach the React Node to it.
-        popup.setDOMContent(div)
-        render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
-          popup.addTo(map)
-        })
+      if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
       } else {
-        let div = document.createElement('div')
-        popup.setDOMContent(div)
-        render(<SurveyPopUp survey={feature.properties}/>, div, () => {
-          popup.addTo(map)
-        })
+        let popup = new mapboxgl.Popup()
+          .setLngLat(map.unproject(e.point))
+        if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
+          // this should be sent through redux most likely
+          // Array of Audits currently in the state
+          options.audits.forEach(function (audit) {
+            if (audit._id === feature.properties.id) feature = audit; return
+          })
+          let div = document.createElement('div')
+          // Create an Document Element, then will use render to attach the React Node to it.
+          popup.setDOMContent(div)
+          render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
+            popup.addTo(map)
+          })
+        } else {
+          let div = document.createElement('div')
+          popup.setDOMContent(div)
+          render(<SurveyPopUp survey={feature.properties}/>, div, () => {
+            popup.addTo(map)
+          })
+        }
       }
     } else if (keyword === 'umisLocation') {
       let cityTag = options.cityTag
