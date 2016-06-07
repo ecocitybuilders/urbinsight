@@ -116,7 +116,6 @@ class DashboardResourcePane extends React.Component {
         </div>
         <div className='archetype-library'>
           <h3>Urban Archetype Library</h3>
-          <h4>Browse Different Resources</h4>
           <select>
             <option>Hello</option>
             <option>World</option>

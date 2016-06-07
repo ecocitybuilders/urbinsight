@@ -317,6 +317,7 @@ export function mapboxStyleGenerator (sldObj, layerName) {
           let styleSpec = {}
           styleSpec['source'] = layerName
           styleSpec['id'] = layerName
+          debugger
           switch (styleType) {
             case 'point':
               styleSpec['type'] = 'circle'
@@ -337,14 +338,18 @@ export function mapboxStyleGenerator (sldObj, layerName) {
               styleSpec['type'] = 'fill'
               styleSpec['paint'] = {
                 'fill-color': symbolizer.fillColor.substring(0, 7),
-                'fill-opacity': 0.8,
-                'fill-outline-color': symbolizer.strokeColor || '#000000'
+                'fill-opacity': 0.8
+              }
+              if (typeof symbolizer.strokeColor !== 'undefined') {
+                styleSpec.paint['fill-outline-color'] = symbolizer.strokeColor || '#000000'
               }
               break
           }
           if (rule.filter !== null) {
-            let newlayerName = layerName + '_' + rule.filter.value.split(' ')
-              .map(function (val) { return val.toLowerCase() }).join('_')
+            let filterNameAddendum = typeof rule.filter.value === 'number'
+              ? rule.filter.value
+              : rule.filter.value.split(' ').map(function (val) { return val.toLowerCase() }).join('_')
+            let newlayerName = layerName + '_' + filterNameAddendum
             styleSpec['id'] = newlayerName
             styleSpec['filter'] = [rule.filter.type, rule.filter.property, rule.filter.value]
           }
