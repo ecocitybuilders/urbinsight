@@ -100,6 +100,11 @@ class DashboardQualitative extends React.Component {
       chart: {},
       noData: true
     }
+    this.handleResize = this.handleResize.bind(this)
+  }
+  handleResize (e) {
+    let width = window.innerWidth / 2.1
+    this.state.chart.resize({'width': width})
   }
 
   generateSurveyTotals (surveysObj) {
@@ -108,7 +113,7 @@ class DashboardQualitative extends React.Component {
     var results = {}
     surveys.forEach(function (survey) {
       _.forEach(survey, function (response, question) {
-        if (['__v', '_id', 'geoCoordinates'].indexOf(question) < 0) {
+        if (['__v', '_id', 'geoCoordinates', 'user'].indexOf(question) < 0) {
           let value
           if (response === '') {
             value = 0
@@ -126,11 +131,15 @@ class DashboardQualitative extends React.Component {
     })
   }
   componentDidMount () {
-    chartObj.size = {width: (window.innerWidth / 2.2)}
+    chartObj.size = {width: (window.innerWidth / 2.1)}
     let chart = c3.generate(chartObj)
     this.setState({
       chart: chart
     })
+    window.addEventListener('resize', this.handleResize)
+  }
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize)
   }
   componentDidUpdate (pp, ps) {
     if (ps.chart.load && typeof pp.surveys !== 'undefined') {
