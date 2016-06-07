@@ -35,8 +35,8 @@ class DashboardResourcePane extends React.Component {
         type: 'pie'
       }
     }
-    let size = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
-    chartObj.size = {width: size}
+    // let size = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
+    chartObj.size = {width: this.state.chartWidth}
     chartObj.bindto = '#resource-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
     // am I making a bunch of extra of charts
