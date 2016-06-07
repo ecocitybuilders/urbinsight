@@ -82,17 +82,17 @@ class DashboardResourcePane extends React.Component {
             </Col>
             <Col md={6}>
               <div className='kpi-indicators'>
-                <h2>KPI Indicators</h2>
+                <h3>KPI Indicators</h3>
                 <div>
-                  <h3>Adaptability Performance:</h3>
-                  <h4>Water usage satisfied on site</h4>
+                  <h4>Adaptability Performance:</h4>
+                  <h5>Water usage satisfied on site</h5>
                   <div id='kpi-indicators-adaptability-chart'>
                     I'm a Graphic
                   </div>
                 </div>
                 <div>
-                  <h3>Adaptability Performance:</h3>
-                  <h4>Demand exceeding Capacity</h4>
+                  <h4>Adaptability Performance:</h4>
+                  <h5>Demand exceeding Capacity</h5>
                   <div id='kpi-indicators-capacity-chart'>
                     I'm a Graphic
                   </div>
@@ -101,17 +101,19 @@ class DashboardResourcePane extends React.Component {
             </Col>
           </Row>
         </div>
-        <div id='archetype-library'>
+        <div className='archetype-library'>
           <h3>Urban Archetype Library</h3>
           <h4>Browse Different Resources</h4>
-          <select id='archetype-selection'>
+          <select>
             <option>Hello</option>
             <option>World</option>
           </select>
 
-          <div id='archetype-holder'>
-            <div id='archetype-image-holder'><img id='archetype-image' src={House}></img></div>
-            <div id='archetype-text-holder'>
+          <div className='archetype-container'>
+            <div>
+              <img src={House} />
+            </div>
+            <div className='archetype-details'>
               <h5><strong>Type:</strong> Two Story Detached</h5>
               <h5><strong>Zoning:</strong> Residential</h5>
               <h5><strong>Age:</strong> pre-1970s</h5>
@@ -128,10 +130,10 @@ lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
             </div>
           </div>
         </div>
-        <div id='archetype-action-buttons'>
-          <div id='archetype-action-button'> Contribute </div>
-          <div id='archetype-action-button'> Share </div>
-          <div id='archetype-action-button'>Print</div>
+        <div className='archetype-action-buttons'>
+          <div> Contribute </div>
+          <div> Share </div>
+          <div>Print</div>
         </div>
       </div>
     )

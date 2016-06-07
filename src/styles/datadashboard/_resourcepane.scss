@@ -1,7 +1,3 @@
-.dashboard-pane {
-}
-
-
 .audit-data-message {
   h3 {
     margin-bottom: 5em;
@@ -14,37 +10,40 @@
   text-align: center;
 }
 
-#archetype-text-holder {
-  margin-left: 2em;
-  width: 75%;
-}
-
-#archetype-image-holder {
-  width: 25%;
-}
-
-#archetype-image {
-  width: 100%;
-}
-
-#archetype-holder {
-  display: flex;
-}
-
-#archetype-library {
+.archetype-library {
   min-height: 60vh;
+
+  select {
+    float: right;
+    margin-right: 3em;
+  }
 }
 
-#archetype-selection {
-  float: right;
-  margin-right: 3em;
-}
-
-#archetype-action-buttons {
+.archetype-container {
   display: flex;
+
+  :first-child {
+    flex-grow: 1;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  :last-child {
+    flex-grow: 3;
+  }
 }
 
-#archetype-action-button {
-  background-color: $black;
-  height: 4vh;
+.archetype-details {
+  margin-left: 2em;
+}
+
+.archetype-action-buttons {
+  display: flex;
+
+  div {
+    background-color: $black;
+    height: 4vh;
+  }
 }
