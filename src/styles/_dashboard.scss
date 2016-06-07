@@ -1,15 +1,25 @@
-#visualization-dashboard {
+.visualization-dashboard {
   background-color: $white;
   border-radius: 10px;
-  height: 50px;
-  margin-top: 43em;
   opacity: .9;
   position: absolute;
-  width: 50px;
   z-index: 2;
 }
 
-.dashboard-opened-glyph {
+.dashboard-closed {
+  height: 50px;
+  margin-top: 43em;
+  width: 50px;
+}
+
+.dashboard-opened {
+  height: 75%;
+  margin-top: 25vh;
+  overflow: auto;
+  width: 50%;
+}
+
+.dashboard-glyph-opened {
   background-color: $light-blue;
   float: right;
   height: 36px;
@@ -26,23 +36,8 @@
   padding-top: 10px;
 }
 
-.dashboard-closed-tabs {
+.dashboard-tabs-closed {
   display: none;
-}
-
-.dashboard-opened {
-  height: 75% !important;
-  margin-top: 25vh !important;
-  overflow: auto;
-  width: 50% !important;
-}
-
-.dashboard-pane {
-  display: flex;
-}
-
-.resource-chart-container {
-  width: 25vw;
 }
 
 .nav-tabs > li > a {
@@ -95,46 +90,6 @@
       background-color: $dark-green;
     }
   }
-}
-
-#kpi-indicators {
-  text-align: center;
-  width: 50%;
-}
-
-#archetype-text-holder {
-  margin-left: 2em;
-  width: 75%;
-}
-
-#archetype-image-holder {
-  width: 25%;
-}
-
-#archetype-image {
-  width: 100%;
-}
-
-#archetype-holder {
-  display: flex;
-}
-
-#archetype-library {
-  min-height: 60vh;
-}
-
-#archetype-selection {
-  float: right;
-  margin-right: 3em;
-}
-
-#archetype-action-buttons {
-  display: flex;
-}
-
-#archetype-action-button {
-  background-color: $black;
-  height: 4vh;
 }
 
 .environmental-quality-data-viz {

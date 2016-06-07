@@ -1,0 +1,57 @@
+.dashboard-pane {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.resource-chart-container {
+  min-width: 50%;
+  width: 50%;
+}
+
+.audit-data-message {
+  min-width: 50%;
+  h3 {
+    margin-top: 5em;
+    text-align: center;
+  }
+}
+
+.kpi-indicators {
+  text-align: center;
+  width: 49.5%;
+}
+
+#archetype-text-holder {
+  margin-left: 2em;
+  width: 75%;
+}
+
+#archetype-image-holder {
+  width: 25%;
+}
+
+#archetype-image {
+  width: 100%;
+}
+
+#archetype-holder {
+  display: flex;
+}
+
+#archetype-library {
+  min-height: 60vh;
+}
+
+#archetype-selection {
+  float: right;
+  margin-right: 3em;
+}
+
+#archetype-action-buttons {
+  display: flex;
+}
+
+#archetype-action-button {
+  background-color: $black;
+  height: 4vh;
+}
