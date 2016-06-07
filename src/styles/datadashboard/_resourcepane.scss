@@ -1,16 +1,10 @@
 .dashboard-pane {
-  display: flex;
-  flex-wrap: wrap;
 }
 
-.resource-chart-container {
-  min-width: 50%;
-  width: 50%;
-}
 
 .audit-data-message {
-  min-width: 50%;
   h3 {
+    margin-bottom: 5em;
     margin-top: 5em;
     text-align: center;
   }
@@ -18,7 +12,6 @@
 
 .kpi-indicators {
   text-align: center;
-  width: 49.5%;
 }
 
 #archetype-text-holder {

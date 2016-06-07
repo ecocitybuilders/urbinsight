@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
 import _ from 'lodash'
+import { Grid, Row, Col } from 'react-bootstrap'
 
 // Load classes based on the Data model using classNames
 class DashboardResourcePane extends React.Component {
@@ -26,7 +27,8 @@ class DashboardResourcePane extends React.Component {
 
       }
     }
-    chartObj.size = {width: (screen.width / 4)}
+    let size = screen.width / 4
+    // chartObj.size = {width: size}
     chartObj.bindto = '#resource-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
     // am I making a bunch of extra of charts
@@ -67,30 +69,37 @@ class DashboardResourcePane extends React.Component {
 
   render () {
     const mountId = 'resource-chart-' + this.props.resource
-    const displayValue = _.isEmpty(this.state.totalData) ? 'none' : 'inline'
+    const displayValue = _.isEmpty(this.state.totalData) ? 'none' : 'inherit'
     return (
       <div>
         <div className='dashboard-pane'>
-          <div className='resource-chart-container' style={{display: displayValue}} id={mountId}></div>
-          {_.isEmpty(this.state.totalData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
-            {/* I'm A Graphic based on water consumption and availability*/}
-          <div className='kpi-indicators'>
-            <h2>KPI Indicators</h2>
-            <div>
-              <h3>Adaptability Performance:</h3>
-              <h4>Water usage satisfied on site</h4>
-              <div id='kpi-indicators-adaptability-chart'>
-                I'm a Graphic
+          <Row>
+            <Col md={6}>
+              {_.isEmpty(this.state.totalData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
+              <div className='resource-chart-container'
+                style={{display: displayValue, width: '100%', 'min-height': '320px', 'height': '320px'}}
+                id={mountId}></div>
+            </Col>
+            <Col md={6}>
+              <div className='kpi-indicators'>
+                <h2>KPI Indicators</h2>
+                <div>
+                  <h3>Adaptability Performance:</h3>
+                  <h4>Water usage satisfied on site</h4>
+                  <div id='kpi-indicators-adaptability-chart'>
+                    I'm a Graphic
+                  </div>
+                </div>
+                <div>
+                  <h3>Adaptability Performance:</h3>
+                  <h4>Demand exceeding Capacity</h4>
+                  <div id='kpi-indicators-capacity-chart'>
+                    I'm a Graphic
+                  </div>
+                </div>
               </div>
-            </div>
-            <div>KB
-              <h3>Adaptability Performance:</h3>
-              <h4>Demand exceeding Capacity</h4>
-              <div id='kpi-indicators-capacity-chart'>
-                I'm a Graphic
-              </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
         <div id='archetype-library'>
           <h3>Urban Archetype Library</h3>
