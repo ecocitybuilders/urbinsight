@@ -35,27 +35,7 @@ export function baseLayerandSource (map, tileLocation) {
         'fill-outline-color': '#ffffff'
       }
     })
-    map.addSource('auditPolygons', {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': []
-      }
-    })
-    map.addLayer({
-      'id': 'auditPolygons',
-      'type': 'fill',
-      'source': 'auditPolygons',
-      'layout': {
-        'visibility': 'visible'
-      },
-      'interactive': true,
-      'paint': {
-        'fill-color': '#e022d9',
-        'fill-opacity': 1,
-        'fill-outline-color': '#ffffff'
-      }
-    })
+
     map.addSource('surveys', {
       'type': 'geojson',
       'data': {
@@ -86,6 +66,27 @@ export function baseLayerandSource (map, tileLocation) {
       'paint': {
         'circle-radius': 5,
         'circle-color': '#e022d9'
+      }
+    })
+    map.addSource('auditPolygons', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': []
+      }
+    })
+    map.addLayer({
+      'id': 'auditPolygons',
+      'type': 'fill',
+      'source': 'auditPolygons',
+      'layout': {
+        'visibility': 'visible'
+      },
+      'interactive': true,
+      'paint': {
+        'fill-color': '#e022d9',
+        'fill-opacity': 1,
+        'fill-outline-color': '#ffffff'
       }
     })
     map.addLayer({

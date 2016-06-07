@@ -75,36 +75,59 @@ class MapView extends React.Component {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
+    let htmlString = ''
+    map.on('mousemove', (e) => {
+      let width = 5
+      let features = map.queryRenderedFeatures([
+        [e.point.x - width / 2, e.point.y - width / 2],
+        [e.point.x + width / 2, e.point.x - width / 2]],
+        { layers: this.props.layers })
+      //   debugger
+      map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
+      if (features.length) {
+        features.forEach((feature) => {
+          htmlString += `<table id="features-table"><tr className='feature-row'>
+            <td class='row-heading' colspan='2'>${feature.layer.id}</td>
+          </tr>`
+          _.forEach(feature.properties, (value, key) => {
+            htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
+          })
+        })
+        htmlString += '</table></br></br>'
+      } else {
+        htmlString = '<div style="text-align: center;">No Feature Selected</div>'
+      }
+      document.getElementById('features').innerHTML = htmlString
+    })
     this.setState({map: map})
   }
 
   componentWillUpdate (np, ns) {
-    // This is the changing the mouse interaction to be able to see the properties
     ns.map.off('mousemove')
-    let htmlString = '<div style="text-align: center;">No Layers Selected</div>'
-    if (np.layers.length > 0) {
-      ns.map.on('mousemove', (e) => {
-        var features = ns.map.queryRenderedFeatures(e.point, { layers: np.layers })
-        htmlString = ''
-        if (features.length >= 1) {
-          features.forEach((feature) => {
-            htmlString += `<table id="features-table"><tr className='feature-row'>
-              <td class='row-heading' colspan='2'>${feature.layer.id}</td>
-            </tr>`
-            _.forEach(feature.properties, (value, key) => {
-              htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
-            })
+    let htmlString = ''
+    ns.map.on('mousemove', (e) => {
+      var width = 5
+      var features = ns.map.queryRenderedFeatures([
+        [e.point.x - width / 2, e.point.y - width / 2],
+        [e.point.x + width / 2, e.point.x - width / 2]],
+        { layers: np.layers })
+      ns.map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
+      if (features.length) {
+        features.forEach((feature) => {
+          htmlString += `<table id="features-table"><tr className='feature-row'>
+            <td class='row-heading' colspan='2'>${feature.layer.id}</td>
+          </tr>`
+          _.forEach(feature.properties, (value, key) => {
+            htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
           })
-          htmlString += '</table></br></br>'
-        } else {
-          htmlString = '<div style="text-align: center;">No Feature Selected</div>'
-        }
-        document.getElementById('features').innerHTML = htmlString
-      })
-    } else {
+        })
+        htmlString += '</table></br></br>'
+      } else {
+        htmlString = '<div style="text-align: center;">No Feature Selected</div>'
+      }
       document.getElementById('features').innerHTML = htmlString
-    }
-
+    })
+    // This is the changing the mouse interaction to be able to see the properties
     if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits})
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
