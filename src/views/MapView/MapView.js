@@ -114,14 +114,17 @@ class MapView extends React.Component {
       ns.map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
       if (features.length) {
         features.forEach((feature) => {
-          htmlString += `<table id="features-table"><tr className='feature-row'>
-            <td class='row-heading' colspan='2'>${feature.layer.id}</td>
-          </tr>`
-          _.forEach(feature.properties, (value, key) => {
-            htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
-          })
+          if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
+            htmlString += `<table id="features-table"><tr className='feature-row'>
+              <td class='row-heading' colspan='2'>${feature.layer.id}</td>
+            </tr>`
+            _.forEach(feature.properties, (value, key) => {
+              htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
+            })
+            htmlString += '</table></br></br>'
+          }
+          htmlString = htmlString.length ? htmlString : '<div style="text-align: center;">No Feature Selected</div>'
         })
-        htmlString += '</table></br></br>'
       } else {
         htmlString = '<div style="text-align: center;">No Feature Selected</div>'
       }
