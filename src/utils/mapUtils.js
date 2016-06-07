@@ -4,6 +4,8 @@ import { render } from 'react-dom'
 import UMISPopUp from 'containers/UMISPopUp'
 import SurveyPopUp from 'components/SurveyPopUp'
 
+let opacity = .75
+
 export function baseLayerandSource (map, tileLocation) {
   let geojson = {
     'type': 'FeatureCollection',
@@ -305,6 +307,7 @@ export function mapboxStyleGenerator (sldObj, layerName) {
   sldObj.namedLayers.map((layer) => {
     layer.userStyles.forEach((style) => {
       let styleSpec = {}
+      styleSpec.paint = {}
       styleSpec['source'] = layerName
       styleSpec['id'] = layerName
       let dataDriven
@@ -342,30 +345,27 @@ export function mapboxStyleGenerator (sldObj, layerName) {
               styleSpec['type'] = 'line'
               styleSpec['paint'] = {
                 'line-color': symbolizer.strokeColor.substring(0, 7),
-                'line-opacity': 0.8,
+                'line-opacity': opacity,
                 'line-width': 2
               }
               break
             case 'polygon':
               styleSpec['type'] = 'fill'
+              styleSpec['paint']['fill-opacity'] = opacity
               if (dataDriven) {
                 paintType = 'fill-color'
                 stops.push([rule.filter.value, symbolizer.fillColor.substring(0, 7)])
               } else {
-                styleSpec['paint'] = {
-                  'fill-color': symbolizer.fillColor.substring(0, 7),
-                  'fill-opacity': 0.8
-                }
-                if (typeof symbolizer.strokeColor !== 'undefined') {
-                  styleSpec.paint['fill-outline-color'] = symbolizer.strokeColor || '#000000'
-                }
+                styleSpec['paint']['fill-color'] = symbolizer.fillColor.substring(0, 7)
+              }
+              if (typeof symbolizer.strokeColor !== 'undefined') {
+                styleSpec.paint['fill-outline-color'] = symbolizer.strokeColor || '#000000'
               }
               break
           }
         })
       })
       if (dataDriven) {
-        styleSpec.paint = {}
         styleSpec.paint[paintType] = {}
         categorical ? styleSpec.paint[paintType]['type'] = 'categorical' : null
         styleSpec.paint[paintType]['property'] = propertyValue
