@@ -48,7 +48,7 @@ class DataDashboard extends React.Component {
       <div className={dashboardClass}>
         <span style={{'zIndex': 1000}} className={dashboardGlyphClass} onClick={this.update}></span>
         <Tabs bsStyle='tabs' defaultActiveKey={1} className={dashboardTabsClass} justified>
-          <Tab eventKey={1} title='Urban Metabolism'>
+          <Tab eventKey={1} title='UMIS'>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
               <Tab eventKey={1} title='Water'>
                 <DashboardResourcePane resource='water' audits={this.props.audits}/>
