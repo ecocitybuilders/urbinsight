@@ -1,37 +1,29 @@
-#data-input {
- height: 50px;
- width: 50px;
- margin-top: 43em;
- background-color: white;
- border-radius: 10px;
- opacity: 0.9;
- position: relative;
- float: right;
+.data-input {
+  background-color: $white;
+  border-radius: 10px;
+  float: right;
+  height: 50px;
+  margin-top: 43em;
+  opacity: .9;
+  position: relative;
+  width: 50px;
 }
 
-.data-input-toggle  {
- padding-left: 12.5px;
- padding-top: 10px;
- font-size: 2em;
- display: block;
+.data-input-opened {
+  height: 75%;
+  margin-top: 25vh;
+  overflow: auto;
+  z-index: 3;
 }
 @media screen and (min-width: 777px) {
-  .data-input-opened {
-   margin-top: 25vh !important;
-   width: 50% !important;
-   height: 75% !important;
-   overflow: auto;
-   z-index: 3;
+  .data-input-opened-screen-size {
+    width: 50%;
   }
 }
 
 @media screen and (max-width: 776px) {
-  .data-input-opened {
-   margin-top: 25vh !important;
-   width: 100% !important;
-   height: 75% !important;
-   overflow: auto;
-   z-index: 3;
+  .data-input-opened-screen-size {
+    width: 100%;
   }
 }
 
@@ -39,14 +31,20 @@
   z-index: 1;
 }
 
-.data-input-opened-glyph {
- float: left;
- padding-left: 5px;
- padding-right: 5px;
- padding-top: 10px;
- height: 36px;
- margin: -1px;
- font-size: 1em !important;
- background-color: rgb(113, 196, 237);
+.data-input-glyph-opened {
+  background-color: $light-blue;
+  float: left;
+  font-size: 1em !important;
+  height: 36px;
+  margin: -1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+}
 
+.data-input-glyph-closed  {
+  display: block;
+  font-size: 2em;
+  padding-left: 12.5px;
+  padding-top: 10px;
 }

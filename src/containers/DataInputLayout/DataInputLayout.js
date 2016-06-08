@@ -33,7 +33,9 @@ class DataInputLayout extends React.Component {
   }
   render () {
     let dataInputClass = classNames({
+      'data-input': true,
       'data-input-opened': this.state.opened,
+      'data-input-opened-screen-size': this.state.opened,
       'data-input-closed': !this.state.opened
     })
     let dataInputTabsClass = classNames({
@@ -44,12 +46,12 @@ class DataInputLayout extends React.Component {
       'glyphicon': true,
       'glyphicon-plus': !this.state.opened,
       'glyphicon-remove': this.state.opened,
-      'data-input-opened-glyph': this.state.opened,
-      'data-input-toggle': !this.state.opened
+      'data-input-glyph-opened': this.state.opened,
+      'data-input-glyph-closed': !this.state.opened
     })
     return (
-      <div id='data-input' className={dataInputClass}>
-        <span style={{'zIndex': 1000}} id='data-input-toggle' className={dataInputGlyphClass}
+      <div className={dataInputClass}>
+        <span style={{'zIndex': 1000}} className={dataInputGlyphClass}
           onClick={this.update}></span>
         <Tabs bsStyle='tabs' activeKey={this.state.key}
           onSelect={this.handleSelect} className={dataInputTabsClass} justified>

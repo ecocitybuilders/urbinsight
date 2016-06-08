@@ -97,7 +97,6 @@ class DashboardQualitative extends React.Component {
           </Accordion>
         </div>
       </div>
-
     )
   }
 }

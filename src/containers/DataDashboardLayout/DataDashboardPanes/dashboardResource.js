@@ -15,7 +15,8 @@ class DashboardResourcePane extends React.Component {
     this.state = {
       chartData: {},
       chart: {},
-      chartWidth: window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4,
+      chartWidth: window.innerWidth < 992
+        ? (window.innerWidth < 778 ? window.innerWidth : window.innerWidth / 2) : window.innerWidth / 4,
       noData: true,
       mountId: 'resource-chart-' + props.resource
     }
@@ -23,7 +24,8 @@ class DashboardResourcePane extends React.Component {
   }
 
   handleResize (e) {
-    let width = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
+    let width = window.innerWidth < 992
+      ? (window.innerWidth < 778 ? window.innerWidth : window.innerWidth / 2) : window.innerWidth / 4
     this.state.chart.resize({'width': width})
     // this.setState({chartWidth: width})
   }

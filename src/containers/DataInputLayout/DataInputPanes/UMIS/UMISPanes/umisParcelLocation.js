@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Input, Col, Button } from 'react-bootstrap'
+import { Input, Col, Row, Button, Well } from 'react-bootstrap'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
@@ -44,42 +44,48 @@ class UMISParcelLocation extends React.Component {
   render () {
     const { audit } = this.props
     return (
-      <div>
-        <h3>Select Parcel to Audit on the Map</h3>
-        <h5>To begin a parcel audit click the map to place a marker on the map where the data is derived from</h5>
-        <h5>
-          The marker can be moved by simply clicking the map again, the marker location will be
-           updated automatically and assigned to the data
-        </h5>
+      <div className='umis-data-location'>
+        <h3 className='umis-data-location-title'>UMIS Form - Parcel Location</h3>
+        <Well>
+          <h5>Begin a Parcel Audit by clicking the map to select a location.</h5>
+          <h5>
+            If the parcel exists on the parcel map it will highlight.
+            Otherwise a point will be placed on the map.
+          </h5>
+        </Well>
         <br />
-        <Col md={3}>
-          <Input type='text' ref='lat'
-            label='Latitude'
-            placeholder='Enter Latitude'
-            value={audit && audit.geoCoordinates ? audit.geoCoordinates[1] : ''}
-            onChange={this.onChange}
-            />
-        </Col>
-        <Col md={3}>
-          <Input type='text' ref='lon'
-            label='Longitude'
-            placeholder='Enter Longitude'
-            value={audit && audit.geoCoordinates ? audit.geoCoordinates[0] : ''}
-            onChange={this.onChange}
-            />
-        </Col>
+        <Row>
+          <Col md={6}>
+            <Input type='text' ref='lat'
+              label='Latitude'
+              placeholder='Enter Latitude'
+              value={audit && audit.geoCoordinates ? audit.geoCoordinates[1] : ''}
+              onChange={this.onChange}
+              />
+          </Col>
+          <Col md={6}>
+            <Input type='text' ref='lon'
+              label='Longitude'
+              placeholder='Enter Longitude'
+              value={audit && audit.geoCoordinates ? audit.geoCoordinates[0] : ''}
+              onChange={this.onChange}
+              />
+          </Col>
+        </Row>
         <br />
         <br />
-        <Col sm={6}>
-          <Button bsStyle='info' onClick={this.previousStep}>
-            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-          </Button>
-        </Col>
-        <Col sm={6}>
-          <Button bsStyle='success' onClick={this.nextStep}>
-            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-          </Button>
-        </Col>
+        <Row>
+          <Col xs={4} sm={4} md={3}>
+            <Button bsStyle='info' onClick={this.previousStep}>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={4} xsOffset={2} sm={4} smOffset={4} md={3} mdOffset={6}>
+            <Button bsStyle='success' onClick={this.nextStep}>
+              Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }
