@@ -8,20 +8,33 @@
  position: relative;
  float: right;
 }
+
 .data-input-toggle  {
  padding-left: 12.5px;
  padding-top: 10px;
  font-size: 2em;
  display: block;
 }
-
-.data-input-opened {
- margin-top: 25vh !important;
- width: 50% !important;
- height: 75% !important;
- overflow: auto;
- z-index: 3;
+@media screen and (min-width: 777px) {
+  .data-input-opened {
+   margin-top: 25vh !important;
+   width: 50% !important;
+   height: 75% !important;
+   overflow: auto;
+   z-index: 3;
+  }
 }
+
+@media screen and (max-width: 776px) {
+  .data-input-opened {
+   margin-top: 25vh !important;
+   width: 100% !important;
+   height: 75% !important;
+   overflow: auto;
+   z-index: 3;
+  }
+}
+
 .data-input-closed {
   z-index: 1;
 }

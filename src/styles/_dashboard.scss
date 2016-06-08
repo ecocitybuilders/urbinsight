@@ -11,12 +11,22 @@
   margin-top: 43em;
   width: 50px;
 }
+@media screen and (min-width: 777px) {
+  .dashboard-opened {
+    height: 75%;
+    margin-top: 25vh;
+    overflow: auto;
+    width: 50%;
+  }
+}
 
-.dashboard-opened {
-  height: 75%;
-  margin-top: 25vh;
-  overflow: auto;
-  width: 50%;
+@media screen and (max-width: 776px) {
+  .dashboard-opened {
+    height: 75%;
+    margin-top: 25vh;
+    overflow: auto;
+    width: 100%;
+  }
 }
 
 .dashboard-glyph-opened {
@@ -24,8 +34,8 @@
   float: right;
   height: 36px;
   margin: -1px;
-  padding-right: 2.5px;
-  padding-top: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
   position: absolute;
   right: 0;
   top: 0;
