@@ -67,7 +67,7 @@ class UmisSubmit extends React.Component {
           </Col>
           <Col xs={6} sm={6} md={6} >
             <Button bsStyle='success' onClick={this.auditSubmit} block>
-              Submit Audit<span className='glyphicon glyphicon-circle-arrow-right'></span>
+              Submit Audit <span className='glyphicon glyphicon-circle-arrow-right'></span>
             </Button>
           </Col>
         </Row>

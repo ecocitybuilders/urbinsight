@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Well } from 'react-bootstrap'
 
 type Props = {
   formReset: PropTypes.func,
@@ -10,28 +10,20 @@ class UmisComplete extends React.Component {
   props: Props;
   render () {
     return (
-      <div>
-        <h2 style={{'textAlign': 'center'}}>Congratulations you've finished a parcel audit</h2>
-        {/* <Col sm={6} offset={6}>*/}
+      <div className='umis-data'>
+        <h2 className='umis-data-title'>Congratulations!</h2>
+        <Well>
+          You've successfully submitted a parcel audit.
+          Next steps can be to compare this data to other parcel audits that have been created.
+          Additionally, you can view the visualization dashboard to see the aggregated
+        </Well>
         <br/>
         <br/>
         <br/>
         <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <Button bsStyle='info' onClick={this.props.formReset}>
+        <Button bsStyle='info' onClick={this.props.formReset} block>
           <span className='glyphicon glyphicon-circle-arrow-left'></span>Return to Beginning
         </Button>
-        {/* </Col>*/}
       </div>
     )
   }
