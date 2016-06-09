@@ -71,7 +71,7 @@ export let surveyChart = {
     x: {
       type: 'category',
       tick: {
-        rotate: 85,
+        rotate: 75,
         multiline: false
       }
     },

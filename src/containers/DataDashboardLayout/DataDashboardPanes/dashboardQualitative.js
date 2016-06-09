@@ -20,12 +20,12 @@ class DashboardQualitative extends React.Component {
     this.handleResize = this.handleResize.bind(this)
   }
   handleResize (e) {
-    let width = window.innerWidth / 2.1
+    let width = window.innerWidth < 777 ? window.innerWidth / 1.05 : window.innerWidth / 2.15
     this.state.chart.resize({'width': width})
   }
 
   componentDidMount () {
-    chartObj.size = {width: (window.innerWidth / 2.1)}
+    chartObj.size = {width: window.innerWidth < 777 ? window.innerWidth / 1.05 : window.innerWidth / 2.15}
     let chart = c3.generate(chartObj)
     this.setState({
       chart: chart
