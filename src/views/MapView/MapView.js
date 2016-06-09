@@ -17,7 +17,8 @@ type Props = {
   surveysFetch: PropTypes.func,
   auditsFetch: PropTypes.func,
   audits: PropTypes.object,
-  surveys: PropTypes.object
+  surveys: PropTypes.object,
+  layers: PropType.array
 }
 
 class MapView extends React.Component {
@@ -82,6 +83,8 @@ class MapView extends React.Component {
         [e.point.x - width / 2, e.point.y - width / 2],
         [e.point.x + width / 2, e.point.x - width / 2]],
         { layers: this.props.layers })
+      // let features = map.queryRenderedFeatures(e.point,
+      //   { layers: this.props.layers })
       //   debugger
       map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
       if (features.length) {
@@ -106,8 +109,7 @@ class MapView extends React.Component {
     ns.map.off('mousemove')
     ns.map.on('mousemove', (e) => {
       let htmlString = ''
-      // debugger
-      var features = ns.map.queryRenderedFeatures(e.point,
+      let features = ns.map.queryRenderedFeatures(e.point,
         { layers: np.layers })
       ns.map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
       if (features.length) {
