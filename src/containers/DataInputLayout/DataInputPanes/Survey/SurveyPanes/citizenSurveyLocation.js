@@ -59,7 +59,7 @@ class CitizenSurveyLocation extends React.Component {
               placeholder='Enter Latitude'
               value={lat || ''}/>
           </Col>
-          <Col md={3}>
+          <Col md={6}>
             <Input type='text' ref='lon'
               label='Longitude'
               placeholder='Enter Longitude'

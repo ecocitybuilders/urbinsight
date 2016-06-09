@@ -15,15 +15,15 @@ class UmisComplete extends React.Component {
         <Well>
           You've successfully submitted a parcel audit.
           Next steps can be to compare this data to other parcel audits that have been created.
-          Additionally, you can view the visualization dashboard to see the aggregated
+          Additionally, you can view the visualization dashboard to see the aggregated data of an area.
         </Well>
         <br/>
         <br/>
         <br/>
         <br/>
-        <Button bsStyle='info' onClick={this.props.formReset} block>
+        <Button bsStyle='success' onClick={this.props.formReset} block>
           {/* <span className='glyphicon glyphicon-circle-arrow-left'></span> Return to Beginning*/}
-          Return to Beginning
+          Submit Another Audit
         </Button>
       </div>
     )
