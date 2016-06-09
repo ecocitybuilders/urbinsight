@@ -6,14 +6,17 @@ type Props = {
   removeToilet: PropTypes.func,
   addShower: PropTypes.func,
   removeShower: PropTypes.func,
+  addBath: PropTypes.func,
+  removeBath: PropTypes.func,
   toilets: PropTypes.obj,
-  showers: PropTypes.obj
+  showers: PropTypes.obj,
+  baths: PropTypes.obj
 }
 class WaterDemandJunctions extends React.Component {
   props: Props;
 
   render () {
-    const { toilets, showers } = this.props
+    const { toilets, showers, baths } = this.props
     let toiletList = toilets.map(function (value, index) {
       let refString = 'toilets.activeToilets.' + value + '.flushVolume'
       return <Input key={'toilet' + index} label={'Toilet ' + value + ' Flush Volume:'} type='number' ref={refString} />
@@ -22,12 +25,19 @@ class WaterDemandJunctions extends React.Component {
       let refString = 'showers.activeShowers.' + value + '.flowVolume'
       return <Input key={'shower' + index} label={'Shower ' + value + ' Flow (L/min):'} type='number' ref={refString} />
     })
+    let bathList = baths.map(function (value, index) {
+      let refString = 'baths.activeBaths.' + value + '.volume'
+      return <Input key={'baths' + index} label={'Bath ' + value + ' Volume (L):'} type='number' ref={refString} />
+    })
+
     return (
       <div>
         <h4>Demand Junctions</h4>
           {/* Add functionaility to add a toilet*/}
         <h5>Toilets - Flush Volume</h5>
-        <Button onClick={this.props.addToilet}><span className='glyphicon glyphicon-plus'></span>Add Toilet</Button>
+        <Button onClick={this.props.addToilet}>
+          <span className='glyphicon glyphicon-plus'></span>Add Toilet
+        </Button>
         <Button onClick={this.props.removeToilet}>
           <span className='glyphicon glyphicon-minus'></span>Remove Toilet
         </Button>
@@ -36,7 +46,9 @@ class WaterDemandJunctions extends React.Component {
         <Input label='Daily Usage Per Person:' type='number' ref='toilets.dailyPerPersonUsage' defaultValue={0}/><br />
         {/* <!-- Add functionality to add a shower -->*/}
         <h5>Hygiene</h5>
-        <Button onClick={this.props.addShower}><span className='glyphicon glyphicon-plus'></span>Add Shower</Button>
+        <Button onClick={this.props.addShower}>
+          <span className='glyphicon glyphicon-plus'></span>Add Shower
+        </Button>
         <Button onClick={this.props.removeShower}>
           <span className='glyphicon glyphicon-minus'></span>Remove Shower
         </Button>
@@ -44,7 +56,13 @@ class WaterDemandJunctions extends React.Component {
         <Input label='Typical Shower Duration' type='number' ref='hygiene.typicalShowerDuration' /><br />
         <Input label='Weekly Showers Per Person' type='number' ref='hygiene.weeklyShowersPerPerson' /><br />
         {/* <!-- add funtionality to add a bath -->*/}
-        <Input label='Bath Volume' type='number' ref='hygiene.bathVolume' /><br />
+        <Button onClick={this.props.addBath}>
+          <span className='glyphicon glyphicon-plus'></span>Add Bath
+        </Button>
+        <Button onClick={this.props.removeBath}>
+          <span className='glyphicon glyphicon-minus'></span>Remove Bath
+        </Button>
+        {bathList}
         <Input label='Baths Per Weeks' type='number' ref='hygiene.bathsPerWeek' /><br />
         <Input label='Minutes of Tap Flow Per Visit' type='number' ref='hygiene.minutesOfTapFlowPerVisit' /><br />
         <Input label='Ablution Duration' type='number' ref='hygiene.ablutionDuration' /><br />
@@ -95,7 +113,8 @@ class WaterDemandJunctions extends React.Component {
         <h5>Water Customers</h5>
         <Input label='Excess Capacity Per Day' type='number' ref='waterCustomers.excessCapacityPerDay' /><br />
         <Input label='Percentage of Excess Distributed' type='number'
-          ref='waterCustomers.percentageOfExcessDistributed' /><br />
+          ref='waterCustomers.percentageOfExcessDistributed' />
+        <br />
         <br />
       </div>
     )

@@ -20,12 +20,12 @@ class UMISIntro extends React.Component {
         <h2 className='umis-data-title'>Urban Metabolism Information System</h2>
         <div className='umis-data-intro-body'>
           <Well>
-            <h4 style={{'textAlign': 'center'}}>
+            <h4>
               UMIS is an participatory framework for the collection of data on resource
               flows through urban environments to gain insights into how to make cities more sustainable.
             </h4>
           </Well>
-          <h6 style={{'textAlign': 'center'}}>To begin adding a parcel audit please click the button below</h6>
+          <h6>To begin adding a parcel audit please click the button below</h6>
           <Button block bsStyle='info' onClick={this.nextStep}>
             Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
           </Button>

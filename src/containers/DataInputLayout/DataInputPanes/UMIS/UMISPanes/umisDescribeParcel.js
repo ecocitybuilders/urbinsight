@@ -86,6 +86,8 @@ class UMISDescribeParcel extends React.Component {
             </Button>
           </Col>
         </Row>
+        <br />
+        <br />
       </div>
     )
   }

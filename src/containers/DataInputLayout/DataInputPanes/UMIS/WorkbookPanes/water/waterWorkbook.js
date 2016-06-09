@@ -34,6 +34,14 @@ let showerDataGenerator = function (obj, state) {
   }
   return returnArr
 }
+let bathDataGenerator = function (obj, state) {
+  let returnArr = []
+  for (var i = 1; i <= state.baths.length; i++) {
+    let refString = 'baths.activeBaths.' + i + '.volume'
+    returnArr.push({ id: i, volume: obj[refString].getValue() })
+  }
+  return returnArr
+}
 
 class UMISWaterWorkbook extends React.Component {
   props: Props;
@@ -41,13 +49,16 @@ class UMISWaterWorkbook extends React.Component {
     super()
     this.state = {
       toilets: [1],
-      showers: [1]
+      showers: [1],
+      baths: [1]
     }
     this.nextSection = this.nextSection.bind(this)
     this.addToilet = this.addToilet.bind(this)
     this.addShower = this.addShower.bind(this)
+    this.addBath = this.addBath.bind(this)
     this.removeToilet = this.removeToilet.bind(this)
     this.removeShower = this.removeShower.bind(this)
+    this.removeBath = this.removeBath.bind(this)
   }
   addToilet () {
     let newAmount = this.state.toilets
@@ -69,6 +80,16 @@ class UMISWaterWorkbook extends React.Component {
     newAmount.pop()
     return this.setState({showers: newAmount})
   }
+  addBath () {
+    let newAmount = this.state.baths
+    newAmount.push(newAmount.length + 1)
+    return this.setState({baths: newAmount})
+  }
+  removeBath () {
+    let newAmount = this.state.baths
+    newAmount.pop()
+    return this.setState({baths: newAmount})
+  }
 
   nextSection (e) {
     e.preventDefault()
@@ -76,6 +97,7 @@ class UMISWaterWorkbook extends React.Component {
     let demandObj = this.refs.demandJunctions.refs
     let toiletArr = toiletDataGenerator(demandObj, this.state)
     let showerArr = showerDataGenerator(demandObj, this.state)
+    let bathArr = bathDataGenerator(demandObj, this.state)
     // write a data generation function that checks for the refs presence and then will update the datastore
 
     let data = {
@@ -92,7 +114,7 @@ class UMISWaterWorkbook extends React.Component {
               activeShowers: showerArr,
               typicalShowerDuration: demandObj['hygiene.typicalShowerDuration'].getValue(),
               weeklyShowersPerPerson: demandObj['hygiene.weeklyShowersPerPerson'].getValue(),
-              bathVolume: demandObj['hygiene.bathVolume'].getValue(),
+              activeBaths: bathArr,
               bathsPerWeek: demandObj['hygiene.bathsPerWeek'].getValue(),
               minutesOfTapFlowPerVisit: demandObj['hygiene.minutesOfTapFlowPerVisit'].getValue(),
               ablutionDuration: demandObj['hygiene.ablutionDuration'].getValue(),
@@ -149,16 +171,19 @@ class UMISWaterWorkbook extends React.Component {
     this.props.nextSection()
   }
   render () {
-    const { toilets, showers } = this.state
+    const { toilets, showers, baths } = this.state
     return (
       <div className='umis-data'>
         <h3 className='umis-data-title'>UMIS Form - Water Workbook</h3>
         <LandcoverPreCalc ref='landCoverPreCalc'/>
-        <WaterDemandJunctions ref='demandJunctions' toilets={toilets} showers={showers}
+        <WaterDemandJunctions ref='demandJunctions' toilets={toilets} showers={showers} baths={baths}
           addShower={this.addShower}
           removeShower={this.removeShower}
           addToilet={this.addToilet}
-          removeToilet={this.removeToilet}/>
+          removeToilet={this.removeToilet}
+          addBath={this.addBath}
+          removeBath={this.removeBath}
+        />
         <Row>
           <Col xs={6} sm={6} md={6}>
             <Button bsStyle='info' onClick={this.props.prevSection} block>
@@ -171,10 +196,11 @@ class UMISWaterWorkbook extends React.Component {
             </Button>
           </Col>
         </Row>
+        <br />
+        <br />
       </div>
     )
   }
-  componentDidMount () {}
 }
 
 export default UMISWaterWorkbook

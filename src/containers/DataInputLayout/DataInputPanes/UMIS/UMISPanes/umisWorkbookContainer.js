@@ -3,7 +3,6 @@ import UMISWorkbookSelection from './umisWorkbookSelection'
 import UMISWaterWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/water/waterWorkbook'
 import UMISMaterialsWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
 import UMISSubmit from './UmisSubmit'
-import UMISSuccess from './UmisSuccess'
 
 type Props = {
   saveValues: PropTypes.func,
@@ -72,7 +71,7 @@ class UMISWorkbookContainer extends React.Component {
     })
   }
   render () {
-    const { audit, map, auditSubmit, feature } = this.props
+    const { audit, auditSubmit, feature } = this.props
     const workbookToggle = this.state.workbookToggle
     switch (this.state.active) {
       case 1:
@@ -104,18 +103,11 @@ class UMISWorkbookContainer extends React.Component {
         return (
           <UMISSubmit
             prevSection={this.prevSection}
-            nextSection={this.nextSection}
+            nextStep={this.props.nextStep}
             saveValues={this.props.saveValues}
             auditSubmit={auditSubmit}
             feature={feature}
             audit={audit}
-          />
-        )
-      case 5:
-        return (
-          <UMISSuccess
-            nextStep={this.nextStep}
-            map={map}
           />
         )
     }

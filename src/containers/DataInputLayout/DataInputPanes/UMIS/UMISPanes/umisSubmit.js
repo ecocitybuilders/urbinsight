@@ -4,20 +4,25 @@ import _ from 'lodash'
 import calculateTotals from 'utils/umisUtils'
 
 type Props = {
-  nextSection: PropTypes.func,
+  nextStep: PropTypes.func,
   prevSection: PropTypes.func,
   audit: PropTypes.object,
   feature: PropTypes.object,
-  auditSubmit: PropTypes.func
+  auditSubmit: PropTypes.func,
+  map: PropType.obj
 }
 
 class UmisSubmit extends React.Component {
   props: Props;
   constructor () {
     super()
-    this.nextSection = this.nextSection.bind(this)
     this.auditSubmit = this.auditSubmit.bind(this)
   }
+
+  // nextStep (e) {
+  //   this.props.nextStep()
+  // }
+
   auditSubmit () {
     // this function builds the geojson from the audit and the feature selected or point if no feature
     let audit = this.props.audit
@@ -42,11 +47,7 @@ class UmisSubmit extends React.Component {
     calculateTotals(geoJSON)
     console.log(geoJSON)
     this.props.auditSubmit(geoJSON)
-    this.props.nextSection()
-  }
-  nextSection (e) {
-    if (e) e.preventDefault()
-    this.props.nextSection()
+    this.props.nextStep()
   }
   render () {
     return (

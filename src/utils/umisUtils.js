@@ -123,7 +123,7 @@ UMIS.Water.totalConsumption.hygiene = function (workbook) {
   // Shower consumption + bath consumption + ablution
   return (UMIS.Water.totalConsumption.hygiene.avgShowerConsumption(workbook) * obj.typicalShowerDuration *
             obj.weeklyShowersPerPerson) +
-            (obj.bathVolume * obj.bathsPerWeek) / 7 +
+            (UMIS.Water.totalConsumption.hygiene.avgBathVolume(workbook) * obj.bathsPerWeek) +
             (obj.minutesOfTapFlowPerVisit * obj.ablutionDuration *
             obj.numOccupantsUsingWashrooms * obj.numVisitsToWashroomPerOccupant)
 }
@@ -136,6 +136,14 @@ UMIS.Water.totalConsumption.hygiene.avgShowerConsumption = function (workbook) {
     totalFlow += shower.flowVolume
   })
   return totalFlow / showers.length
+}
+UMIS.Water.totalConsumption.hygiene.avgBathVolume = function (workbook) {
+  let baths = workbook.data.demandJunctions.hygiene.activeBaths
+  let totalVolume = 0
+  baths.forEach(function (bath) {
+    totalVolume += bath.volume
+  })
+  return totalVolume / baths.length
 }
 
 UMIS.Water.totalConsumption.kitchen = function (workbook) {
@@ -259,7 +267,7 @@ var totalConsumption = {
 const calculateTotals = function (parcel) {
   parcel.properties.totalDemand = {}
   _.forEach(totalConsumption, function (resourceCalcFunction, resource) {
-    if (typeof parcel.properties.workbooks[resource] !== 'undefined') {
+    if (typeof parcel.properties.workbooks !== 'undefined' && parcel.properties.workbooks[resource] !== 'undefined') {
       parcel.properties.totalDemand[resource] =
         resourceCalcFunction(parcel.properties.workbooks[resource], parcel.properties)
     }

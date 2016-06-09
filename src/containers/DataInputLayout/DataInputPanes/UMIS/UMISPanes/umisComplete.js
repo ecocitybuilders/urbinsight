@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Button } from 'react-bootstrap'
 
+type Props = {
+  formReset: PropTypes.func,
+  map: PropTypes.object,
+  cityTag: PropTypes.string
+}
 class UmisComplete extends React.Component {
-  static propTypes = {
-    formReset: PropTypes.func,
-    map: PropTypes.object,
-    cityTag: PropTypes.string
-  };
+  props: Props;
   render () {
     return (
       <div>
@@ -36,6 +37,7 @@ class UmisComplete extends React.Component {
   }
   componentDidMount () {
     this.props.map.setFilter('lots-hover', ['==', this.props.cityTag, ''])
+    this.props.map.removeLayer('point')
   }
 }
 

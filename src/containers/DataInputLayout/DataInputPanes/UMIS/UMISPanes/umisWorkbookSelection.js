@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col, Row, Well, Checkbox } from 'react-bootstrap'
+import { Button, Col, Row, Well, Checkbox } from 'react-bootstrap'
 
 class UMISWorkbookSelection extends React.Component {
   static propTypes = {
@@ -27,16 +27,16 @@ class UMISWorkbookSelection extends React.Component {
         <Well>
           <h5>Select the workbooks that you would like to complete for this parcel</h5>
         </Well>
-        <Checkbox type='checkbox' onChange={() => this.selectionHandler(2)}
+        <Checkbox onChange={() => this.selectionHandler(2)}
           checked={this.props.workbookToggle[2]}>
           Water
         </Checkbox>
-        <Checkbox type='checkbox' onChange={() => this.selectionHandler(3)}
+        <Checkbox onChange={() => this.selectionHandler(3)}
           checked={this.props.workbookToggle[3]}>
           Materials
         </Checkbox>
-        <Input label='Energy' type='checkbox' disabled='true'/>
-        <Input label='Mobility' type='checkbox' disabled='true'/>
+        <Checkbox disabled>Energy</Checkbox>
+        <Checkbox disabled>Mobility</Checkbox>
         <br />
         <Row>
           <Col xs={6} sm={6} md={6}>
