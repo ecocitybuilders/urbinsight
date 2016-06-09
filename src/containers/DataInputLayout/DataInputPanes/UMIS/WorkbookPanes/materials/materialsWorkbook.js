@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col } from 'react-bootstrap'
+import { Button, Input, Col, Row } from 'react-bootstrap'
 import MaterialsWorkbookContainer from './materialsWorkbookContainer'
 
 type Props = {
@@ -275,10 +275,9 @@ class UMISMaterialsWorkbook extends React.Component {
   render () {
     const optionSelected = this.state.optionSelected
     return (
-      <div>
-        <h3>Materials Workbook</h3>
-
-        <h3>Estimate Demand</h3>
+      <div className='umis-data'>
+        <h3 className='umis-data-title'>UMIS Form - Materials Workbook</h3>
+        <h4>Estimate Demand</h4>
         <Input name='optionSelection' label='Option A:' type='radio' checked={optionSelected === 'A'}
           onChange={() => this.changeHandler('A')}/>
         <Input name='optionSelection' label='Option B:' type='radio' checked={optionSelected === 'B'}
@@ -286,16 +285,18 @@ class UMISMaterialsWorkbook extends React.Component {
         <Input name='optionSelection' label='Option C:' type='radio' checked={optionSelected === 'C'}
           onChange={() => this.changeHandler('C')}/>
         <MaterialsWorkbookContainer ref='workbookContainer' optionSelected={optionSelected}/>
-        <Col sm={6}>
-          <Button bsStyle='info' onClick={this.props.prevSection}>
-            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-          </Button>
-        </Col>
-        <Col sm={6}>
-          <Button bsStyle='success' onClick={this.nextSection}>
-            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-          </Button>
-        </Col>
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.prevSection} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.nextSection} block>
+              Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Well, Row, Col } from 'react-bootstrap'
 import _ from 'lodash'
 import calculateTotals from 'utils/umisUtils'
 
@@ -50,25 +50,26 @@ class UmisSubmit extends React.Component {
   }
   render () {
     return (
-      <div>
-        <h3>Submit Parcel Audit</h3>
-        <br />
+      <div className='umis-data'>
+        <h3 className='umis-data-title'>UMIS Form - Submit Parcel Audit</h3>
+        <Well>
+          Congratulations! You've reached the end of the parcel audit.
+          All that is left to do is to click submit below. If you need to change some data, you can
+          also go back to a previous step.
+        </Well>
         <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <Button bsStyle='info' onClick={this.props.prevSection}>
-          <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-        </Button>
-        <Button bsStyle='success' onClick={this.auditSubmit}>
-          Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-        </Button>
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.prevSection} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.auditSubmit} block>
+              Submit Audit<span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }

@@ -16,8 +16,8 @@ class UMISIntro extends React.Component {
   }
   render () {
     return (
-      <div className='umis-data-intro'>
-        <h2 className='umis-data-intro-head'>Urban Metabolism Information System</h2>
+      <div className='umis-data umis-data-intro'>
+        <h2 className='umis-data-title'>Urban Metabolism Information System</h2>
         <div className='umis-data-intro-body'>
           <Well>
             <h4 style={{'textAlign': 'center'}}>

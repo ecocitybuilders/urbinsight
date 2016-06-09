@@ -1,12 +1,17 @@
 .umis-data {
+  margin-left: 2em;
+  margin-right: 2em;
+  &-title {
+    margin-bottom: 1em;
+    text-align: center;
+  }
+  
   &-intro {
     &-head {
       text-align: center;
     }
 
     &-body {
-      margin-left: 2em;
-      margin-right: 2em;
 
       h4 {
         text-align: center;
@@ -18,14 +23,4 @@
     }
   }
 
-  &-location {
-    margin-left: 2em;
-    margin-right: 2em;
-
-    &-title {
-      margin-bottom: 1em;
-      text-align: center;
-    }
-  }
-  
 }

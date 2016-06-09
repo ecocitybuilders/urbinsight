@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Input, Col, Row, Button, Well } from 'react-bootstrap'
+import { Input, Col, Row, Button, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
@@ -44,8 +44,8 @@ class UMISParcelLocation extends React.Component {
   render () {
     const { audit } = this.props
     return (
-      <div className='umis-data-location'>
-        <h3 className='umis-data-location-title'>UMIS Form - Parcel Location</h3>
+      <div className='umis-data umis-data-location'>
+        <h3 className='umis-data-title'>UMIS Form - Parcel Location</h3>
         <Well>
           <h5>Begin a Parcel Audit by clicking the map to select a location.</h5>
           <h5>
@@ -55,6 +55,15 @@ class UMISParcelLocation extends React.Component {
         </Well>
         <br />
         <Row>
+          {/*<FormGroup
+            controlId='umis-data-location'>
+            <ControlLabel>Latitude</ControlLabel>
+            <FormControl
+              ref='lat' type='text' placeholder='Enter Latitude'
+              value={audit && audit.geoCoordinates ? audit.geoCoordinates[1] : ''}
+              onChange={this.onChange}
+              />
+          </FormGroup>*/}
           <Col md={6}>
             <Input type='text' ref='lat'
               label='Latitude'
@@ -75,13 +84,13 @@ class UMISParcelLocation extends React.Component {
         <br />
         <br />
         <Row>
-          <Col xs={4} sm={4} md={3}>
-            <Button bsStyle='info' onClick={this.previousStep}>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.previousStep} block>
               <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
             </Button>
           </Col>
-          <Col xs={4} xsOffset={2} sm={4} smOffset={4} md={3} mdOffset={6}>
-            <Button bsStyle='success' onClick={this.nextStep}>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.nextStep} block>
               Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
             </Button>
           </Col>

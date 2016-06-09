@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
 import _ from 'lodash'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
 // Load classes based on the Data model using classNames
 class DashboardResourcePane extends React.Component {
@@ -27,7 +27,6 @@ class DashboardResourcePane extends React.Component {
     let width = window.innerWidth < 992
       ? (window.innerWidth < 778 ? window.innerWidth : window.innerWidth / 2) : window.innerWidth / 4
     this.state.chart.resize({'width': width})
-    // this.setState({chartWidth: width})
   }
 
   componentDidMount () {

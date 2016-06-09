@@ -14,13 +14,13 @@ class WaterDemandJunctions extends React.Component {
 
   render () {
     const { toilets, showers } = this.props
-    let toiletList = toilets.map(function (value) {
+    let toiletList = toilets.map(function (value, index) {
       let refString = 'toilets.activeToilets.' + value + '.flushVolume'
-      return <Input label={'Toilet ' + value + ' Flush Volume:'} type='number' ref={refString} />
+      return <Input key={'toilet' + index} label={'Toilet ' + value + ' Flush Volume:'} type='number' ref={refString} />
     })
-    let showerList = showers.map(function (value) {
+    let showerList = showers.map(function (value, index) {
       let refString = 'showers.activeShowers.' + value + '.flowVolume'
-      return <Input label={'Shower ' + value + ' Flow (L/min):'} type='number' ref={refString} />
+      return <Input key={'shower' + index} label={'Shower ' + value + ' Flow (L/min):'} type='number' ref={refString} />
     })
     return (
       <div>

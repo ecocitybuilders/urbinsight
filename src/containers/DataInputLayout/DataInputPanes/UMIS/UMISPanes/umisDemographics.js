@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col } from 'react-bootstrap'
+import { Button, Input, Col, Row, Well } from 'react-bootstrap'
 
 type Props = {
   saveValues: PropTypes.func,
@@ -43,10 +43,14 @@ class UMISDemographics extends React.Component {
   render () {
     const { audit } = this.props
     return (
-      <div>
-        <h3>Demographics</h3>
-        <h5>List number of residents</h5>
-        <br/>
+      <div className='umis-data'>
+        <h3 className='umis-data-title'>UMIS Form - Demographics</h3>
+        <Well>
+          <h5>
+            To complete this section list the number of residents
+            belonging to each category.
+          </h5>
+        </Well>
         <h4>Seniors and Retired</h4>
         <Input ref='seniorLivingWorking' label='Living and Working on Parcel:' type='number' min={0}
           defaultValue={audit && audit.demographics && audit.demographics.seniors
@@ -89,16 +93,18 @@ class UMISDemographics extends React.Component {
           defaultValue={audit && audit.demographics && audit.demographics.youth
             ? audit.demographics.youth.visitingPartTimeWork : ''} />
         <br />
-        <Col sm={6}>
-          <Button bsStyle='info' onClick={this.props.previousStep}>
-            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-          </Button>
-        </Col>
-        <Col sm={6}>
-          <Button bsStyle='success' onClick={this.nextStep}>
-            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-          </Button>
-        </Col>
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.previousStep} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.nextStep} block>
+              Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }

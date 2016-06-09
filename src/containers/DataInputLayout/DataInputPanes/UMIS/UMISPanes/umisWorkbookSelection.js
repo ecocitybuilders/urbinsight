@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col } from 'react-bootstrap'
+import { Button, Input, Col, Row, Well, Checkbox } from 'react-bootstrap'
 
 class UMISWorkbookSelection extends React.Component {
   static propTypes = {
@@ -19,32 +19,37 @@ class UMISWorkbookSelection extends React.Component {
     e.preventDefault()
     this.props.nextSection()
   }
-  // Do this to get rid of the warning
-  // handleClick () {
-  //
-  // }
+
   render () {
     return (
-      <div>
-        <h3>Select which workbooks you would like to complete</h3>
-        {/* ng-model='workbookSelection.selectedWorkbooks.water' ng-change='workbookSelection.workbookGenerator()'*/}
-        <Input label='Water' type='checkbox' onClick={() => this.selectionHandler(2)}
-          checked={this.props.workbookToggle[2]}/>
-        <Input label='Materials' type='checkbox' onClick={() => this.selectionHandler(3)}
-          checked={this.props.workbookToggle[3]}/>
+      <div className='umis-data'>
+        <h3 className='umis-data-title'>UMIS Form - Workbook Selection</h3>
+        <Well>
+          <h5>Select the workbooks that you would like to complete for this parcel</h5>
+        </Well>
+        <Checkbox type='checkbox' onChange={() => this.selectionHandler(2)}
+          checked={this.props.workbookToggle[2]}>
+          Water
+        </Checkbox>
+        <Checkbox type='checkbox' onChange={() => this.selectionHandler(3)}
+          checked={this.props.workbookToggle[3]}>
+          Materials
+        </Checkbox>
         <Input label='Energy' type='checkbox' disabled='true'/>
         <Input label='Mobility' type='checkbox' disabled='true'/>
         <br />
-        <Col sm={6}>
-          <Button bsStyle='info' onClick={this.props.previousStep}>
-            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-          </Button>
-        </Col>
-        <Col sm={6}>
-          <Button bsStyle='success' onClick={this.nextSection}>
-            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-          </Button>
-        </Col>
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.previousStep} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.nextSection} block>
+              Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }

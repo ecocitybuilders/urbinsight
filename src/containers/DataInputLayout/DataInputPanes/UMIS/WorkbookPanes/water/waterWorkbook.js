@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Col } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import LandcoverPreCalc from './LandcoverPreCalc'
 import WaterDemandJunctions from './DemandJunctions'
 
@@ -151,24 +151,26 @@ class UMISWaterWorkbook extends React.Component {
   render () {
     const { toilets, showers } = this.state
     return (
-      <div>
-        <h3>Water Workbook</h3>
+      <div className='umis-data'>
+        <h3 className='umis-data-title'>UMIS Form - Water Workbook</h3>
         <LandcoverPreCalc ref='landCoverPreCalc'/>
         <WaterDemandJunctions ref='demandJunctions' toilets={toilets} showers={showers}
           addShower={this.addShower}
           removeShower={this.removeShower}
           addToilet={this.addToilet}
           removeToilet={this.removeToilet}/>
-        <Col sm={6}>
-          <Button bsStyle='info' onClick={this.props.prevSection}>
-            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-          </Button>
-        </Col>
-        <Col sm={6}>
-          <Button bsStyle='success' onClick={this.nextSection}>
-            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-          </Button>
-        </Col>
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.prevSection} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.nextSection} block>
+              Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }

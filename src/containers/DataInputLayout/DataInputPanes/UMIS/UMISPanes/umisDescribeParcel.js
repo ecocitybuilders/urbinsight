@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col } from 'react-bootstrap'
+import { Button, Input, Col, Row } from 'react-bootstrap'
 
 type Props = {
   previousStep: PropTypes.func,
@@ -30,8 +30,8 @@ class UMISDescribeParcel extends React.Component {
   render () {
     const { audit } = this.props
     return (
-      <div>
-        <h3>Describe Parcel</h3>
+      <div className='umis-data'>
+        <h3 className='umis-data-title'>UMIS Form - Describe Parcel</h3>
         <Input ref='parcelType'
           type='select'label='Parcel Type:' placeholder='Generic Parcel'
           defaultValue={audit && audit.parcelIdentification
@@ -74,16 +74,18 @@ class UMISDescribeParcel extends React.Component {
             ? audit.parcelIdentification.buildingFootprint
             : ''} />
         <br/>
-        <Col sm={6}>
-          <Button bsStyle='info' onClick={this.props.previousStep}>
-            <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
-          </Button>
-        </Col>
-        <Col sm={6}>
-          <Button bsStyle='success' onClick={this.nextStep}>
-            Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
-          </Button>
-        </Col>
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.previousStep} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Previous Section
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.nextStep} block>
+              Next Section <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }
