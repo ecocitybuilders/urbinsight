@@ -22,7 +22,8 @@ class UmisComplete extends React.Component {
         <br/>
         <br/>
         <Button bsStyle='info' onClick={this.props.formReset} block>
-          <span className='glyphicon glyphicon-circle-arrow-left'></span>Return to Beginning
+          {/* <span className='glyphicon glyphicon-circle-arrow-left'></span> Return to Beginning*/}
+          Return to Beginning
         </Button>
       </div>
     )

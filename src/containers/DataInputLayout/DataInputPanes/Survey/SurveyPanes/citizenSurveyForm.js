@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button } from 'react-bootstrap'
-import { Input } from 'react-bootstrap'
+import { Button, Input, Row, Col } from 'react-bootstrap'
 
 type Props = {
   submitSurvey: PropTypes.func.isRequired,
@@ -128,17 +127,25 @@ class CitizenSurveyForm extends React.Component {
       )
     })
     return (
-      <div>
+      <div className='survey-data'>
+        <h3>Citizen Survey - Questions</h3>
         {/* label, ref, defaultValue */}
-        <form id='surveyForm'>
-          {surveyQuestionsComponents}
-          <div style={{'textAlign': 'center', 'margin': '0 auto', 'width': '30vw'}}>
-            {/* <ButtonGroup justified>*/}
-            <Button bsStyle='danger' onClick={this.props.previousStep}>Update Location</Button>
-            <Button bsStyle='success' onClick={this.submitForm}>Submit Form</Button>
-            {/* </ButtonGroup>*/}
-          </div>
-        </form>
+        {surveyQuestionsComponents}
+        <br />
+        <Row>
+          <Col xs={6} sm={6} md={6}>
+            <Button bsStyle='info' onClick={this.props.previousStep} block>
+              <span className='glyphicon glyphicon-circle-arrow-left'></span> Update Location
+            </Button>
+          </Col>
+          <Col xs={6} sm={6} md={6} >
+            <Button bsStyle='success' onClick={this.submitForm} block>
+              Submit Form <span className='glyphicon glyphicon-circle-arrow-right'></span>
+            </Button>
+          </Col>
+        </Row>
+        <br />
+        <br />
       </div>
     )
   }
