@@ -45,6 +45,7 @@ class MapView extends React.Component {
     return (
       <div id='mapContainer'>
         <div id='map'>
+        {/* Possibly need to move these outside of the map constainer*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys} />}
