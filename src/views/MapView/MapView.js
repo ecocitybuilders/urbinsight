@@ -54,10 +54,10 @@ class MapView extends React.Component {
     const { viewport } = this.state
     return (
       <div id='mapContainer'>
-        <Overlay {...viewport}/>
+
         <div id='map'>
         {/* Possibly need to move these outside of the map constainer*/}
-
+          <Overlay {...viewport}/>
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys} />}
