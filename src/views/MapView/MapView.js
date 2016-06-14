@@ -4,6 +4,7 @@ import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
 import FeatureList from 'components/FeatureList'
+import Overlay from 'components/Overlay'
 import { connect } from 'react-redux'
 import { requestSurveys } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
@@ -36,16 +37,27 @@ class MapView extends React.Component {
       },
       // This is unmaintainable need to standardize city names
       city: window.location.pathname.slice(1) === 'abudhabi' ? 'abu_dhabi' : window.location.pathname.slice(1),
-      layerList: []
+      layerList: [],
+      viewport: {
+        latitude: 0,
+        longitude: 0,
+        zoom: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        isDragging: false
+      }
     }
   }
 
   render () {
     const { isAuthenticated, audits, surveys } = this.props
+    const { viewport } = this.state
     return (
       <div id='mapContainer'>
+        <Overlay {...viewport}/>
         <div id='map'>
         {/* Possibly need to move these outside of the map constainer*/}
+
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys} />}
@@ -103,7 +115,30 @@ class MapView extends React.Component {
       }
       document.getElementById('features').innerHTML = htmlString
     })
-    this.setState({map: map})
+    map.on('render', (e) => {
+      this.setState({
+        viewport: {
+          latitude: this.state.map.getCenter().lat,
+          longitude: this.state.map.getCenter().lng,
+          zoom: this.state.map.getZoom(),
+          width: this.state.map.transform.width,
+          height: this.state.map.transform.height,
+          isDragging: false
+        }
+      })
+    })
+    this.setState({
+      map: map,
+      viewport: {
+        latitude: map.getCenter().lat,
+        longitude: map.getCenter().lng,
+        zoom: map.getZoom(),
+        width: map.transform.width,
+        height: map.transform.height,
+        isDragging: false
+      }
+    })
+    window.map = map
   }
 
   componentWillUpdate (np, ns) {

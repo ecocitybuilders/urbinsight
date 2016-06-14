@@ -134,6 +134,7 @@
     "monk": "^1.0.1",
     "node-sass": "^3.3.3",
     "normalizr": "^2.0.1",
+    "object-assign": "^4.1.0",
     "passport-local": "^1.0.0",
     "pg": "^4.5.3",
     "postcss-loader": "^0.8.0",
@@ -152,6 +153,7 @@
     "sass-loader": "^3.0.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
+    "viewport-mercator-project": "^2.1.0",
     "webpack": "^1.12.14",
     "whatwg-fetch": "^0.11.1",
     "yargs": "^4.0.0"
