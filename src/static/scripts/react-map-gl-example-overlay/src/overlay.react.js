@@ -6,6 +6,7 @@ var r = require('r-dom')
 var SVGOverlay = require('../../react-map-gl/src/overlays/svg.react')
 var assign = require('object-assign')
 
+
 module.exports = React.createClass({
 
   displayName: 'ExampleOverlay',
