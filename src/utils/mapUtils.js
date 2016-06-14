@@ -13,7 +13,7 @@ export function baseLayerandSource (map, tileLocation) {
       'type': 'Feature',
       'geometry': {
         'type': 'Point',
-        'coordinates': [0, 0]
+        'coordinates': []
       }
     }]
   }
