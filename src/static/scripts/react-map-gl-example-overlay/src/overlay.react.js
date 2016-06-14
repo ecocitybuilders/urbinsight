@@ -21,7 +21,7 @@ module.exports = React.createClass({
   },
 
   render: function render () {
-    return r(SVGOverlay, assign({}, this.props, {
+    return r(SVGOverlay, assign({}, this.props, { style: {'zIndex': 900},
       redraw: function redraw (opt) {
         return r.g(this.props.locations.map(function map (location) {
           var pixel = opt.project([location.longitude, location.latitude])

@@ -1,5 +1,5 @@
 import React from 'react'
-import ExampleOverlay from 'statc/scripts/react-map-gl-example-overlay/src/overlay.react'
+import ExampleOverlay from 'static/scripts/react-map-gl-example-overlay/src/overlay.react'
 import cities from 'example-cities'
 
 const Overlay = (props) => <div>
