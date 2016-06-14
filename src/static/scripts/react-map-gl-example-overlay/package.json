@@ -1,0 +1,51 @@
+{
+  "name": "react-map-gl-example-overlay",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/overlay.react.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vicapow/react-map-gl-example-overlay.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "budo ./example/main.js --live --  | bistre",
+    "lint": "uber-standard",
+    "precommit": "npm run lint -s",
+    "prepush": "npm run lint -s"
+  },
+  "keywords": [
+    "react",
+    "mapbox",
+    "mapbox-gl",
+    "react-map-gl",
+    "map-gl",
+    "gl",
+    "map",
+    "overlay",
+    "example"
+  ],
+  "author": "Victor Powell",
+  "license": "MIT",
+  "peerDependencies": {
+    "r-dom": "^2.1.0",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.3"
+  },
+  "dependencies": {
+    "example-cities": "0.0.0",
+    "global": "^4.3.0",
+    "object-assign": "^4.0.1"
+  },
+  "devDependencies": {
+    "bistre": "^1.0.1",
+    "budo": "^6.0.1",
+    "immutable": "^3.7.5",
+    "r-dom": "^2.1.0",
+    "raster-tile-style": "^1.0.1",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.3",
+    "react-map-gl": "^0.6.0",
+    "uber-standard": "^5.1.0"
+  }
+}
