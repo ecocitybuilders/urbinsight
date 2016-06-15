@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import UMISPopUp from 'containers/UMISPopUp'
 import SurveyPopUp from 'components/SurveyPopUp'
 
-let opacity = .75
+let opacity = 0.75
 
 export function baseLayerandSource (map, tileLocation) {
   let geojson = {
