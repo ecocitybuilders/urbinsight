@@ -306,15 +306,13 @@ export function mapboxStyleGenerator (sldObj, layerName) {
   let mapboxStyleObjs = []
   sldObj.namedLayers.map((layer) => {
     layer.userStyles.forEach((style) => {
-      let styleSpec = {}
-      styleSpec.paint = {}
-      styleSpec['source'] = layerName
-      styleSpec['id'] = layerName
-      let dataDriven
-      let propertyValue
-      let paintType
+      let styleSpec = {
+        'paint': {},
+        'source': layerName,
+        'id': layerName
+      }
+      let dataDriven, propertyValue, paintType, categorical
       let stops = []
-      let categorical
       style.rules.forEach((rule) => {
         dataDriven = rule.filter !== null
         propertyValue = dataDriven ? rule.filter.property : null

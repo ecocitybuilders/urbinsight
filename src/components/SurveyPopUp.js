@@ -1,32 +1,83 @@
 import React, { PropTypes } from 'react'
+import { ButtonToolbar, Button } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
-const SurveyPopUp = function (props) {
-  if (props.survey.user === localStorage.getItem('id_token')) console.log('hell yeah')
-  return (
-    <div>
-      <h3>Citizen Survey</h3>
-      <h4><strong>Employment: </strong>{props.survey.employment}</h4>
-      <h4><strong>Healthcare: </strong>{props.survey.healthcare}</h4>
-      <h4><strong>Family: </strong>{props.survey.family}</h4>
-      <h4><strong>Stability: </strong>{props.survey.stability}</h4>
-      <h4><strong>Relationships: </strong>{props.survey.relationships}</h4>
-      <h4><strong>Recreation: </strong>{props.survey.recreation}</h4>
-      <h4><strong>Education: </strong>{props.survey.education}</h4>
-      <h4><strong>Vacation: </strong>{props.survey.vacation}</h4>
-      <h4><strong>Housing: </strong>{props.survey.housing}</h4>
-      <h4><strong>Environment: </strong>{props.survey.environment}</h4>
-      <h4><strong>Discrimination: </strong>{props.survey.discrimination}</h4>
-      <h4><strong>Religion: </strong>{props.survey.religion}</h4>
-      <h4><strong>Mobility: </strong>{props.survey.mobility}</h4>
-      <h4><strong>Movement: </strong>{props.survey.movement}</h4>
-      <h4><strong>Safety: </strong>{props.survey.safety}</h4>
-      <h4><strong>Governance: </strong>{props.survey.governance}</h4>
-    </div>
-  )
+type Props = {
+  survey: PropTypes.object,
+  surveyDelete: PropTypes.func,
+  surveyUpdate: PropTypes.func
+}
+class SurveyPopUp extends React.Component {
+  props: Props;
+  constructor (props) {
+    super(props)
+    this.state = {
+      'editing': false,
+      'owned': props.survey.user === localStorage.getItem('id_token')
+    }
+    this.handleDeleteClick = this.handleDeleteClick.bind(this)
+    this.handleEditClick = this.handleEditClick.bind(this)
+  }
+  handleEditClick () {
+    this.setState({
+      'editing': !this.state.editing
+    })
+  }
+  handleDeleteClick () {
+    this.props.surveyDelete(this.props.survey._id)
+  }
+
+  // console.log(props.survey._id)
+  render () {
+    let controlButtons =
+      <ButtonToolbar>
+        <Button bsStyle='info' onClick={this.handleEditClick}>Edit</Button>
+        <Button bsStyle='danger' onClick={this.handleDeleteClick}>Delete</Button>
+      </ButtonToolbar>
+    const { survey } = this.props
+    return (
+      <div>
+        <h3>Citizen Survey</h3>
+        {this.state.owned && controlButtons}
+        <h4><strong>Employment: </strong>{survey.employment}</h4>
+        <h4><strong>Healthcare: </strong>{survey.healthcare}</h4>
+        <h4><strong>Family: </strong>{survey.family}</h4>
+        <h4><strong>Stability: </strong>{survey.stability}</h4>
+        <h4><strong>Relationships: </strong>{survey.relationships}</h4>
+        <h4><strong>Recreation: </strong>{survey.recreation}</h4>
+        <h4><strong>Education: </strong>{survey.education}</h4>
+        <h4><strong>Vacation: </strong>{survey.vacation}</h4>
+        <h4><strong>Housing: </strong>{survey.housing}</h4>
+        <h4><strong>Environment: </strong>{survey.environment}</h4>
+        <h4><strong>Discrimination: </strong>{survey.discrimination}</h4>
+        <h4><strong>Religion: </strong>{survey.religion}</h4>
+        <h4><strong>Mobility: </strong>{survey.mobility}</h4>
+        <h4><strong>Movement: </strong>{survey.movement}</h4>
+        <h4><strong>Safety: </strong>{survey.safety}</h4>
+        <h4><strong>Governance: </strong>{survey.governance}</h4>
+      </div>
+    )
+  }
 }
 
-SurveyPopUp.propTypes = {
-  survey: PropTypes.object
+const mapStateToProps = (state) => {
+  return {
+    state
+  }
 }
 
-export default SurveyPopUp
+const mapDispatchToProps = (dispatch) => {
+  return {
+    surveyDelete: (id) => {
+      dispatch(null)
+    },
+    surveyUpdate: (survey) => {
+      dispatch(null)
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SurveyPopUp)

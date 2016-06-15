@@ -67,3 +67,27 @@ exports.getSurveys = function * () {
   this.status = 200
   this.body = { surveys: surveys }
 }
+/// This might be more scalable to parseInt here
+// var survey = new Survey({
+//   user: this.request.body.user,
+//   geoCoordinates: [
+//     parseFloat(this.request.body.geoCoordinates[0]),
+//     parseFloat(this.request.body.geoCoordinates[1])
+//   ],
+//   employment: parseInt(this.request.body.employment),
+//   healthcare: parseInt(this.request.body.healthcare),
+//   family: parseInt(this.request.body.family),
+//   stability: parseInt(this.request.body.stability),
+//   relationships: parseInt(this.request.body.relationships),
+//   recreation: parseInt(this.request.body.recreation),
+//   education: parseInt(this.request.body.education),
+//   vacation: parseInt(this.request.body.vacation),
+//   housing: parseInt(this.request.body.housing),
+//   environment: parseInt(this.request.body.environment),
+//   discrimination: parseInt(this.request.body.discrimination),
+//   religion: parseInt(this.request.body.religion),
+//   mobility: parseInt(this.request.body.mobility),
+//   movement: parseInt(this.request.body.movement),
+//   safety: parseInt(this.request.body.safety),
+//   governance: parseInt(this.request.body.governance)
+// })
