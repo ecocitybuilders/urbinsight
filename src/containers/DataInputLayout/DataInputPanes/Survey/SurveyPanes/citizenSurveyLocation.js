@@ -108,11 +108,9 @@ class CitizenSurveyLocation extends React.Component {
   }
 
   componentDidMount () {
-    console.log('im the survey location did mount')
     this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    console.log('im the survey location will receive props')
     if (np.activeInput === 'Survey' && np.inputOpened) {
       this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
     } else if (!np.inputOpened) {
