@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col, Row, Well } from 'react-bootstrap'
+import { Button, Input, Col, Row, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
@@ -29,7 +29,7 @@ class CitizenSurveyLocation extends React.Component {
   nextStep (e) {
     e.preventDefault()
     let data = {
-      geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
+      geoCoordinates: [this.refs.lon.props.value, this.refs.lat.props.value]
     }
     this.props.saveValues(data)
     this.props.nextStep()
@@ -54,17 +54,35 @@ class CitizenSurveyLocation extends React.Component {
         <br />
         <Row>
           <Col md={6}>
-            <Input type='text' ref='lat'
+            <FormGroup controlId='lat'>
+              <ControlLabel>Latitude</ControlLabel>
+              <FormControl
+                ref='lat'
+                type='text'
+                value={lat || ''}
+                placeholder='Enter Latitude'
+              />
+            </FormGroup>
+            {/*<Input type='text' ref='lat'
               label='Latitude'
               placeholder='Enter Latitude'
-              value={lat || ''}/>
+              value={lat || ''}/>*/}
           </Col>
           <Col md={6}>
-            <Input type='text' ref='lon'
+            <FormGroup controlId='lon'>
+              <ControlLabel>Longitude</ControlLabel>
+              <FormControl
+                ref='lon'
+                type='text'
+                value={lon || ''}
+                placeholder='Enter Longitude'
+              />
+            </FormGroup>
+            {/*<Input type='text' ref='lon'
               label='Longitude'
               placeholder='Enter Longitude'
               value={lon || ''}
-              />
+              />*/}
           </Col>
         </Row>
         <br />
