@@ -107,7 +107,7 @@ class UMISParcelLocation extends React.Component {
        saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    console.log('im umis parcel location did mount props')
+    console.log('im umis parcel location will receive props')
     if (np.activeInput === 'UMIS' && np.inputOpened) {
       mapClickHandlerSwitcher(np.map, 'umisLocation',
         {cityTag: np.cityTag,

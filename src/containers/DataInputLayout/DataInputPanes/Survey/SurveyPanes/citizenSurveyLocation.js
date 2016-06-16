@@ -16,15 +16,16 @@ type Props = {
 
 class CitizenSurveyLocation extends React.Component {
   props: Props;
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
-      lat: undefined,
-      lon: undefined
+      lat: props.lat,
+      lon: props.lon
     }
     this.nextStep = this.nextStep.bind(this)
     this.updateValues = this.updateValues.bind(this)
     this.previousStep = this.previousStep.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
   }
   previousStep (e) {
     e.preventDefault()
@@ -41,6 +42,11 @@ class CitizenSurveyLocation extends React.Component {
   }
   updateValues (lat, lon) {
     this.props.updateValues(lat, lon)
+  }
+  handleChange (e) {
+    // let obj = {}
+    // obj[e.target.id] = e.target.value
+    // this.setState(obj)
   }
 
   render () {
@@ -65,7 +71,7 @@ class CitizenSurveyLocation extends React.Component {
               <FormControl
                 ref='lat'
                 type='number'
-                value={lat}
+                value={this.state.lat}
                 step='.00001'
                 placeholder='Enter Latitude'
                 onChange={this.handleChange}
@@ -78,7 +84,7 @@ class CitizenSurveyLocation extends React.Component {
               <FormControl
                 ref='lon'
                 type='number'
-                value={lon}
+                value={this.state.lon}
                 step='.00001'
                 placeholder='Enter Longitude'
               />

@@ -55,11 +55,11 @@ class DataInputLayout extends React.Component {
           onClick={this.update}></span>
         <Tabs bsStyle='tabs' activeKey={this.state.key}
           onSelect={this.handleSelect} className={dataInputTabsClass} justified>
-          <Tab eventKey={1} title='Urban Metabolism'>
+          <Tab eventKey={1} title='Urban Metabolism' unmountOnExit>
             <UmisDataForm map={this.props.map} inputOpened={this.state.opened}
               audits={this.props.audits} activeInput={this.state.activeInput}/>
           </Tab>
-          <Tab eventKey={2} title='Citizen Survey'>
+          <Tab eventKey={2} title='Citizen Survey' unmountOnExit>
             <CitizenSurvey map={this.props.map} inputOpened={this.state.opened}
               audits={this.props.audits} activeInput={this.state.activeInput}/>
           </Tab>
