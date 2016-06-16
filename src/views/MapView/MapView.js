@@ -52,18 +52,16 @@ class MapView extends React.Component {
 
   render () {
     const { isAuthenticated, audits, surveys } = this.props
-    const { viewport } = this.state
     return (
       <div id='mapContainer'>
 
         <div id='map'>
         {/*  Possibly need to move these outside of the map constainer*/}
-          {/* <Overlay {...viewport} map={this.state.map}/>*/}
+          <Overlay map={this.state.map}/>
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys}/>}
-          {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}
-            mapClickHandler={this.mapClickHandler}/>}
+          {isAuthenticated && <DataInputLayout map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
         </div>
         <FeatureList />
       </div>
@@ -116,19 +114,7 @@ class MapView extends React.Component {
       }
       document.getElementById('features').innerHTML = htmlString
     })
-    // map.on('render', (e) => {
-    //   console.log('rendering')
-      // this.setState({
-      //   viewport: {
-      //     latitude: this.state.map.getCenter().lat,
-      //     longitude: this.state.map.getCenter().lng,
-      //     zoom: this.state.map.getZoom(),
-      //     width: this.state.map.transform.width,
-      //     height: this.state.map.transform.height,
-      //     isDragging: false
-      //   }
-      // })
-    // })
+
     this.setState({
       map: map,
       viewport: {
@@ -167,13 +153,9 @@ class MapView extends React.Component {
       }
       document.getElementById('features').innerHTML = htmlString
     })
-    // This is the changing the mouse interaction to be able to see the properties
-    //testing if I need this if check
-    // if (np.audits) {
     this.mapClickHandler('featureSelection',
       {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
     )
-    // }
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }

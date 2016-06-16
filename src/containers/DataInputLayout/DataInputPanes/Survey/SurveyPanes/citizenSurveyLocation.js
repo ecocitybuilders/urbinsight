@@ -51,7 +51,7 @@ class CitizenSurveyLocation extends React.Component {
         <br />
         <Row>
           <Col md={6}>
-            {/*<FormGroup controlId='lat'>
+            {/* <FormGroup controlId='lat'>
               <ControlLabel>Latitude</ControlLabel>
               <FormControl
                 ref='lat'
@@ -73,7 +73,7 @@ class CitizenSurveyLocation extends React.Component {
             />
           </Col>
           <Col md={6}>
-            {/*<FormGroup controlId='lon'>
+            {/* <FormGroup controlId='lon'>
               <ControlLabel>Longitude</ControlLabel>
               <FormControl
                 ref='lon'

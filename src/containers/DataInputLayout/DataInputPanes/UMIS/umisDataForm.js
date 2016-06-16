@@ -22,7 +22,6 @@ type Props = {
   isFetching: PropTypes.bool,
   feature: PropTypes.object,
   inputOpened: PropTypes.bool,
-  audits: PropTypes.object,
   activeInput: PropTypes.string,
   mapClickHandler: PropTypes.func
 }

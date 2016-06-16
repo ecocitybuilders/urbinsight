@@ -67,7 +67,7 @@ exports.getSurveys = function * () {
   this.status = 200
   this.body = { surveys: surveys }
 }
-/// This might be more scalable to parseInt here
+// This might be more scalable to parseInt here
 // var survey = new Survey({
 //   user: this.request.body.user,
 //   geoCoordinates: [

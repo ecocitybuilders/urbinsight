@@ -50,7 +50,7 @@ class UMISParcelLocation extends React.Component {
         </Well>
         <br />
         <Row>
-          {/*<FormGroup controlId='lat'>
+          {/* <FormGroup controlId='lat'>
             <ControlLabel>Latitude</ControlLabel>
             <FormControl
               ref='lat'
@@ -73,7 +73,7 @@ class UMISParcelLocation extends React.Component {
               />
           </Col>
           <Col md={6}>
-            {/*<FormGroup controlId='lon'>
+            {/* <FormGroup controlId='lon'>
               <ControlLabel>Longitude</ControlLabel>
               <FormControl
                 ref='lon'
