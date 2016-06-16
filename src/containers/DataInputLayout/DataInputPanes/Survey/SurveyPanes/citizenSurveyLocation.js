@@ -1,15 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Input, Button, Col, Row, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
-import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
   saveValues: PropTypes.func,
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
-  map: PropTypes.object,
   formReset: PropTypes.func,
   survey: PropTypes.object,
-  audits: PropTypes.object
+  mapClickHandler: PropTypes.func
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -111,19 +109,19 @@ class CitizenSurveyLocation extends React.Component {
 
   componentDidMount () {
     console.log('im the survey location did mount')
-    mapClickHandlerSwitcher(this.props.map, 'surveyLocation', {saveValues: this.props.saveValues})
+    this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
     console.log('im the survey location will receive props')
     if (np.activeInput === 'Survey' && np.inputOpened) {
-      mapClickHandlerSwitcher(np.map, 'surveyLocation', {saveValues: this.props.saveValues})
+      this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
     } else if (!np.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
-      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits})
+      this.props.mapClickHandler('featureSelection')
     }
   }
   componentWillUnmount () {
-    mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: this.props.audits})
+    this.props.mapClickHandler('featureSelection')
   }
 }
 

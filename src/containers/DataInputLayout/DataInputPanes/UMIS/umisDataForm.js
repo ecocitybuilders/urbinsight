@@ -23,7 +23,8 @@ type Props = {
   feature: PropTypes.object,
   inputOpened: PropTypes.bool,
   audits: PropTypes.object,
-  activeInput: PropTypes.string
+  activeInput: PropTypes.string,
+  mapClickHandler: PropTypes.func
 }
 let cityObj = {
   'lima': 'id_lote',
@@ -88,15 +89,13 @@ class UmisDataForm extends React.Component {
         return <UMISParcelLocation
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          map={map}
           cityTag={this.state.cityTag}
           saveValues={this.saveValues}
           formReset={this.formReset}
           audit={audit_form}
           persistFeatureGeoJSON={persistFeatureGeoJSON}
           inputOpened={this.props.inputOpened}
-          // I pass audits here which probably isn't they way..possibly send dispatch
-          audits={this.props.audits}
+          mapClickHandler={this.props.mapClickHandler}
           activeInput={this.props.activeInput}
           />
       case 3:

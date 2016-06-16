@@ -37,7 +37,8 @@ type Props = {
   inputOpened: PropTypes.bool,
   activeInput: PropTypes.string,
   surveyFormSave: PropTypes.func,
-  surveyFormReset: PropTypes.func
+  surveyFormReset: PropTypes.func,
+  mapClickHandler: PropTypes.func
 }
 
 class CitizenSurvey extends React.Component {
@@ -103,13 +104,12 @@ class CitizenSurvey extends React.Component {
         return <CitizenSurveyLocation
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          map={map}
           saveValues={this.saveValues}
           formReset={this.formReset}
           inputOpened={this.props.inputOpened}
           survey={survey_form}
-          audits={this.props.audits}
           activeInput={this.props.activeInput}
+          mapClickHandler={this.props.mapClickHandler}
           />
 
       case 3:

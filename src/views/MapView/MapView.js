@@ -47,6 +47,7 @@ class MapView extends React.Component {
         isDragging: false
       }
     }
+    this.mapClickHandler = this.mapClickHandler.bind(this)
   }
 
   render () {
@@ -57,11 +58,12 @@ class MapView extends React.Component {
 
         <div id='map'>
         {/*  Possibly need to move these outside of the map constainer*/}
-          {/* <Overlay {...viewport}/>*/}
+          {/* <Overlay {...viewport} map={this.state.map}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
-          {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys} />}
-          {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}/>}
+          {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys}/>}
+          {isAuthenticated && <DataInputLayout map={this.state.map} audits={audits}
+            mapClickHandler={this.mapClickHandler}/>}
         </div>
         <FeatureList />
       </div>
@@ -166,11 +168,12 @@ class MapView extends React.Component {
       document.getElementById('features').innerHTML = htmlString
     })
     // This is the changing the mouse interaction to be able to see the properties
-    if (np.audits) {
-      this.mapClickHandler(ns.map, 'featureSelection',
-        {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
-      )
-    }
+    //testing if I need this if check
+    // if (np.audits) {
+    this.mapClickHandler('featureSelection',
+      {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
+    )
+    // }
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }
@@ -180,8 +183,12 @@ class MapView extends React.Component {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 
-  mapClickHandler (map, keyword, options) {
-    mapClickHandlerSwitcher(map, keyword, options)
+  mapClickHandler (keyword, options) {
+    this.state.map
+      ? keyword === 'featureSelection'
+        ? mapClickHandlerSwitcher(this.state.map, keyword, {audits: this.props.audits})
+        : mapClickHandlerSwitcher(this.state.map, keyword, options)
+      : null
   }
 }
 

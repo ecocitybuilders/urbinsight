@@ -1,17 +1,15 @@
 import React, { PropTypes } from 'react'
 import { Input, Col, Row, Button, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
-import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
   saveValues: PropTypes.func,
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
-  map: PropTypes.object,
   formReset: PropTypes.func,
   persistFeatureGeoJSON: PropTypes.func,
   audit: PropTypes.obj,
   cityTag: PropTypes.string,
-  audits: PropTypes.object
+  mapClickHandler: PropTypes.func
 }
 
 class UMISParcelLocation extends React.Component {
@@ -110,27 +108,24 @@ class UMISParcelLocation extends React.Component {
   }
 
   componentDidMount () {
-    console.log('im umis parcel location did mount')
-    mapClickHandlerSwitcher(this.props.map, 'umisLocation',
+    this.props.mapClickHandler('umisLocation',
       {cityTag: this.props.cityTag,
        persistFeatureGeoJSON: this.props.persistFeatureGeoJSON,
        saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    console.log('im umis parcel location will receive props')
     if (np.activeInput === 'UMIS' && np.inputOpened) {
-      mapClickHandlerSwitcher(np.map, 'umisLocation',
+      this.props.mapClickHandler('umisLocation',
         {cityTag: np.cityTag,
          persistFeatureGeoJSON: np.persistFeatureGeoJSON,
          saveValues: np.saveValues})
     } else if (!np.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
-      mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits})
+      this.props.mapClickHandler('featureSelection')
     }
   }
   componentWillUnmount () {
-    let audits = this.props.audits ? this.props.audits : {}
-    mapClickHandlerSwitcher(this.props.map, 'featureSelection', {audits: audits})
+    this.props.mapClickHandler('featureSelection')
   }
 }
 
