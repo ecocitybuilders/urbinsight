@@ -45,7 +45,7 @@ export const actions = {
 // ------------------------------------
 
 export default function layer (state = {
-  layers: ['surveys', 'auditPoints', 'auditPolygons']
+  layers: ['surveys', 'auditPoints', 'auditPolygons', 'lots']
 }, action) {
   let newLayerList = []
   switch (action.type) {

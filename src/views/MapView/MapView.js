@@ -11,7 +11,6 @@ import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
 import server_endpoint from 'utils/serverUtils'
-import _ from 'lodash'
 
 type Props = {
   isAuthenticated: PropTypes.bool,
@@ -57,7 +56,7 @@ class MapView extends React.Component {
 
         <div id='map'>
         {/*  Possibly need to move these outside of the map constainer*/}
-          {/*<Overlay map={this.state.map}/>*/}
+          {/* <Overlay map={this.state.map}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys}/>}
@@ -89,31 +88,6 @@ class MapView extends React.Component {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
-    let htmlString = ''
-    map.on('mousemove', (e) => {
-      let width = 5
-      let features = map.queryRenderedFeatures([
-        [e.point.x - width / 2, e.point.y - width / 2],
-        [e.point.x + width / 2, e.point.x - width / 2]],
-        { layers: this.props.layers })
-      // let features = map.queryRenderedFeatures(e.point,
-      //   { layers: this.props.layers })
-      map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
-      if (features.length) {
-        features.forEach((feature) => {
-          htmlString += `<table id="features-table"><tr className='feature-row'>
-            <td class='row-heading' colspan='2'>${feature.layer.id}</td>
-          </tr>`
-          _.forEach(feature.properties, (value, key) => {
-            htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
-          })
-        })
-        htmlString += '</table></br></br>'
-      } else {
-        htmlString = '<div style="text-align: center;">No Feature Selected</div>'
-      }
-      document.getElementById('features').innerHTML = htmlString
-    })
 
     this.setState({
       map: map,
@@ -130,29 +104,7 @@ class MapView extends React.Component {
 
   componentWillUpdate (np, ns) {
     ns.map.off('mousemove')
-    ns.map.on('mousemove', (e) => {
-      let htmlString = ''
-      let features = ns.map.queryRenderedFeatures(e.point,
-        { layers: np.layers })
-      ns.map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
-      if (features.length) {
-        features.forEach((feature) => {
-          if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
-            htmlString += `<table id="features-table"><tr className='feature-row'>
-              <td class='row-heading' colspan='2'>${feature.layer.id}</td>
-            </tr>`
-            _.forEach(feature.properties, (value, key) => {
-              htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
-            })
-            htmlString += '</table></br></br>'
-          }
-          htmlString = htmlString.length ? htmlString : '<div style="text-align: center;">No Feature Selected</div>'
-        })
-      } else {
-        htmlString = '<div style="text-align: center;">No Feature Selected</div>'
-      }
-      document.getElementById('features').innerHTML = htmlString
-    })
+
     this.mapClickHandler('featureSelection',
       {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
     )
@@ -168,7 +120,7 @@ class MapView extends React.Component {
   mapClickHandler (keyword, options) {
     this.state.map
       ? keyword === 'featureSelection'
-        ? mapClickHandlerSwitcher(this.state.map, keyword, {audits: this.props.audits})
+        ? mapClickHandlerSwitcher(this.state.map, keyword, {audits: this.props.audits, layers: this.props.layers})
         : mapClickHandlerSwitcher(this.state.map, keyword, options)
       : null
   }
