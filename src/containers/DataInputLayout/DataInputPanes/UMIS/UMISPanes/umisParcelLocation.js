@@ -62,7 +62,10 @@ class UMISParcelLocation extends React.Component {
               />
           </FormGroup>*/}
           <Col md={6}>
-            <Input type='text' ref='lat'
+            <Input
+              ref='lat'
+              type='number'
+              step='.00001'
               label='Latitude'
               placeholder='Enter Latitude'
               value={audit && audit.geoCoordinates ? audit.geoCoordinates[1] : ''}
@@ -81,7 +84,10 @@ class UMISParcelLocation extends React.Component {
                 onChange={this.onChange}
                 />
             </FormGroup>*/}
-            <Input type='text' ref='lon'
+            <Input
+              ref='lon'
+              type='number'
+              step='.00001'
               label='Longitude'
               placeholder='Enter Longitude'
               value={audit && audit.geoCoordinates ? audit.geoCoordinates[0] : ''}

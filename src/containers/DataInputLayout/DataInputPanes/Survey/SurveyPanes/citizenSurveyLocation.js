@@ -62,12 +62,15 @@ class CitizenSurveyLocation extends React.Component {
                 onChange={this.onChange}
               />
             </FormGroup>*/}
-            <Input type='text' ref='lat'
+            <Input
+              ref='lat'
+              type='number'
+              step='.00001'
               label='Latitude'
               placeholder='Enter Latitude'
               value={survey && survey.geoCoordinates ? survey.geoCoordinates[1] : ''}
               onChange={this.onChange}
-              />
+            />
           </Col>
           <Col md={6}>
             {/*<FormGroup controlId='lon'>
@@ -81,12 +84,15 @@ class CitizenSurveyLocation extends React.Component {
                 onChange={this.onChange}
               />
             </FormGroup>*/}
-            <Input type='text' ref='lon'
+            <Input
+              ref='lon'
+              type='number'
+              step='.00001'
               label='Longitude'
               placeholder='Enter Longitude'
               value={survey && survey.geoCoordinates ? survey.geoCoordinates[0] : ''}
               onChange={this.onChange}
-              />
+            />
           </Col>
         </Row>
         <br />
