@@ -207,7 +207,6 @@ export function boundsArrayGenerator (bounds) {
 // otherwise it will need to be cityTag, persistFeatureGeoJSON, saveValues
 let geojson
 export function mapClickHandlerSwitcher (map, keyword, options) {
-  console.log('im being called')
   map.off('mousemove')
   map.off('click')
   geojson = {
@@ -292,7 +291,6 @@ const featureClick = (map, options) => {
 const umisClick = (map, options) => {
   map.getCanvas().style.cursor = 'pointer'
   map.on('click', (e) => {
-    console.log('click baby click')
     let cityTag = options.cityTag
     let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
     if (feature.length > 0) {

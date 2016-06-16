@@ -9,7 +9,9 @@ type Props = {
   persistFeatureGeoJSON: PropTypes.func,
   audit: PropTypes.obj,
   cityTag: PropTypes.string,
-  mapClickHandler: PropTypes.func
+  mapClickHandler: PropTypes.func,
+  map: PropTypes.obj,
+  inputOpened: PropTypes.bool
 }
 
 class UMISParcelLocation extends React.Component {
@@ -120,12 +122,13 @@ class UMISParcelLocation extends React.Component {
        saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    if (np.activeInput === 'UMIS' && np.inputOpened) {
+    // console.log(np, this.props)
+    if (np.activeInput === 'UMIS' && np.inputOpened === true && np.inputOpened !== this.props.inputOpened) {
       this.props.mapClickHandler('umisLocation',
         {cityTag: np.cityTag,
          persistFeatureGeoJSON: np.persistFeatureGeoJSON,
          saveValues: np.saveValues})
-    } else if (!np.inputOpened) {
+    } else if (!np.inputOpened && np.inputOpened !== this.props.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
       this.props.mapClickHandler('featureSelection')
     }

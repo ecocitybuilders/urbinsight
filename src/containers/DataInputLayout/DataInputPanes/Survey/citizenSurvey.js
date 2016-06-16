@@ -33,7 +33,6 @@ type Props = {
   isFetching: PropTypes.bool,
   survey_form: PropTypes.object,
   // NEED TO CHANGE
-  audits: PropTypes.audits,
   inputOpened: PropTypes.bool,
   activeInput: PropTypes.string,
   surveyFormSave: PropTypes.func,
@@ -110,6 +109,7 @@ class CitizenSurvey extends React.Component {
           survey={survey_form}
           activeInput={this.props.activeInput}
           mapClickHandler={this.props.mapClickHandler}
+          map={map}
           />
 
       case 3:

@@ -54,7 +54,7 @@ class DataInputLayout extends React.Component {
         <span style={{'zIndex': 1000}} className={dataInputGlyphClass}
           onClick={this.update}></span>
         <Tabs bsStyle='tabs' activeKey={this.state.key} id='data-input-tabs'
-          onSelect={this.handleSelect} className={dataInputTabsClass} justified>
+          onSelect={this.handleSelect} className={dataInputTabsClass} justified unmountOnExit>
           <Tab eventKey={1} title='Urban Metabolism' unmountOnExit>
             <UmisDataForm map={this.props.map} inputOpened={this.state.opened}
               mapClickHandler={this.props.mapClickHandler}

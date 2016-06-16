@@ -96,6 +96,7 @@ class UmisDataForm extends React.Component {
           inputOpened={this.props.inputOpened}
           mapClickHandler={this.props.mapClickHandler}
           activeInput={this.props.activeInput}
+          map={map}
           />
       case 3:
         return <UMISSourceInformation

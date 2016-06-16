@@ -7,7 +7,9 @@ type Props = {
   previousStep: PropTypes.func,
   formReset: PropTypes.func,
   survey: PropTypes.object,
-  mapClickHandler: PropTypes.func
+  mapClickHandler: PropTypes.func,
+  map: PropTypes.object,
+  inputOpened: PropTypes.bool
 }
 
 class CitizenSurveyLocation extends React.Component {
@@ -117,9 +119,9 @@ class CitizenSurveyLocation extends React.Component {
     this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    if (np.activeInput === 'Survey' && np.inputOpened) {
+    if (np.activeInput === 'Survey' && np.inputOpened === true && np.inputOpened !== this.props.inputOpened) {
       this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
-    } else if (!np.inputOpened) {
+    } else if (!np.inputOpened && np.inputOpened !== this.props.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
       this.props.mapClickHandler('featureSelection')
     }
