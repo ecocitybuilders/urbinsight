@@ -16,6 +16,8 @@ type Props = {
   isAuthenticated: PropTypes.bool,
   surveysFetch: PropTypes.func,
   auditsFetch: PropTypes.func,
+  surveyUpdate: PropTypes.func,
+  surveyDelete: PropTypes.func,
   audits: PropTypes.object,
   surveys: PropTypes.object,
   layers: PropType.array
@@ -88,6 +90,9 @@ class MapView extends React.Component {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
+    this.mapClickHandler('featureSelection',
+      {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
+    )
 
     this.setState({
       map: map,
@@ -103,11 +108,6 @@ class MapView extends React.Component {
   }
 
   componentWillUpdate (np, ns) {
-    ns.map.off('mousemove')
-
-    this.mapClickHandler('featureSelection',
-      {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
-    )
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }

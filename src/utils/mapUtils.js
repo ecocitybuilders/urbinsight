@@ -207,7 +207,29 @@ export function boundsArrayGenerator (bounds) {
 // otherwise it will need to be cityTag, persistFeatureGeoJSON, saveValues
 let geojson
 export function mapClickHandlerSwitcher (map, keyword, options) {
+  console.log('im being called')
   map.off('mousemove')
+  map.off('click')
+  geojson = {
+    'type': 'FeatureCollection',
+    'features': [{
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Point',
+        'coordinates': [0, 0]
+      }
+    }]
+  }
+
+  if (keyword === 'featureSelection') {
+    featureClick(map, options)
+  } else if (keyword === 'umisLocation') {
+    umisClick(map, options)
+  } else if (keyword === 'surveyLocation') {
+    surveyClick(map, options)
+  }
+}
+const featureClick = (map, options) => {
   map.on('mousemove', (e) => {
     let htmlString
     let features = map.queryRenderedFeatures(e.point,
@@ -235,26 +257,6 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
     }
     document.getElementById('features').innerHTML = htmlString
   })
-  geojson = {
-    'type': 'FeatureCollection',
-    'features': [{
-      'type': 'Feature',
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [0, 0]
-      }
-    }]
-  }
-  map.off('click')
-  if (keyword === 'featureSelection') {
-    featureClick(map, options)
-  } else if (keyword === 'umisLocation') {
-    umisClick(map, options)
-  } else if (keyword === 'surveyLocation') {
-    surveyClick(map, options)
-  }
-}
-const featureClick = (map, options) => {
   map.on('click', (e) => {
     // Query rendered features using layers of auditPoints and Polygons
     let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
@@ -288,8 +290,9 @@ const featureClick = (map, options) => {
   })
 }
 const umisClick = (map, options) => {
-  map.getCanvas().style.cursor === 'pointer'
+  map.getCanvas().style.cursor = 'pointer'
   map.on('click', (e) => {
+    console.log('click baby click')
     let cityTag = options.cityTag
     let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
     if (feature.length > 0) {
@@ -325,7 +328,7 @@ const umisClick = (map, options) => {
   })
 }
 const surveyClick = (map, options) => {
-  map.getCanvas().style.cursor === 'pointer'
+  map.getCanvas().style.cursor = 'pointer'
   map.on('click', (e) => {
     geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
     if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
