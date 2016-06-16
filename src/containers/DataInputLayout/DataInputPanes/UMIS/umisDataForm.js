@@ -37,8 +37,7 @@ class UmisDataForm extends React.Component {
   constructor () {
     super()
     this.state = {
-      active: 1,
-      geoCoordinates: [null, null]
+      active: 1
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
@@ -61,8 +60,7 @@ class UmisDataForm extends React.Component {
   formReset () {
     this.props.auditFormReset()
     this.setState({
-      active: 1,
-      geoCoordinates: [null, null]
+      active: 1
     })
   }
 

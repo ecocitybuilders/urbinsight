@@ -18,6 +18,10 @@ class CitizenSurveyLocation extends React.Component {
   props: Props;
   constructor () {
     super()
+    this.state = {
+      lat: undefined,
+      lon: undefined
+    }
     this.nextStep = this.nextStep.bind(this)
     this.updateValues = this.updateValues.bind(this)
     this.previousStep = this.previousStep.bind(this)
@@ -27,6 +31,7 @@ class CitizenSurveyLocation extends React.Component {
     this.props.formReset()
   }
   nextStep (e) {
+    debugger
     e.preventDefault()
     let data = {
       geoCoordinates: [this.refs.lon.props.value, this.refs.lat.props.value]
@@ -37,6 +42,7 @@ class CitizenSurveyLocation extends React.Component {
   updateValues (lat, lon) {
     this.props.updateValues(lat, lon)
   }
+
   render () {
     const { lat, lon } = this.props
     return (
@@ -58,31 +64,25 @@ class CitizenSurveyLocation extends React.Component {
               <ControlLabel>Latitude</ControlLabel>
               <FormControl
                 ref='lat'
-                type='text'
-                value={lat || ''}
+                type='number'
+                value={lat}
+                step='.00001'
                 placeholder='Enter Latitude'
+                onChange={this.handleChange}
               />
             </FormGroup>
-            {/*<Input type='text' ref='lat'
-              label='Latitude'
-              placeholder='Enter Latitude'
-              value={lat || ''}/>*/}
           </Col>
           <Col md={6}>
             <FormGroup controlId='lon'>
               <ControlLabel>Longitude</ControlLabel>
               <FormControl
                 ref='lon'
-                type='text'
-                value={lon || ''}
+                type='number'
+                value={lon}
+                step='.00001'
                 placeholder='Enter Longitude'
               />
             </FormGroup>
-            {/*<Input type='text' ref='lon'
-              label='Longitude'
-              placeholder='Enter Longitude'
-              value={lon || ''}
-              />*/}
           </Col>
         </Row>
         <br />

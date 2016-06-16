@@ -249,8 +249,9 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
           popup.setDOMContent(div)
           render(<SurveyPopUp survey={feature.properties}
             surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
-            popup.addTo(map)
-          })
+              popup.addTo(map)
+            }
+          )
         }
       }
     } else if (keyword === 'umisLocation') {
@@ -274,7 +275,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         // set default geoJSON feature coordinates
         geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
         // If the the point layer doesn't already exist add it
-        if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
+        map.getSource('point').setData(geojson)
         if (typeof map.getLayer('point') === 'undefined') {
           map.addLayer({
             'id': 'point',

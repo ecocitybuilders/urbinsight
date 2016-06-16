@@ -41,7 +41,7 @@ class CitizenSurvey extends React.Component {
     super()
     this.state = {
       active: 1,
-      geoCoordinates: [null, null]
+      geoCoordinates: [undefined, undefined]
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
@@ -62,7 +62,7 @@ class CitizenSurvey extends React.Component {
   }
   formReset () {
     let fields = {
-      geoCoordinates: [null, null],
+      geoCoordinates: [undefined, undefined],
       employment: null,
       healthcare: null,
       family: null,
@@ -83,7 +83,7 @@ class CitizenSurvey extends React.Component {
     fieldValues = Object.assign({}, fieldValues, fields)
     this.setState({
       active: 1,
-      geoCoordinates: [null, null]
+      geoCoordinates: [undefined, undefined]
     })
   }
   // this is confusing and should be streamlined
