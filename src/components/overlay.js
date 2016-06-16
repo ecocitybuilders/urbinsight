@@ -24,8 +24,9 @@ class Overlay extends React.Component {
   }
   componentWillReceiveProps (np) {
     const { map } = np
-    map.off('render')
-    map.on('render', (e) => {
+    // doing it on render causes to many problems
+    map.off('moveend')
+    map.on('moveend', (e) => {
       let newViewport = {
         latitude: map.getCenter().lat,
         longitude: map.getCenter().lng,
