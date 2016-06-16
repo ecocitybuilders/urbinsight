@@ -98,7 +98,6 @@ class MapView extends React.Component {
         { layers: this.props.layers })
       // let features = map.queryRenderedFeatures(e.point,
       //   { layers: this.props.layers })
-      //   debugger
       map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
       if (features.length) {
         features.forEach((feature) => {
@@ -139,7 +138,6 @@ class MapView extends React.Component {
         isDragging: false
       }
     })
-    window.map = map
   }
 
   componentWillUpdate (np, ns) {
@@ -169,7 +167,7 @@ class MapView extends React.Component {
     })
     // This is the changing the mouse interaction to be able to see the properties
     if (np.audits) {
-      mapClickHandlerSwitcher(ns.map, 'featureSelection',
+      this.mapClickHandler(ns.map, 'featureSelection',
         {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
       )
     }
@@ -181,8 +179,12 @@ class MapView extends React.Component {
     if (this.state.map) this.state.map.remove()
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
+
+  mapClickHandler (map, keyword, options) {
+    mapClickHandlerSwitcher(map, keyword, options)
+  }
 }
-// Audits change test
+
 const mapStateToProps = (state) => {
   const { auth, survey, audit, layer } = state
   const { audits } = audit

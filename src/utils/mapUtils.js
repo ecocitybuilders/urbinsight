@@ -236,14 +236,12 @@ const featureClick = (map, options) => {
     let feature = features[0]
     let popup = new mapboxgl.Popup()
       .setLngLat(map.unproject(e.point))
+    // This is necessary because queryRenderedFeatures doesn't support a JSON type
     if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
-    // this should be sent through redux most likely
-    // Array of Audits currently in the state
-    // This is not scalable it is searching for the audit that matches the feature
-    // Why is this necessary
-      options.audits.forEach(function (audit) {
-        if (audit._id === feature.properties.id) feature = audit; return
-      })
+      const findAudit = (audit) => {
+        return audit._id === feature.properties.id
+      }
+      feature = options.audits.find(findAudit)
       let div = document.createElement('div')
       // Create an Document Element, then will use render to attach the React Node to it.
       popup.setDOMContent(div)
