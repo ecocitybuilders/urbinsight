@@ -8,6 +8,8 @@ export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
 export const SURVEY_SAVED = 'SURVEY_SAVED'
 export const SURVEYS_REQUEST = 'SURVEYS_REQUEST'
 export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
+export const SURVEY_FORM_SAVE = 'SURVEY_FORM_SAVE'
+export const SURVEY_FORM_RESET = 'SURVEY_FORM_RESET'
 
 // ------------------------------------
 // Actions
@@ -18,7 +20,7 @@ export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
 // DOUBLE NOTE: there is currently a bug with babel-eslint where a `space-infix-ops` error is
 // incorrectly thrown when using arrow functions, hence the oddity.
 
-function submitSurvey (responses): Action {
+function surveySubmit (responses): Action {
   return {
     type: SURVEY_SUBMIT,
     isFetching: true,
@@ -49,6 +51,19 @@ function surveysReceived (surveys): Action {
   }
 }
 
+function surveyFormSave (responses): Action {
+  return {
+    type: SURVEY_FORM_SAVE,
+    responses
+  }
+}
+
+function surveyFormReset (): Action {
+  return {
+    type: SURVEY_FORM_RESET
+  }
+}
+
 export function requestSurveys (bounds) {
   let config = {
     method: 'GET',
@@ -76,9 +91,21 @@ export function surveySave (responses) {
     body: JSON.stringify(interimResponses)
   }
   return (dispatch) => {
-    dispatch(submitSurvey(responses))
+    dispatch(surveySubmit(responses))
     return fetch('http://' + server_endpoint + ':8000/api/survey/create', config)
       .then((response) => dispatch(surveySaved))
+  }
+}
+
+export function saveSurveyForm (responses) {
+  return (dispatch) => {
+    dispatch(surveyFormSave(responses))
+  }
+}
+
+export function resetSurveyForm (repsonses) {
+  return (dispatch) => {
+    dispatch(surveyFormReset())
   }
 }
 // This is a thunk, meaning it is a function that immediately
@@ -99,10 +126,12 @@ export function surveySave (responses) {
 // }
 
 export const actions = {
-  submitSurvey,
+  surveySubmit,
   surveySaved,
   surveysRequest,
-  surveysReceived
+  surveysReceived,
+  surveyFormSave,
+  surveyFormReset
 }
 
 // ------------------------------------
@@ -124,11 +153,12 @@ export const actions = {
 export default function survey (state = {
   isFetching: false
 }, action) {
+  let cumlatativeSurvey
   switch (action.type) {
     case SURVEY_SUBMIT:
       return Object.assign({}, state, {
         isFetching: true,
-        auditResponses: action.responses
+        surveyResponses: action.responses
       })
     case SURVEY_SAVED:
       return Object.assign({}, state, {
@@ -143,6 +173,18 @@ export default function survey (state = {
       return Object.assign({}, state, {
         isFetching: false,
         surveys: action.surveys
+      })
+    case SURVEY_FORM_SAVE:
+      state.survey_form
+        ? cumlatativeSurvey = Object.assign({}, state.survey_form, action.responses)
+        : cumlatativeSurvey = action.responses
+      return Object.assign({}, state, {
+        inProgress: true,
+        survey_form: cumlatativeSurvey
+      })
+    case SURVEY_FORM_RESET:
+      return Object.assign({}, state, {
+        survey_form: {}
       })
     default:
       return state

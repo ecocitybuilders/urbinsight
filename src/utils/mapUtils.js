@@ -312,7 +312,7 @@ const surveyClick = (map, options) => {
         }
       })
     }
-    options.updateValues(e.lngLat.lat, e.lngLat.lng)
+    options.saveValues({geoCoordinates: [e.lngLat.lat, e.lngLat.lng]})
   })
 }
 

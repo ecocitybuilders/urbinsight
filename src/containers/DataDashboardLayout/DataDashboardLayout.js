@@ -47,9 +47,10 @@ class DataDashboard extends React.Component {
 
       <div className={dashboardClass}>
         <span style={{'zIndex': 1000}} className={dashboardGlyphClass} onClick={this.update}></span>
-        <Tabs bsStyle='tabs' defaultActiveKey={1} className={dashboardTabsClass} justified>
+        <Tabs bsStyle='tabs' defaultActiveKey={1} className={dashboardTabsClass} justified id='data-dashboard-tabs'>
           <Tab eventKey={1} title='UMIS'>
-            <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
+            <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass}
+              justified id='data-dashboard-resource-tabs'>
               <Tab eventKey={1} title='Water'>
                 <DashboardResourcePane resource='water' audits={this.props.audits}/>
               </Tab>
@@ -71,7 +72,8 @@ class DataDashboard extends React.Component {
             <DashboardQualitative surveys={this.props.surveys} />
           </Tab>
           <Tab eventKey={3} title='Environmental' disabled>
-            <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
+            <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified
+              id='data-dashboard-environmental-tabs'>
               <Tab eventKey={1} title='Air'>
                 <DashboardEnvironmentalAirPane />
               </Tab>
@@ -84,7 +86,8 @@ class DataDashboard extends React.Component {
             </Tabs>
           </Tab>
           <Tab eventKey={4} title='Socioeconomic' disabled>
-            <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified>
+            <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified
+              id='data-dashboard-socioeconomic-tabs'>
               <Tab eventKey={1} title='Demographics'>
                 <DashboardSocioeconomicPane indicator='demographics'/>
               </Tab>

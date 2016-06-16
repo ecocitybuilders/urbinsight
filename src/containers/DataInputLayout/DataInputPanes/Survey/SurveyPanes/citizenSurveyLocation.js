@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, Input, Col, Row, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { Input, Button, Col, Row, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { mapClickHandlerSwitcher } from 'utils/mapUtils'
 
 type Props = {
@@ -7,10 +7,8 @@ type Props = {
   nextStep: PropTypes.func,
   previousStep: PropTypes.func,
   map: PropTypes.object,
-  updateValues: PropTypes.func,
-  lat: PropTypes.number,
-  lon: PropTypes.number,
   formReset: PropTypes.func,
+  survey: PropTypes.object,
   audits: PropTypes.object
 }
 
@@ -18,39 +16,28 @@ class CitizenSurveyLocation extends React.Component {
   props: Props;
   constructor (props) {
     super(props)
-    this.state = {
-      lat: props.lat,
-      lon: props.lon
-    }
     this.nextStep = this.nextStep.bind(this)
-    this.updateValues = this.updateValues.bind(this)
     this.previousStep = this.previousStep.bind(this)
-    // this.handleChange = this.handleChange.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
   previousStep (e) {
     e.preventDefault()
     this.props.formReset()
   }
   nextStep (e) {
-    debugger
-    e.preventDefault()
-    let data = {
-      geoCoordinates: [this.refs.lon.props.value, this.refs.lat.props.value]
-    }
-    this.props.saveValues(data)
+    this.onChange()
     this.props.nextStep()
   }
-  updateValues (lat, lon) {
-    this.props.updateValues(lat, lon)
-  }
-  handleChange (e) {
-    // let obj = {}
-    // obj[e.target.id] = e.target.value
-    // this.setState(obj)
+  onChange (e) {
+    let data = {
+      // geoCoordinates: [this.refs.lon.props.value, this.refs.lat.props.value]
+      geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
+    }
+    this.props.saveValues(data)
   }
 
   render () {
-    const { lat, lon } = this.props
+    const { survey } = this.props
     return (
       <div className='survey-data'>
         <h3>Citizen Survey - Survey Location</h3>
@@ -66,29 +53,42 @@ class CitizenSurveyLocation extends React.Component {
         <br />
         <Row>
           <Col md={6}>
-            <FormGroup controlId='lat'>
+            {/*<FormGroup controlId='lat'>
               <ControlLabel>Latitude</ControlLabel>
               <FormControl
                 ref='lat'
                 type='number'
-                value={this.state.lat}
+                value={survey && survey.geoCoordinates ? survey.geoCoordinates[1] : ''}
                 step='.00001'
                 placeholder='Enter Latitude'
-                onChange={this.handleChange}
+                onChange={this.onChange}
               />
-            </FormGroup>
+            </FormGroup>*/}
+            <Input type='text' ref='lat'
+              label='Latitude'
+              placeholder='Enter Latitude'
+              value={survey && survey.geoCoordinates ? survey.geoCoordinates[1] : ''}
+              onChange={this.onChange}
+              />
           </Col>
           <Col md={6}>
-            <FormGroup controlId='lon'>
+            {/*<FormGroup controlId='lon'>
               <ControlLabel>Longitude</ControlLabel>
               <FormControl
                 ref='lon'
                 type='number'
-                value={this.state.lon}
+                value={survey && survey.geoCoordinates ? survey.geoCoordinates[0] : ''}
                 step='.00001'
                 placeholder='Enter Longitude'
+                onChange={this.onChange}
               />
-            </FormGroup>
+            </FormGroup>*/}
+            <Input type='text' ref='lon'
+              label='Longitude'
+              placeholder='Enter Longitude'
+              value={survey && survey.geoCoordinates ? survey.geoCoordinates[0] : ''}
+              onChange={this.onChange}
+              />
           </Col>
         </Row>
         <br />
@@ -111,12 +111,12 @@ class CitizenSurveyLocation extends React.Component {
 
   componentDidMount () {
     console.log('im the survey location did mount')
-    mapClickHandlerSwitcher(this.props.map, 'surveyLocation', {updateValues: this.updateValues})
+    mapClickHandlerSwitcher(this.props.map, 'surveyLocation', {saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
     console.log('im the survey location will receive props')
     if (np.activeInput === 'Survey' && np.inputOpened) {
-      mapClickHandlerSwitcher(np.map, 'surveyLocation', {updateValues: this.updateValues})
+      mapClickHandlerSwitcher(np.map, 'surveyLocation', {saveValues: this.props.saveValues})
     } else if (!np.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')
       mapClickHandlerSwitcher(np.map, 'featureSelection', {audits: this.props.audits})

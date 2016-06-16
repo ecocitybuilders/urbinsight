@@ -27,10 +27,7 @@ class UMISParcelLocation extends React.Component {
     this.props.formReset()
   }
   nextStep (e) {
-    let data = {
-      geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
-    }
-    this.props.saveValues(data)
+    this.onChange()
     this.props.nextStep()
   }
   // This is here to satisfy the warning
@@ -55,12 +52,14 @@ class UMISParcelLocation extends React.Component {
         </Well>
         <br />
         <Row>
-          {/*<FormGroup
-            controlId='umis-data-location'>
+          {/*<FormGroup controlId='lat'>
             <ControlLabel>Latitude</ControlLabel>
             <FormControl
-              ref='lat' type='text' placeholder='Enter Latitude'
+              ref='lat'
+              type='number'
               value={audit && audit.geoCoordinates ? audit.geoCoordinates[1] : ''}
+              step='.00001'
+              placeholder='Enter Latitude'
               onChange={this.onChange}
               />
           </FormGroup>*/}
@@ -73,6 +72,17 @@ class UMISParcelLocation extends React.Component {
               />
           </Col>
           <Col md={6}>
+            {/*<FormGroup controlId='lon'>
+              <ControlLabel>Longitude</ControlLabel>
+              <FormControl
+                ref='lon'
+                type='number'
+                value={audit && audit.geoCoordinates ? audit.geoCoordinates[0] : ''}
+                step='.00001'
+                placeholder='Enter Longitude'
+                onChange={this.onChange}
+                />
+            </FormGroup>*/}
             <Input type='text' ref='lon'
               label='Longitude'
               placeholder='Enter Longitude'

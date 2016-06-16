@@ -1,52 +1,56 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { surveySave } from 'redux/modules/survey'
+import { surveySave, saveSurveyForm, resetSurveyForm } from 'redux/modules/survey'
 import CitizenSurveyIntro from './SurveyPanes/citizenSurveyIntro'
 import CitizenSurveyLocation from './SurveyPanes/citizenSurveyLocation'
 import CitizenSurveyForm from './SurveyPanes/citizenSurveyForm'
 import CitizenSurveySuccess from './SurveyPanes/citizenSurveySuccess'
 
-let fieldValues = {
-  geoCoordinates: [null, null],
-  employment: null,
-  healthcare: null,
-  family: null,
-  stability: null,
-  relationships: null,
-  recreation: null,
-  education: null,
-  vacation: null,
-  housing: null,
-  environment: null,
-  discrimination: null,
-  religion: null,
-  mobility: null,
-  movement: null,
-  safety: null,
-  governance: null
-}
+// let fieldValues = {
+//   geoCoordinates: [null, null],
+//   employment: null,
+//   healthcare: null,
+//   family: null,
+//   stability: null,
+//   relationships: null,
+//   recreation: null,
+//   education: null,
+//   vacation: null,
+//   housing: null,
+//   environment: null,
+//   discrimination: null,
+//   religion: null,
+//   mobility: null,
+//   movement: null,
+//   safety: null,
+//   governance: null
+// }
 
 type Props = {
   dispatch: PropTypes.func.isRequired,
-  submitSurvey: PropTypes.func,
+  surveySubmit: PropTypes.func,
   map: PropTypes.object,
   isFetching: PropTypes.bool,
+  survey_form: PropTypes.object,
+  // NEED TO CHANGE
   audits: PropTypes.audits,
   inputOpened: PropTypes.bool,
-  activeInput: PropTypes.string
+  activeInput: PropTypes.string,
+  surveyFormSave: PropTypes.func,
+  surveyFormReset: PropTypes.func
 }
+
 class CitizenSurvey extends React.Component {
   props: Props;
   constructor () {
     super()
     this.state = {
-      active: 1,
-      geoCoordinates: [undefined, undefined]
+      active: 1
     }
     this.nextStep = this.nextStep.bind(this)
     this.previousStep = this.previousStep.bind(this)
+    this.saveValues = this.saveValues.bind(this)
     this.formReset = this.formReset.bind(this)
-    this.updateValues = this.updateValues.bind(this)
   }
 
   nextStep () {
@@ -61,45 +65,37 @@ class CitizenSurvey extends React.Component {
     })
   }
   formReset () {
-    let fields = {
-      geoCoordinates: [undefined, undefined],
-      employment: null,
-      healthcare: null,
-      family: null,
-      stability: null,
-      relationships: null,
-      recreation: null,
-      education: null,
-      vacation: null,
-      housing: null,
-      environment: null,
-      discrimination: null,
-      religion: null,
-      mobility: null,
-      movement: null,
-      safety: null,
-      governance: null
-    }
-    fieldValues = Object.assign({}, fieldValues, fields)
+    // let fields = {
+    //   geoCoordinates: [undefined, undefined],
+    //   employment: null,
+    //   healthcare: null,
+    //   family: null,
+    //   stability: null,
+    //   relationships: null,
+    //   recreation: null,
+    //   education: null,
+    //   vacation: null,
+    //   housing: null,
+    //   environment: null,
+    //   discrimination: null,
+    //   religion: null,
+    //   mobility: null,
+    //   movement: null,
+    //   safety: null,
+    //   governance: null
+    // }
+    this.props.surveyFormReset()
     this.setState({
-      active: 1,
-      geoCoordinates: [undefined, undefined]
+      active: 1
     })
   }
   // this is confusing and should be streamlined
   saveValues (fields) {
-    return (function () {
-      fieldValues = Object.assign({}, fieldValues, fields)
-    })()
+    this.props.surveyFormSave(fields)
   }
-  updateValues (lat, lon) {
-    this.setState({geoCoordinates: [lon, lat]})
-  }
-  getValues () {
-    return fieldValues
-  }
+
   render () {
-    const { submitSurvey, map, isFetching } = this.props
+    const { surveySubmit, map, isFetching, survey_form } = this.props
     switch (this.state.active) {
       case 1:
         return <CitizenSurveyIntro nextStep={this.nextStep}/>
@@ -108,12 +104,10 @@ class CitizenSurvey extends React.Component {
           previousStep={this.previousStep}
           nextStep={this.nextStep}
           map={map}
-          lat={this.state.geoCoordinates[1]}
-          lon={this.state.geoCoordinates[0]}
           saveValues={this.saveValues}
-          updateValues={this.updateValues}
           formReset={this.formReset}
           inputOpened={this.props.inputOpened}
+          survey={survey_form}
           audits={this.props.audits}
           activeInput={this.props.activeInput}
           />
@@ -122,10 +116,8 @@ class CitizenSurvey extends React.Component {
         return <CitizenSurveyForm
           previousStep={this.previousStep}
           nextStep={this.nextStep}
-          fieldValues={fieldValues}
-          getValues={this.getValues}
-          saveValues={this.saveValues}
-          submitSurvey={submitSurvey}
+          survey={survey_form}
+          surveySubmit={surveySubmit}
 
           />
       case 4:
@@ -140,16 +132,23 @@ class CitizenSurvey extends React.Component {
 
 const mapStateToProps = (state) => {
   const { survey } = state
-  const { surveyResponses, isFetching } = survey
+  const { surveyResponses, isFetching, survey_form } = survey
   return {
     surveyResponses,
-    isFetching
+    isFetching,
+    survey_form
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSurvey: (responses) => {
+    surveySubmit: (responses) => {
       dispatch(surveySave(responses))
+    },
+    surveyFormSave: (repsonses) => {
+      dispatch(saveSurveyForm(repsonses))
+    },
+    surveyFormReset: () => {
+      dispatch(resetSurveyForm())
     }
   }
 }

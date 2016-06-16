@@ -233,18 +233,16 @@ export default function survey (state = {
         audits: action.audits.audits
       })
     case AUDIT_FORM_SAVE:
-      // console.log(normalize(action.responses, audit))
       state.audit_form
         ? cumlatativeAudit = Object.assign({}, state.audit_form, action.responses)
         : cumlatativeAudit = action.responses
-      // console.log(cumlatativeAudit)
       return Object.assign({}, state, {
         inProgress: true,
         audit_form: cumlatativeAudit
       })
     case AUDIT_FORM_RESET:
       return Object.assign({}, state, {
-        audit: {},
+        audit_form: {},
         feature: {}
       })
     case AUDIT_WORKBOOK_SAVE:
