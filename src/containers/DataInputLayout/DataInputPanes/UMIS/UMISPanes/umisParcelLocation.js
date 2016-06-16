@@ -100,12 +100,14 @@ class UMISParcelLocation extends React.Component {
   }
 
   componentDidMount () {
+    console.log('im umis parcel location did mount')
     mapClickHandlerSwitcher(this.props.map, 'umisLocation',
       {cityTag: this.props.cityTag,
        persistFeatureGeoJSON: this.props.persistFeatureGeoJSON,
        saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
+    console.log('im umis parcel location did mount props')
     if (np.activeInput === 'UMIS' && np.inputOpened) {
       mapClickHandlerSwitcher(np.map, 'umisLocation',
         {cityTag: np.cityTag,

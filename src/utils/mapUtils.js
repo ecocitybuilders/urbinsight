@@ -217,51 +217,48 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
       }
     }]
   }
-  map.on('click', (e) => {
-    if (keyword === 'featureSelection') {
+  if (keyword === 'featureSelection') {
+    map.on('click', (e) => {
       // Query rendered features using layers of auditPoints and Polygons
       let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
       // If there are no features return
       if (!features.length) return
       // Get the first feature
       let feature = features[0]
-      // This is an uncessary if
-      if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
+      let popup = new mapboxgl.Popup()
+        .setLngLat(map.unproject(e.point))
+      if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
+      // this should be sent through redux most likely
+      // Array of Audits currently in the state
+      // This is not scalable it is searching for the audit that matches the feature
+      // Why is this necessary
+        options.audits.forEach(function (audit) {
+          if (audit._id === feature.properties.id) feature = audit; return
+        })
+        let div = document.createElement('div')
+        // Create an Document Element, then will use render to attach the React Node to it.
+        popup.setDOMContent(div)
+        render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
+          popup.addTo(map)
+        })
       } else {
-        let popup = new mapboxgl.Popup()
-          .setLngLat(map.unproject(e.point))
-        if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
-          // this should be sent through redux most likely
-          // Array of Audits currently in the state
-          // This is not scalable it is searching for the audit that matches the feature
-          // Why is this necessary
-          options.audits.forEach(function (audit) {
-            if (audit._id === feature.properties.id) feature = audit; return
-          })
-          let div = document.createElement('div')
-          // Create an Document Element, then will use render to attach the React Node to it.
-          popup.setDOMContent(div)
-          render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
+        let div = document.createElement('div')
+        popup.setDOMContent(div)
+        render(<SurveyPopUp survey={feature.properties}
+          surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
             popup.addTo(map)
-          })
-        } else {
-          let div = document.createElement('div')
-          popup.setDOMContent(div)
-          render(<SurveyPopUp survey={feature.properties}
-            surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
-              popup.addTo(map)
-            }
-          )
-        }
+          }
+        )
       }
-    } else if (keyword === 'umisLocation') {
+    })
+  } else if (keyword === 'umisLocation') {
+    map.on('click', (e) => {
+      console.log('i got clicked')
       let cityTag = options.cityTag
-      // Check if a feature exists in the parcel map
       let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
-      // If Yes
       if (feature.length > 0) {
         // Set the point source to be empty if its not undefined
-        if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
+        map.getSource('point').setData(geojson)
         // Set the filter to be Selected
         map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
         // Get selected feature geojson
@@ -289,7 +286,9 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         }
       }
       options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
-    } else if (keyword === 'surveyLocation') {
+    })
+  } else if (keyword === 'surveyLocation') {
+    map.on('click', (e) => {
       geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
       if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
       if (typeof map.getLayer('point') === 'undefined') {
@@ -304,8 +303,8 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         })
       }
       options.updateValues(e.lngLat.lat, e.lngLat.lng)
-    }
-  })
+    })
+  }
 }
 
 export function mapboxStyleGenerator (sldObj, layerName) {

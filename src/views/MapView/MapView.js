@@ -115,18 +115,18 @@ class MapView extends React.Component {
       }
       document.getElementById('features').innerHTML = htmlString
     })
-    map.on('render', (e) => {
-      this.setState({
-        viewport: {
-          latitude: this.state.map.getCenter().lat,
-          longitude: this.state.map.getCenter().lng,
-          zoom: this.state.map.getZoom(),
-          width: this.state.map.transform.width,
-          height: this.state.map.transform.height,
-          isDragging: false
-        }
-      })
-    })
+    // map.on('render', (e) => {
+    //   this.setState({
+    //     viewport: {
+    //       latitude: this.state.map.getCenter().lat,
+    //       longitude: this.state.map.getCenter().lng,
+    //       zoom: this.state.map.getZoom(),
+    //       width: this.state.map.transform.width,
+    //       height: this.state.map.transform.height,
+    //       isDragging: false
+    //     }
+    //   })
+    // })
     this.setState({
       map: map,
       viewport: {
