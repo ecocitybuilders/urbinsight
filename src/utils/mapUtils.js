@@ -205,9 +205,10 @@ export function boundsArrayGenerator (bounds) {
 // switch is the one you are going to
 // if keyword is featureSelection then options object needs to contain audits
 // otherwise it will need to be cityTag, persistFeatureGeoJSON, saveValues
+let geojson
 export function mapClickHandlerSwitcher (map, keyword, options) {
   map.off('click')
-  let geojson = {
+  geojson = {
     'type': 'FeatureCollection',
     'features': [{
       'type': 'Feature',
@@ -218,79 +219,69 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
     }]
   }
   if (keyword === 'featureSelection') {
-    map.on('click', (e) => {
-      // Query rendered features using layers of auditPoints and Polygons
-      let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
-      // If there are no features return
-      if (!features.length) return
-      // Get the first feature
-      let feature = features[0]
-      let popup = new mapboxgl.Popup()
-        .setLngLat(map.unproject(e.point))
-      if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
-      // this should be sent through redux most likely
-      // Array of Audits currently in the state
-      // This is not scalable it is searching for the audit that matches the feature
-      // Why is this necessary
-        options.audits.forEach(function (audit) {
-          if (audit._id === feature.properties.id) feature = audit; return
-        })
-        let div = document.createElement('div')
-        // Create an Document Element, then will use render to attach the React Node to it.
-        popup.setDOMContent(div)
-        render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
-          popup.addTo(map)
-        })
-      } else {
-        let div = document.createElement('div')
-        popup.setDOMContent(div)
-        render(<SurveyPopUp survey={feature.properties}
-          surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
-            popup.addTo(map)
-          }
-        )
-      }
-    })
+    featureClick(map, options)
   } else if (keyword === 'umisLocation') {
-    map.on('click', (e) => {
-      console.log('i got clicked')
-      let cityTag = options.cityTag
-      let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
-      if (feature.length > 0) {
-        // Set the point source to be empty if its not undefined
-        map.getSource('point').setData(geojson)
-        // Set the filter to be Selected
-        map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
-        // Get selected feature geojson
-        let featureGeoJSON = feature[0].toJSON()
-        // I should probably only persist the feature on save instead of here
-        // Save Feature
-        options.persistFeatureGeoJSON(featureGeoJSON)
-      } else {
-        // Blank out filter
-        map.setFilter('lots-hover', ['==', cityTag, ''])
-        // set default geoJSON feature coordinates
-        geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-        // If the the point layer doesn't already exist add it
-        map.getSource('point').setData(geojson)
-        if (typeof map.getLayer('point') === 'undefined') {
-          map.addLayer({
-            'id': 'point',
-            'type': 'circle',
-            'source': 'point',
-            'paint': {
-              'circle-radius': 5,
-              'circle-color': '#29b381'
-            }
-          })
-        }
-      }
-      options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
-    })
+    umisClick(map, options)
   } else if (keyword === 'surveyLocation') {
-    map.on('click', (e) => {
+    surveyClick(map, options)
+  }
+}
+const featureClick = (map, options) => {
+  map.on('click', (e) => {
+    // Query rendered features using layers of auditPoints and Polygons
+    let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
+    // If there are no features return
+    if (!features.length) return
+    // Get the first feature
+    let feature = features[0]
+    let popup = new mapboxgl.Popup()
+      .setLngLat(map.unproject(e.point))
+    if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
+    // this should be sent through redux most likely
+    // Array of Audits currently in the state
+    // This is not scalable it is searching for the audit that matches the feature
+    // Why is this necessary
+      options.audits.forEach(function (audit) {
+        if (audit._id === feature.properties.id) feature = audit; return
+      })
+      let div = document.createElement('div')
+      // Create an Document Element, then will use render to attach the React Node to it.
+      popup.setDOMContent(div)
+      render(<UMISPopUp totalDemand={feature.properties.totalDemand}/>, div, () => {
+        popup.addTo(map)
+      })
+    } else {
+      let div = document.createElement('div')
+      popup.setDOMContent(div)
+      render(<SurveyPopUp survey={feature.properties}
+        surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
+          popup.addTo(map)
+        }
+      )
+    }
+  })
+}
+const umisClick = (map, options) => {
+  map.on('click', (e) => {
+    let cityTag = options.cityTag
+    let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
+    if (feature.length > 0) {
+      // Set the point source to be empty if its not undefined
+      map.getSource('point').setData(geojson)
+      // Set the filter to be Selected
+      map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
+      // Get selected feature geojson
+      let featureGeoJSON = feature[0].toJSON()
+      // I should probably only persist the feature on save instead of here
+      // Save Feature
+      options.persistFeatureGeoJSON(featureGeoJSON)
+    } else {
+      // Blank out filter
+      map.setFilter('lots-hover', ['==', cityTag, ''])
+      // set default geoJSON feature coordinates
       geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-      if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
+      // If the the point layer doesn't already exist add it
+      map.getSource('point').setData(geojson)
       if (typeof map.getLayer('point') === 'undefined') {
         map.addLayer({
           'id': 'point',
@@ -302,9 +293,27 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
           }
         })
       }
-      options.updateValues(e.lngLat.lat, e.lngLat.lng)
-    })
-  }
+    }
+    options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
+  })
+}
+const surveyClick = (map, options) => {
+  map.on('click', (e) => {
+    geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
+    if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
+    if (typeof map.getLayer('point') === 'undefined') {
+      map.addLayer({
+        'id': 'point',
+        'type': 'circle',
+        'source': 'point',
+        'paint': {
+          'circle-radius': 5,
+          'circle-color': '#29b381'
+        }
+      })
+    }
+    options.updateValues(e.lngLat.lat, e.lngLat.lng)
+  })
 }
 
 export function mapboxStyleGenerator (sldObj, layerName) {
