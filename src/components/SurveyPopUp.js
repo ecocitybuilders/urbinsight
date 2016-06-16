@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { ButtonToolbar, Button } from 'react-bootstrap'
-import { connect } from 'react-redux'
 
 type Props = {
   survey: PropTypes.object,
@@ -22,6 +21,9 @@ class SurveyPopUp extends React.Component {
     this.setState({
       'editing': !this.state.editing
     })
+  }
+  handleUpdate (survey) {
+    this.props.surveyUpdate(survey)
   }
   handleDeleteClick () {
     this.props.surveyDelete(this.props.survey._id)
@@ -60,24 +62,4 @@ class SurveyPopUp extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    state
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    surveyDelete: (id) => {
-      dispatch(null)
-    },
-    surveyUpdate: (survey) => {
-      dispatch(null)
-    }
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SurveyPopUp)
+export default SurveyPopUp

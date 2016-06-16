@@ -163,7 +163,7 @@ export function surveyGeoJSONCompiler (resource, map) {
       geojson.features.push(obj)
     })
     // console.log(map)
-    map.getSource('surveys').setData(geojson)
+    if (typeof map.getSource('surveys') !== 'undefined') map.getSource('surveys').setData(geojson)
   }
 }
 // Create a point and polygon based geojson
@@ -191,8 +191,8 @@ export function auditGeoJSONCompiler (resource, map) {
         polygonGeojson.features.push(audit)
       }
     })
-    map.getSource('auditPolygons').setData(polygonGeojson)
-    map.getSource('auditPoints').setData(pointGeojson)
+    if (typeof map.getSource('auditPolygons') !== 'undefined') map.getSource('auditPolygons').setData(polygonGeojson)
+    if (typeof map.getSource('auditPoints') !== 'undefined') map.getSource('auditPoints').setData(pointGeojson)
   }
 }
 export function boundsArrayGenerator (bounds) {
@@ -219,9 +219,13 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
   }
   map.on('click', (e) => {
     if (keyword === 'featureSelection') {
+      // Query rendered features using layers of auditPoints and Polygons
       let features = map.queryRenderedFeatures(e.point, {layers: ['auditPoints', 'auditPolygons', 'surveys']})
+      // If there are no features return
       if (!features.length) return
+      // Get the first feature
       let feature = features[0]
+      // This is an uncessary if
       if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
       } else {
         let popup = new mapboxgl.Popup()
@@ -229,6 +233,8 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         if (feature.layer.id === 'auditPoints' || feature.layer.id === 'auditPolygons') {
           // this should be sent through redux most likely
           // Array of Audits currently in the state
+          // This is not scalable it is searching for the audit that matches the feature
+          // Why is this necessary
           options.audits.forEach(function (audit) {
             if (audit._id === feature.properties.id) feature = audit; return
           })
@@ -241,7 +247,8 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         } else {
           let div = document.createElement('div')
           popup.setDOMContent(div)
-          render(<SurveyPopUp survey={feature.properties}/>, div, () => {
+          render(<SurveyPopUp survey={feature.properties}
+            surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
             popup.addTo(map)
           })
         }
@@ -253,9 +260,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
       // If Yes
       if (feature.length > 0) {
         // Set the point source to be empty if its not undefined
-        if (typeof map.getSource('point') !== 'undefined') {
-          map.getSource('point').setData(geojson)
-        }
+        if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
         // Set the filter to be Selected
         map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
         // Get selected feature geojson
@@ -269,7 +274,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
         // set default geoJSON feature coordinates
         geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
         // If the the point layer doesn't already exist add it
-        map.getSource('point').setData(geojson)
+        if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
         if (typeof map.getLayer('point') === 'undefined') {
           map.addLayer({
             'id': 'point',
@@ -285,7 +290,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
       options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
     } else if (keyword === 'surveyLocation') {
       geojson.features[0].geometry.coordinates = [e.lngLat.lng, e.lngLat.lat]
-      map.getSource('point').setData(geojson)
+      if (typeof map.getSource('point') !== 'undefined') map.getSource('point').setData(geojson)
       if (typeof map.getLayer('point') === 'undefined') {
         map.addLayer({
           'id': 'point',

@@ -56,8 +56,8 @@ class MapView extends React.Component {
       <div id='mapContainer'>
 
         <div id='map'>
-        {/* Possibly need to move these outside of the map constainer*/}
-          {/*<Overlay {...viewport}/>*/}
+        {/*  Possibly need to move these outside of the map constainer*/}
+          {/* <Overlay {...viewport}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys} />}
@@ -167,7 +167,11 @@ class MapView extends React.Component {
       document.getElementById('features').innerHTML = htmlString
     })
     // This is the changing the mouse interaction to be able to see the properties
-    if (np.audits) mapClickHandlerSwitcher(ns.map, 'featureSelection', {audits: np.audits})
+    if (np.audits) {
+      mapClickHandlerSwitcher(ns.map, 'featureSelection',
+        {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
+      )
+    }
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }
@@ -200,6 +204,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     auditsFetch: (bounds) => {
       dispatch(requestAudits(bounds))
+    },
+    surveyDelete: (id) => {
+      dispatch(null)
+    },
+    surveyUpdate: (survey) => {
+      dispatch(null)
     }
   }
 }
