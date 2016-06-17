@@ -207,6 +207,7 @@ export function boundsArrayGenerator (bounds) {
 // otherwise it will need to be cityTag, persistFeatureGeoJSON, saveValues
 let geojson
 export function mapClickHandlerSwitcher (map, keyword, options) {
+  console.log('im being called')
   map.off('mousemove')
   map.off('click')
   geojson = {
@@ -238,19 +239,26 @@ const featureClick = (map, options) => {
       //     [e.point.x + width / 2, e.point.x - width / 2]],
       //     { layers: options.layers })
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
+    // If the feature exists begin the block
     if (features.length) {
       htmlString = ''
-      features.forEach((feature) => {
-        if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
-          htmlString += `<table id="features-table"><tr className='feature-row'>
-            <td class='row-heading' colspan='2'>${feature.layer.id}</td>
-          </tr>`
-          _.forEach(feature.properties, (value, key) => {
-            htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
-          })
-          htmlString += '</table></br></br>'
-        }
-      })
+      // If there is only one feature and that feature belongs to the listed layers than return no feature selected
+      if (features.length === 1 && ['auditPoints', 'auditPolygons', 'surveys'].indexOf(features[0].layer.id) > 0) {
+        htmlString = '<div style="text-align: center;">No Feature Selected</div>'
+      } else {
+        // for each feature as long as it is not in the layers mentioned construct a table of the properties
+        features.forEach((feature) => {
+          if (['auditPoints', 'auditPolygons', 'surveys'].indexOf(feature.layer.id) < 0) {
+            htmlString += `<table id="features-table"><tr className='feature-row'>
+              <td class='row-heading' colspan='2'>${feature.layer.id}</td>
+            </tr>`
+            _.forEach(feature.properties, (value, key) => {
+              htmlString += '<tr className="feature-row"><td>' + key + '</td><td>' + value + '</td></tr>'
+            })
+            htmlString += '</table></br></br>'
+          }
+        })
+      }
     } else {
       htmlString = '<div style="text-align: center;">No Feature Selected</div>'
     }

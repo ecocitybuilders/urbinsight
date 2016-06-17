@@ -119,7 +119,7 @@ class CitizenSurveyLocation extends React.Component {
     this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    if (np.activeInput === 'Survey' && np.inputOpened === true && np.inputOpened !== this.props.inputOpened) {
+    if (np.activeInput === 'Survey' && np.inputOpened && np.inputOpened !== this.props.inputOpened) {
       this.props.mapClickHandler('surveyLocation', {saveValues: this.props.saveValues})
     } else if (!np.inputOpened && np.inputOpened !== this.props.inputOpened) {
       if (typeof np.map.getLayer('point') !== 'undefined') np.map.removeLayer('point')

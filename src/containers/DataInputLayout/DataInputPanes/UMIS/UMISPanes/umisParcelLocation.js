@@ -122,8 +122,7 @@ class UMISParcelLocation extends React.Component {
        saveValues: this.props.saveValues})
   }
   componentWillReceiveProps (np) {
-    // console.log(np, this.props)
-    if (np.activeInput === 'UMIS' && np.inputOpened === true && np.inputOpened !== this.props.inputOpened) {
+    if (np.activeInput === 'UMIS' && np.inputOpened && np.inputOpened !== this.props.inputOpened) {
       this.props.mapClickHandler('umisLocation',
         {cityTag: np.cityTag,
          persistFeatureGeoJSON: np.persistFeatureGeoJSON,

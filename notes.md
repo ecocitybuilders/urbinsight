@@ -1,0 +1,1 @@
+Need to change the map selection implementation. As it stands now it is being called any time the relevant components are updated which can end up being hundreds of times. Need to refactor so it is more efficient

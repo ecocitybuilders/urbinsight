@@ -38,15 +38,7 @@ class MapView extends React.Component {
       },
       // This is unmaintainable need to standardize city names
       city: window.location.pathname.slice(1) === 'abudhabi' ? 'abu_dhabi' : window.location.pathname.slice(1),
-      layerList: [],
-      viewport: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isDragging: false
-      }
+      layerList: []
     }
     this.mapClickHandler = this.mapClickHandler.bind(this)
   }
@@ -61,8 +53,9 @@ class MapView extends React.Component {
           {/* <Overlay map={this.state.map}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
-          {isAuthenticated && <DataDashboardLayout audits={audits} surveys={surveys}/>}
-          {isAuthenticated && <DataInputLayout map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
+          {isAuthenticated && <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}/>}
+          {isAuthenticated && <DataInputLayout ref='dataInput'
+            map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
         </div>
         <FeatureList />
       </div>
@@ -90,24 +83,17 @@ class MapView extends React.Component {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     })
-    this.mapClickHandler('featureSelection',
-      {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
-    )
-
     this.setState({
-      map: map,
-      viewport: {
-        latitude: map.getCenter().lat,
-        longitude: map.getCenter().lng,
-        zoom: map.getZoom(),
-        width: map.transform.width,
-        height: map.transform.height,
-        isDragging: false
-      }
+      map: map
     })
   }
 
   componentWillUpdate (np, ns) {
+    if (!this.refs.dataInput.state.opened) {
+      this.mapClickHandler('featureSelection',
+        {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
+      )
+    }
     surveyGeoJSONCompiler(np.surveys, ns.map)
     auditGeoJSONCompiler(np.audits, ns.map)
   }
