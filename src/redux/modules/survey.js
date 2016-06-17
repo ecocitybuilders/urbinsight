@@ -180,7 +180,7 @@ export default function survey (state = {
       // })
       return Object.assign({}, state, {
         isFetching: false,
-        surveys: actions.surveys.surveys
+        surveys: action.surveys.surveys
       })
     case SURVEY_FORM_SAVE:
       state.survey_form

@@ -40,7 +40,7 @@ class SurveyPopUp extends React.Component {
     return (
       <div>
         <h3>Citizen Survey</h3>
-        {this.state.owned && controlButtons}
+        {/*{this.state.owned && controlButtons}*/}
         <h4><strong>Employment: </strong>{survey.employment}</h4>
         <h4><strong>Healthcare: </strong>{survey.healthcare}</h4>
         <h4><strong>Family: </strong>{survey.family}</h4>
