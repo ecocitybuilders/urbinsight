@@ -11,6 +11,8 @@ export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
 export const SURVEY_FORM_SAVE = 'SURVEY_FORM_SAVE'
 export const SURVEY_FORM_RESET = 'SURVEY_FORM_RESET'
 
+const surveyCacheLookup = {}
+const surveyCache = []
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -170,9 +172,15 @@ export default function survey (state = {
         bounds: action.bounds
       })
     case SURVEYS_RECEIVED:
+      action.surveys.forEach(function (survey) {
+        if (typeof surveyCacheLookup[survey._id] === 'undefined') {
+          surveyCacheLookup[survey._id] = true
+          surveyCache.push(survey)
+        }
+      })
       return Object.assign({}, state, {
         isFetching: false,
-        surveys: action.surveys
+        surveys: surveyCache
       })
     case SURVEY_FORM_SAVE:
       state.survey_form
