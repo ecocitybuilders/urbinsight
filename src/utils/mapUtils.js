@@ -207,7 +207,6 @@ export function boundsArrayGenerator (bounds) {
 // otherwise it will need to be cityTag, persistFeatureGeoJSON, saveValues
 let geojson
 export function mapClickHandlerSwitcher (map, keyword, options) {
-  console.log('im being called')
   map.off('mousemove')
   map.off('click')
   geojson = {
@@ -302,8 +301,7 @@ const umisClick = (map, options) => {
     let cityTag = options.cityTag
     let feature = map.queryRenderedFeatures(e.point, {layers: ['lots']})
     if (feature.length > 0) {
-      // Set the point source to be empty if its not undefined
-      map.getSource('point').setData(geojson)
+      if (map.getLayer('point')) map.removeLayer('point')
       // Set the filter to be Selected
       map.setFilter('lots-hover', ['==', cityTag, feature[0].properties[cityTag]])
       // Get selected feature geojson
@@ -349,7 +347,7 @@ const surveyClick = (map, options) => {
         }
       })
     }
-    options.saveValues({geoCoordinates: [e.lngLat.lat, e.lngLat.lng]})
+    options.saveValues({geoCoordinates: [e.lngLat.lng, e.lngLat.lat]})
   })
 }
 

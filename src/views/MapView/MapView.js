@@ -89,7 +89,7 @@ class MapView extends React.Component {
   }
 
   componentWillUpdate (np, ns) {
-    if (!this.refs.dataInput.state.opened) {
+    if (!this.refs.dataInput.state.opened && np.audits.length > this.props.audits.length) {
       this.mapClickHandler('featureSelection',
         {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
       )

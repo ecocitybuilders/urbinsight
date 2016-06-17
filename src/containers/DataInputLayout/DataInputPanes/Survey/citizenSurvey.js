@@ -118,6 +118,7 @@ class CitizenSurvey extends React.Component {
           nextStep={this.nextStep}
           survey={survey_form}
           surveySubmit={surveySubmit}
+          saveValues={this.saveValues}
 
           />
       case 4:

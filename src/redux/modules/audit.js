@@ -15,6 +15,9 @@ export const AUDIT_FORM_RESET = 'AUDIT_FORM_RESET'
 export const AUDIT_WORKBOOK_SAVE = 'AUDIT_WORKBOOK_SAVE'
 export const PERSIST_FEATURE = 'PERSIST_FEATURE'
 
+const auditCacheLookup = {}
+const auditCache = []
+
 // THIS IS ALL RELATED TO NORMALIZER WHICH MAKES IT EASIER TO DEAL WITH NESTED DATA STRUCTS
 // const audit = new Schema('audits')
 // audit.define({
@@ -209,7 +212,8 @@ export const actions = {
 //   return handler ? handler(state, action) : state
 // }
 export default function survey (state = {
-  isFetching: false
+  isFetching: false,
+  audits: []
 }, action) {
   let cumlatativeAudit
   switch (action.type) {
@@ -228,9 +232,15 @@ export default function survey (state = {
         bounds: action.bounds
       })
     case AUDITS_RECEIVED:
+      action.audits.audits.forEach(function (audit) {
+        if (typeof auditCacheLookup[audit._id] === 'undefined') {
+          auditCacheLookup[audit._id] = true
+          auditCache.push(audit)
+        }
+      })
       return Object.assign({}, state, {
         isFetching: false,
-        audits: action.audits.audits
+        audits: auditCache
       })
     case AUDIT_FORM_SAVE:
       state.audit_form

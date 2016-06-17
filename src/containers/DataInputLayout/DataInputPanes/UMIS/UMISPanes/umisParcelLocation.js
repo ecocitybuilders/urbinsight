@@ -33,7 +33,7 @@ class UMISParcelLocation extends React.Component {
   // This is here to satisfy the warning
   onChange (e) {
     let data = {
-      geoCoordinates: [this.refs.lon.getValue(), this.refs.lat.getValue()]
+      geoCoordinates: [parseFloat(this.refs.lon.getValue()), parseFloat(this.refs.lat.getValue())]
     }
     this.props.saveValues(data)
   }
