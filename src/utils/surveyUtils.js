@@ -3,11 +3,10 @@ import { capitalizeFirstLetter } from 'utils/generalUtils'
 import { Table } from 'react-bootstrap'
 import _ from 'lodash'
 
-export function generateSurveyTotals (surveysObj) {
-  let surveys = surveysObj.surveys
+export function generateSurveyTotals (surveysArr) {
   let responsesPerQuestion = {}
   var results = {}
-  surveys.forEach(function (survey) {
+  surveysArr.forEach(function (survey) {
     _.forEach(survey, function (response, question) {
       if (['__v', '_id', 'geoCoordinates', 'user'].indexOf(question) < 0) {
         let value

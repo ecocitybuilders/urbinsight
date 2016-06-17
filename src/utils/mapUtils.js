@@ -146,7 +146,7 @@ export function surveyGeoJSONCompiler (resource, map) {
     'features': []
   }
   if (resource) {
-    resource.surveys.forEach(function (survey) {
+    resource.forEach(function (survey) {
       let obj = {'type': 'Feature',
                  'geometry': {
                    'type': 'Point',

@@ -172,7 +172,7 @@ export default function survey (state = {
         bounds: action.bounds
       })
     case SURVEYS_RECEIVED:
-      action.surveys.forEach(function (survey) {
+      action.surveys.surveys.forEach(function (survey) {
         if (typeof surveyCacheLookup[survey._id] === 'undefined') {
           surveyCacheLookup[survey._id] = true
           surveyCache.push(survey)

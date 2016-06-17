@@ -68,7 +68,7 @@ class DashboardQualitative extends React.Component {
     const { surveys } = this.props
     let surveyList = []
     if (typeof surveys !== 'undefined') {
-      surveyList = surveys.surveys.map(function (survey, index) {
+      surveyList = surveys.map(function (survey, index) {
         return (
           <Panel header={'Survey #' + (index + 1)} eventKey={index} key={index}>
             {surveyTableGenerator(survey)}
