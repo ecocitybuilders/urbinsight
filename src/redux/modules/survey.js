@@ -172,15 +172,15 @@ export default function survey (state = {
         bounds: action.bounds
       })
     case SURVEYS_RECEIVED:
-      // action.surveys.surveys.forEach(function (survey) {
-      //   if (typeof surveyCacheLookup[survey._id] === 'undefined') {
-      //     surveyCacheLookup[survey._id] = true
-      //     surveyCache.push(survey)
-      //   }
-      // })
+      action.surveys.surveys.forEach(function (survey) {
+        if (typeof surveyCacheLookup[survey._id] === 'undefined') {
+          surveyCacheLookup[survey._id] = true
+          surveyCache.push(survey)
+        }
+      })
       return Object.assign({}, state, {
         isFetching: false,
-        surveys: action.surveys.surveys
+        surveys: surveyCache
       })
     case SURVEY_FORM_SAVE:
       state.survey_form

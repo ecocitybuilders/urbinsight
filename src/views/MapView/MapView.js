@@ -38,7 +38,15 @@ class MapView extends React.Component {
       },
       // This is unmaintainable need to standardize city names
       city: window.location.pathname.slice(1) === 'abudhabi' ? 'abu_dhabi' : window.location.pathname.slice(1),
-      layerList: []
+      layerList: [],
+      viewport: {
+        latitude: 0,
+        longitude: 0,
+        zoom: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        isDragging: false
+      }
     }
     this.mapClickHandler = this.mapClickHandler.bind(this)
   }
@@ -53,7 +61,8 @@ class MapView extends React.Component {
           {/* <Overlay map={this.state.map}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
-          <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys} map={this.state.map}/>
+          <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}
+            map={this.state.map} viewport={this.state.viewport}/>
           {isAuthenticated && <DataInputLayout ref='dataInput'
             map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
         </div>
@@ -82,6 +91,18 @@ class MapView extends React.Component {
     map.on('dragend', (e) => {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
+      let rawBounds = map.getBounds().toArray()
+      this.setState({
+        viewport: {
+          latitude: map.getCenter().lat,
+          longitude: map.getCenter().lng,
+          zoom: map.getZoom(),
+          width: map.transform.width,
+          height: map.transform.height,
+          isDragging: false,
+          extent: [rawBounds[0][0], rawBounds[0][1], rawBounds[1][0], rawBounds[1][1]]
+        }
+      })
     })
     this.setState({
       map: map

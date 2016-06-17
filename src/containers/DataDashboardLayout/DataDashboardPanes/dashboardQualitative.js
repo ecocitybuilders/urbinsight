@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import { Accordion, Panel } from 'react-bootstrap'
-import { generateSurveyTotals, surveyChart, questions, surveyTableGenerator } from 'utils/surveyUtils'
+import { surveyGeoJSONCompiler } from 'utils/mapUtils'
+import { generateSurveyTotals, generateSurveyTotalsFC, surveyChart, questions, surveyTableGenerator } from 'utils/surveyUtils'
+import turf from 'turf'
 
 let chartObj = surveyChart
 
@@ -48,31 +50,17 @@ class DashboardQualitative extends React.Component {
   }
 
   componentWillReceiveProps (np) {
-    // if (typeof np.surveys !== 'undefined' && np.surveys.length) {
-    //   let rawBounds = np.map.getBounds().toArray()
-    //   let boundsArr = [rawBounds[0][0], rawBounds[0][1], rawBounds[1][0], rawBounds[1][1]]
-    //   // console.log(boundsArrayGenerator(np.map.getBounds()))
-    //   // let boundsPolygon = turf.polygon(boundsArrayGenerator(np.map.getBounds()))
-    //   let boundsPolygon = turf.bboxPolygon(boundsArr)
-    //   let boundsFC = turf.featureCollection([boundsPolygon])
-    //   let surveysCollection = surveyGeoJSONCompiler(np.surveys)
-    //   // window.boundsFC = boundsFC
-    //   // window.boundsPolygon = boundsPolygon
-    //   // window.surveysCollection = surveysCollection
-    //   let surveysInView = turf.within(surveysCollection, boundsFC)
-    //   let newTotalData = generateSurveyTotalsFC(surveysInView)
-    //   console.log('im newTotalData', newTotalData)
-    //   this.setState({
-    //     totalData: newTotalData
-    //   })
-    // }
-    var newTotalData = []
-    if (typeof np.surveys !== 'undefined') {
-      newTotalData = generateSurveyTotals(np.surveys)
+    if (typeof np.surveys !== 'undefined' && np.viewport.extent) {
+      let cellWidth = 0.1
+      let units = 'miles'
+      let squareGrid = turf.squareGrid(np.viewport.extent, cellWidth, units)
+      let surveysCollection = surveyGeoJSONCompiler(np.surveys)
+      let surveysInView = turf.within(surveysCollection, squareGrid)
+      let totalData = generateSurveyTotalsFC(surveysInView)
+      this.setState({
+        totalData: totalData
+      })
     }
-    this.setState({
-      totalData: newTotalData
-    })
   }
 
   render () {

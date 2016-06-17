@@ -69,7 +69,7 @@ class DataDashboard extends React.Component {
             </Tabs>
           </Tab>
           <Tab eventKey={2} title='Qualitative'>
-            <DashboardQualitative surveys={this.props.surveys} map={this.props.map}/>
+            <DashboardQualitative surveys={this.props.surveys} map={this.props.map} viewport={this.props.viewport}/>
           </Tab>
           <Tab eventKey={3} title='Environmental' disabled>
             <Tabs bsStyle='pills' defaultActiveKey={1} className={dashboardTabsClass} justified
