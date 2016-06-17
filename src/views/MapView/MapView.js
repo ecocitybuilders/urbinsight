@@ -53,7 +53,7 @@ class MapView extends React.Component {
           {/* <Overlay map={this.state.map}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
-          {isAuthenticated && <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}/>}
+          <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}/>
           {isAuthenticated && <DataInputLayout ref='dataInput'
             map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
         </div>
