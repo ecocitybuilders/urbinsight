@@ -152,6 +152,7 @@
     "rimraf": "^2.5.1",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.13.0",
+    "turf": "^3.0.10",
     "url-loader": "^0.5.6",
     "viewport-mercator-project": "^2.1.0",
     "webpack": "^1.12.14",

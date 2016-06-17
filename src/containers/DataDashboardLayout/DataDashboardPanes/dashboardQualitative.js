@@ -48,6 +48,24 @@ class DashboardQualitative extends React.Component {
   }
 
   componentWillReceiveProps (np) {
+    // if (typeof np.surveys !== 'undefined' && np.surveys.length) {
+    //   let rawBounds = np.map.getBounds().toArray()
+    //   let boundsArr = [rawBounds[0][0], rawBounds[0][1], rawBounds[1][0], rawBounds[1][1]]
+    //   // console.log(boundsArrayGenerator(np.map.getBounds()))
+    //   // let boundsPolygon = turf.polygon(boundsArrayGenerator(np.map.getBounds()))
+    //   let boundsPolygon = turf.bboxPolygon(boundsArr)
+    //   let boundsFC = turf.featureCollection([boundsPolygon])
+    //   let surveysCollection = surveyGeoJSONCompiler(np.surveys)
+    //   // window.boundsFC = boundsFC
+    //   // window.boundsPolygon = boundsPolygon
+    //   // window.surveysCollection = surveysCollection
+    //   let surveysInView = turf.within(surveysCollection, boundsFC)
+    //   let newTotalData = generateSurveyTotalsFC(surveysInView)
+    //   console.log('im newTotalData', newTotalData)
+    //   this.setState({
+    //     totalData: newTotalData
+    //   })
+    // }
     var newTotalData = []
     if (typeof np.surveys !== 'undefined') {
       newTotalData = generateSurveyTotals(np.surveys)

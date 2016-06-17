@@ -53,7 +53,7 @@ class MapView extends React.Component {
           {/* <Overlay map={this.state.map}/>*/}
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
-          <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}/>
+          <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys} map={this.state.map}/>
           {isAuthenticated && <DataInputLayout ref='dataInput'
             map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
         </div>
@@ -94,7 +94,10 @@ class MapView extends React.Component {
         {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
       )
     }
-    surveyGeoJSONCompiler(np.surveys, ns.map)
+    typeof ns.map.getSource('surveys') !== 'undefined'
+      ? ns.map.getSource('surveys').setData(surveyGeoJSONCompiler(np.surveys))
+      : null
+
     auditGeoJSONCompiler(np.audits, ns.map)
   }
 

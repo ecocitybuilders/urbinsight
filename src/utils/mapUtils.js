@@ -162,9 +162,8 @@ export function surveyGeoJSONCompiler (resource, map) {
       })
       geojson.features.push(obj)
     })
-    // console.log(map)
-    if (typeof map.getSource('surveys') !== 'undefined') map.getSource('surveys').setData(geojson)
   }
+  return geojson
 }
 // Create a point and polygon based geojson
 // Iterate through the features returned.
