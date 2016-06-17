@@ -232,15 +232,15 @@ export default function survey (state = {
         bounds: action.bounds
       })
     case AUDITS_RECEIVED:
-      action.audits.audits.forEach(function (audit) {
-        if (typeof auditCacheLookup[audit._id] === 'undefined') {
-          auditCacheLookup[audit._id] = true
-          auditCache.push(audit)
-        }
-      })
+      // action.audits.audits.forEach(function (audit) {
+      //   if (typeof auditCacheLookup[audit._id] === 'undefined') {
+      //     auditCacheLookup[audit._id] = true
+      //     auditCache.push(audit)
+      //   }
+      // })
       return Object.assign({}, state, {
         isFetching: false,
-        audits: auditCache
+        audits: action.audits.audits
       })
     case AUDIT_FORM_SAVE:
       state.audit_form
