@@ -1,6 +1,9 @@
 import React from 'react'
 import { Col } from 'react-bootstrap'
 
+const exampleImg = `https://encrypted-tbn0.gstatic.com/images?q=tbn:
+  ANd9GcQffEVmrcmV5xaMFvZyYWgse8uUw1Y-HjGHItpiTyiSWX8cA68U6A`
+
 class DashboardProjects extends React.Component {
   render () {
     let projects = [
@@ -14,7 +17,7 @@ class DashboardProjects extends React.Component {
         name: 'Project 2',
         description: 'This is another example project',
         dateStarted: '08/04/2016',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQffEVmrcmV5xaMFvZyYWgse8uUw1Y-HjGHItpiTyiSWX8cA68U6A'
+        image: exampleImg
       },
       {
         name: 'Project 3',

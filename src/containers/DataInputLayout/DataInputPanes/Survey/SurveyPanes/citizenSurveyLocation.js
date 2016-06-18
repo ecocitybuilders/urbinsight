@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
-import { Input, Button, Col, Row, Well, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { Input, Button, Col, Row, Well } from 'react-bootstrap'
+// FormGroup, ControlLabel, FormControl
 
 type Props = {
   saveValues: PropTypes.func,

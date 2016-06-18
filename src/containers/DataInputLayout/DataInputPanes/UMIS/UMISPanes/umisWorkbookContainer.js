@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react'
 import UMISWorkbookSelection from './umisWorkbookSelection'
 import UMISWaterWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/water/waterWorkbook'
-import UMISMaterialsWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
+import UMISMaterialsWorkbook from
+  'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
 import UMISSubmit from './UmisSubmit'
 
 type Props = {

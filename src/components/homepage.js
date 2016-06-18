@@ -5,6 +5,8 @@ import Slide2 from 'static/images/slide2.png'
 import Slide3 from 'static/images/slide3.png'
 import imbabareport2 from 'static/images/imbaba-report2.png'
 
+const $ = window.$
+
 class Homepage extends React.Component {
   componentDidMount () {
     $('.homepage-intro-text').typed({

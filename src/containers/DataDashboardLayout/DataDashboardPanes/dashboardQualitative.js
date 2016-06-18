@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import { Accordion, Panel } from 'react-bootstrap'
 import { surveyGeoJSONCompiler } from 'utils/mapUtils'
-import { generateSurveyTotals, generateSurveyTotalsFC, surveyChart, questions, surveyTableGenerator } from 'utils/surveyUtils'
+import { generateSurveyTotalsFC, surveyChart, questions, surveyTableGenerator } from 'utils/surveyUtils'
 import turf from 'turf'
 
 let chartObj = surveyChart
