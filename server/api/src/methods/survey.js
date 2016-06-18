@@ -67,6 +67,44 @@ exports.getSurveys = function * () {
   this.status = 200
   this.body = { surveys: surveys }
 }
+
+exports.deleteSurvey = function * () {
+  var Survey = require('mongoose').model('Survey')
+  Survey.remove({ id: this.params.id }, function (err) {
+    if (err) return console.error(err)
+  })
+}
+
+exports.updateSurvey = function * () {
+  var Survey = require('mongoose').model('Survey')
+  yield Survey.findByIdAndUpdate(this.params.id,
+    { $set: { geoCoordinates: [
+      parseFloat(this.request.body.geoCoordinates[0]),
+      parseFloat(this.request.body.geoCoordinates[1])
+    ],
+          employment: this.request.body.employment,
+          healthcare: this.request.body.healthcare,
+          family: this.request.body.family,
+          stability: this.request.body.stability,
+          relationships: this.request.body.relationships,
+          recreation: this.request.body.recreation,
+          education: this.request.body.education,
+          vacation: this.request.body.vacation,
+          housing: this.request.body.housing,
+          environment: this.request.body.environment,
+          discrimination: this.request.body.discrimination,
+          religion: this.request.body.religion,
+          mobility: this.request.body.mobility,
+          movement: this.request.body.movement,
+          safety: this.request.body.safety,
+          governance: this.request.body.governance
+
+     } }, function (err, survey) {
+       if (err) return console.error(err)
+       this.status = 200
+       this.body = { survey: survey }
+     })
+}
 // This might be more scalable to parseInt here
 // var survey = new Survey({
 //   user: this.request.body.user,

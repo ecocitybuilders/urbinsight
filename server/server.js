@@ -72,10 +72,12 @@ router
   // })
   .get('/api/surveys', survey.getSurveys)
   .get('/api/audits', audit.getAudits)
+  .del('/api/survey/:id', survey.deleteSurvey)
   .post('/api/sessions/create', auth.signIn)
   .post('/api/user/create', auth.createUser)
   .post('/api/survey/create', survey.saveSurvey)
   .post('/api/audit/create', audit.saveAudit)
+  .patch('/api/survey/:id', survey.updateSurvey)
 
 app.use(router.routes())
 app.use(router.allowedMethods())
