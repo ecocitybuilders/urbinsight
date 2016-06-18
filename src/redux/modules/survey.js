@@ -145,7 +145,7 @@ export function deleteSurvey (id) {
   }
 }
 
-export function updateSurvey (id, responses) {
+export function updateSurvey (responses) {
   let config = {
     method: 'PATCH',
     headers: {
@@ -154,8 +154,8 @@ export function updateSurvey (id, responses) {
     body: JSON.stringify(responses)
   }
   return (dispatch) => {
-    dispatch(surveyUpdateRequest(id, responses))
-    return fetch('http://' + server_endpoint + ':8000/api/survey/' + id, config)
+    dispatch(surveyUpdateRequest(responses))
+    return fetch('http://' + server_endpoint + ':8000/api/survey/' + responses._id, config)
       .then((response) => response.json()).then((survey) => dispatch(surveyUpdateReceived(survey)))
   }
 }
@@ -241,9 +241,9 @@ export default function survey (state = {
     case SURVEY_DELETED:
       return state
     case SURVEY_UPDATE_REQUEST:
-      surveyCacheLookup[action.id] = undefined
+      surveyCacheLookup[action.responses._id] = undefined
       _.remove(surveyCache, function (survey) {
-        return survey._id === action.id
+        return survey._id === action.responses._id
       })
       return Object.assign({}, state, {
         surveys: surveyCache

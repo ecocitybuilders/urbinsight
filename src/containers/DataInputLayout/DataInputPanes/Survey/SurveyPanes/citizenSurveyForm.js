@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Button, Input, Row, Col } from 'react-bootstrap'
+import { questionIDs } from 'utils/surveyUtils'
 
 type Props = {
   surveySubmit: PropTypes.func.isRequired,
@@ -18,11 +19,7 @@ class CitizenSurveyForm extends React.Component {
   }
 
   getResponses () {
-    let questions = ['employment', 'healthcare', 'family', 'stability',
-                     'relationships', 'recreation', 'education', 'vacation',
-                     'housing', 'environment', 'discrimination', 'religion',
-                     'environment', 'discrimination', 'religion', 'mobility',
-                     'movement', 'safety', 'governance']
+    let questions = questionIDs
     let questionValues = {}
     questions.forEach(function (question) {
       questionValues[question] = this.refs[question].getValue()

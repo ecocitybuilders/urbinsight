@@ -119,6 +119,11 @@ export let surveyChart = {
   }
 }
 
+export let questionIDs = ['employment', 'healthcare', 'family', 'stability',
+                 'relationships', 'recreation', 'education', 'vacation',
+                 'housing', 'environment', 'discrimination', 'religion',
+                 'environment', 'discrimination', 'religion', 'mobility',
+                 'movement', 'safety', 'governance']
 export let questions = [
   {
     title: '1. How would you describe your level of access to adequate employment?',

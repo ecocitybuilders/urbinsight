@@ -164,8 +164,8 @@ const mapDispatchToProps = (dispatch) => {
     surveyDelete: (id) => {
       dispatch(deleteSurvey(id))
     },
-    surveyUpdate: (id, responses) => {
-      dispatch(updateSurvey(id, responses))
+    surveyUpdate: (responses) => {
+      dispatch(updateSurvey(responses))
     }
   }
 }
