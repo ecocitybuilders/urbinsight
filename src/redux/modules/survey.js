@@ -1,12 +1,14 @@
 /* @flow */
 import 'whatwg-fetch'
 import server_endpoint from 'utils/serverUtils'
+import _ from 'lodash'
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
 export const SURVEY_SAVED = 'SURVEY_SAVED'
 export const SURVEY_DELETE = 'SURVEY_DELETE'
+export const SURVEY_DELETED = 'SURVEY_DELETED'
 export const SURVEY_UPDATE_REQUEST = 'SURVEY_UPDATE_REQUEST'
 export const SURVEY_UPDATE_RECEIVED = 'SURVEY_UPDATE_RECEIVED'
 export const SURVEYS_REQUEST = 'SURVEYS_REQUEST'
@@ -44,6 +46,12 @@ function surveyDelete (id): Action {
   return {
     type: SURVEY_DELETE,
     id
+  }
+}
+
+function surveyDeleted (): Action {
+  return {
+    type: SURVEY_DELETED
   }
 }
 
@@ -120,15 +128,36 @@ export function surveySave (responses) {
   return (dispatch) => {
     dispatch(surveySubmit(responses))
     return fetch('http://' + server_endpoint + ':8000/api/survey/create', config)
-      .then((response) => dispatch(surveySaved))
+      .then((response) => dispatch(surveySaved()))
   }
 }
 export function deleteSurvey (id) {
-
+  let config = {
+    method: 'DELETE',
+    headers: new Headers(),
+    mode: 'cors',
+    cache: 'default'
+  }
+  return (dispatch) => {
+    dispatch(surveyDelete(id))
+    return fetch('http://' + server_endpoint + ':8000/api/survey/' + id, config)
+      .then((response) => dispatch(surveyDeleted()))
+  }
 }
 
 export function updateSurvey (id, responses) {
-
+  let config = {
+    method: 'PATCH',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'},
+    body: JSON.stringify(responses)
+  }
+  return (dispatch) => {
+    dispatch(surveyUpdateRequest(id, responses))
+    return fetch('http://' + server_endpoint + ':8000/api/survey/' + id, config)
+      .then((response) => response.json()).then((survey) => dispatch(surveyUpdateReceived(survey)))
+  }
 }
 export function saveSurveyForm (responses) {
   return (dispatch) => {
@@ -136,7 +165,7 @@ export function saveSurveyForm (responses) {
   }
 }
 
-export function resetSurveyForm (repsonses) {
+export function resetSurveyForm (responses) {
   return (dispatch) => {
     dispatch(surveyFormReset())
   }
@@ -162,6 +191,7 @@ export const actions = {
   surveySubmit,
   surveySaved,
   surveyDelete,
+  surveyDeleted,
   surveyUpdateRequest,
   surveyUpdateReceived,
   surveysRequest,
@@ -201,12 +231,26 @@ export default function survey (state = {
         isFetching: false
       })
     case SURVEY_DELETE:
-      // FIND AND DELETE SURVEY FROM CACHE AND UPDATE THE CACHE
+      surveyCacheLookup[action.id] = undefined
+      _.remove(surveyCache, function (survey) {
+        return survey._id === action.id
+      })
       return Object.assign({}, state, {
         surveys: surveyCache
       })
+    case SURVEY_DELETED:
+      return state
     case SURVEY_UPDATE_REQUEST:
+      surveyCacheLookup[action.id] = undefined
+      _.remove(surveyCache, function (survey) {
+        return survey._id === action.id
+      })
+      return Object.assign({}, state, {
+        surveys: surveyCache
+      })
     case SURVEY_UPDATE_RECEIVED:
+      console.log(action)
+      return state
     case SURVEYS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,

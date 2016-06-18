@@ -145,8 +145,8 @@ const mapDispatchToProps = (dispatch) => {
     surveySubmit: (responses) => {
       dispatch(surveySave(responses))
     },
-    surveyFormSave: (repsonses) => {
-      dispatch(saveSurveyForm(repsonses))
+    surveyFormSave: (responses) => {
+      dispatch(saveSurveyForm(responses))
     },
     surveyFormReset: () => {
       dispatch(resetSurveyForm())
