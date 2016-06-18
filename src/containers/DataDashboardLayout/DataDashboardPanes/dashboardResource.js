@@ -3,7 +3,7 @@ import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
 import _ from 'lodash'
 import { Row, Col } from 'react-bootstrap'
-
+import turf from 'turf'
 // Load classes based on the Data model using classNames
 class DashboardResourcePane extends React.Component {
   static propTypes = {
@@ -18,7 +18,8 @@ class DashboardResourcePane extends React.Component {
       chartWidth: window.innerWidth < 992
         ? (window.innerWidth < 778 ? window.innerWidth : window.innerWidth / 2) : window.innerWidth / 4,
       noData: true,
-      mountId: 'resource-chart-' + props.resource
+      mountId: 'resource-chart-' + props.resource,
+      auditsInView: []
     }
     this.handleResize = this.handleResize.bind(this)
   }
@@ -36,7 +37,6 @@ class DashboardResourcePane extends React.Component {
         type: 'pie'
       }
     }
-    // let size = window.innerWidth < 992 ? window.innerWidth / 2 : window.innerWidth / 4
     chartObj.size = {width: this.state.chartWidth}
     chartObj.bindto = '#resource-chart-' + this.props.resource
     // When done as exampleData.bindto += this.props.resource it becomes additive!?!? What?
@@ -56,30 +56,32 @@ class DashboardResourcePane extends React.Component {
     if (this.state.chart.load) this.state.chart.load({json: ps.chartData})
   }
   componentWillReceiveProps (np) {
-    if (typeof np.audits !== 'undefined') {
-      if (typeof this.props.audits === 'undefined' ||
-        np.audits.length !== this.props.audits.length
-      ) {
-        const resource = np.resource
-        let newTotalData = {}
-        np.audits.forEach(function (audit) {
-          _.forEach(audit.properties.totalDemand[resource], function (value, key) {
-            typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
-          })
+    if (typeof np.audits !== 'undefined' && np.viewport.extent) {
+      let bboxPolygon = turf.bboxPolygon(np.viewport.extent)
+      let auditFC = turf.featureCollection(np.audits)
+      let auditsInView = []
+      auditFC.features.forEach(function (audit) {
+        if (typeof turf.intersect(audit, bboxPolygon) !== 'undefined') {
+          auditsInView.push(audit)
+        }
+      })
+      const resource = np.resource
+      let newTotalData = {}
+      auditsInView.forEach(function (audit) {
+        _.forEach(audit.properties.totalDemand[resource], function (value, key) {
+          typeof newTotalData[key] === 'undefined' ? newTotalData[key] = [value] : newTotalData[key].push(value)
         })
-        this.setState({
-          chartData: newTotalData
-        })
-      }
+      })
+      this.setState({
+        auditsInView: auditsInView,
+        chartData: newTotalData
+      })
     }
-    // console.log(this.state.totalData)
   }
   shouldComponentUpdate (np, ns) {
     // This is will create a problem if the same number of features is in view even though they are different
-    if (typeof np.audits !== 'undefined' && typeof this.props.audits !== 'undefined') {
-      return np.audits.length !== this.props.audits.length
-    }
-    return true
+    // possibly will need to return true
+    return this.state.auditsInView.length !== ns.auditsInView.length
   }
 
   render () {
