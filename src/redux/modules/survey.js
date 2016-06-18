@@ -6,6 +6,9 @@ import server_endpoint from 'utils/serverUtils'
 // ------------------------------------
 export const SURVEY_SUBMIT = 'SURVEY_SUBMIT'
 export const SURVEY_SAVED = 'SURVEY_SAVED'
+export const SURVEY_DELETE = 'SURVEY_DELETE'
+export const SURVEY_UPDATE_REQUEST = 'SURVEY_UPDATE_REQUEST'
+export const SURVEY_UPDATE_RECEIVED = 'SURVEY_UPDATE_RECEIVED'
 export const SURVEYS_REQUEST = 'SURVEYS_REQUEST'
 export const SURVEYS_RECEIVED = 'SURVEYS_RECEIVED'
 export const SURVEY_FORM_SAVE = 'SURVEY_FORM_SAVE'
@@ -34,6 +37,28 @@ function surveySaved (): Action {
   return {
     type: SURVEY_SAVED,
     isFetching: false
+  }
+}
+
+function surveyDelete (id): Action {
+  return {
+    type: SURVEY_DELETE,
+    id
+  }
+}
+
+function surveyUpdateRequest (id, responses): Action {
+  return {
+    type: SURVEY_UPDATE_REQUEST,
+    id,
+    responses
+  }
+}
+
+function surveyUpdateReceived (survey): Action {
+  return {
+    type: SURVEY_UPDATE_RECEIVED,
+    survey
   }
 }
 
@@ -98,7 +123,13 @@ export function surveySave (responses) {
       .then((response) => dispatch(surveySaved))
   }
 }
+export function deleteSurvey (id) {
 
+}
+
+export function updateSurvey (id, responses) {
+
+}
 export function saveSurveyForm (responses) {
   return (dispatch) => {
     dispatch(surveyFormSave(responses))
@@ -130,6 +161,9 @@ export function resetSurveyForm (repsonses) {
 export const actions = {
   surveySubmit,
   surveySaved,
+  surveyDelete,
+  surveyUpdateRequest,
+  surveyUpdateReceived,
   surveysRequest,
   surveysReceived,
   surveyFormSave,
@@ -166,6 +200,13 @@ export default function survey (state = {
       return Object.assign({}, state, {
         isFetching: false
       })
+    case SURVEY_DELETE:
+      // FIND AND DELETE SURVEY FROM CACHE AND UPDATE THE CACHE
+      return Object.assign({}, state, {
+        surveys: surveyCache
+      })
+    case SURVEY_UPDATE_REQUEST:
+    case SURVEY_UPDATE_RECEIVED:
     case SURVEYS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,

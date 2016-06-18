@@ -6,7 +6,7 @@ import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
 import FeatureList from 'components/FeatureList'
 // import Overlay from 'components/Overlay'
 import { connect } from 'react-redux'
-import { requestSurveys } from 'redux/modules/survey'
+import { requestSurveys, deleteSurvey, updateSurvey } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
@@ -162,10 +162,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(requestAudits(bounds))
     },
     surveyDelete: (id) => {
-      dispatch(null)
+      dispatch(deleteSurvey(id))
     },
-    surveyUpdate: (survey) => {
-      dispatch(null)
+    surveyUpdate: (id, responses) => {
+      dispatch(updateSurvey(id, responses))
     }
   }
 }
