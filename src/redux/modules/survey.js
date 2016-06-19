@@ -239,11 +239,14 @@ export default function survey (state = {
       _.remove(surveyCache, function (survey) {
         return survey._id === action.id
       })
+      // return Object.assign({}, state, {
+      //   surveys: surveyCache
+      // })
+      return state
+    case SURVEY_DELETED:
       return Object.assign({}, state, {
         surveys: surveyCache
       })
-    case SURVEY_DELETED:
-      return state
     case SURVEY_UPDATE_REQUEST:
       surveyCacheLookup[action.responses._id] = undefined
       _.remove(surveyCache, function (survey) {
