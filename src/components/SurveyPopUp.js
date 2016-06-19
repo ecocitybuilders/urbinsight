@@ -5,7 +5,8 @@ import { questionIDs } from 'utils/surveyUtils'
 type Props = {
   survey: PropTypes.object,
   surveyDelete: PropTypes.func,
-  surveyUpdate: PropTypes.func
+  surveyUpdate: PropTypes.func,
+  popup: PropTypes.object
 }
 class SurveyPopUp extends React.Component {
   props: Props;
@@ -17,6 +18,7 @@ class SurveyPopUp extends React.Component {
     }
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
     this.handleEditClick = this.handleEditClick.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
   }
   handleEditClick () {
     this.setState({
@@ -33,12 +35,13 @@ class SurveyPopUp extends React.Component {
   }
   handleDeleteClick () {
     this.props.surveyDelete(this.props.survey._id)
-    // IDEA: Remove Component element from the map
+    this.props.popup.remove()
+    // IDEA: ReAdd Surveys to Map
   }
 
   // console.log(props.survey._id)
   render () {
-    let questionInputs = questionIDs.map(function (questionID) {
+    let questionInputs = questionIDs.map((questionID) => {
       return (
         <Input key={questionID} type='select' ref={questionID}
           defaultValue={'' + this.props.survey[questionID]}>
@@ -58,9 +61,8 @@ class SurveyPopUp extends React.Component {
       </ButtonToolbar>
     const { survey } = this.props
     return (
-      <div>
+      <div style={{'height': '400px', 'width': '200px', 'overflow': 'auto'}} ref='popup'>
         <h3>Citizen Survey</h3>
-        {this.state.owned && controlButtons}
         <h4><strong>Employment: </strong>{this.state.editing ? questionInputs[0] : survey.employment}</h4>
         <h4><strong>Healthcare: </strong>{this.state.editing ? questionInputs[1] : survey.healthcare}</h4>
         <h4><strong>Family: </strong>{this.state.editing ? questionInputs[2] : survey.family}</h4>
@@ -77,8 +79,12 @@ class SurveyPopUp extends React.Component {
         <h4><strong>Movement: </strong>{this.state.editing ? questionInputs[13] : survey.movement}</h4>
         <h4><strong>Safety: </strong>{this.state.editing ? questionInputs[14] : survey.safety}</h4>
         <h4><strong>Governance: </strong>{this.state.editing ? questionInputs[15] : survey.governance}</h4>
+        {this.state.owned && !this.state.editing ? controlButtons : null}
         {this.state.owned && this.state.editing
-          ? <Button bsStyle='success' onClick={this.handleUpdate} block>Submit</Button>
+          ? <ButtonToolbar>
+            <Button bsStyle='info' onClick={this.handleEditClick} block>Cancel</Button>
+            <Button bsStyle='success' onClick={this.handleUpdate} block>Submit</Button>
+          </ButtonToolbar>
           : null}
       </div>
     )

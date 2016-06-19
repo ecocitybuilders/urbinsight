@@ -35,10 +35,11 @@ function surveySubmit (responses): Action {
   }
 }
 
-function surveySaved (): Action {
+function surveySaved (survey): Action {
   return {
     type: SURVEY_SAVED,
-    isFetching: false
+    isFetching: false,
+    survey
   }
 }
 
@@ -128,7 +129,7 @@ export function surveySave (responses) {
   return (dispatch) => {
     dispatch(surveySubmit(responses))
     return fetch('http://' + server_endpoint + ':8000/api/survey/create', config)
-      .then((response) => dispatch(surveySaved()))
+      .then((response) => response.json()).then((survey) => dispatch(surveySaved(survey)))
   }
 }
 export function deleteSurvey (id) {
@@ -227,8 +228,11 @@ export default function survey (state = {
         surveyResponses: action.responses
       })
     case SURVEY_SAVED:
+      surveyCacheLookup[action.survey.survey._id] = true
+      surveyCache.push(action.survey.survey)
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        surveys: surveyCache
       })
     case SURVEY_DELETE:
       surveyCacheLookup[action.id] = undefined

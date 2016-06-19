@@ -287,7 +287,7 @@ const featureClick = (map, options) => {
       let div = document.createElement('div')
       popup.setDOMContent(div)
       render(<SurveyPopUp survey={feature.properties}
-        surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate}/>, div, () => {
+        surveyDelete={options.surveyDelete} surveyUpdate={options.surveyUpdate} popup={popup}/>, div, () => {
           popup.addTo(map)
         }
       )

@@ -35,7 +35,7 @@ exports.saveSurvey = function * () {
     this.throw(err)
   }
   this.status = 200
-  this.body = { survey: this.survey }
+  this.body = { survey: survey }
 }
 
 exports.getSurveys = function * () {
@@ -73,6 +73,8 @@ exports.deleteSurvey = function * () {
   yield Survey.remove({ id: this.params.id }, function (err) {
     if (err) return console.error(err)
   })
+  this.status = 200
+  this.body = {}
 }
 
 exports.updateSurvey = function * () {

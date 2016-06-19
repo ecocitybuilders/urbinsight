@@ -90,6 +90,9 @@ class MapView extends React.Component {
     }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
+    // this.mapClickHandler('featureSelection',
+    //   {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
+    // )
     map.on('dragend', (e) => {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
@@ -110,9 +113,11 @@ class MapView extends React.Component {
       map: map
     })
   }
-
+  componentWillReceiveProps (np) {
+    console.log(np.surveys.length)
+  }
   componentWillUpdate (np, ns) {
-    if (!this.refs.dataInput.state.opened && np.audits.length > this.props.audits.length) {
+    if (!this.refs.dataInput.state.opened && np.audits.length !== this.props.audits.length) {
       this.mapClickHandler('featureSelection',
         {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
       )
@@ -120,7 +125,7 @@ class MapView extends React.Component {
     typeof ns.map.getSource('surveys') !== 'undefined'
       ? ns.map.getSource('surveys').setData(surveyGeoJSONCompiler(np.surveys))
       : null
-
+    // IDEA: Refactor to not include a side effect of adding it to the map
     auditGeoJSONCompiler(np.audits, ns.map)
   }
 
@@ -132,7 +137,9 @@ class MapView extends React.Component {
   mapClickHandler (keyword, options) {
     this.state.map
       ? keyword === 'featureSelection'
-        ? mapClickHandlerSwitcher(this.state.map, keyword, {audits: this.props.audits, layers: this.props.layers})
+        ? mapClickHandlerSwitcher(this.state.map, keyword,
+          {audits: this.props.audits, layers: this.props.layers,
+            surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate})
         : mapClickHandlerSwitcher(this.state.map, keyword, options)
       : null
   }
