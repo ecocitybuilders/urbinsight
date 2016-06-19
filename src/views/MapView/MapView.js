@@ -113,9 +113,6 @@ class MapView extends React.Component {
       map: map
     })
   }
-  componentWillReceiveProps (np) {
-    console.log(np.surveys.length)
-  }
   componentWillUpdate (np, ns) {
     if (!this.refs.dataInput.state.opened && np.audits.length !== this.props.audits.length) {
       this.mapClickHandler('featureSelection',
