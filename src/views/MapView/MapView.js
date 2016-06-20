@@ -11,6 +11,7 @@ import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
 import server_endpoint from 'utils/serverUtils'
+import _ from 'lodash'
 
 const mapboxgl = window.mapboxgl
 
@@ -115,7 +116,7 @@ class MapView extends React.Component {
   }
   componentWillUpdate (np, ns) {
     if (this.refs.dataInput) {
-      if (!this.refs.dataInput.state.opened && np.audits.length !== this.props.audits.length) {
+      if (!this.refs.dataInput.state.opened && (!_.isEqual(np.audits, this.props.audits))) {
         this.mapClickHandler('featureSelection',
           {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
         )
