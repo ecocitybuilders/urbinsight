@@ -241,7 +241,7 @@ export default function survey (state = {
       _.remove(surveyCache, function (survey) {
         return survey._id === action.id
       })
-      newSurveyCache = _.cloneDeep(surveyCache)
+      newSurveyCache = _.clone(surveyCache)
       return Object.assign({}, state, {
         surveys: newSurveyCache
       })
@@ -273,7 +273,7 @@ export default function survey (state = {
           surveyCache.push(survey)
         }
       })
-      newSurveyCache = _.cloneDeep(surveyCache)
+      newSurveyCache = _.clone(surveyCache)
       return Object.assign({}, state, {
         isFetching: false,
         surveys: newSurveyCache
