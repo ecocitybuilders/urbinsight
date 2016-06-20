@@ -90,9 +90,9 @@ class MapView extends React.Component {
     }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
-    // this.mapClickHandler('featureSelection',
-    //   {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
-    // )
+    this.mapClickHandler('featureSelection',
+      {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
+    )
     map.on('dragend', (e) => {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))

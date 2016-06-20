@@ -1,6 +1,38 @@
 Changelog
 =========
 
+3.0.0-alpha.0
+-------------
+
+### Improvements
+* Migrated to Fractal Project Structure, huge thanks to [justingreenberg](https://github.com/justingreenberg). See https://github.com/davezuko/react-redux-starter-kit/pull/684 for details and discussion.
+
+2.0.0
+-----
+
+### Features
+* Upgraded `eslint-plugin-react` to `^5.0.0`
+* Upgraded `fs-extra` to `^0.28.0`
+
+### Improvements
+* Updated syntax used for `createStore` to match `redux@^3.1.0`
+* Cleaned up `connect` decorator in `HomeView`
+* Cleaned up flow types in `HomeView`
+
+2.0.0-alpha.5
+-------------
+
+### Features
+* Upgraded `flow-bin` to `0.23.0`
+* Upgraded `fs-extra` to `^0.27.0`
+
+### Improvements
+* Minor cleanup in Karma configuration
+* Added missing node-style index files in blueprints
+
+### Fixes
+* Modified webpack manifest initialization to prevent syntax errors in some environments (https://github.com/davezuko/react-redux-starter-kit/issues/572)
+
 2.0.0-alpha.4
 -------------
 
