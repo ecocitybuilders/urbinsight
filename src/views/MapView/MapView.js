@@ -142,7 +142,7 @@ class MapView extends React.Component {
   }
 
   mapClickHandler (keyword, options) {
-    console.log('getting called with', keyword)
+    // console.log('getting called with', keyword)
     this.state.map
       ? keyword === 'featureSelection'
         ? mapClickHandlerSwitcher(this.state.map, keyword,
