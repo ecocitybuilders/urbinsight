@@ -70,7 +70,8 @@ exports.getSurveys = function * () {
 
 exports.deleteSurvey = function * () {
   var Survey = require('mongoose').model('Survey')
-  yield Survey.remove({ id: this.params.id }, function (err) {
+  console.log(this.params.id)
+  Survey.findByIdAndRemove(this.params.id, function (err) {
     if (err) return console.error(err)
   })
   this.status = 200

@@ -114,11 +114,21 @@ class MapView extends React.Component {
     })
   }
   componentWillUpdate (np, ns) {
-    if (!this.refs.dataInput.state.opened && np.audits.length !== this.props.audits.length) {
+    if (this.refs.dataInput) {
+      if (!this.refs.dataInput.state.opened && np.audits.length !== this.props.audits.length) {
+        this.mapClickHandler('featureSelection',
+          {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
+        )
+      }
+    } else {
       this.mapClickHandler('featureSelection',
         {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
       )
     }
+    // console.log(np.surveys)
+    // if (typeof ns.map.getSource('surveys') !== 'undefined') {
+    //   ns.map.getSource('surveys').setData(surveyGeoJSONCompiler(np.surveys))
+    // }
     typeof ns.map.getSource('surveys') !== 'undefined'
       ? ns.map.getSource('surveys').setData(surveyGeoJSONCompiler(np.surveys))
       : null

@@ -221,6 +221,7 @@ export default function survey (state = {
   isFetching: false
 }, action) {
   let cumlatativeSurvey
+  let newSurveyCache
   switch (action.type) {
     case SURVEY_SUBMIT:
       return Object.assign({}, state, {
@@ -235,15 +236,17 @@ export default function survey (state = {
         surveys: surveyCache
       })
     case SURVEY_DELETE:
+      // debugger
       surveyCacheLookup[action.id] = undefined
       _.remove(surveyCache, function (survey) {
         return survey._id === action.id
       })
-      // return Object.assign({}, state, {
-      //   surveys: surveyCache
-      // })
-      return state
+      newSurveyCache = _.cloneDeep(surveyCache)
+      return Object.assign({}, state, {
+        surveys: newSurveyCache
+      })
     case SURVEY_DELETED:
+      // newSurveyCache = _.cloneDeep(surveyCache)
       return Object.assign({}, state, {
         surveys: surveyCache
       })
@@ -270,9 +273,10 @@ export default function survey (state = {
           surveyCache.push(survey)
         }
       })
+      newSurveyCache = _.cloneDeep(surveyCache)
       return Object.assign({}, state, {
         isFetching: false,
-        surveys: surveyCache
+        surveys: newSurveyCache
       })
     case SURVEY_FORM_SAVE:
       state.survey_form
