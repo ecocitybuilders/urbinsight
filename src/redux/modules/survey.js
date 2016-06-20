@@ -56,10 +56,9 @@ function surveyDeleted (): Action {
   }
 }
 
-function surveyUpdateRequest (id, responses): Action {
+function surveyUpdateRequest (responses): Action {
   return {
     type: SURVEY_UPDATE_REQUEST,
-    id,
     responses
   }
 }
@@ -148,10 +147,11 @@ export function deleteSurvey (id) {
 
 export function updateSurvey (responses) {
   let config = {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'},
+    mode: 'cors',
     body: JSON.stringify(responses)
   }
   return (dispatch) => {
@@ -259,7 +259,13 @@ export default function survey (state = {
         surveys: surveyCache
       })
     case SURVEY_UPDATE_RECEIVED:
-      console.log(action)
+      debugger
+      // surveyCacheLookup[action.survey.survey._id] = true
+      // surveyCache.push(action.survey.survey)
+      // return Object.assign({}, state, {
+      //   isFetching: false,
+      //   surveys: surveyCache
+      // })
       return state
     case SURVEYS_REQUEST:
       return Object.assign({}, state, {

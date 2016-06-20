@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Input, ButtonToolbar, Button } from 'react-bootstrap'
+import { Input, ButtonToolbar, Button, FormGroup, FormControl, Form } from 'react-bootstrap'
 import { questionIDs } from 'utils/surveyUtils'
 
 type Props = {
@@ -14,7 +14,8 @@ class SurveyPopUp extends React.Component {
     super(props)
     this.state = {
       'editing': false,
-      'owned': props.survey.user === localStorage.getItem('id_token')
+      'owned': props.survey.user === localStorage.getItem('id_token'),
+      'survey': props.survey
     }
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
     this.handleEditClick = this.handleEditClick.bind(this)
@@ -29,9 +30,15 @@ class SurveyPopUp extends React.Component {
     let updatedResponses = {}
     questionIDs.forEach(function (questionID) {
       updatedResponses[questionID] = this.refs[questionID].getValue()
-    })
+      // updatedResponses[questionID] = this.refs[questionID].props.value
+      // debugger
+    }.bind(this))
     let newSurvey = Object.assign({}, this.props.survey, updatedResponses)
     this.props.surveyUpdate(newSurvey)
+    this.setState({
+      'editing': false,
+      'survey': newSurvey
+    })
   }
   handleDeleteClick () {
     this.props.surveyDelete(this.props.survey._id)
@@ -44,7 +51,7 @@ class SurveyPopUp extends React.Component {
     let questionInputs = questionIDs.map((questionID) => {
       return (
         <Input key={questionID} type='select' ref={questionID}
-          defaultValue={'' + this.props.survey[questionID]}>
+          defaultValue={'' + this.state.survey[questionID]}>
           <option value='5'>Excellent</option>
           <option value='4'>Good</option>
           <option value='3'>Adequate</option>
@@ -59,9 +66,10 @@ class SurveyPopUp extends React.Component {
         <Button bsStyle='info' onClick={this.handleEditClick} block>Edit</Button>
         <Button bsStyle='danger' onClick={this.handleDeleteClick} block>Delete</Button>
       </ButtonToolbar>
-    const { survey } = this.props
+    const { survey } = this.state
     return (
-      <div style={{'height': '400px', 'width': '200px', 'overflow': 'auto'}} ref='popup'>
+
+      <div style={{'height': '400px', 'width': '200px', 'overflow': 'auto'}}>
         <h3>Citizen Survey</h3>
         <h4><strong>Employment: </strong>{this.state.editing ? questionInputs[0] : survey.employment}</h4>
         <h4><strong>Healthcare: </strong>{this.state.editing ? questionInputs[1] : survey.healthcare}</h4>
@@ -92,3 +100,14 @@ class SurveyPopUp extends React.Component {
 }
 
 export default SurveyPopUp
+
+{ /* <FormGroup key={questionID}>
+  <FormControl componentClass='select' ref={questionID} defaultValue={'' + this.props.survey[questionID]}>
+    <option value='5'>Excellent</option>
+    <option value='4'>Good</option>
+    <option value='3'>Adequate</option>
+    <option value='2'>Insufficient</option>
+    <option value='1'>Absent</option>
+    <option value='0'>Unknown</option>
+  </FormControl>
+</FormGroup>*/ }

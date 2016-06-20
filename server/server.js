@@ -77,7 +77,7 @@ router
   .post('/api/user/create', auth.createUser)
   .post('/api/survey/create', survey.saveSurvey)
   .post('/api/audit/create', audit.saveAudit)
-  .patch('/api/survey/:id', survey.updateSurvey)
+  .put('/api/survey/:id', survey.updateSurvey)
 
 app.use(router.routes())
 app.use(router.allowedMethods())
