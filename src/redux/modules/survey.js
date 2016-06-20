@@ -231,12 +231,12 @@ export default function survey (state = {
     case SURVEY_SAVED:
       surveyCacheLookup[action.survey.survey._id] = true
       surveyCache.push(action.survey.survey)
+      newSurveyCache = _.clone(surveyCache)
       return Object.assign({}, state, {
         isFetching: false,
-        surveys: surveyCache
+        surveys: newSurveyCache
       })
     case SURVEY_DELETE:
-      // debugger
       surveyCacheLookup[action.id] = undefined
       _.remove(surveyCache, function (survey) {
         return survey._id === action.id
@@ -246,7 +246,6 @@ export default function survey (state = {
         surveys: newSurveyCache
       })
     case SURVEY_DELETED:
-      // newSurveyCache = _.cloneDeep(surveyCache)
       return Object.assign({}, state, {
         surveys: surveyCache
       })
@@ -259,14 +258,13 @@ export default function survey (state = {
         surveys: surveyCache
       })
     case SURVEY_UPDATE_RECEIVED:
-      debugger
-      // surveyCacheLookup[action.survey.survey._id] = true
-      // surveyCache.push(action.survey.survey)
-      // return Object.assign({}, state, {
-      //   isFetching: false,
-      //   surveys: surveyCache
-      // })
-      return state
+      surveyCacheLookup[action.survey.survey._id] = true
+      surveyCache.push(action.survey.survey)
+      newSurveyCache = _.clone(surveyCache)
+      return Object.assign({}, state, {
+        isFetching: false,
+        surveys: newSurveyCache
+      })
     case SURVEYS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,

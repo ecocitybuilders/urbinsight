@@ -39,30 +39,32 @@ exports.saveSurvey = function * () {
 }
 exports.updateSurvey = function * () {
   var Survey = require('mongoose').model('Survey')
-  Survey.findByIdAndUpdate(this.params.id,
-    { $set: {
-      employment: this.request.body.employment,
-      healthcare: this.request.body.healthcare,
-      family: this.request.body.family,
-      stability: this.request.body.stability,
-      relationships: this.request.body.relationships,
-      recreation: this.request.body.recreation,
-      education: this.request.body.education,
-      vacation: this.request.body.vacation,
-      housing: this.request.body.housing,
-      environment: this.request.body.environment,
-      discrimination: this.request.body.discrimination,
-      religion: this.request.body.religion,
-      mobility: this.request.body.mobility,
-      movement: this.request.body.movement,
-      safety: this.request.body.safety,
-      governance: this.request.body.governance
+  try {
+    var updatedSurvey = yield Survey.findByIdAndUpdate(this.params.id,
+      { $set: {
+        employment: this.request.body.employment,
+        healthcare: this.request.body.healthcare,
+        family: this.request.body.family,
+        stability: this.request.body.stability,
+        relationships: this.request.body.relationships,
+        recreation: this.request.body.recreation,
+        education: this.request.body.education,
+        vacation: this.request.body.vacation,
+        housing: this.request.body.housing,
+        environment: this.request.body.environment,
+        discrimination: this.request.body.discrimination,
+        religion: this.request.body.religion,
+        mobility: this.request.body.mobility,
+        movement: this.request.body.movement,
+        safety: this.request.body.safety,
+        governance: this.request.body.governance
 
-    } }, {new: true}, (err, survey) => {
-      if (err) return console.error(err)
-    })
+      } }, {new: true}).exec()
+  } catch (err) {
+    this.throw(err)
+  }
   this.status = 200
-  this.body = { survey: {} }
+  this.body = { survey: updatedSurvey }
 }
 
 exports.getSurveys = function * () {
