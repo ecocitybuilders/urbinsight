@@ -56,14 +56,7 @@ app.use(bodyParser())
 
 app.use(passport.initialize())
 app.use(passport.session())
-// function * (next) {
-//   console.log('here')
-//   // var body = yield parse(this, { limit: '1kb' })
-//   passport.authenticate('local', {
-//     successRedirect: '/medellin',
-//     failureRedirect: '/budapest'
-//   })
-// }
+
 
 router
   // .get('/', function * () {
