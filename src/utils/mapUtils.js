@@ -140,13 +140,13 @@ export function cityObjectFunc (city) {
   }
 }
 
-export function surveyGeoJSONCompiler (resource, map) {
+export function surveyGeoJSONCompiler (surveys) {
   let geojson = {
     'type': 'FeatureCollection',
     'features': []
   }
-  if (resource) {
-    resource.forEach(function (survey) {
+  if (surveys) {
+    surveys.forEach(function (survey) {
       let obj = {'type': 'Feature',
                  'geometry': {
                    'type': 'Point',

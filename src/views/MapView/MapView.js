@@ -116,6 +116,8 @@ class MapView extends React.Component {
   }
   componentWillUpdate (np, ns) {
     if (this.refs.dataInput) {
+      console.log(this.refs.dataInput.state.opened)
+      console.log(np.audits, this.props.audits)
       if (!this.refs.dataInput.state.opened && (!_.isEqual(np.audits, this.props.audits))) {
         this.mapClickHandler('featureSelection',
           {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
