@@ -57,7 +57,6 @@ app.use(bodyParser())
 app.use(passport.initialize())
 app.use(passport.session())
 
-
 router
   // .get('/', function * () {
   // //  await next();

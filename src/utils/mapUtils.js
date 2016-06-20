@@ -51,7 +51,7 @@ export function baseLayerandSource (map, tileLocation) {
       'source': 'surveys',
       'paint': {
         'circle-radius': 5,
-        'circle-color': '#ec9918'
+        'circle-color': '#3aedf9'
       }
     })
     map.addSource('auditPoints', {
