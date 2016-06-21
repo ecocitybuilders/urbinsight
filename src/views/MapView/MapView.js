@@ -11,7 +11,6 @@ import { requestAudits } from 'redux/modules/audit'
 import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
 import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
 import server_endpoint from 'utils/serverUtils'
-import _ from 'lodash'
 
 const mapboxgl = window.mapboxgl
 
@@ -91,9 +90,9 @@ class MapView extends React.Component {
     }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
-    this.mapClickHandler('featureSelection',
-      {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
-    )
+    // this.mapClickHandler('featureSelection',
+    //   {audits: this.props.audits, surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate}
+    // )
     map.on('dragend', (e) => {
       this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
       this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
@@ -115,15 +114,25 @@ class MapView extends React.Component {
     })
   }
   componentWillUpdate (np, ns) {
-    if (!this.refs.dataInput || !this.refs.dataInput.state.opened) {
+    // This Complexity is based on the following conditions for calling the featureSelection mapClickHandler
+    // if the User is logged in, and (the dataInput window isn't open and more audits or servers are present
+    // in the cache or  audits and surveys are empty (initialState).
+    if (this.refs.dataInput) {
+      if (!this.refs.dataInput.state.opened &&
+        ((np.audits.length !== this.props.audits.length || np.surveys.length !== this.props.surveys.length) ||
+        (!this.props.audits.length && !this.props.surveys.length))) {
+        this.mapClickHandler('featureSelection',
+          {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
+        )
+      }
+    // If not Logged in if audits or surveys have been added to the cache of both are empty (initialState)
+    } else if ((np.audits.length !== this.props.audits.length || np.surveys.length !== this.props.surveys.length) ||
+    (!this.props.audits.length && !this.props.surveys.length)) {
       this.mapClickHandler('featureSelection',
         {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
       )
     }
-    // console.log(np.surveys)
-    // if (typeof ns.map.getSource('surveys') !== 'undefined') {
-    //   ns.map.getSource('surveys').setData(surveyGeoJSONCompiler(np.surveys))
-    // }
+
     typeof ns.map.getSource('surveys') !== 'undefined'
       ? ns.map.getSource('surveys').setData(surveyGeoJSONCompiler(np.surveys))
       : null
@@ -137,7 +146,6 @@ class MapView extends React.Component {
   }
 
   mapClickHandler (keyword, options) {
-    // console.log('getting called with', keyword)
     this.state.map
       ? keyword === 'featureSelection'
         ? mapClickHandlerSwitcher(this.state.map, keyword,

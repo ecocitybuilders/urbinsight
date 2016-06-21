@@ -218,7 +218,8 @@ export const actions = {
 //   return handler ? handler(state, action) : state
 // }
 export default function survey (state = {
-  isFetching: false
+  isFetching: false,
+  surveys: []
 }, action) {
   let cumlatativeSurvey
   let newSurveyCache
