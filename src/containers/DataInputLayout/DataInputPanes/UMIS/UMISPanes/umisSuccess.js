@@ -33,7 +33,7 @@ class UMISSuccess extends React.Component {
   }
   componentWillUnmount () {
     this.props.map.setFilter('lots-hover', ['==', cityTag, ''])
-    this.props.map.removeLayer('point')
+    if (typeof this.props.map.getLayer('point') !== 'undefined') this.props.map.removeLayer('point')
   }
 }
 

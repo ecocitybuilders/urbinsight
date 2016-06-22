@@ -105,6 +105,7 @@ UMIS.Water.totalConsumption = {}
 
 // Toilets
 UMIS.Water.averageFlush = function (workbook) {
+  console.log(workbook)
   let toilets = workbook.data.demandJunctions.toilets.activeToilets
   var totalFlushVolume = 0
   toilets.forEach(function (obj) {
@@ -267,7 +268,8 @@ var totalConsumption = {
 const calculateTotals = function (parcel) {
   parcel.properties.totalDemand = {}
   _.forEach(totalConsumption, function (resourceCalcFunction, resource) {
-    if (typeof parcel.properties.workbooks !== 'undefined' && parcel.properties.workbooks[resource] !== 'undefined') {
+    if (typeof parcel.properties.workbooks !== 'undefined'
+      && typeof parcel.properties.workbooks[resource] !== 'undefined') {
       parcel.properties.totalDemand[resource] =
         resourceCalcFunction(parcel.properties.workbooks[resource], parcel.properties)
     }
