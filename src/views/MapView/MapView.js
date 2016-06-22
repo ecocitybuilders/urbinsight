@@ -118,18 +118,19 @@ class MapView extends React.Component {
     // if the User is logged in, and (the dataInput window isn't open and more audits or servers are present
     // in the cache or  audits and surveys are empty (initialState).
     if (this.refs.dataInput) {
-      if (!this.refs.dataInput.state.opened &&
-        ((np.audits.length !== this.props.audits.length || np.surveys.length !== this.props.surveys.length) ||
-        (!this.props.audits.length && !this.props.surveys.length))) {
-        this.mapClickHandler('featureSelection',
-          {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
-        )
+      if (!this.refs.dataInput.state.opened) {
+        if ((np.audits.length !== this.props.audits.length || np.surveys.length !== this.props.surveys.length ||
+        (this.props.layers.length !== np.layers.length) || (!this.props.audits.length && !this.props.surveys.length))) {
+          this.mapClickHandler('featureSelection',
+            {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate, layers: np.layers}
+          )
+        }
       }
     // If not Logged in if audits or surveys have been added to the cache of both are empty (initialState)
     } else if ((np.audits.length !== this.props.audits.length || np.surveys.length !== this.props.surveys.length) ||
-    (!this.props.audits.length && !this.props.surveys.length)) {
+    (!this.props.audits.length && !this.props.surveys.length) || (this.props.layers.length !== np.layers.length)) {
       this.mapClickHandler('featureSelection',
-        {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate}
+        {audits: np.audits, surveyDelete: np.surveyDelete, surveyUpdate: np.surveyUpdate, layers: np.layers}
       )
     }
 
@@ -146,10 +147,12 @@ class MapView extends React.Component {
   }
 
   mapClickHandler (keyword, options) {
+    let audits = options && options.audits ? options.audits : this.props.audits
+    let layers = options && options.layers ? options.layers : this.props.layers
     this.state.map
       ? keyword === 'featureSelection'
         ? mapClickHandlerSwitcher(this.state.map, keyword,
-          {audits: this.props.audits, layers: this.props.layers,
+          {audits: audits, layers: layers,
             surveyDelete: this.props.surveyDelete, surveyUpdate: this.props.surveyUpdate})
         : mapClickHandlerSwitcher(this.state.map, keyword, options)
       : null
