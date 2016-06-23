@@ -28,7 +28,7 @@ type Props = {
 let cityObj = {
   'lima': 'id_lote',
   'budapest': 'id',
-  'cusco': '__gid',
+  'cusco': 'gid_1',
   'abudhabi': 'plotid',
   'medellin': 'cobama'
 }
