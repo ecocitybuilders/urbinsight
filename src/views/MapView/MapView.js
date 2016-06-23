@@ -4,6 +4,7 @@ import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
 import FeatureList from 'components/FeatureList'
+import LotToggle from 'components/LotToggle'
 // import Overlay from 'components/Overlay'
 import { connect } from 'react-redux'
 import { requestSurveys, deleteSurvey, updateSurvey } from 'redux/modules/survey'
@@ -61,6 +62,7 @@ class MapView extends React.Component {
         <div id='map'>
         {/*  Possibly need to move these outside of the map constainer*/}
           {/* <Overlay map={this.state.map}/>*/}
+          <LotToggle map={this.state.map}/>
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList}/>
           <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}
@@ -69,6 +71,7 @@ class MapView extends React.Component {
             map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
         </div>
         <FeatureList />
+
       </div>
     )
   }
