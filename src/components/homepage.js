@@ -37,7 +37,7 @@ class Homepage extends React.Component {
         </Carousel>
         <div className='intro-text-frame'>
           <h3>
-            Creating informative and actionable datasets in one of the primary challenges of increasing urban resilience.
+            Creating informative and actionable datasets is one of the primary challenges of increasing urban resilience.
             {/* Our solution is a dynamic mapping platform that visualizes multiple data types and facilitates citizen engagement.
             Urbinsight is designed through a community oriented process which leverages residents' inherent spatial knowledge to create more robust knowledge systems.*/}
           </h3>
