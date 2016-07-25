@@ -54,7 +54,8 @@ Urbinsight is deployed at [www.urbinsight.com][site].
 ## Global Dependencies
 1. MongoDB
 2. PostGreSQL
-3. 
+
+
 ## Development
 1. Download the repository
 2. Run `npm install` in the top level urbinsight directory, and the parcel-server folder 
