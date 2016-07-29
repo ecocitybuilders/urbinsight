@@ -79,7 +79,6 @@
   "author": "Ashoka Finley <ashoka@ecocitybuilders.org> (http://www.ecocitybuilders.org)",
   "license": "MIT",
   "dependencies": {
-    "//": "normalize.css",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",

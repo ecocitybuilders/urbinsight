@@ -23,4 +23,5 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 exports.pgClient = pgClient;
-exports.conString = conString;
+exports.devConString = devConString;
+exports.prodConString = prodConString;

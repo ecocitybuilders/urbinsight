@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var pgClient = require('../../database').pgClient;
-var conString = require('../../database').conString;
+var devConString = require('../../database').devConString;
+var prodConString = require('../../database').prodConString;
 var pg = require('pg');
 var geojsonvt = require('geojson-vt');
 var SphericalMercator = require('sphericalmercator');
@@ -10,6 +10,8 @@ var zlib = require('zlib');
 var VectorTile = require('vector-tile').VectorTile;
 var Protobuf = require('pbf');
 var bboxpolygon = require('turf-bbox-polygon');
+
+var conString = process.env.NODE_ENV === 'development' ? devConString : prodConString
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
 
