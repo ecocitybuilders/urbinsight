@@ -12,6 +12,7 @@ exports.saveAudit = function * () {
   // var tempAudit = this.request.body
   try {
     var audit = new Audit(this.request.body)
+    audit.geometry.coordinates = [audit.geometry.coordinates[0], audit.geometry.coordinates[1]]
     audit = yield audit.save()
   } catch (err) {
     this.throw(err)
