@@ -9,8 +9,8 @@ import _ from 'lodash'
 
 let UMIS = {}
 UMIS.DEFAULTS = {}
-UMIS.Calculations = {}
 
+UMIS.Calculations = {}
 UMIS.Calculations.effectiveOccupancyByAge = function (parcel, ageType) {
   var total = 0
   _.each(parcel.demographics[ageType], function (value, key) {
@@ -31,9 +31,43 @@ UMIS.Calculations.totalEffectiveOccupancy = function (parcel) {
   })
   return total
 }
+UMIS.Mobility = {}
+UMIS.Food = {}
 
 UMIS.Energy = {}
-UMIS.Mobility = {}
+UMIS.Energy.defaults = {}
+UMIS.Energy.megaJoulesConversion = 3.6
+UMIS.Energy.totalConsumption = {}
+UMIS.Energy.totalConsumption.lighting = function (workbook) {
+  let total = 0
+  _.forEach(workbook.data.lighting, (bulbType) => {
+    total += ((bulbType.hoursUsed * bulbType.numUnits * bulbType.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+  })
+  return total
+}
+UMIS.Energy.totalConsumption.appliances = function (workbook) {
+  let total = 0
+  _.forEach(workbook.data.appliances, (appliance) => {
+    total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defauls.megaJoulesConversion
+  })
+  total += total * workbook.data.phantomPowerRatio
+  return total
+}
+UMIS.Energy.totalConsumption.spaceHeating = function (workbook) {
+
+}
+UMIS.Energy.totalConsumption.ventilationAC = function (workbook) {
+
+}
+UMIS.Energy.totalConsumption.waterHeating = function (workbook) {
+
+}
+UMIS.Energy.totalConsumption.groundRailTransport = function (workbook) {
+
+}
+UMIS.Energy.totalConsumption.airTransport = function (workbook) {
+
+}
 
 // THIS IS MATERIALS AUDIT
 UMIS.Materials = {}
@@ -261,6 +295,17 @@ var totalConsumption = {
     result.Appliances = UMIS.Materials.totalConsumption.appliances(workbook)
     result['Hazardous Waste'] = UMIS.Materials.totalConsumption.hazardousWaste(workbook)
     result['Inerts and Others'] = UMIS.Materials.totalConsumption.inertsAndOthers(workbook)
+    return result
+  },
+  energy: function (workbook) {
+    var result = {}
+    result.Lighting = UMIS.Energy.totalConsumption.lighting(workbook),
+    result.Appliances = UMIS.Energy.totalConsumption.appliances(workbook),
+    result['Space Heating'] = UMIS.Energy.totalConsumption.spaceHeating(workbook),
+    result['Ventilation and AC'] = UMIS.Energy.totalConsumption.ventilationAC(workbook),
+    result['Water Heating'] = UMIS.Energy.totalConsumption.waterHeating(workbook),
+    result['Ground & Rail Transport'] = UMIS.Energy.totalConsumption.groundRailTransport(workbook),
+    result['Air Transport'] = UMIS.Energy.totalConsumption.airTransport(workbook)
     return result
   }
 }
