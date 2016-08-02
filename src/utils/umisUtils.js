@@ -1,14 +1,6 @@
 import _ from 'lodash'
-// let countProperties = function (obj) {
-//   let count = 0
-//   for (var prop in obj) {
-//     if (obj.hasOwnProperty(prop)) ++count
-//   }
-//   return count
-// }
 
 let UMIS = {}
-UMIS.DEFAULTS = {}
 
 UMIS.Calculations = {}
 UMIS.Calculations.effectiveOccupancyByAge = function (parcel, ageType) {
@@ -33,10 +25,131 @@ UMIS.Calculations.totalEffectiveOccupancy = function (parcel) {
 }
 UMIS.Mobility = {}
 UMIS.Food = {}
-
+let energyWorkbook = {
+  data : {
+    lighting : {
+      bulbType : {
+        hoursUsed: number,
+        numUnits: number,
+        typicalWattage: number
+      }
+    },
+    appliances : {
+      appliance : {
+        hoursUsed: number,
+        numUnits: number,
+        typicalWattage: number
+      }
+    },
+    phantomPowerRatio: number,
+    spaceHeating : {
+      fuelType : {
+        annualHeatingBill: number,
+        systemType: number,
+        fuelPrice: number,
+      }
+    },
+    ventilationAC: {
+      appliance: {
+        hoursUsed: number,
+        numUnits: number,
+        typicalWattage: number
+      }
+    },
+    waterHeating: {
+      activities: {
+        shower: number,
+        laundryMachine: number,
+        dishwasher: number,
+        kitchenFaucetFlow: number,
+        bathroomFaucetFlow: number
+      }
+      heaters: {
+        heater: {
+          type: 'gas'
+          numUnits: number
+        }
+      }
+    }
+  }
+}
 UMIS.Energy = {}
-UMIS.Energy.defaults = {}
-UMIS.Energy.megaJoulesConversion = 3.6
+UMIS.Energy.defaults = {
+  megaJoulesConversion : 3.6,
+  spaceHeating : {
+    energyContent : {
+      // MJ/m3
+      gas : 37.5,
+      // MJ/L
+      propane: 25.3,
+      // MJ/kWh
+      electricity: 3.6,
+      // MJ/L
+      oil: 38.2,
+      // MJ/cord
+      hardwood: 30600,
+      // MJ/cord
+      softwood: 18700
+    },
+    seasonalEfficiency : {
+      gas: {
+        conventional: 60,
+        ventDamper: 64.5,
+        midEfficiency: 81,
+        highEfficiency: 93,
+        intergratedWaterCondensing: 92.5
+      },
+      propane: {
+        conventional: 62,
+        ventDamper: 66.5,
+        midEfficiency: 82,
+        condensing: 90.5
+      },
+      electricity: {
+        electricBaseboard: 100,
+        electricFurnace: 100
+      },
+      oil: {
+        castIronHeadBurner: 60,
+        flameRetentionBurner: 74,
+        highStaticReplacementBurner: 78,
+        newStandardModel: 82,
+        midEfficiency: 86
+      },
+      hardwood: {
+        centralFurnance: 50,
+        conventionalStove: 62.5,
+        highTechStove: 75,
+        combustionFireplace: 60,
+        pelletStove: 67.5
+      },
+      softwood: {
+        centralFurnance: 50,
+        conventionalStove: 62.5,
+        highTechStove: 75,
+        combustionFireplace: 60,
+        pelletStove: 67.5
+      }
+    }
+  }
+  waterHeating : {
+    activityAverages: {
+      shower: 10,
+      laundryMachine: 7,
+      dishwasher: 6,
+      kitchenFaucetFlow: 0.5,
+      bathroomFaucetFlow: 2
+    },
+    energyFactors: {
+      gas: 0.61,
+      electric: 0.92
+    }
+  }
+}
+
+UMIS.Energy.defaults.waterHeating = {
+
+}
 UMIS.Energy.totalConsumption = {}
 UMIS.Energy.totalConsumption.lighting = function (workbook) {
   let total = 0
@@ -48,19 +161,37 @@ UMIS.Energy.totalConsumption.lighting = function (workbook) {
 UMIS.Energy.totalConsumption.appliances = function (workbook) {
   let total = 0
   _.forEach(workbook.data.appliances, (appliance) => {
-    total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defauls.megaJoulesConversion
+    total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
   })
   total += total * workbook.data.phantomPowerRatio
   return total
 }
 UMIS.Energy.totalConsumption.spaceHeating = function (workbook) {
-
+  let total = 0
+  _.forEach(workbook.data.spaceHeating, (fuelType, fuelTypeName) => {
+    total += ((fuelType.annualHeatingBill / 100)
+      * (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price))
+      * (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
+  })
+  return total
 }
 UMIS.Energy.totalConsumption.ventilationAC = function (workbook) {
-
+  let total = 0
+  _.forEach(workbook.data.ventilationAC, (appliance) => {
+    total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+  })
+  return total
 }
 UMIS.Energy.totalConsumption.waterHeating = function (workbook) {
-
+  let total = 0
+  let totalGallonsUsed = 0
+  _.forEach(workbook.data.waterHeating.activities, (timesPerDay, name) => {
+    totalGallonsUsed += timesPerDay * UMIS.Energy.defaults.waterHeating.activityAverages[name]
+  })
+  _.forEach(workbook.data.waterHeating.heaters, (heater) => {
+    total += ((totalGallonsUsed * 8.33 * (135-58)) / UMIS.Energy.defaults.waterHeating.energyFactors[heater.type]) * 0.00105505585
+  })
+  return total
 }
 UMIS.Energy.totalConsumption.groundRailTransport = function (workbook) {
 
