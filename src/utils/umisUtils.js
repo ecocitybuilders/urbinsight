@@ -2,32 +2,39 @@ import _ from 'lodash'
 
 let UMIS = {}
 
-UMIS.Calculations = {}
-UMIS.Calculations.effectiveOccupancyByAge = function (parcel, ageType) {
-  var total = 0
-  _.each(parcel.demographics[ageType], function (value, key) {
-    if (key === 'livingWorking') {
-      total += value
-    } else {
-      total += (value * 0.5)
-    }
-  })
-  return total
+UMIS.Calculations = {
+  effectiveOccupancyByAge: function (parcel, ageType) {
+    var total = 0
+    _.each(parcel.demographics[ageType], function (value, key) {
+      if (key === 'livingWorking') {
+        total += value
+      } else {
+        total += (value * 0.5)
+      }
+    })
+    return total
+  },
+  totalEffectiveOccupancy: function (parcel) {
+    var total = 0
+    var ageTypes = ['seniors', 'adults', 'youth']
+    ageTypes.forEach(function (ageType) {
+      total += parseFloat(UMIS.Calculations.effectiveOccupancyByAge(parcel, ageType))
+    })
+    return total
+  }
 }
 
-UMIS.Calculations.totalEffectiveOccupancy = function (parcel) {
-  var total = 0
-  var ageTypes = ['seniors', 'adults', 'youth']
-  ageTypes.forEach(function (ageType) {
-    total += parseFloat(UMIS.Calculations.effectiveOccupancyByAge(parcel, ageType))
-  })
-  return total
-}
 UMIS.Mobility = {}
 UMIS.Food = {}
 let energyWorkbook = {
   data : {
     lighting : {
+      // Multiple bulbs can be added.
+      //The following bulbs need options
+      // Standard incandescent bulbs
+      // Compact fluorescent bulbs
+      // Fluorescent ballasts
+      // Other bulbs
       bulbType : {
         hoursUsed: number,
         numUnits: number,
@@ -35,14 +42,53 @@ let energyWorkbook = {
       }
     },
     appliances : {
+      phantomPowerRatio: number,
+      // Multiple Appliances can be added.
+      // Appliances use the following options
+      // Television
+      // Charge iPod/MP3 player
+      // Charge hand-held video games
+      // Video game console
+      // DVD or VHS player
+      // Desktop computer
+      // Charge a laptop computer
+      // Charge a cell phone
+      // Charge a cordless telephone
+      // Hair dryer
+      // Curling/ straightening iron
+      // Cook on the electric stove top
+      // Bake in an electric oven
+      // Gas stove top
+      // Gas oven
+      // Microwave
+      // Electric kettle
+      // Food processor
+      // Toaster
+      // Refrigerator
+      // Use dishwasher
+      // Water pump
+      // Deep freezer
+      // Automatic washing machine
+      // Semi-automatic washing machine
+      // Clothes dryer
+      // Iron clothing
+      // Vacuum
       appliance : {
         hoursUsed: number,
         numUnits: number,
         typicalWattage: number
       }
     },
-    phantomPowerRatio: number,
+
     spaceHeating : {
+      // Multiple fuelTypes can be added.
+      // The following fuelTypes need options
+      // Gas
+      // Propane
+      // Electricity
+      // Oil
+      // Hardwood
+      // Softwood
       fuelType : {
         annualHeatingBill: number,
         systemType: number,
@@ -50,6 +96,14 @@ let energyWorkbook = {
       }
     },
     ventilationAC: {
+      // Multiple Appliances can be added.
+      // Floor fan
+      // Standard ceiling fan
+      // Kitchen exhaust fan
+      // Bathroom exhaust fan
+      // Air conditioner window unit
+      // Central air conditioning unit
+      // Split air conditioner
       appliance: {
         hoursUsed: number,
         numUnits: number,
@@ -65,212 +119,294 @@ let energyWorkbook = {
         bathroomFaucetFlow: number
       }
       heaters: {
+        // They will have the ability to add multiple heaters
         heater: {
+          // Gas and Electric are the two types.
           type: 'gas'
           numUnits: number
         }
       }
+    },
+    groundRailTransport: {
+      days: {
+        // 7 days would exist total since this is made for a week.
+        day: {
+          // miles Traveled
+          transportationType: number
+        }
+      }
+    },
+    airTransport: {
+      milesTravelledPerYear: number
     }
   }
 }
-UMIS.Energy = {}
-UMIS.Energy.defaults = {
-  megaJoulesConversion : 3.6,
-  spaceHeating : {
-    energyContent : {
-      // MJ/m3
-      gas : 37.5,
-      // MJ/L
-      propane: 25.3,
-      // MJ/kWh
-      electricity: 3.6,
-      // MJ/L
-      oil: 38.2,
-      // MJ/cord
-      hardwood: 30600,
-      // MJ/cord
-      softwood: 18700
-    },
-    seasonalEfficiency : {
-      gas: {
-        conventional: 60,
-        ventDamper: 64.5,
-        midEfficiency: 81,
-        highEfficiency: 93,
-        intergratedWaterCondensing: 92.5
+UMIS.Energy = {
+  defaults: {
+    megaJoulesConversion : 3.6,
+    spaceHeating : {
+      energyContent : {
+        // MJ/m3
+        gas : 37.5,
+        // MJ/L
+        propane: 25.3,
+        // MJ/kWh
+        electricity: 3.6,
+        // MJ/L
+        oil: 38.2,
+        // MJ/cord
+        hardwood: 30600,
+        // MJ/cord
+        softwood: 18700
       },
-      propane: {
-        conventional: 62,
-        ventDamper: 66.5,
-        midEfficiency: 82,
-        condensing: 90.5
-      },
-      electricity: {
-        electricBaseboard: 100,
-        electricFurnace: 100
-      },
-      oil: {
-        castIronHeadBurner: 60,
-        flameRetentionBurner: 74,
-        highStaticReplacementBurner: 78,
-        newStandardModel: 82,
-        midEfficiency: 86
-      },
-      hardwood: {
-        centralFurnance: 50,
-        conventionalStove: 62.5,
-        highTechStove: 75,
-        combustionFireplace: 60,
-        pelletStove: 67.5
-      },
-      softwood: {
-        centralFurnance: 50,
-        conventionalStove: 62.5,
-        highTechStove: 75,
-        combustionFireplace: 60,
-        pelletStove: 67.5
+      seasonalEfficiency : {
+        gas: {
+          conventional: 60,
+          ventDamper: 64.5,
+          midEfficiency: 81,
+          highEfficiency: 93,
+          intergratedWaterCondensing: 92.5
+        },
+        propane: {
+          conventional: 62,
+          ventDamper: 66.5,
+          midEfficiency: 82,
+          condensing: 90.5
+        },
+        electricity: {
+          electricBaseboard: 100,
+          electricFurnace: 100
+        },
+        oil: {
+          castIronHeadBurner: 60,
+          flameRetentionBurner: 74,
+          highStaticReplacementBurner: 78,
+          newStandardModel: 82,
+          midEfficiency: 86
+        },
+        hardwood: {
+          centralFurnance: 50,
+          conventionalStove: 62.5,
+          highTechStove: 75,
+          combustionFireplace: 60,
+          pelletStove: 67.5
+        },
+        softwood: {
+          centralFurnance: 50,
+          conventionalStove: 62.5,
+          highTechStove: 75,
+          combustionFireplace: 60,
+          pelletStove: 67.5
+        }
       }
     }
-  }
-  waterHeating : {
-    activityAverages: {
-      shower: 10,
-      laundryMachine: 7,
-      dishwasher: 6,
-      kitchenFaucetFlow: 0.5,
-      bathroomFaucetFlow: 2
+    waterHeating : {
+      activityAverages: {
+        shower: 10,
+        laundryMachine: 7,
+        dishwasher: 6,
+        kitchenFaucetFlow: 0.5,
+        bathroomFaucetFlow: 2
+      },
+      energyFactors: {
+        gas: 0.61,
+        electric: 0.92
+      }
     },
-    energyFactors: {
-      gas: 0.61,
-      electric: 0.92
+    groundRailTransport : {
+      transportationTypes: {
+        conventionalBus: {
+          milesPerGallon: 4.2,
+          numPassengers: 40,
+          gallonsPerPassMile: 0.006,
+          mjPerPassMile: 0.79
+        },
+        hybridElectricBus: {
+          milesPerGallon: 5.6,
+          numPassengers: 40,
+          gallonsPerPassMile: 0.004,
+          mjPerPassMile: 0.59
+        },
+        motorcycle: {
+          milesPerGallon: 30,
+          numPassengers: 2,
+          gallonsPerPassMile: 0.017,
+          mjPerPassMile: 2.2
+        },
+        personalLightTruck: {
+          milesPerGallon: 24,
+          numPassengers: 1,
+          gallonsPerPassMile: 0.042,
+          mjPerPassMile: 5.5
+        },
+        car4pass: {
+          milesPerGallon: 42,
+          numPassengers: 4,
+          gallonsPerPassMile: 0.006,
+          mjPerPassMile: 0.79
+        },
+        car2pass: {
+          milesPerGallon: 42,
+          numPassengers: 2,
+          gallonsPerPassMile: 0.012,
+          mjPerPassMile: 1.57
+        },
+        car1pass: {
+          milesPerGallon: 42,
+          numPassengers: 1,
+          gallonsPerPassMile: 0.024,
+          mjPerPassMile: 3.14
+        },
+        commuterRail: {
+          milesPerGallon: 23,
+          numPassengers: 100,
+          gallonsPerPassMile: 0.000,
+          mjPerPassMile: 0.06
+        },
+        intercityRail: {
+          milesPerGallon: 12,
+          numPassengers: 100,
+          gallonsPerPassMile: 0.001,
+          mjPerPassMile: 0.11
+        }
+      }
+    }
+    airTransport : {
+      mjPerPassMile : 3.862426795
+    }
+  }
+  totalConsumption: {
+    lighting: function (workbook) {
+      let total = 0
+      _.forEach(workbook.data.lighting, (bulbType) => {
+        total += ((bulbType.hoursUsed * bulbType.numUnits * bulbType.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+      })
+      return total
+    },
+    appliances: function (workbook) {
+      let total = 0
+      _.forEach(workbook.data.appliances, (appliance) => {
+        total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+      })
+      total += total * workbook.data.appliances.phantomPowerRatio
+      return total
+    },
+    spaceHeating: function (workbook) {
+      let total = 0
+      _.forEach(workbook.data.spaceHeating, (fuelType, fuelTypeName) => {
+        total += ((fuelType.annualHeatingBill / 100)
+          * (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price))
+          * (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
+      })
+      return total
+    },
+    ventilationAC: function (workbook) {
+      let total = 0
+      _.forEach(workbook.data.ventilationAC, (appliance) => {
+        total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+      })
+      return total
+    },
+    waterHeating: function (workbook) {
+      let total = 0
+      let totalGallonsUsed = 0
+      _.forEach(workbook.data.waterHeating.activities, (timesPerDay, name) => {
+        totalGallonsUsed += timesPerDay * UMIS.Energy.defaults.waterHeating.activityAverages[name]
+      })
+      _.forEach(workbook.data.waterHeating.heaters, (heater) => {
+        total += ((totalGallonsUsed * 8.33 * (135-58)) / UMIS.Energy.defaults.waterHeating.energyFactors[heater.type]) * 0.00105505585
+      })
+      return total
+    },
+    groundRailTransport: function (workbook) {
+      let total = 0
+      _.forEach(workbook.data.groundRailTransport.days, (day) => {
+        _.forEach(day, (milesTravelled, transportationType) => {
+          total += milesTravelled
+          * UMIS.Energy.defaults.groundRailTransport.transportationTypes[transportationType].mjPerPassMile
+        })
+      })
+      return total / 7
+    },
+    airTransport: function (workbook) {
+      return workbook.data.airTransport.milesTravelledPerYear * UMIS.Energy.defaults.airTransport.mjPerPassMile / 365.242
     }
   }
 }
 
-UMIS.Energy.defaults.waterHeating = {
-
-}
-UMIS.Energy.totalConsumption = {}
-UMIS.Energy.totalConsumption.lighting = function (workbook) {
-  let total = 0
-  _.forEach(workbook.data.lighting, (bulbType) => {
-    total += ((bulbType.hoursUsed * bulbType.numUnits * bulbType.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
-  })
-  return total
-}
-UMIS.Energy.totalConsumption.appliances = function (workbook) {
-  let total = 0
-  _.forEach(workbook.data.appliances, (appliance) => {
-    total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
-  })
-  total += total * workbook.data.phantomPowerRatio
-  return total
-}
-UMIS.Energy.totalConsumption.spaceHeating = function (workbook) {
-  let total = 0
-  _.forEach(workbook.data.spaceHeating, (fuelType, fuelTypeName) => {
-    total += ((fuelType.annualHeatingBill / 100)
-      * (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price))
-      * (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
-  })
-  return total
-}
-UMIS.Energy.totalConsumption.ventilationAC = function (workbook) {
-  let total = 0
-  _.forEach(workbook.data.ventilationAC, (appliance) => {
-    total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
-  })
-  return total
-}
-UMIS.Energy.totalConsumption.waterHeating = function (workbook) {
-  let total = 0
-  let totalGallonsUsed = 0
-  _.forEach(workbook.data.waterHeating.activities, (timesPerDay, name) => {
-    totalGallonsUsed += timesPerDay * UMIS.Energy.defaults.waterHeating.activityAverages[name]
-  })
-  _.forEach(workbook.data.waterHeating.heaters, (heater) => {
-    total += ((totalGallonsUsed * 8.33 * (135-58)) / UMIS.Energy.defaults.waterHeating.energyFactors[heater.type]) * 0.00105505585
-  })
-  return total
-}
-UMIS.Energy.totalConsumption.groundRailTransport = function (workbook) {
-
-}
-UMIS.Energy.totalConsumption.airTransport = function (workbook) {
-
-}
-
-// THIS IS MATERIALS AUDIT
-UMIS.Materials = {}
-UMIS.Materials.totalConsumption = {}
-UMIS.Materials.totalConsumption.paper = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight *
-    (workbook.data.paper / 100)
+UMIS.Materials = {
+  totalConsumption: {
+    paper: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight *
+        (workbook.data.paper / 100)
+      }
+      return
+    },
+    organics: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.organics / 100)
+      }
+      return
+    },
+    plastics: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.plastics / 100)
+      }
+      return
+    },
+    textiles: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.textiles / 100)
+      }
+      return
+    },
+    metals: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.metal / 100)
+      }
+      return
+    },
+    glass: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.glass / 100)
+      }
+      return
+    },
+    trimmings: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.trimmings / 100)
+      }
+      return
+    },
+    appliances: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.appliances / 100)
+      }
+      return
+    },
+    hazardousWaste: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.hazardousWaste / 100)
+      }
+      return
+    },
+    inertsAndOthers: function (workbook) {
+      if (workbook.option === 'A') {
+        return workbook.data.totalWeight * (workbook.data.inertsAndOthers / 100)
+      }
+      return
+    }
   }
-  return
-}
-UMIS.Materials.totalConsumption.organics = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.organics / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.plastics = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.plastics / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.textiles = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.textiles / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.metals = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.metal / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.glass = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.glass / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.trimmings = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.trimmings / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.appliances = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.appliances / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.hazardousWaste = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.hazardousWaste / 100)
-  }
-  return
-}
-UMIS.Materials.totalConsumption.inertsAndOthers = function (workbook) {
-  if (workbook.option === 'A') {
-    return workbook.data.totalWeight * (workbook.data.inertsAndOthers / 100)
-  }
-  return
 }
 
-UMIS.Water = {}
-UMIS.Water.totalConsumption = {}
+UMIS.Water = {
+  totalConsumption: {}
+}
+
 
 // Toilets
 UMIS.Water.averageFlush = function (workbook) {
-  console.log(workbook)
   let toilets = workbook.data.demandJunctions.toilets.activeToilets
   var totalFlushVolume = 0
   toilets.forEach(function (obj) {

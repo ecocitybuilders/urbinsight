@@ -61,7 +61,9 @@ Urbinsight is deployed at [www.urbinsight.com][site].
 2. Run `npm install` in the top level urbinsight directory, and the parcel-server folder
 3. Start a mongo server using the command `mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend`
 4. Make sure PostgreSQL is running and use `createdb urbinsight` to create a database called urbinsight
-5. `cd` into the urbinsight/server-parcel folder and run `npm start` this is parcel tile server it runs on port 5001
+5. `cd` into the urbinsight/server-parcel folder `database\index.js` and change the devConString to your database credentials. After saving run `npm test` this is parcel tile server it runs on port 5001
 6. `cd` into the urbinsight/server folder and run `node server.js` this is the application server it runs on port 8001
 7. From the main urbinsight folder run `npm run dev:no-debug` this is the Hot Module Replacement Server running on port 3000
 8. Go to `http://localhost:3000` to see Urbinsight running
+
+MONGO Database called urbinsight, also need to replace keys for api
