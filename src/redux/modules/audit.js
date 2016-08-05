@@ -256,6 +256,7 @@ export default function survey (state = {
         feature: {}
       })
     case AUDIT_WORKBOOK_SAVE:
+    // Remove this seems to be unecessary
       state.audit_form
         ? cumlatativeAudit = state.audit_form
         : cumlatativeAudit = {}
