@@ -20,8 +20,8 @@ class UMISWorkbookContainer extends React.Component {
     1: 'selection',
     2: 'water',
     3: 'materials',
-    4: 'submit',
-    5: 'complete'
+    4: 'energy'
+    5: 'submit',
   };
 
   constructor () {
@@ -29,11 +29,11 @@ class UMISWorkbookContainer extends React.Component {
     this.state = {
       active: 1,
       workbookToggle: {
-        1: true,
+        1: true, // always true
         2: false,
         3: false,
-        4: true,
-        5: true
+        4: false,
+        5: true, // always true
       }
     }
     this.nextStep = this.nextStep.bind(this)
@@ -101,6 +101,15 @@ class UMISWorkbookContainer extends React.Component {
           />
         )
       case 4:
+        return (
+          <UMISEnergyWorkbook
+            prevSection={this.prevSection}
+            nextSection={this.nextSection}
+            saveValues={this.props.saveValues}
+            audit={audit}
+          />
+        )
+      case 5:
         return (
           <UMISSubmit
             prevSection={this.prevSection}

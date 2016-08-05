@@ -7,16 +7,12 @@ var bcrypt = require('../../../lib/bcrypt-thunk') // version that supports yield
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var co = require('co')
-// var userSchema = new Schema({
-//   username: {type: String, required: true},
-//   email: {type: String, required: true},
-//   password: {type: String, required: true},
-//   role: {type: String, required: false},
-//   profile: {} // for extra information
-// })
-var UserSchema = new Schema({
-  username: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true }
+var userSchema = new Schema({
+  username: {type: String, required: true, unique: true},
+  email: {type: String, required: true},
+  password: {type: String, required: true},
+  role: {type: String, required: false},
+  profile: {} // for extra information
 }, {
   toJSON: {
     transform: function (doc, ret, options) {
@@ -24,11 +20,21 @@ var UserSchema = new Schema({
     }
   }
 })
+// var UserSchema = new Schema({
+//   username: { type: String, required: true, unique: true, lowercase: true },
+//   password: { type: String, required: true }
+// }, {
+//   toJSON: {
+//     transform: function (doc, ret, options) {
+//       delete ret.password
+//     }
+//   }
+// })
 
 /**
  * Middlewares
  */
-UserSchema.pre('save', function (done) {
+userSchema.pre('save', function (done) {
   // only hash the password if it has been modified (or is new)
   if (!this.isModified('password')) {
     return done()
@@ -49,7 +55,7 @@ UserSchema.pre('save', function (done) {
 /**
  * Methods
  */
-UserSchema.methods.comparePassword = function * (candidatePassword) {
+userSchema.methods.comparePassword = function * (candidatePassword) {
   return yield bcrypt.compare(candidatePassword, this.password)
 }
 
@@ -57,7 +63,7 @@ UserSchema.methods.comparePassword = function * (candidatePassword) {
  * Statics
  */
 
-UserSchema.statics.passwordMatches = function * (username, password) {
+userSchema.statics.passwordMatches = function * (username, password) {
   var user = yield this.findOne({ username: username.toLowerCase() }).exec()
   if (!user) {
     throw new Error('User not found')
@@ -71,4 +77,4 @@ UserSchema.statics.passwordMatches = function * (username, password) {
 }
 
 // Model creation
-mongoose.model('User', UserSchema)
+mongoose.model('User', userSchema)
