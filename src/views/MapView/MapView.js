@@ -146,7 +146,8 @@ class MapView extends React.Component {
 
   componentWillUnmount () {
     if (this.state.map) this.state.map.remove()
-    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
+
+    // ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 
   mapClickHandler (keyword, options) {

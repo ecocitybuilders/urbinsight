@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Checkbox } from 'react-bootstrap'
+import { Link } from 'react-router'
 
 type Props = {
   map: PropTypes.object
@@ -38,9 +39,10 @@ class LotToggle extends React.Component {
   render () {
     return (
       <div className='lot-toggle'>
-        <Checkbox style={{margin: '0 auto', marginTop: '5px', marginLeft: '5px'}}
+        {/* <Checkbox style={{margin: '0 auto', marginTop: '5px', marginLeft: '5px'}}
           checked={this.state.checked}
-          onChange={this.onChange}>{this.state.checked ? 'Hide' : 'Show'} Parcels</Checkbox>
+          onChange={this.onChange}>{this.state.checked ? 'Hide' : 'Show'} Parcels</Checkbox> */}
+        <Link to="/admin">Admin</Link>
       </div>
 
     )

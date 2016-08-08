@@ -5,6 +5,7 @@ import Login from 'containers/Login'
 import { loginUser, logoutUser, signUpUser } from 'redux/modules/auth'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { capitalizeFirstLetter } from 'utils/generalUtils'
+import { Link } from 'react-router'
 
 type Props = {
   dispatch: PropTypes.func.isRequired,
@@ -66,14 +67,16 @@ class AppHeader extends React.Component {
                 <MenuItem eventKey={1.1} href='/medellin'>Medellin</MenuItem>
                 <MenuItem eventKey={1.2} href='/cusco'>Cusco</MenuItem>
                 <MenuItem eventKey={1.3} href='/abudhabi'>Abu Dhabi</MenuItem>
-                <MenuItem eventKey={1.3} href='/lima'>Lima</MenuItem>
-                <MenuItem eventKey={1.4} href='/budapest'>Budapest</MenuItem>
+                <MenuItem eventKey={1.4} href='/lima'>Lima</MenuItem>
+                <MenuItem eventKey={1.5} href='/budapest'>Budapest</MenuItem>
+                <MenuItem eventKey={1.6} href='/admin'>Admin</MenuItem>
               </NavDropdown>
               <NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
                 <MenuItem eventKey={2.1} href='http://medellin.urbinsight.com'>Medellin</MenuItem>
                 <MenuItem eventKey={2.2} href='http://cusco.urbinsight.com'>Cusco</MenuItem>
                 <MenuItem eventKey={2.3} href='http://abudhabi.urbinsight.com'>Abu Dhabi</MenuItem>
-                <MenuItem eventKey={2.3} href='http://lima.urbinsight.com'>Lima</MenuItem>
+                <MenuItem eventKey={2.4} href='http://lima.urbinsight.com'>Lima</MenuItem>
+
               </NavDropdown>
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
               {/* <NavItem eventKey={4} href='#'>About</NavItem>

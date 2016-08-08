@@ -196,7 +196,8 @@ export const actions = {
 // we would also want a util to check if the token is expired.
 export default function auth (state = {
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token')
+  isAuthenticated: localStorage.getItem('id_token'),
+  user: {}
 }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
@@ -209,7 +210,9 @@ export default function auth (state = {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: ''
+        errorMessage: '',
+        isAdmin: action.user.isAdmin,
+        user: action.user
       })
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
@@ -232,7 +235,8 @@ export default function auth (state = {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: ''
+        errorMessage: '',
+        user: action.user
       })
     case SIGN_UP_FAILURE:
       return Object.assign({}, state, {

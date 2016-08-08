@@ -28,7 +28,7 @@ const UserIsAdmin = UserAuthWrapper({
   failureRedirectPath: '/',
   wrapperDisplayName: 'UserIsAdmin',
   predicate: auth => auth.user.isAdmin,
-  allowRedirectBack: false
+  allowRedirectBack: true
 })
 
 export default (store) => (
