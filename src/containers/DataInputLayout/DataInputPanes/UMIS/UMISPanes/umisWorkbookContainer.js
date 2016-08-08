@@ -3,6 +3,7 @@ import UMISWorkbookSelection from './umisWorkbookSelection'
 import UMISWaterWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/water/waterWorkbook'
 import UMISMaterialsWorkbook from
   'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/materials/materialsWorkbook'
+import UMISEnergyWorkbook from 'containers/DataInputLayout/DataInputPanes/UMIS/WorkbookPanes/energy/energyWorkbook'
 import UMISSubmit from './UmisSubmit'
 
 type Props = {
@@ -100,15 +101,15 @@ class UMISWorkbookContainer extends React.Component {
             audit={audit}
           />
         )
-      // case 4:
-      //   return (
-      //     <UMISEnergyWorkbook
-      //       prevSection={this.prevSection}
-      //       nextSection={this.nextSection}
-      //       saveValues={this.props.saveValues}
-      //       audit={audit}
-      //     />
-      //   )
+      case 4:
+         return (
+           <UMISEnergyWorkbook
+             prevSection={this.prevSection}
+             nextSection={this.nextSection}
+             saveValues={this.props.saveValues}
+             audit={audit}
+           />
+       )
       case 5:
         return (
           <UMISSubmit

@@ -35,7 +35,10 @@ class UMISWorkbookSelection extends React.Component {
           checked={this.props.workbookToggle[3]}>
           Materials
         </Checkbox>
-        <Checkbox disabled>Energy</Checkbox>
+        <Checkbox onChange={() => this.selectionHandler(4)}
+          checked={this.props.workbookToggle[4]}>
+          Energy
+        </Checkbox>
         <Checkbox disabled>Mobility</Checkbox>
         <br />
         <Row>
