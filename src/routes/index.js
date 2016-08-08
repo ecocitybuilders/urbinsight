@@ -18,7 +18,8 @@ const UserIsAuthenticated = UserAuthWrapper({
   redirectAction: routerActions.replace,
   failureRedirectPath: '/',
   wrapperDisplayName: 'UserIsAuthenticated',
-  predicate: auth => auth.isAuthenticated
+  predicate: auth => auth.isAuthenticated,
+  allowRedirectBack: false
 })
 
 const UserIsAdmin = UserAuthWrapper({
@@ -26,14 +27,14 @@ const UserIsAdmin = UserAuthWrapper({
   redirectAction: routerActions.replace,
   failureRedirectPath: '/',
   wrapperDisplayName: 'UserIsAdmin',
-  predicate: user => user.isAdmin,
+  predicate: auth => auth.user.isAdmin,
   allowRedirectBack: false
 })
 
 export default (store) => (
   <Route path='/' component={CoreLayout}>
     <IndexRoute component={Homepage} />
-    <Route path='admin' component={UserIsAuthenticated(AdminPanel)} />
+    <Route path='admin' component={UserIsAuthenticated(UserIsAdmin(AdminPanel))} />
     <Route path=':city' component={MapView} />
 
   </Route>
