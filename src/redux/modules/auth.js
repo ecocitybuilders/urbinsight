@@ -37,7 +37,8 @@ function receiveLogin (user): Action {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user._id
+    id_token: user._id,
+    user: user
   }
 }
 
@@ -64,7 +65,8 @@ function receiveSignUp (user): Action {
     type: SIGN_UP_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user._id
+    id_token: user._id,
+    user: user
   }
 }
 
@@ -154,7 +156,7 @@ export function signUpUser (creds) {
             // If login was successful, set the token in local storage
                 localStorage.setItem('id_token', user.user._id)
             // Dispatch the success action
-                dispatch(receiveLogin(user))
+                dispatch(receiveLogin(user.user))
               }
             }).catch((err) => console.log('Error: ', err))
   }

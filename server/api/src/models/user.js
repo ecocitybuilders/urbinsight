@@ -8,8 +8,8 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var co = require('co')
 var userSchema = new Schema({
-  username: {type: String, required: true, unique: true},
-  email: {type: String, required: true},
+  username: {type: String, required: true, unique: true, lowercase: true},
+  email: {type: String, required: false},
   password: {type: String, required: true},
   role: {type: String, required: false},
   profile: {} // for extra information

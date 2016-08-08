@@ -6,7 +6,12 @@ var audit = require('./api/src/methods/audit')
 var keys = require('./api/keys')
 var path = require('path')
 var fs = require('fs')
-
+// var cors = require('koa-cors')
+//
+// var options = {
+//   origin: '*'
+// }
+// app.use(cors(options))
 // trust proxy
 app.proxy = true
 

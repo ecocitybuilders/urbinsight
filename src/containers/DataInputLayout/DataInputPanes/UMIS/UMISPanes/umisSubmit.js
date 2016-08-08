@@ -19,10 +19,6 @@ class UmisSubmit extends React.Component {
     this.auditSubmit = this.auditSubmit.bind(this)
   }
 
-  // nextStep (e) {
-  //   this.props.nextStep()
-  // }
-
   auditSubmit () {
     // this function builds the geojson from the audit and the feature selected or point if no feature
     let audit = this.props.audit
@@ -57,7 +53,7 @@ class UmisSubmit extends React.Component {
           All that is left to do is to click submit below. If you need to change some data, you can
           also go back to a previous step.
         </Well>
-        <br/>
+        <br />
         <Row>
           <Col xs={6} sm={6} md={6}>
             <Button bsStyle='info' onClick={this.props.prevSection} block>
