@@ -3,6 +3,7 @@
 // */
 
 'use strict'
+
 var bcrypt = require('../../../lib/bcrypt-thunk') // version that supports yields
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema

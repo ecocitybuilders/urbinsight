@@ -1,33 +1,63 @@
+# {
+#   "parser"  : "babel-eslint",
+#   "extends" : [
+#     "standard",
+#     "standard-react"
+#   ],
+#   "plugins" : [
+#     "flow-vars",
+#     "babel"
+#   ],
+#   "env"     : {
+#     "browser" : true
+#   },
+#   "globals" : {
+#     #not necessary Action
+#     "Action"       : false,
+#     "__DEV__"      : false,
+#     "__PROD__"     : false,
+#     "__DEBUG__"    : false,
+#     # Remove Debug new window
+#     "__DEBUG_NEW_WINDOW__" : false,
+#     #"__COVERAGE__" : false
+#     "__BASENAME__" : false
+#   },
+#   "rules": {
+#     "semi" : [2, "never"],
+#     "max-len": [2, 120, 2],
+#     "flow-vars/define-flow-type": 1,
+#     "flow-vars/use-flow-type": 1,
+#     "generator-star-spacing": 0,
+#     "babel/generator-star-spacing": 1
+#   }
+# }
+
 {
   "parser"  : "babel-eslint",
   "extends" : [
     "standard",
     "standard-react"
   ],
-  "plugins" : [
-    "flow-vars",
-    "babel"
+  "plugins": [
+    "babel",
+    "react",
+    "promise"
   ],
   "env"     : {
     "browser" : true
   },
   "globals" : {
-    #not necessary Action
-    "Action"       : false,
     "__DEV__"      : false,
     "__PROD__"     : false,
     "__DEBUG__"    : false,
-    # Remove Debug new window
-    "__DEBUG_NEW_WINDOW__" : false,
-    #"__COVERAGE__" : false
+    "__COVERAGE__" : false,
     "__BASENAME__" : false
   },
   "rules": {
     "semi" : [2, "never"],
     "max-len": [2, 120, 2],
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1,
     "generator-star-spacing": 0,
-    "babel/generator-star-spacing": 1
+    "babel/generator-star-spacing": 1,
+    "jsx-quotes": [2, "prefer-single"]
   }
 }
