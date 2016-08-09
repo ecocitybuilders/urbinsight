@@ -5,7 +5,7 @@ import Login from 'containers/Login'
 import { loginUser, logoutUser, signUpUser } from 'redux/modules/auth'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { capitalizeFirstLetter } from 'utils/generalUtils'
-import { Link } from 'react-router'
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
 type Props = {
   dispatch: PropTypes.func.isRequired,
@@ -64,12 +64,12 @@ class AppHeader extends React.Component {
           <Navbar.Collapse>
             <Nav pullRight>
               <NavDropdown eventKey={1} title='Explore Maps' id='basic-nav-dropdown'>
-                <MenuItem eventKey={1.1} href='/medellin'>Medellin</MenuItem>
-                <MenuItem eventKey={1.2} href='/cusco'>Cusco</MenuItem>
-                <MenuItem eventKey={1.3} href='/abudhabi'>Abu Dhabi</MenuItem>
-                <MenuItem eventKey={1.4} href='/lima'>Lima</MenuItem>
-                <MenuItem eventKey={1.5} href='/budapest'>Budapest</MenuItem>
-                <MenuItem eventKey={1.6} href='/admin'>Admin</MenuItem>
+                <LinkContainer to={{pathname: '/medellin'}}><MenuItem eventKey={1.1}>Medellin</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/cusco'}}><MenuItem eventKey={1.2}>Cusco</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/abudhabi'}}><MenuItem eventKey={1.3}>Abu Dhabi</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/lima'}}><MenuItem eventKey={1.4}>Lima</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/budapest'}}><MenuItem eventKey={1.5}>Budapest</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/admin'}}><MenuItem eventKey={1.6}>Admin</MenuItem></LinkContainer>
               </NavDropdown>
               <NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
                 <MenuItem eventKey={2.1} href='http://medellin.urbinsight.com'>Medellin</MenuItem>
@@ -94,10 +94,11 @@ class AppHeader extends React.Component {
 
 const mapStateToProps = (state) => {
   const { auth } = state
-  const { isAuthenticated, errorMessage } = auth
+  const { isAuthenticated, errorMessage, user } = auth
   return {
     isAuthenticated,
-    errorMessage
+    errorMessage,
+    user
   }
 }
 const mapDispatchToProps = (dispatch) => {

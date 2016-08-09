@@ -1,6 +1,6 @@
 /* @flow */
 import 'whatwg-fetch'
-import server_endpoint from 'utils/serverUtils'
+import serverEndpoint from 'utils/serverUtils'
 // ------------------------------------
 // Constants
 // ------------------------------------
