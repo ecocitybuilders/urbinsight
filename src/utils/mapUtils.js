@@ -122,12 +122,12 @@ export function baseLayerandSource (map, tileLocation) {
 const cityObject = {
   cusco: [-71.9675, -13.5320],
   medellin: [-75.5812, 6.2442],
-  abudhabi: [54.36745, 24.47608],
+  abu_dhabi: [54.36745, 24.47608],
   lima: [-77.0428, -12.0464],
   budapest: [19.0402, 47.4979]
 }
 
-const cityList = ['cusco', 'medellin', 'abudhabi', 'lima', 'budapest']
+const cityList = ['cusco', 'medellin', 'abu_ddhabi', 'lima', 'budapest']
 
 function getRandomInt (min, max) {
   return Math.floor(Math.random() * (max - min)) + min

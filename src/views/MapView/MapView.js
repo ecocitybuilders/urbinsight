@@ -42,7 +42,7 @@ class MapView extends React.Component {
         zoom: 15
       },
       // This is unmaintainable need to standardize city names
-      city: city === 'abudhabi' ? 'abu_dhabi' : city,
+      city: city,
       layerList: [],
       viewport: {
         latitude: 0,
@@ -51,15 +51,14 @@ class MapView extends React.Component {
         width: window.innerWidth,
         height: window.innerHeight,
         isDragging: false
-      }
+      },
+      tileLocation: 'http://' + serverEndpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     }
     this.mapClickHandler = this.mapClickHandler.bind(this)
   }
 // add component will receive props call to set the city
   render () {
-    const { isAuthenticated, audits, surveys, locationBeforeTransitions } = this.props
-    let city = locationBeforeTransitions.pathname.slice(1)
-    city = city === 'abudhabi' ? 'abu_dhabi' : city
+    const { isAuthenticated, audits, surveys } = this.props
     return (
       <div id='mapContainer'>
 
@@ -67,7 +66,7 @@ class MapView extends React.Component {
         {/*  Possibly need to move these outside of the map constainer*/}
           {/* <Overlay map={this.state.map}/>*/}
           <LotToggle map={this.state.map} />
-          <LayerSelection map={this.state.map} city={city}
+          <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList} />
           <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}
             map={this.state.map} viewport={this.state.viewport} />
@@ -82,13 +81,10 @@ class MapView extends React.Component {
 
   componentDidMount () {
     // CHANGE (This is unmaintainable...need to standardize citynames)
-    let city = this.props.locationBeforeTransitions.slice(1) === 'abudhabi' ? 'abu_dhabi'
-      : this.props.locationBeforeTransitions
-    let tileLocation = 'http://' + serverEndpoint + ':5001/data/city/lots/' + this.state.city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
-    baseLayerandSource(map, tileLocation)
+    baseLayerandSource(map, this.state.tileLocation)
     if (typeof city !== 'undefined') {
       let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
         `${this.state.city}/featuretypes.json`
@@ -123,15 +119,26 @@ class MapView extends React.Component {
   }
   componentWillReceiveProps (np) {
     let city = np.locationBeforeTransitions.pathname.slice(1)
+
+    // baseLayerandSource(this.state.map, tileLocation)
+    // This sets the feature list from Geonode
+    // if (typeof city !== 'undefined') {
+    //   let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
+    //     `${this.state.city}/featuretypes.json`
+    //   fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+    //     .then((response) => response.json())
+    //     .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
+    // }
+    this.state.map.setCenter(cityObjectFunc(city))
     this.setState({
-      city: city === 'abudhabi' ? 'abu_dhabi'
-        : city,
+      city: city,
       mapView: {
         container: 'map',
         style: 'mapbox://styles/mapbox/satellite-streets-v9',
         center: cityObjectFunc(city),
         zoom: 15
-      }
+      },
+      tileLocation: 'http://' + serverEndpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     })
   }
   componentWillUpdate (np, ns) {
@@ -164,8 +171,6 @@ class MapView extends React.Component {
 
   componentWillUnmount () {
     if (this.state.map) this.state.map.remove()
-
-    // ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 
   mapClickHandler (keyword, options) {

@@ -66,7 +66,7 @@ class AppHeader extends React.Component {
               <NavDropdown eventKey={1} title='Explore Maps' id='basic-nav-dropdown'>
                 <LinkContainer to={{pathname: '/medellin'}}><MenuItem eventKey={1.1}>Medellin</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/cusco'}}><MenuItem eventKey={1.2}>Cusco</MenuItem></LinkContainer>
-                <LinkContainer to={{pathname: '/abudhabi'}}><MenuItem eventKey={1.3}>Abu Dhabi</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/abu_dhabi'}}><MenuItem eventKey={1.3}>Abu Dhabi</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/lima'}}><MenuItem eventKey={1.4}>Lima</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/budapest'}}><MenuItem eventKey={1.5}>Budapest</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/admin'}}><MenuItem eventKey={1.6}>Admin</MenuItem></LinkContainer>
