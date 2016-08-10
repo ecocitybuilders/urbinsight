@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Logo from 'static/images/urbinsight_logo_v1.png'
 import Login from 'containers/Login'
@@ -39,7 +39,7 @@ class AppHeader extends React.Component {
     })
   }
   render () {
-    const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick, onSignUpClick } =
+    const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick, onSignUpClick, user } =
     this.props
     const returnedModal = window.location.pathname.slice(1) !== '' && !this.state.LoginModalOpened
       ? <Login errorMessage={errorMessage}
@@ -57,7 +57,10 @@ class AppHeader extends React.Component {
               <a style={{'display': 'inline-block'}} href='http://www.urbinsight.com'>
                 <img className='header-logo' src={Logo} />
               </a>
-              <h3 className='city-title'>{capitalizeFirstLetter(window.location.pathname.slice(1))}</h3>
+              <h3 className='city-title'>
+                {window.location.pathname.slice(1).split('_')
+                  .map((word) => { return capitalizeFirstLetter(word) }).join(' ')}
+              </h3>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -69,7 +72,8 @@ class AppHeader extends React.Component {
                 <LinkContainer to={{pathname: '/abu_dhabi'}}><MenuItem eventKey={1.3}>Abu Dhabi</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/lima'}}><MenuItem eventKey={1.4}>Lima</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/budapest'}}><MenuItem eventKey={1.5}>Budapest</MenuItem></LinkContainer>
-                <LinkContainer to={{pathname: '/admin'}}><MenuItem eventKey={1.6}>Admin</MenuItem></LinkContainer>
+                {user.isAdmin &&
+                  <LinkContainer to={{pathname: '/admin'}}><MenuItem eventKey={1.6}>Admin</MenuItem></LinkContainer>}
               </NavDropdown>
               <NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
                 <MenuItem eventKey={2.1} href='http://medellin.urbinsight.com'>Medellin</MenuItem>

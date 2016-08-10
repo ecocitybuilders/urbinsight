@@ -107,7 +107,7 @@ export function loginUser (creds) {
   return (dispatch) => {
       // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
-    return fetch('http://' + server_endpoint + ':8000/api/sessions/create', config)
+    return fetch('http://' + serverEndpoint + ':8000/api/sessions/create', config)
       .then((response) =>
         response.json().then((user) => ({ user, response }))
             ).then(({ user, response }) => {
@@ -143,7 +143,7 @@ export function signUpUser (creds) {
   return (dispatch) => {
       // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestSignUp(creds))
-    return fetch('http://' + server_endpoint + ':8000/api/user/create', config)
+    return fetch('http://' + serverEndpoint + ':8000/api/user/create', config)
       .then((response) =>
         response.json().then((user) => ({ user, response }))
             ).then(({ user, response }) => {

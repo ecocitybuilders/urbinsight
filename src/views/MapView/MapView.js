@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
 import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
@@ -119,28 +118,28 @@ class MapView extends React.Component {
   }
   componentWillReceiveProps (np) {
     let city = np.locationBeforeTransitions.pathname.slice(1)
-
-    // baseLayerandSource(this.state.map, tileLocation)
-    // This sets the feature list from Geonode
-    // if (typeof city !== 'undefined') {
-    //   let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
-    //     `${this.state.city}/featuretypes.json`
-    //   fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
-    //     .then((response) => response.json())
-    //     .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
-    // }
-    this.state.map.setCenter(cityObjectFunc(city))
-    this.setState({
-      city: city,
-      mapView: {
-        container: 'map',
-        style: 'mapbox://styles/mapbox/satellite-streets-v9',
-        center: cityObjectFunc(city),
-        zoom: 15
-      },
-      tileLocation: 'http://' + serverEndpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
-    })
+    if (this.state.city !== city) {
+      let tileLocation = 'http://' + serverEndpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
+      this.state.map.setCenter(cityObjectFunc(city))
+      this.state.map.removeSource('lots').addSource('lots', {
+        'type': 'vector',
+        'tiles': [tileLocation]
+      })
+      this.setState({
+        city: city,
+        tileLocation: tileLocation
+      })
+      // this sets the feature list from Geonode
+      if (typeof city !== 'undefined') {
+        let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
+          `${this.state.city}/featuretypes.json`
+        fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+          .then((response) => response.json())
+          .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
+      }
+    }
   }
+
   componentWillUpdate (np, ns) {
     // This Complexity is based on the following conditions for calling the featureSelection mapClickHandler
     // if the User is logged in, and (the dataInput window isn't open and more audits or servers are present
