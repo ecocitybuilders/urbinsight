@@ -14,7 +14,8 @@ type Props = {
   onLoginClick: PropTypes.func,
   onLogoutClick: PropTypes.func,
   onSignUpClick: PropTypes.func,
-  user: PropTypes.object
+  user: PropTypes.object,
+  locationBeforeTransitions: PropTypes.object
 }
 
 class AppHeader extends React.Component {
@@ -84,9 +85,12 @@ class AppHeader extends React.Component {
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
               {/* <NavItem eventKey={4} href='#'>About</NavItem>
               <NavItem eventKey={5} href='#'>Help</NavItem>*/}
-              {user.isAdmin && isAuthenticated && <LinkContainer to={{pathname: '/admin'}}><NavItem eventKey={4}>Admin</NavItem></LinkContainer>}
+              {user.isAdmin &&
+                isAuthenticated &&
+                <LinkContainer to={{pathname: '/admin'}}><NavItem eventKey={4}>Admin</NavItem></LinkContainer>}
               {this.props.locationBeforeTransitions.pathname !== '/' &&
-                (!isAuthenticated && <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login | Sign Up</NavItem>)}
+                (!isAuthenticated &&
+                  <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login | Sign Up</NavItem>)}
               {this.props.locationBeforeTransitions.pathname !== '/' &&
                 (isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>)}
             </Nav>
