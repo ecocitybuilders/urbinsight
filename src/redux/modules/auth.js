@@ -1,6 +1,7 @@
 /* @flow */
 import 'whatwg-fetch'
 import serverEndpoint from 'utils/serverUtils'
+import { removeHtmlStorage, setHtmlStorage, statusHtmlStorage } from 'utils/generalUtils'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -118,9 +119,9 @@ export function loginUser (creds) {
                 return Promise.reject(user)
               } else {
             // If login was successful, set the token in local storage
-                localStorage.setItem('id_token', user.user._id)
+                setHtmlStorage('id_token', user.user._id, 86400)
                 if (user.user.isAdmin) {
-                  localStorage.setItem('isAdmin', true)
+                  setHtmlStorage('isAdmin', true, 86400)
                 }
             // Dispatch the success action
                 dispatch(receiveLogin(user.user))
@@ -132,8 +133,8 @@ export function loginUser (creds) {
 export function logoutUser (): Action {
   return (dispatch) => {
     dispatch(requestLogout())
-    localStorage.removeItem('id_token')
-    localStorage.removeItem('isAdmin')
+    removeHtmlStorage('id_token')
+    removeHtmlStorage('isAdmin')
     dispatch(receiveLogout())
   }
 }
@@ -158,7 +159,7 @@ export function signUpUser (creds) {
                 return Promise.reject(user)
               } else {
             // If login was successful, set the token in local storage
-                localStorage.setItem('id_token', user.user._id)
+                setHtmlStorage('id_token', user.user._id, 86400)
             // Dispatch the success action
                 dispatch(receiveLogin(user.user))
               }
@@ -200,9 +201,9 @@ export const actions = {
 // we would also want a util to check if the token is expired.
 export default function auth (state = {
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token'),
+  isAuthenticated: statusHtmlStorage('id_token') ? localStorage.getItem('id_token') : null,
   user: {
-    isAdmin: localStorage.getItem('isAdmin')
+    isAdmin: statusHtmlStorage('isAdmin') ? localStorage.getItem('isAdmin') : null
   }
 }, action) {
   switch (action.type) {

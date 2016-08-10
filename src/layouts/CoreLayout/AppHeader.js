@@ -13,7 +13,8 @@ type Props = {
   errorMessage: PropTypes.string,
   onLoginClick: PropTypes.func,
   onLogoutClick: PropTypes.func,
-  onSignUpClick: PropTypes.func
+  onSignUpClick: PropTypes.func,
+  user: PropTypes.object
 }
 
 class AppHeader extends React.Component {
@@ -40,7 +41,7 @@ class AppHeader extends React.Component {
   }
   render () {
     const { dispatch, isAuthenticated, errorMessage, onLoginClick, onLogoutClick, onSignUpClick, user } =
-    this.props
+      this.props
     const returnedModal = window.location.pathname.slice(1) !== '' && !this.state.LoginModalOpened
       ? <Login errorMessage={errorMessage}
         onLoginClick={onLoginClick}
@@ -72,8 +73,6 @@ class AppHeader extends React.Component {
                 <LinkContainer to={{pathname: '/abu_dhabi'}}><MenuItem eventKey={1.3}>Abu Dhabi</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/lima'}}><MenuItem eventKey={1.4}>Lima</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/budapest'}}><MenuItem eventKey={1.5}>Budapest</MenuItem></LinkContainer>
-                {user.isAdmin &&
-                  <LinkContainer to={{pathname: '/admin'}}><MenuItem eventKey={1.6}>Admin</MenuItem></LinkContainer>}
               </NavDropdown>
               <NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
                 <MenuItem eventKey={2.1} href='http://medellin.urbinsight.com'>Medellin</MenuItem>
@@ -85,8 +84,11 @@ class AppHeader extends React.Component {
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
               {/* <NavItem eventKey={4} href='#'>About</NavItem>
               <NavItem eventKey={5} href='#'>Help</NavItem>*/}
-              {!isAuthenticated && <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login | Sign Up</NavItem>}
-              {isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>}
+              {user.isAdmin && isAuthenticated && <LinkContainer to={{pathname: '/admin'}}><NavItem eventKey={4}>Admin</NavItem></LinkContainer>}
+              {this.props.locationBeforeTransitions.pathname !== '/' &&
+                (!isAuthenticated && <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login | Sign Up</NavItem>)}
+              {this.props.locationBeforeTransitions.pathname !== '/' &&
+                (isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>)}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -97,12 +99,14 @@ class AppHeader extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth } = state
+  const { auth, router } = state
   const { isAuthenticated, errorMessage, user } = auth
+  const { locationBeforeTransitions } = router
   return {
     isAuthenticated,
     errorMessage,
-    user
+    user,
+    locationBeforeTransitions
   }
 }
 const mapDispatchToProps = (dispatch) => {
