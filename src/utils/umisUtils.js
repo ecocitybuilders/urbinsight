@@ -117,12 +117,12 @@ UMIS.Food = {}
 //         dishwasher: number,
 //         kitchenFaucetFlow: number,
 //         bathroomFaucetFlow: number
-//       }
+//       },
 //       heaters: {
 //         // They will have the ability to add multiple heaters
 //         heater: {
 //           // Gas and Electric are the two types.
-//           type: 'gas'
+//           type: 'gas',
 //           numUnits: number
 //         }
 //       }
