@@ -127,23 +127,28 @@ export let questionIDs = ['employment', 'healthcare', 'family', 'stability',
 export let questions = [
   {
     title: '1. How would you describe your level of access to adequate employment?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Are you able to find work that sustains you in your daily life? This could be either wage-labor or a
+     owned business.`
   },
   {
     title: '2. How would you describe your level of access to healthcare and health services?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Do you have access to necessary medical services,
+     allowing you to live a healthy and productive life?`
   },
   {
     title: '3. How would you describe your ability to provide care for family members as needed?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Do you have the ability
+     to meet the needs of their family members. This question is likely only relevant for the household head.`
   },
   {
     title: '4. How would you describe stability in your daily life?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Is your daily life affected by distabilizing events such as (political turmoil, economic stagnation,
+     social instability)?`
   },
   {
     title: '5. How do you describes your level of access to opportunities to develop healthy social relations?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Are their opportunities to interact and engage with other people in your community?
+    If it is to dangerous, or discrimination is present this could affect this question.`
   },
   {
     title: '6. How do you descrive your level of access to recreational opportunities and activities?',

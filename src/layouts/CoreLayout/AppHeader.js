@@ -5,7 +5,7 @@ import Login from 'containers/Login'
 import { loginUser, logoutUser, signUpUser } from 'redux/modules/auth'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { capitalizeFirstLetter } from 'utils/generalUtils'
-import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 type Props = {
   dispatch: PropTypes.func.isRequired,
