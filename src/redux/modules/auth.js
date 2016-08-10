@@ -119,6 +119,9 @@ export function loginUser (creds) {
               } else {
             // If login was successful, set the token in local storage
                 localStorage.setItem('id_token', user.user._id)
+                if (user.user.isAdmin) {
+                  localStorage.setItem('isAdmin', true)
+                }
             // Dispatch the success action
                 dispatch(receiveLogin(user.user))
               }
@@ -130,6 +133,7 @@ export function logoutUser (): Action {
   return (dispatch) => {
     dispatch(requestLogout())
     localStorage.removeItem('id_token')
+    localStorage.removeItem('isAdmin')
     dispatch(receiveLogout())
   }
 }
@@ -197,7 +201,9 @@ export const actions = {
 export default function auth (state = {
   isFetching: false,
   isAuthenticated: localStorage.getItem('id_token'),
-  user: {}
+  user: {
+    isAdmin: localStorage.getItem('isAdmin')
+  }
 }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:

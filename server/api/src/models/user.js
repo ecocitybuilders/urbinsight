@@ -13,7 +13,7 @@ var userSchema = new Schema({
   email: {type: String, required: false},
   password: {type: String, required: true},
   role: {type: String, required: false},
-  isAdmin: {type: Boolean, default: true},
+  isAdmin: {type: Boolean, default: false},
   profile: {} // for extra information
 }, {
   toJSON: {

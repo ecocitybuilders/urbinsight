@@ -9,7 +9,7 @@ type Props = {
   audit: PropTypes.object,
   feature: PropTypes.object,
   auditSubmit: PropTypes.func,
-  map: PropType.obj
+  map: PropTypes.obj
 }
 
 class UmisSubmit extends React.Component {
