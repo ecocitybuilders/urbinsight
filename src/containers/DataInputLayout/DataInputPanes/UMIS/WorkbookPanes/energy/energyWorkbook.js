@@ -127,7 +127,7 @@ class UMISEnergyWorkbook extends React.Component {
 
     // TODO: save the data from the form
     let data = {}
-
+    this.props.saveValues(data)  
     this.props.nextSection()
   }
 
