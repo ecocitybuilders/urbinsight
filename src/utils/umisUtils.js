@@ -24,7 +24,188 @@ UMIS.Calculations = {
   }
 }
 
-UMIS.Mobility = {}
+// If you want to create calculated values that could be updated based on changing
+// assumptions these values would have to be used to calculate based on the examples in
+// the mobility UMIS
+
+let mobilityDefaults = {
+  foot: {
+    walking: {
+      caloriesPerKM: 52.50,
+      numOfPass: 1
+    },
+    running: {
+      caloriesPerKM: 68.75,
+      numOfPass: 1
+    }
+  },
+  humanPowered: {
+    bicycle: {
+      caloriesPerKM: 15.24,
+      numOfPass: 1
+    },
+    pulledRickshaw: {
+      caloriesPerKM: 72.54,
+      numOfPass: 3
+    }
+  },
+  motorizedVehicle: {
+    motorcycle: {
+      ltsPerKM: 12.8,
+      numOfPass: 2
+    },
+    autoRickshaw: {
+      ltsPerKM: 22.0,
+      numOfPass: 3
+    },
+    car4pass: {
+      ltsPerKM: 17.9,
+      numOfPass: 4
+    },
+    car2pass: {
+      ltsPerKM: 17.9,
+      numOfPass: 2
+    },
+    car1pass: {
+      ltsPerKM: 17.9,
+      numOfPass: 1
+    },
+    personalLightTruck: {
+      ltsPerKM: 10.2,
+      numOfPass: 1
+    }
+  },
+  bus: {
+    conventionalBus: {
+      ltsPerKM: 1.8,
+      numOfPass: 40
+    },
+    hybridElectricBus: {
+      ltsPerKM: 2.4,
+      numOfPass: 40
+    }
+  },
+  train: {
+    commuterRail: {
+      ltsPerKM: 9.8,
+      numOfPass: 100
+    },
+    intercityRail: {
+      ltsPerKM: 5.1,
+      numOfPass: 100
+    }
+  },
+  subway: {
+    subway: {
+      ltsPerKM: 0.00,
+      numOfPass: 'NA'
+    }
+  },
+  tram: {
+    tram: {
+      ltsPerKM: 0.01,
+      numOfPass: 'NA'
+    }
+  },
+  ferry: {
+    ferry: {
+      ltsPerKM: 9.44,
+      numOfPass: 401
+    }
+  }
+}
+
+UMIS.Mobility = {
+  defaults: {
+    foot: {
+      walking: {
+        ltsPerPassKM: 0.0000063,
+        MJPerPassKM: 0.00021966
+        // ltsPerPassKM: this.MJPerPassKM / 34.8707109,
+        // MJPerPassKM: mobilityDefaults.foot.walking.caloriesPerKM / 239005.736,
+        // ltsPerKM: ltsPerPassKM * mobilityDefaults.foot.walking.numOfPass
+      },
+      running: {
+        ltsPerPassKM: 0.00000825,
+        MJPerPassKM: 0.00028765
+      }
+    },
+    humanPowered: {
+      bicycle: {
+        ltsPerPassKM: 0.00000183,
+        MJPerPassKM: 0.00006376
+      },
+      pulledRickshaw: {
+        ltsPerPassKM: 0.0000087,
+        MJPerPassKM: 0.00030351
+      }
+    },
+    motorizedVehicle: {
+      motorcycle: {
+        ltsPerPassKM: 0.03920243,
+        MJPerPassKM: 1.36701662
+      },
+      autoRickshaw: {
+        ltsPerPassKM: 0.01515152,
+        MJPerPassKM: 0.52834410
+      },
+      car4pass: {
+        ltsPerPassKM: 0.01400087,
+        MJPerPassKM: 0.48822022
+      },
+      car2pass: {
+        ltsPerPassKM: 0.02800174,
+        MJPerPassKM: 0.97644045
+      },
+      car1pass: {
+        ltsPerPassKM: 0.05600347,
+        MJPerPassKM: 1.95288089
+      },
+      personalLightTruck: {
+        ltsPerPassKM: 0.09800608,
+        MJPerPassKM: 3.41754155
+      }
+    },
+    bus: {
+      conventionalBus: {
+        ltsPerPassKM: 0.01400087,
+        MJPerPassKM: 0.48822022
+      },
+      hybridElectricBus: {
+        ltsPerPassKM: 0.01050065,
+        MJPerPassKM: 0.36616517
+      }
+    },
+    train: {
+      commuterRail: {
+        ltsPerPassKM: 0.00102267,
+        MJPerPassKM: 0.03566130
+      },
+      intercityRail: {
+        ltsPerPassKM: 0.00196012,
+        MJPerPassKM: 0.06835083
+      }
+    },
+    subway: {
+      subway: {
+        ltsPerPassKM: 0.00445482,
+        MJPerPassKM: 0.15534280
+      }
+    },
+    tram: {
+      tram: {
+        ltsPerPassKM: 0.00708478,
+        MJPerPassKM: 0.24705120
+      }
+    },
+    ferry: {
+      ferry: {
+        ltsPerPassKM: 0.02352146,
+        MJPerPassKM: 0.82020997
+      }
+    }
+  }
+}
 
 UMIS.Food = {
   totalConsumption: {
