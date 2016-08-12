@@ -25,129 +25,79 @@ UMIS.Calculations = {
 }
 
 UMIS.Mobility = {}
-UMIS.Food = {}
-// let energyWorkbook = {
-//   data : {
-//     lighting : {
-//       // Multiple bulbs can be added.
-//       //The following bulbs need options
-//       // Standard incandescent bulbs
-//       // Compact fluorescent bulbs
-//       // Fluorescent ballasts
-//       // Other bulbs
-//       bulbType : {
-//         hoursUsed: number,
-//         numUnits: number,
-//         typicalWattage: number
-//       }
-//     },
-//     appliances : {
-//       phantomPowerRatio: number,
-//       // Multiple Appliances can be added.
-//       // Appliances use the following options
-//       // Television
-//       // Charge iPod/MP3 player
-//       // Charge hand-held video games
-//       // Video game console
-//       // DVD or VHS player
-//       // Desktop computer
-//       // Charge a laptop computer
-//       // Charge a cell phone
-//       // Charge a cordless telephone
-//       // Hair dryer
-//       // Curling/ straightening iron
-//       // Cook on the electric stove top
-//       // Bake in an electric oven
-//       // Gas stove top
-//       // Gas oven
-//       // Microwave
-//       // Electric kettle
-//       // Food processor
-//       // Toaster
-//       // Refrigerator
-//       // Use dishwasher
-//       // Water pump
-//       // Deep freezer
-//       // Automatic washing machine
-//       // Semi-automatic washing machine
-//       // Clothes dryer
-//       // Iron clothing
-//       // Vacuum
-//       appliance : {
-//         hoursUsed: number,
-//         numUnits: number,
-//         typicalWattage: number
-//       }
-//     },
-//
-//     spaceHeating : {
-//       // Multiple fuelTypes can be added.
-//       // The following fuelTypes need options
-//       // Gas
-//       // Propane
-//       // Electricity
-//       // Oil
-//       // Hardwood
-//       // Softwood
-//       fuelType : {
-//         annualHeatingBill: number,
-//         systemType: number,
-//         fuelPrice: number,
-//       }
-//     },
-//     ventilationAC: {
-//       // Multiple Appliances can be added.
-//       // Floor fan
-//       // Standard ceiling fan
-//       // Kitchen exhaust fan
-//       // Bathroom exhaust fan
-//       // Air conditioner window unit
-//       // Central air conditioning unit
-//       // Split air conditioner
-//       appliance: {
-//         hoursUsed: number,
-//         numUnits: number,
-//         typicalWattage: number
-//       }
-//     },
-//     waterHeating: {
-//       activities: {
-//         shower: number,
-//         laundryMachine: number,
-//         dishwasher: number,
-//         kitchenFaucetFlow: number,
-//         bathroomFaucetFlow: number
-//       }
-//       heaters: {
-//         // They will have the ability to add multiple heaters
-//         heater: {
-//           // Gas and Electric are the two types.
-//           type: 'gas'
-//           numUnits: number
-//         }
-//       }
-//     },
-//     groundRailTransport: {
-//       days: {
-//         // 7 days would exist total since this is made for a week.
-//         day: {
-//           // miles Traveled
-//           transportationType: number
-//         }
-//       }
-//     },
-//     airTransport: {
-//       milesTravelledPerYear: number
-//     }
-//   }
-// }
+
+UMIS.Food = {
+  totalConsumption: {
+    fruitsAndVegetables: function (workbook) {
+      let data = workbook.data.fruitsAndVegetables
+      return data.bagsPurchasedWeekly * data.avgWeightPerBag +
+        data.harvestSeasonBasketsWeekly * data.avgWeightPerBasket * data.percentageOfYearGardenProduces
+    },
+    dairy: function (workbook) {
+      let data = workbook.data.dairy
+      return data.ltsLiquidDairy + data.kgsCheeseButter
+    },
+    beverages: function (workbook) {
+      let data = workbook.data.beverages
+      return ((data.regBottlesConsumed * data.regBottleSize) / 1000) +
+        ((data.lgBottleConsumed * data.lgBottleSize) / 1000) +
+        (data.homemadeJuicePerDay * 0.25)
+    },
+    // This is a bad calculation
+    edibleOils: function (workbook) {
+      let data = workbook.data.edibleOils
+      return data.numPersonsEatingFoodCookedOnsite * data.kgPerWeekOilPerPerson
+    },
+    grainsBeansLegumes: function (workbook) {
+      let data = workbook.data.grainsBeansLegumes
+      let total = 0
+      _.forEach(data.meals, (mealType) => {
+        let subTotal = 0
+        _.forEach(mealType, (value, grain) => {
+          if (grain !== 'numPersonPerMeal') {
+            subTotal += value
+          }
+        })
+        total += subTotal * mealType.numPersonPerMeal
+      })
+      return total * data.avgKGDryGrainPerServing
+    },
+    meatsAndEggs: function (workbook) {
+      let data = workbook.data.meatsAndEggs
+      let total = 0
+      _.forEach(data.meals, (mealType) => {
+        let subTotal = 0
+        _.forEach(mealType, (value, meat) => {
+          if (meat !== 'numPersonPerMeal') {
+            subTotal += value
+          }
+        })
+        total += subTotal * mealType.numPersonPerMeal
+      })
+      return total * data.avgKGMeatandEggsPerServing
+    },
+    fishShellfishAlgae: function (workbook) {
+      let data = workbook.data.fishShellfishAlgae
+      return data.purchased + data.harvested * data.percentageOfYearHarvested
+    },
+    stimulants: function (workbook) {
+      let data = workbook.data.stimulants
+      return data.kgCoffeeTea + data.ltsAlcoholicBeverages
+    },
+    sugarAndSweets: function (workbook) {
+      let data = workbook.data.sugarAndSweets
+      return data.kgSugar + data.ltsSyrupHoneyMalt + data.kgCandyPastries
+    }
+  }
+}
+
 UMIS.Energy = {
   defaults: {
-    megaJoulesConversion : 3.6,
-    spaceHeating : {
-      energyContent : {
+    megaJoulesConversion: 3.6,
+    spaceHeating: {
+      energyContent: {
         // MJ/m3
-        gas : 37.5,
+        gas: 37.5,
         // MJ/L
         propane: 25.3,
         // MJ/kWh
@@ -159,7 +109,7 @@ UMIS.Energy = {
         // MJ/cord
         softwood: 18700
       },
-      seasonalEfficiency : {
+      seasonalEfficiency: {
         gas: {
           conventional: 60,
           ventDamper: 64.5,
@@ -200,7 +150,7 @@ UMIS.Energy = {
         }
       }
     },
-    waterHeating : {
+    waterHeating: {
       activityAverages: {
         shower: 10,
         laundryMachine: 7,
@@ -213,7 +163,7 @@ UMIS.Energy = {
         electric: 0.92
       }
     },
-    groundRailTransport : {
+    groundRailTransport: {
       transportationTypes: {
         conventionalBus: {
           milesPerGallon: 4.2,
@@ -271,22 +221,24 @@ UMIS.Energy = {
         }
       }
     },
-    airTransport : {
-      mjPerPassMile : 3.862426795
+    airTransport: {
+      mjPerPassMile: 3.862426795
     }
   },
   totalConsumption: {
     lighting: function (workbook) {
       let total = 0
       _.forEach(workbook.data.lighting, (bulbType) => {
-        total += ((bulbType.hoursUsed * bulbType.numUnits * bulbType.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+        total += ((bulbType.hoursUsed * bulbType.numUnits * bulbType.typicalWattage) / 1000) *
+          UMIS.Energy.defaults.megaJoulesConversion
       })
       return total
     },
     appliances: function (workbook) {
       let total = 0
       _.forEach(workbook.data.appliances, (appliance) => {
-        total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+        total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) *
+          UMIS.Energy.defaults.megaJoulesConversion
       })
       total += total * workbook.data.appliances.phantomPowerRatio
       return total
@@ -294,16 +246,17 @@ UMIS.Energy = {
     spaceHeating: function (workbook) {
       let total = 0
       _.forEach(workbook.data.spaceHeating, (fuelType, fuelTypeName) => {
-        total += ((fuelType.annualHeatingBill / 100)
-          * (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price))
-          * (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
+        total += ((fuelType.annualHeatingBill / 100) *
+          (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price)) *
+          (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
       })
       return total
     },
     ventilationAC: function (workbook) {
       let total = 0
       _.forEach(workbook.data.ventilationAC, (appliance) => {
-        total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) * UMIS.Energy.defaults.megaJoulesConversion
+        total += ((appliance.hoursUsed * appliance.numUnits * appliance.typicalWattage) / 1000) *
+          UMIS.Energy.defaults.megaJoulesConversion
       })
       return total
     },
@@ -314,7 +267,8 @@ UMIS.Energy = {
         totalGallonsUsed += timesPerDay * UMIS.Energy.defaults.waterHeating.activityAverages[name]
       })
       _.forEach(workbook.data.waterHeating.heaters, (heater) => {
-        total += ((totalGallonsUsed * 8.33 * (135-58)) / UMIS.Energy.defaults.waterHeating.energyFactors[heater.type]) * 0.00105505585
+        total += ((totalGallonsUsed * 8.33 * (135 - 58)) /
+          UMIS.Energy.defaults.waterHeating.energyFactors[heater.type]) * 0.00105505585
       })
       return total
     },
@@ -322,14 +276,15 @@ UMIS.Energy = {
       let total = 0
       _.forEach(workbook.data.groundRailTransport.days, (day) => {
         _.forEach(day, (milesTravelled, transportationType) => {
-          total += milesTravelled
-          * UMIS.Energy.defaults.groundRailTransport.transportationTypes[transportationType].mjPerPassMile
+          total += milesTravelled *
+            UMIS.Energy.defaults.groundRailTransport.transportationTypes[transportationType].mjPerPassMile
         })
       })
       return total / 7
     },
     airTransport: function (workbook) {
-      return workbook.data.airTransport.milesTravelledPerYear * UMIS.Energy.defaults.airTransport.mjPerPassMile / 365.242
+      return workbook.data.airTransport.milesTravelledPerYear *
+        UMIS.Energy.defaults.airTransport.mjPerPassMile / 365.242
     }
   }
 }
@@ -401,140 +356,121 @@ UMIS.Materials = {
 }
 
 UMIS.Water = {
-  totalConsumption: {}
+  totalConsumption: {
+    toilets: function (workbook, parcel) {
+      return UMIS.Water.averageFlush(workbook) * UMIS.Calculations.totalEffectiveOccupancy(parcel) *
+        workbook.data.demandJunctions.toilets.dailyPerPersonUsage
+    },
+    hygiene: function (workbook) {
+      var obj = workbook.data.demandJunctions.hygiene
+      // Shower consumption + bath consumption + ablution
+      return (UMIS.Water.avgShowerConsumption(workbook) * obj.typicalShowerDuration *
+                obj.weeklyShowersPerPerson) +
+                (UMIS.Water.avgBathVolume(workbook) * obj.bathsPerWeek) +
+                (obj.minutesOfTapFlowPerVisit * obj.ablutionDuration *
+                obj.numOccupantsUsingWashrooms * obj.numVisitsToWashroomPerOccupant)
+    },
+    kitchen: function (workbook) {
+      var obj = workbook.data.demandJunctions.kitchen
+      return parseFloat(obj.quantityOfMealsPerDay * obj.waterUsedPerMeal +
+        obj.dishwashingWaterPerLoad * obj.loadsOfDishesPerDay +
+        obj.waterConsumptionPerMeal)
+    },
+    laundry: function (workbook) {
+      var obj = workbook.data.demandJunctions.laundry
+      return (obj.personsUsingLaundry * obj.loadsPerWeekPerPerson *
+                obj.waterConsumptionPerLoad) / 7
+    },
+    drinking: function (workbook) {
+      var obj = workbook.data.demandJunctions.drinking
+      return (obj.personsDrinkingWaterOnSite * obj.avgQuantityOfDrink *
+                obj.avgDrinksPerDayPerPerson)
+    },
+    surfaceCleaning: function (workbook) {
+      var obj = workbook.data.demandJunctions.surfaceCleaning
+      return (obj.freqOfInteriorSurfaceCleaning * obj.quantityOfWaterUsedForSC +
+                obj.numTimesVehicleCleaned * obj.quantityOfWaterUsedForVC)
+    },
+    evaporativeCooling: function (workbook) {
+      var obj = workbook.data.demandJunctions.evaporativeCooling
+      return (obj.hoursPerDayDuringHotSeason * obj.litersConsumedPerHour)
+    },
+    waterCustomers: function (workbook) {
+      var obj = workbook.data.demandJunctions.waterCustomers
+      // Why is this multiplied by 1000
+      return (obj.excessCapacityPerDay * obj.percentageOfExcessDistributed) * 1000
+    }
+  },
+  averageFlush: function (workbook) {
+    let toilets = workbook.data.demandJunctions.toilets.activeToilets
+    var totalFlushVolume = 0
+    toilets.forEach(function (obj) {
+      totalFlushVolume += obj.flushVolume
+    })
+    return totalFlushVolume / toilets.length
+  },
+  averagePermeability: function (workbook, surfaceType) {
+    return workbook.data.landCoverPreCalculation
+                   .surfaceTypes[surfaceType]
+                   .effectivePermeability *
+            workbook.data
+                    .landCoverPreCalculation
+                    .surfaceTypes[surfaceType]
+                    .portionParcel
+  },
+  totalAveragePermeability: function (workbook) {
+    var total = 0
+    workbook.data.landCoverPreCalculation.surfaceTypes.forEach(function (surfaceType) {
+      total += UMIS.Water.averagePermeability(workbook, surfaceType)
+    })
+    return total
+  },
+  avgShowerConsumption: function (workbook) {
+    let showers = workbook.data.demandJunctions.hygiene.activeShowers
+    let totalFlow = 0
+    showers.forEach(function (shower) {
+      totalFlow += shower.flowVolume
+    })
+    return totalFlow / showers.length
+  },
+  avgBathVolume: function (workbook) {
+    let baths = workbook.data.demandJunctions.hygiene.activeBaths
+    let totalVolume = 0
+    baths.forEach(function (bath) {
+      totalVolume += bath.volume
+    })
+    return totalVolume / baths.length
+  },
+  runOffLitersPerDay: function (workbook, parcel) {
+    return UMIS.Water.unmediatedRainfall(workbook, parcel) *
+            UMIS.Water.totalAveragePermeability
+  },
+  infiltrationPerDay: function (workbook, parcel) {
+    return UMIS.Water.unmediatedRainfall(workbook, parcel) *
+      (1 - UMIS.Water.totalAveragePermeability)
+  },
+  unmediatedRainfall: function (workbook, parcel) {
+    var obj1 = workbook.data.demandJunctions.landscape
+    return (obj1.weather.seasonTotal / obj1.weather.seasonLength) *
+              parcel.describeParcel.landArea *
+              workbook.data.landCoverPreCalculation.percentageOfParcelWithRainwaterCatchment
+  }
 }
-
-
-// Toilets
-UMIS.Water.averageFlush = function (workbook) {
-  let toilets = workbook.data.demandJunctions.toilets.activeToilets
-  var totalFlushVolume = 0
-  toilets.forEach(function (obj) {
-    totalFlushVolume += obj.flushVolume
-  })
-  return totalFlushVolume / toilets.length
-}
-UMIS.Water.totalConsumption.toilets = function (workbook, parcel) {
-  return UMIS.Water.averageFlush(workbook) * UMIS.Calculations.totalEffectiveOccupancy(parcel) *
-    workbook.data.demandJunctions.toilets.dailyPerPersonUsage
-}
-
-// Hygiene
-UMIS.Water.totalConsumption.hygiene = function (workbook) {
-  var obj = workbook.data.demandJunctions.hygiene
-  // Shower consumption + bath consumption + ablution
-  return (UMIS.Water.totalConsumption.hygiene.avgShowerConsumption(workbook) * obj.typicalShowerDuration *
-            obj.weeklyShowersPerPerson) +
-            (UMIS.Water.totalConsumption.hygiene.avgBathVolume(workbook) * obj.bathsPerWeek) +
-            (obj.minutesOfTapFlowPerVisit * obj.ablutionDuration *
-            obj.numOccupantsUsingWashrooms * obj.numVisitsToWashroomPerOccupant)
-}
-
 // I should really just deal with the showers
-UMIS.Water.totalConsumption.hygiene.avgShowerConsumption = function (workbook) {
-  let showers = workbook.data.demandJunctions.hygiene.activeShowers
-  let totalFlow = 0
-  showers.forEach(function (shower) {
-    totalFlow += shower.flowVolume
-  })
-  return totalFlow / showers.length
-}
-UMIS.Water.totalConsumption.hygiene.avgBathVolume = function (workbook) {
-  let baths = workbook.data.demandJunctions.hygiene.activeBaths
-  let totalVolume = 0
-  baths.forEach(function (bath) {
-    totalVolume += bath.volume
-  })
-  return totalVolume / baths.length
-}
-
-UMIS.Water.totalConsumption.kitchen = function (workbook) {
-  var obj = workbook.data.demandJunctions.kitchen
-  return parseFloat(obj.quantityOfMealsPerDay * obj.waterUsedPerMeal +
-    obj.dishwashingWaterPerLoad * obj.loadsOfDishesPerDay +
-    obj.waterConsumptionPerMeal)
-}
-
-UMIS.Water.totalConsumption.laundry = function (workbook) {
-  var obj = workbook.data.demandJunctions.laundry
-  return (obj.personsUsingLaundry * obj.loadsPerWeekPerPerson *
-            obj.waterConsumptionPerLoad) / 7
-}
-
-UMIS.Water.totalConsumption.drinking = function (workbook) {
-  var obj = workbook.data.demandJunctions.drinking
-  return (obj.personsDrinkingWaterOnSite * obj.avgQuantityOfDrink *
-            obj.avgDrinksPerDayPerPerson)
-}
 
 // UMIS.Water.totalConsumption.landscape = function (workbook, parcel) {
 //   var functions = UMIS.Water.totalConsumption.landscape
 //   return functions.unmediatedRainfall(workbook, parcel) + functions.totalIrrigation(workbook) +
 //     functions.totalPotsPools(workbook)
 // }
-
-UMIS.Water.runOffLitersPerDay = function (workbook) {
-  return UMIS.Water.unmediatedRainfall(workbook) *
-          UMIS.Water.totalAveragePermeability
-}
-
-UMIS.Water.infiltrationPerDay = function (workbook) {
-  return UMIS.Water.unmediatedRainfall(workbook) *
-    (1 - UMIS.Water.totalAveragePermeability)
-}
-
-UMIS.Water.unmediatedRainfall = function (workbook, parcel) {
-  var obj1 = workbook.data.demandJunctions.landscape
-  return (obj1.weather.seasonTotal / obj1.weather.seasonLength) *
-            parcel.describeParcel.landArea *
-            workbook.data.landCoverPreCalculation.percentageOfParcelWithRainwaterCatchment
-}
-
 // UMIS.Water.totalConsumption.landscape.totalPotsPools = function (workbook) {
 //   var obj = workbook.data.demandJunctions.landscape.potsPools
 //   return (obj.litersPerLocation + obj.numPlantsPools) / 7
 // }
-//
 // UMIS.Water.totalConsumption.landscape.totalIrrigation = function (workbook) {
 //   var obj = workbook.data.demandJunctions.landscape.irrigation
 //   return (obj.hoursPerWeek * obj.avgFlowRate) * 60 / 7
 // }
-
-UMIS.Water.totalConsumption.surfaceCleaning = function (workbook) {
-  var obj = workbook.data.demandJunctions.surfaceCleaning
-  return (obj.freqOfInteriorSurfaceCleaning * obj.quantityOfWaterUsedForSC +
-            obj.numTimesVehicleCleaned * obj.quantityOfWaterUsedForVC)
-}
-
-UMIS.Water.totalConsumption.evaporativeCooling = function (workbook) {
-  var obj = workbook.data.demandJunctions.evaporativeCooling
-  return (obj.hoursPerDayDuringHotSeason * obj.litersConsumedPerHour)
-}
-
-UMIS.Water.totalConsumption.waterCustomers = function (workbook) {
-  var obj = workbook.data.demandJunctions.waterCustomers
-  // Why is this multiplied by 1000
-  return (obj.excessCapacityPerDay * obj.percentageOfExcessDistributed) * 1000
-}
-
-// THIS is what I am Working on
-UMIS.Water.averagePermeability = function (workbook, surfaceType) {
-  return workbook.data.landCoverPreCalculation
-                 .surfaceTypes[surfaceType]
-                 .effectivePermeability *
-          workbook.data
-                  .landCoverPreCalculation
-                  .surfaceTypes[surfaceType]
-                  .portionParcel
-}
-
-UMIS.Water.totalAveragePermeability = function (workbook) {
-  var total = 0
-  workbook.data.landCoverPreCalculation.surfaceTypes.forEach(function (surfaceType) {
-    total += UMIS.Water.averagePermeability(workbook, surfaceType)
-  })
-  return total
-}
 
 var totalConsumption = {
   water: function (workbook, parcel) {
@@ -566,13 +502,26 @@ var totalConsumption = {
   },
   energy: function (workbook) {
     var result = {}
-    result.Lighting = UMIS.Energy.totalConsumption.lighting(workbook),
-    result.Appliances = UMIS.Energy.totalConsumption.appliances(workbook),
-    result['Space Heating'] = UMIS.Energy.totalConsumption.spaceHeating(workbook),
-    result['Ventilation and AC'] = UMIS.Energy.totalConsumption.ventilationAC(workbook),
-    result['Water Heating'] = UMIS.Energy.totalConsumption.waterHeating(workbook),
-    result['Ground & Rail Transport'] = UMIS.Energy.totalConsumption.groundRailTransport(workbook),
+    result.Lighting = UMIS.Energy.totalConsumption.lighting(workbook)
+    result.Appliances = UMIS.Energy.totalConsumption.appliances(workbook)
+    result['Space Heating'] = UMIS.Energy.totalConsumption.spaceHeating(workbook)
+    result['Ventilation and AC'] = UMIS.Energy.totalConsumption.ventilationAC(workbook)
+    result['Water Heating'] = UMIS.Energy.totalConsumption.waterHeating(workbook)
+    result['Ground & Rail Transport'] = UMIS.Energy.totalConsumption.groundRailTransport(workbook)
     result['Air Transport'] = UMIS.Energy.totalConsumption.airTransport(workbook)
+    return result
+  },
+  food: function (workbook) {
+    var result = {}
+    result['Fruits and Vegetables'] = UMIS.Food.totalConsumption.fruitsAndVegetables(workbook)
+    result.Dairy = UMIS.Food.totalConsumption.dairy(workbook)
+    result.Beverages = UMIS.Food.totalConsumption.beverages(workbook)
+    result['Edible Oils'] = UMIS.Food.totalConsumption.edibleOils(workbook)
+    result['Grains, Beans, and Legumes'] = UMIS.Food.totalConsumption.grainsBeansLegumes(workbook)
+    result['Meats and Eggs'] = UMIS.Food.totalConsumption.meatsAndEggs(workbook)
+    result['Fish, Shellfish, Algae'] = UMIS.Food.totalConsumption.fishShellfishAlgae(workbook)
+    result['Stimulants'] = UMIS.Food.totalConsumption.stimulants(workbook)
+    result['Sugar and Sweets'] = UMIS.Food.totalConsumption.sugarAndSweets(workbook)
     return result
   }
 }
@@ -580,8 +529,8 @@ var totalConsumption = {
 const calculateTotals = function (parcel) {
   parcel.properties.totalDemand = {}
   _.forEach(totalConsumption, function (resourceCalcFunction, resource) {
-    if (typeof parcel.properties.workbooks !== 'undefined'
-      && typeof parcel.properties.workbooks[resource] !== 'undefined') {
+    if (typeof parcel.properties.workbooks !== 'undefined' &&
+      typeof parcel.properties.workbooks[resource] !== 'undefined') {
       parcel.properties.totalDemand[resource] =
         resourceCalcFunction(parcel.properties.workbooks[resource], parcel.properties)
     }
