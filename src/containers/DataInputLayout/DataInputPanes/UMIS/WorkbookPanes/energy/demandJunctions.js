@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Button, Well, Form } from 'react-bootstrap'
+import { Input, Button, Well, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 type Props = {
   addLighting: PropTypes.func,
@@ -14,37 +14,53 @@ type Props = {
   removeWaterHeating: PropTypes.func,
   addGroundRailTransport: PropType.func,
   removeGroundRailTransport: PropTypes.func,
+  addAirTransport: PropTypes.func,
+  removeAirTransport: PropTypes.func,
   lighting: PropTypes.obj,
   appliances: PropTypes.obj,
   heating: PropTypes.obj,
   ventilationAC: PropTypes.obj,
   waterHeating: PropTypes.obj,
-  groundRailTransport: PropTypes.obj
+  groundRailTransport: PropTypes.obj,
+  airTransport: PropTypes.obj
 }
 
 class EnergyDemandJunctions extends React.Component {
   props: Props;
 
   render() {
+    const { lighting, appliances, spaceHeating, ventilationAC, waterHeating, groundRailTransport, airTransport } = this.props
+
+
 
     return (
       <div>
         <h4>Lighting</h4>
-        <Button>
-          <span className='glyphicon glyphicon-plus'></span> Add Light
-        </Button>
-        <Well>
-          <form>
-            <Input ref='' label='Bulb Type:' type='select' placeholder='' defaultValue={''} className='col-lg-4'>
-              <option value=''></option>
+        <Form inline>
+          <FormGroup controlId="inlineFormBulbType">
+            <ControlLabel>Bulb Type: </ControlLabel>
+            <FormControl componentClass="select" ref="bulbType">
               <option value='standardIncandescent'>Standard incandescent</option>
               <option value='compactFluorescent'>Compact fluorescent</option>
               <option value='flourescentBallasts'>Flourescent ballasts</option>
               <option value='otherBulbs'>Other bulbs</option>
-            </Input>
-            <Input label='Hours Used:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-            <Input label='Units:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-            <Input label='Typical Wattage:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
+            </FormControl>
+          </FormGroup>
+          <Button onClick={this.props.addLighting}>
+            <span className='glyphicon glyphicon-plus'></span> Add Lighting
+          </Button>
+        </Form>
+        <Well>
+          <form>
+            <div className='row'>
+              <Input label='Hours Used:' type='number' ref='hoursUsed' defaultValue={0} className='col-lg-2'/>
+            </div>
+            <div className='row'>
+              <Input label='Units:' type='number' ref='numUnits' defaultValue={0} className='col-lg-2'/>
+            </div>
+            <div className='row'>
+              <Input label='Typical Wattage:' type='number' ref='typicalWattage' defaultValue={0} className='col-lg-2'/>
+            </div>
             <Button>
               <span className='glyphicon glyphicon-minus'></span> Remove Light
             </Button>
@@ -56,8 +72,7 @@ class EnergyDemandJunctions extends React.Component {
           <span className='glyphicon glyphicon-plus'></span> Add Appliance
         </Button>
         <Well>
-          <Input ref='' label='Appliance Type:' type='select' placeholder=''
-            defaultValue={''}>
+          <Input ref='' label='Appliance Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
             <option value='television'>Television</option>
             <option value='chargeMP3Player'>Charge iPod  or MP3 player</option>
@@ -101,8 +116,7 @@ class EnergyDemandJunctions extends React.Component {
           <span className='glyphicon glyphicon-plus'></span> Add Space Heating
         </Button>
         <Well>
-          <Input ref='' label='Fuel Type:' type='select' placeholder=''
-            defaultValue={''}>
+          <Input ref='' label='Fuel Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
             <option value='gas'>Gas</option>
             <option value='propane'>Propane</option>
@@ -124,8 +138,7 @@ class EnergyDemandJunctions extends React.Component {
           <span className='glyphicon glyphicon-plus'></span> Add Ventilation AC
         </Button>
         <Well>
-          <Input ref='' label='Fuel Type:' type='select' placeholder=''
-            defaultValue={''}>
+          <Input ref='' label='Fuel Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
             <option value='floorFan'>Floor Fan</option>
             <option value='standardCeilingFan'>Standard Ceiling Fan</option>
@@ -145,21 +158,20 @@ class EnergyDemandJunctions extends React.Component {
 
         <h4>Water Heating</h4>
         <Well>
-          <Input label='Shower:' type='number' ref='' defaultValue={0}/>
-          <Input label='Laundry Machine:' type='number' ref='' defaultValue={0}/>
-          <Input label='Dish Washer:' type='number' ref='' defaultValue={0}/>
-          <Input label='Kitchen Faucet Flow:' type='number' ref='' defaultValue={0}/>
-          <Input label='Bathroom Faucet Flow:' type='number' ref='' defaultValue={0}/>
+          <Input label='Shower:' type='number' ref='shower' defaultValue={0}/>
+          <Input label='Laundry Machine:' type='number' ref='laundryMachine' defaultValue={0}/>
+          <Input label='Dish Washer:' type='number' ref='dishwasher' defaultValue={0}/>
+          <Input label='Kitchen Faucet Flow:' type='number' ref='kitchenFaucetFlow' defaultValue={0}/>
+          <Input label='Bathroom Faucet Flow:' type='number' ref='kitchenFaucetFlow' defaultValue={0}/>
         </Well>
         <Button>
           <span className='glyphicon glyphicon-plus'></span> Add Water Heater
         </Button>
         <Well>
-          <Input ref='' label='Fuel Type:' type='select' placeholder=''
-            defaultValue={''}>
+          <Input ref='' label='Fuel Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
-            <option value='Gas'></option>
-            <option value='Electric'></option>
+            <option value='gas'>Gas</option>
+            <option value='electric'>Electric</option>
           </Input>
           <Input label='Units:' type='number' ref='' defaultValue={0}/>
           <Button>
@@ -168,6 +180,8 @@ class EnergyDemandJunctions extends React.Component {
         </Well>
 
         <h4>Ground Rail Transportation</h4>
+
+        <h4>Air Transportation</h4>
       </div>
     )
   }

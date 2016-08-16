@@ -10,7 +10,9 @@ type Props = {
 
 let lightingDataGenerator = function (obj) {
   let returnArr = []
-
+  for (var i = 1; i <= state.lighting.length; i++) {
+    let refString = 'lighting.' + i + ''
+  }
   return returnArr
 }
 let applianceDataGenerator = function (obj) {
@@ -38,23 +40,32 @@ let groundRailTransportDataGenerator = function (obj) {
 
   return returnArr
 }
+let airTransportDataGenerator = function (obj) {
+  let returnArr = []
+
+  return returnArr
+}
 
 class UMISEnergyWorkbook extends React.Component {
   props: Props;
   constructor () {
     super();
     this.state = {
-      lighting: [1],
-      appliances: [1],
-      spaceHeating: [1],
-      ventilationAC: [1],
-      waterHeating: [1],
-      groundRailTransport: [1]
+      lighting: {},
+      appliances: {},
+      spaceHeating: {},
+      ventilationAC: {},
+      waterHeating: {},
+      groundRailTransport: [1],
+      airTransport: [1]
     }
   }
 
-  addLighting () {
-    let newAmount = this.state.lighting
+  addLighting (event) {
+    let bulbType = this.refs.bulbType.getDOMNode().value
+    console.log("Adding lighting " + bulbtype)
+
+    this.state.lighting[bulbType] = {}
     newAmount.push(newAmount.length + 1)
     return this.setState({lighting: newAmount})
   }
@@ -113,6 +124,12 @@ class UMISEnergyWorkbook extends React.Component {
     newAmount.pop()
     return this.setState({groundRailTransport: newAmount})
   }
+  addAirTransport () {
+
+  }
+  removeAirTransport () {
+
+  }
 
   nextSection(e) {
     e.preventDefault()
@@ -124,21 +141,31 @@ class UMISEnergyWorkbook extends React.Component {
     let ventilationACArr = ventilationACDataGenerator(demandObj, this.state)
     let waterHeatingArr = waterHeatingDataGenerator(demandObj, this.state)
     let groundRailTransport = groundRailTransportDataGenerator(demandObj, this.state)
+    let airTransport = airTransportDataGenerator(demandObj, this.state)
 
     // TODO: save the data from the form
-    let data = {}
+    let data = {
+      lighting: {},
+      appliances: {},
+      spaceHeating: {},
+      ventilationAC: {},
+      waterHeating: {},
+      groundRailTransport: {},
+      airTransport: {}
+    }
 
+    this.props.saveValues(data)
     this.props.nextSection()
   }
 
   render () {
-    const { lighting, appliances, spaceHeating, ventilationAC, waterHeating, groundRailTransport } = this.state
+    const { lighting, appliances, spaceHeating, ventilationAC, waterHeating, groundRailTransport, airTransport } = this.state
     return (
       <div className='umis-data'>
         <h3 className='umis-data-title'>UMIS Form - Energy Workbook</h3>
         <EnergyDemandJunctions ref='demandJunctions'
-          lighting={lighting} appliances={appliances} spaceHeating={spaceHeating}
-          ventilationAC={ventilationAC} waterHeating={waterHeating} groundRailTransport={groundRailTransport}
+          lighting={lighting} appliances={appliances} spaceHeating={spaceHeating} ventilationAC={ventilationAC}
+          waterHeating={waterHeating} groundRailTransport={groundRailTransport} airTransport={airTransport}
           addLighting={this.addLighting}
           removeLighting={this.removeLighting}
           addAppliance={this.addAppliance}
@@ -151,6 +178,8 @@ class UMISEnergyWorkbook extends React.Component {
           removeWaterHeating={this.removeWaterHeating}
           addGroundRailTransport={this.addGroundRailTransport}
           removeGroundRailTransport={this.removeGroundRailTransport}
+          addAirTransport={this.addAirTransport}
+          removeAirTransport={this.removeAirTransport}
         />
         <Row>
           <Col xs={6} sm={6} md={6}>
