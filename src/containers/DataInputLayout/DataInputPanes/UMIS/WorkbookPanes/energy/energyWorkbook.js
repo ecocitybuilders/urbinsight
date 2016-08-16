@@ -61,8 +61,6 @@ class UMISEnergyWorkbook extends React.Component {
     }
   }
   addLighting () {
-
-  addLighting (event) {
     let bulbType = this.refs.bulbType.getDOMNode().value
     console.log("Adding lighting " + bulbtype)
 
