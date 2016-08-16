@@ -1,5 +1,5 @@
 // import { normalize, Schema, arrayOf } from 'normalizr'
-import 'whatwg-fetch'
+// import 'whatwg-fetch'
 import serverEndpoint from 'utils/serverUtils'
 
 /* @flow */
