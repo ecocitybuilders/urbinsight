@@ -1,5 +1,5 @@
 /* @flow */
-import 'whatwg-fetch'
+// import 'whatwg-fetch'
 import serverEndpoint from 'utils/serverUtils'
 import { removeHtmlStorage, setHtmlStorage, statusHtmlStorage } from 'utils/generalUtils'
 // ------------------------------------
