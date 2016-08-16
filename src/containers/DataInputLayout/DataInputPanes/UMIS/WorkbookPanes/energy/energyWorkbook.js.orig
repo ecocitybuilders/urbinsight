@@ -51,22 +51,21 @@ class UMISEnergyWorkbook extends React.Component {
   constructor () {
     super();
     this.state = {
-      lighting: [1],
-      appliances: [1],
-      spaceHeating: [1],
-      ventilationAC: [1],
-      waterHeating: [1],
+      lighting: {},
+      appliances: {},
+      spaceHeating: {},
+      ventilationAC: {},
+      waterHeating: {},
       groundRailTransport: [1],
-      groundRailTransport: [1]
+      airTransport: [1]
     }
   }
-  addLighting () {
 
   addLighting (event) {
     let bulbType = this.refs.bulbType.getDOMNode().value
     console.log("Adding lighting " + bulbtype)
 
-    let newAmount = this.state.lighting
+    this.state.lighting[bulbType] = {}
     newAmount.push(newAmount.length + 1)
     return this.setState({lighting: newAmount})
   }
@@ -145,6 +144,7 @@ class UMISEnergyWorkbook extends React.Component {
     let airTransport = airTransportDataGenerator(demandObj, this.state)
 
     // TODO: save the data from the form
+<<<<<<< HEAD
     let data = {
       lighting: {},
       appliances: {},
@@ -156,6 +156,10 @@ class UMISEnergyWorkbook extends React.Component {
     }
 
     this.props.saveValues(data)
+=======
+    let data = {}
+    this.props.saveValues(data)  
+>>>>>>> 7d05d6ffedebbf21947d6e3b72dce3a94d4d2d95
     this.props.nextSection()
   }
 
