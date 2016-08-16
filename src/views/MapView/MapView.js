@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
 import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
@@ -9,9 +8,9 @@ import LotToggle from 'components/LotToggle'
 import { connect } from 'react-redux'
 import { requestSurveys, deleteSurvey, updateSurvey } from 'redux/modules/survey'
 import { requestAudits } from 'redux/modules/audit'
-import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator } from 'utils/mapUtils'
-import { mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
-import server_endpoint from 'utils/serverUtils'
+import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArrayGenerator,
+  mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
+import serverEndpoint from 'utils/serverUtils'
 
 const mapboxgl = window.mapboxgl
 
@@ -23,7 +22,8 @@ type Props = {
   surveyDelete: PropTypes.func,
   audits: PropTypes.object,
   surveys: PropTypes.object,
-  layers: PropType.array
+  layers: PropTypes.array,
+  locationBeforeTransitions: PropTypes.object
 }
 
 class MapView extends React.Component {
@@ -31,16 +31,17 @@ class MapView extends React.Component {
 
   constructor (props) {
     super(props)
+    let city = props.locationBeforeTransitions.pathname.slice(1)
     this.state = {
       mapToken: 'pk.eyJ1IjoidGhpc3NheXNub3RoaW5nIiwiYSI6IjFNbHllT2MifQ.5F7AhW2FxnpENc8eiE-HUA',
       mapView: {
         container: 'map',
         style: 'mapbox://styles/mapbox/satellite-streets-v9',
-        center: cityObjectFunc(window.location.pathname.slice(1)),
+        center: cityObjectFunc(city),
         zoom: 15
       },
       // This is unmaintainable need to standardize city names
-      city: window.location.pathname.slice(1) === 'abudhabi' ? 'abu_dhabi' : window.location.pathname.slice(1),
+      city: city,
       layerList: [],
       viewport: {
         latitude: 0,
@@ -49,11 +50,12 @@ class MapView extends React.Component {
         width: window.innerWidth,
         height: window.innerHeight,
         isDragging: false
-      }
+      },
+      tileLocation: 'http://' + serverEndpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     }
     this.mapClickHandler = this.mapClickHandler.bind(this)
   }
-
+// add component will receive props call to set the city
   render () {
     const { isAuthenticated, audits, surveys } = this.props
     return (
@@ -62,13 +64,13 @@ class MapView extends React.Component {
         <div id='map'>
         {/*  Possibly need to move these outside of the map constainer*/}
           {/* <Overlay map={this.state.map}/>*/}
-          <LotToggle map={this.state.map}/>
+          <LotToggle map={this.state.map} />
           <LayerSelection map={this.state.map} city={this.state.city}
-            layerList={this.state.layerList}/>
+            layerList={this.state.layerList} />
           <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}
-            map={this.state.map} viewport={this.state.viewport}/>
+            map={this.state.map} viewport={this.state.viewport} />
           {isAuthenticated && <DataInputLayout ref='dataInput'
-            map={this.state.map} mapClickHandler={this.mapClickHandler}/>}
+            map={this.state.map} mapClickHandler={this.mapClickHandler} />}
         </div>
         <FeatureList />
 
@@ -78,13 +80,11 @@ class MapView extends React.Component {
 
   componentDidMount () {
     // CHANGE (This is unmaintainable...need to standardize citynames)
-    let city = this.state.city === 'abu_dhabi' ? 'abudhabi' : this.state.city
-    let tileLocation = 'http://' + server_endpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
-    baseLayerandSource(map, tileLocation)
-    if (typeof this.state.city !== 'undefined') {
+    baseLayerandSource(map, this.state.tileLocation)
+    if (typeof city !== 'undefined') {
       let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
         `${this.state.city}/featuretypes.json`
       fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
@@ -116,6 +116,30 @@ class MapView extends React.Component {
       map: map
     })
   }
+  componentWillReceiveProps (np) {
+    let city = np.locationBeforeTransitions.pathname.slice(1)
+    if (this.state.city !== city) {
+      let tileLocation = 'http://' + serverEndpoint + ':5001/data/city/lots/' + city + '/{z}/{x}/{y}.mvt'
+      this.state.map.setCenter(cityObjectFunc(city))
+      this.state.map.removeSource('lots').addSource('lots', {
+        'type': 'vector',
+        'tiles': [tileLocation]
+      })
+      this.setState({
+        city: city,
+        tileLocation: tileLocation
+      })
+      // this sets the feature list from Geonode
+      if (typeof city !== 'undefined') {
+        let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
+          `${this.state.city}/featuretypes.json`
+        fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+          .then((response) => response.json())
+          .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
+      }
+    }
+  }
+
   componentWillUpdate (np, ns) {
     // This Complexity is based on the following conditions for calling the featureSelection mapClickHandler
     // if the User is logged in, and (the dataInput window isn't open and more audits or servers are present
@@ -146,7 +170,6 @@ class MapView extends React.Component {
 
   componentWillUnmount () {
     if (this.state.map) this.state.map.remove()
-    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode())
   }
 
   mapClickHandler (keyword, options) {
@@ -163,17 +186,19 @@ class MapView extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, survey, audit, layer } = state
+  const { auth, survey, audit, layer, router } = state
   const { audits } = audit
   const { surveys } = survey
   const { isAuthenticated, errorMessage } = auth
   const { layers } = layer
+  const { locationBeforeTransitions } = router
   return {
     isAuthenticated,
     errorMessage,
     surveys,
     audits,
-    layers
+    layers,
+    locationBeforeTransitions
   }
 }
 
