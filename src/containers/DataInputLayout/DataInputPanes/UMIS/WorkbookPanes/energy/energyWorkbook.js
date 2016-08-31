@@ -8,39 +8,42 @@ type Props = {
   saveValues: PropTypes.func
 }
 
-let lightingDataGenerator = function (obj) {
+let lightingDataGenerator = function (obj, state) {
   let returnArr = []
-  for (var i = 1; i <= state.lighting.length; i++) {
-    let refString = 'lighting.' + i + ''
+
+  for (var i = 0; i < state.lighting.length; i++) {
+    let refString = 'lighting.' + i
+    returnArr.push({ bulbType: "", numUnits: 0, typicalWattage: 0})
   }
+
   return returnArr
 }
-let applianceDataGenerator = function (obj) {
+let applianceDataGenerator = function (obj, state) {
   let returnArr = []
 
   return returnArr
 }
-let spaceHeatingDataGenerator = function (obj) {
+let spaceHeatingDataGenerator = function (obj, state) {
   let returnArr = []
 
   return returnArr
 }
-let ventilationACDataGenerator = function (obj) {
+let ventilationACDataGenerator = function (obj, state) {
   let returnArr = []
 
   return returnArr
 }
-let waterHeatingDataGenerator = function (obj) {
+let waterHeatingDataGenerator = function (obj, state) {
   let returnArr = []
 
   return returnArr
 }
-let groundRailTransportDataGenerator = function (obj) {
+let groundRailTransportDataGenerator = function (obj, state) {
   let returnArr = []
 
   return returnArr
 }
-let airTransportDataGenerator = function (obj) {
+let airTransportDataGenerator = function (obj, state) {
   let returnArr = []
 
   return returnArr
@@ -49,85 +52,138 @@ let airTransportDataGenerator = function (obj) {
 class UMISEnergyWorkbook extends React.Component {
   props: Props;
   constructor () {
-    super();
+    super()
     this.state = {
-      lighting: [1],
-      appliances: [1],
-      spaceHeating: [1],
-      ventilationAC: [1],
-      waterHeating: [1],
-      groundRailTransport: [1],
-      groundRailTransport: [1]
+      lighting: [],
+      appliances: [],
+      spaceHeating: [],
+      ventilationAC: [],
+      waterHeating: [],
+      groundRailTransport: [],
+      airTransport: []
     }
-  }
-  addLighting () {
-    let bulbType = this.refs.bulbType.getDOMNode().value
-    console.log("Adding lighting " + bulbtype)
 
+    this.nextSection = this.nextSection.bind(this)
+    this.addLighting = this.addLighting.bind(this)
+    this.addAppliance = this.addAppliance.bind(this)
+    this.addSpaceHeating = this.addSpaceHeating.bind(this)
+    this.addVentilationAC = this.addVentilationAC.bind(this)
+    this.addWaterHeating = this.addWaterHeating.bind(this)
+    this.addGroundRailTransport = this.addGroundRailTransport.bind(this)
+    this.addAirTransport = this.addAirTransport.bind(this)
+    this.removeLighting = this.removeLighting.bind(this)
+    this.removeAppliance = this.removeAppliance.bind(this)
+    this.removeSpaceHeating = this.removeSpaceHeating.bind(this)
+    this.removeVentilationAC = this.removeVentilationAC.bind(this)
+    this.removeWaterHeating = this.removeWaterHeating.bind(this)
+    this.removeGroundRailTransport = this.removeGroundRailTransport.bind(this)
+    this.removeAirTransport = this.removeAirTransport.bind(this)
+  }
+
+  addLighting () {
+    console.log("adding lighting")
     let newAmount = this.state.lighting
-    newAmount.push(newAmount.length + 1)
+    let lightingObject = {
+      bulbType: "",
+      numUnits: 0,
+      typicalWattage: 0
+    }
+    newAmount.push(lightingObject)
     return this.setState({lighting: newAmount})
   }
-  removeLighting () {
+  removeLighting (index) {
     let newAmount = this.state.lighting
-    newAmount.pop()
+    newAmount.splice(index, 1)
+    console.log("EnergyWorkbook.removeLighting() " + index)
     return this.setState({lighting: newAmount})
   }
   addAppliance () {
     let newAmount = this.state.appliances
-    newAmount.push(newAmount.length + 1)
+    let applianceObject = {
+      hoursUsed: 0,
+      numUnits: 0,
+      typicalWattage: 0
+    }
+    newAmount.push(applianceObject)
     return this.setState({appliances: newAmount})
   }
-  removeAppliance () {
+  removeAppliance (index) {
     let newAmount = this.state.appliances
-    newAmount.pop()
+    newAmount.splice(index, 1)
     return this.setState({appliances: newAmount})
   }
   addSpaceHeating () {
     let newAmount = this.state.spaceHeating
-    newAmount.push(newAmount.length + 1)
+    let spaceHeatingObject = {
+      fuelTypeName: "",
+      hoursUsed: 0,
+      fuelType: {
+        systemType: 0,
+        price: 0
+      }
+    }
+    newAmount.push(spaceHeatingObject)
     return this.setState({spaceHeating: newAmount})
   }
-  removeSpaceHeating () {
+  removeSpaceHeating (index) {
     let newAmount = this.state.spaceHeating
-    newAmount.pop()
+    newAmount.splice(index, 1)
     return this.setState({spaceHeating: newAmount})
   }
   addVentilationAC () {
     let newAmount = this.state.ventilationAC
-    newAmount.push(newAmount.length + 1)
+    let ventilationACObject = {
+      applianceType: "",
+      hoursUsed: 0,
+      numUnits: 0,
+      typicalWattage: 0
+    }
+    newAmount.push(ventilationACObject)
     return this.setState({ventilationAC: newAmount})
   }
-  removeVentilationAC () {
+  removeVentilationAC (index) {
     let newAmount = this.state.ventilationAC
-    newAmount.pop()
+    newAmount.splice(index, 1)
     return this.setState({ventilationAC: newAmount})
   }
   addWaterHeating () {
     let newAmount = this.state.waterHeating
-    newAmount.push(newAmount.length + 1)
+    let waterHeatingObject = {
+
+    }
+    newAmount.push()
     return this.setState({waterHeating: newAmount})
   }
-  removeWaterHeating () {
+  removeWaterHeating (index) {
     let newAmount = this.state.waterHeating
-    newAmount.pop()
+    newAmount.splice(index, 1)
     return this.setState({waterHeating: newAmount})
   }
   addGroundRailTransport () {
     let newAmount = this.state.groundRailTransport
-    newAmount.push(newAmount.length + 1)
+    let groundRailTransportObject = {
+
+    }
+    newAmount.push(groundRailTransportObject)
     return this.setState({groundRailTransport: newAmount})
   }
-  removeGroundRailTransport () {
+  removeGroundRailTransport (index) {
     let newAmount = this.state.groundRailTransport
-    newAmount.pop()
+    newAmount.splice(index, 1)
     return this.setState({groundRailTransport: newAmount})
   }
   addAirTransport () {
-
+    let newAmount = this.state.airTransport
+    let airTransportObject = {
+      
+    }
+    newAmount.push(airTransportObject)
+    return this.setState({airTransport: newAmount})
   }
-  removeAirTransport () {
-
+  removeAirTransport (index) {
+    let newAmmount = this.state.airTransport
+    newAmmount.splice(index, 1)
+    return this.setState({airTransport: newAmmount})
   }
 
   nextSection(e) {
@@ -144,13 +200,15 @@ class UMISEnergyWorkbook extends React.Component {
 
     // TODO: save the data from the form
     let data = {
-      lighting: {},
-      appliances: {},
-      spaceHeating: {},
-      ventilationAC: {},
-      waterHeating: {},
-      groundRailTransport: {},
-      airTransport: {}
+      demandJunctions: {
+        lighting: [],
+        appliances: {},
+        spaceHeating: {},
+        ventilationAC: {},
+        waterHeating: {},
+        groundRailTransport: {},
+        airTransport: {}
+      }
     }
 
     this.props.saveValues(data)
@@ -159,6 +217,7 @@ class UMISEnergyWorkbook extends React.Component {
 
   render () {
     const { lighting, appliances, spaceHeating, ventilationAC, waterHeating, groundRailTransport, airTransport } = this.state
+
     return (
       <div className='umis-data'>
         <h3 className='umis-data-title'>UMIS Form - Energy Workbook</h3>

@@ -31,27 +31,20 @@ class EnergyDemandJunctions extends React.Component {
   render() {
     const { lighting, appliances, spaceHeating, ventilationAC, waterHeating, groundRailTransport, airTransport } = this.props
 
-
-
-    return (
-      <div>
-        <h4>Lighting</h4>
-        <Form inline>
-          <FormGroup controlId="inlineFormBulbType">
-            <ControlLabel>Bulb Type: </ControlLabel>
-            <FormControl componentClass="select" ref="bulbType">
-              <option value='standardIncandescent'>Standard incandescent</option>
-              <option value='compactFluorescent'>Compact fluorescent</option>
-              <option value='flourescentBallasts'>Flourescent ballasts</option>
-              <option value='otherBulbs'>Other bulbs</option>
-            </FormControl>
-          </FormGroup>
-          <Button onClick={this.props.addLighting}>
-            <span className='glyphicon glyphicon-plus'></span> Add Lighting
-          </Button>
-        </Form>
+    let lightingList = lighting.map((value, index) => {
+      let refString = "lighting.bulbType" + value["bulbType"]
+      return (
         <Well>
           <form>
+            <div className="row">
+                <ControlLabel>Bulb Type: </ControlLabel>
+                <FormControl componentClass="select" ref="bulbType" className='col-lg-4'>
+                  <option value='standardIncandescent'>Standard incandescent</option>
+                  <option value='compactFluorescent'>Compact fluorescent</option>
+                  <option value='flourescentBallasts'>Flourescent ballasts</option>
+                  <option value='otherBulbs'>Other bulbs</option>
+                </FormControl>
+            </div>
             <div className='row'>
               <Input label='Hours Used:' type='number' ref='hoursUsed' defaultValue={0} className='col-lg-2'/>
             </div>
@@ -61,18 +54,19 @@ class EnergyDemandJunctions extends React.Component {
             <div className='row'>
               <Input label='Typical Wattage:' type='number' ref='typicalWattage' defaultValue={0} className='col-lg-2'/>
             </div>
-            <Button>
-              <span className='glyphicon glyphicon-minus'></span> Remove Light
+            <Button onClick={() => this.props.removeLighting(index)}>
+              <span className='glyphicon glyphicon-minus'></span> Remove Lighting
             </Button>
           </form>
         </Well>
+      )
+    })
 
-        <h4>Appliances</h4>
-        <Button>
-          <span className='glyphicon glyphicon-plus'></span> Add Appliance
-        </Button>
+    let applianceList = appliances.map((value, index) => {
+      let refString = "appliance.type" + value["type"]
+      return (
         <Well>
-          <Input ref='' label='Appliance Type:' type='select' placeholder='' defaultValue={''}>
+          <Input ref='fuelTypeName' label='Appliance Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
             <option value='television'>Television</option>
             <option value='chargeMP3Player'>Charge iPod  or MP3 player</option>
@@ -106,15 +100,16 @@ class EnergyDemandJunctions extends React.Component {
           <Input label='Phantom Power Ratio:' type='number' ref='' defaultValue={0}/>
           <Input label='Units:' type='number' ref='' defaultValue={0}/>
           <Input label='Typical wattage:' type='number' ref='' defaultValue={0}/>
-          <Button>
+          <Button onClick={() => this.props.removeAppliance(index)}>
             <span className='glyphicon glyphicon-minus'></span> Remove Appliance
           </Button>
         </Well>
+      )
+    })
 
-        <h4>Space Heating</h4>
-        <Button>
-          <span className='glyphicon glyphicon-plus'></span> Add Space Heating
-        </Button>
+    let spaceHeatingList = spaceHeating.map((value, index) => {
+      //let refString = "spaceHeating.fuelType." + value["fuelType"]
+      return (
         <Well>
           <Input ref='' label='Fuel Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
@@ -126,17 +121,17 @@ class EnergyDemandJunctions extends React.Component {
             <option value='softwood'>Softwood</option>
           </Input>
           <Input label='Hours Used:' type='number' ref='' defaultValue={0}/>
-          <Input label='System Type:' type='number' ref='' defaultValue={0}/>
-          <Input label='Fuel Type:' type='number' ref='' defaultValue={0}/>
-          <Button>
+          <Input label='System Type:' type='number' ref='fuelType.systemType' defaultValue={0}/>
+          <Input label='Price:' type='number' ref='fuelType.price' defaultValue={0}/>
+          <Button onClick={() => this.props.removeSpaceHeating(index)}>
             <span className='glyphicon glyphicon-minus'></span> Remove Space Heating
           </Button>
         </Well>
+      )
+    })
 
-        <h4>Ventilation AC</h4>
-        <Button>
-          <span className='glyphicon glyphicon-plus'></span> Add Ventilation AC
-        </Button>
+    let ventilationACList = ventilationAC.map((value, index) => {
+      return (
         <Well>
           <Input ref='' label='Fuel Type:' type='select' placeholder='' defaultValue={''}>
             <option value=''></option>
@@ -151,10 +146,41 @@ class EnergyDemandJunctions extends React.Component {
           <Input label='Hours Used:' type='number' ref='' defaultValue={0}/>
           <Input label='Units:' type='number' ref='' defaultValue={0}/>
           <Input label='Typical Wattage:' type='number' ref='' defaultValue={0}/>
-          <Button>
+          <Button onClick={() => this.props.removeVentilationAC(index)}>
             <span className='glyphicon glyphicon-minus'></span> Remove Ventilation AC
           </Button>
         </Well>
+      )
+    })
+
+    return (
+      <div>
+        <h4>Lighting</h4>
+        <Form>
+          <Button onClick={() => this.props.addLighting()}>
+            <span className='glyphicon glyphicon-plus'></span> Add Lighting
+          </Button>
+        </Form>
+        {lightingList}
+
+        <h4>Appliances</h4>
+        <Button onClick={() => this.props.addAppliance()}>
+          <span className='glyphicon glyphicon-plus'></span> Add Appliance
+        </Button>
+        {applianceList}
+
+        <h4>Space Heating</h4>
+        <Button onClick={() => this.props.addSpaceHeating()}>
+          <span className='glyphicon glyphicon-plus'></span> Add Space Heating
+        </Button>
+        {spaceHeatingList}
+
+        <h4>Ventilation AC</h4>
+        <Button onClick={() => this.props.addVentilationAC()}>
+          <span className='glyphicon glyphicon-plus'></span> Add Ventilation AC
+        </Button>
+        {ventilationACList}
+
 
         <h4>Water Heating</h4>
         <Well>
