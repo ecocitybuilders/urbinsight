@@ -86,6 +86,7 @@ class UMISEnergyWorkbook extends React.Component {
     let lightingObject = {
       bulbType: "",
       numUnits: 0,
+      hoursUsed: 0,
       typicalWattage: 0
     }
     newAmount.push(lightingObject)
@@ -149,7 +150,8 @@ class UMISEnergyWorkbook extends React.Component {
   addWaterHeating () {
     let newAmount = this.state.waterHeating
     let waterHeatingObject = {
-
+      type: "",
+      timesPerDay: 0
     }
     newAmount.push()
     return this.setState({waterHeating: newAmount})
@@ -175,7 +177,7 @@ class UMISEnergyWorkbook extends React.Component {
   addAirTransport () {
     let newAmount = this.state.airTransport
     let airTransportObject = {
-      
+
     }
     newAmount.push(airTransportObject)
     return this.setState({airTransport: newAmount})
