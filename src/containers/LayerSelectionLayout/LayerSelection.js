@@ -35,8 +35,6 @@ class LayerSelection extends React.Component {
     let layerExist = this.props.map.getLayer(layerName)
     let layerAdded = this.props.layerAdded
     const { map } = this.props
-    console.log(sourceString)
-    console.log(styleString)
     if (typeof sourceExist === 'undefined') {
       map.addSource(layerName, {
         'type': 'geojson',
@@ -86,7 +84,7 @@ class LayerSelection extends React.Component {
                 return word[0].toUpperCase() + word.slice(1)
               }
             })
-            .join(' ')}/>
+            .join(' ')} />
       )
     }.bind(this))
     let displayList = this.state.opened ? 'inherit' : 'none'
