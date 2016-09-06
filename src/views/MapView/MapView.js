@@ -12,8 +12,14 @@ import { cityObjectFunc, surveyGeoJSONCompiler, auditGeoJSONCompiler, boundsArra
   mapClickHandlerSwitcher, baseLayerandSource } from 'utils/mapUtils'
 import serverEndpoint from 'utils/serverUtils'
 
-const mapboxgl = window.mapboxgl
-
+// const mapboxgl = window.mapboxgl
+// var mapboxgl = require('mapbox-gl')
+// var Draw = require('mapbox-gl-draw')
+// console.log(Draw)
+// import mapboxgldraw from 'mapbox-gl-draw'
+// console.log(mapboxgldraw)
+// console.log(Draw)
+// console.log(mapboxgl.Draw)
 type Props = {
   isAuthenticated: PropTypes.bool,
   surveysFetch: PropTypes.func,
@@ -79,14 +85,17 @@ class MapView extends React.Component {
   }
 
   componentDidMount () {
-    // CHANGE (This is unmaintainable...need to standardize citynames)
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
+    map.addControl(new mapboxgl.Geolocate({position: 'top-left'}))
+    var Draw = mapboxgl.Draw();
+    map.addControl(Draw)
     baseLayerandSource(map, this.state.tileLocation)
-    if (typeof city !== 'undefined') {
+    if (typeof this.state.city !== 'undefined') {
       let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
         `${this.state.city}/featuretypes.json`
+      console.log(requestString)
       fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
         .then((response) => response.json())
         .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
@@ -129,6 +138,7 @@ class MapView extends React.Component {
         city: city,
         tileLocation: tileLocation
       })
+      // http://geonode.urbinsight.com/geoserver/rest/workspaces/medellin/featuretypes.json
       // this sets the feature list from Geonode
       if (typeof city !== 'undefined') {
         let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
