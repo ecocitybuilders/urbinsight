@@ -228,7 +228,7 @@ export function mapClickHandlerSwitcher (map, keyword, options) {
   }
 }
 const featureClick = (map, options) => {
-  map.on('mousemove', (e) => {
+  map.on('click', (e) => {
     let htmlString
     let features = map.queryRenderedFeatures(e.point,
       { layers: options.layers })

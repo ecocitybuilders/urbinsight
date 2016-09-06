@@ -92,14 +92,13 @@ class MapView extends React.Component {
     var Draw = mapboxgl.Draw();
     map.addControl(Draw)
     baseLayerandSource(map, this.state.tileLocation)
-    if (typeof this.state.city !== 'undefined') {
+    // if (typeof city !== 'undefined') {
       let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
         `${this.state.city}/featuretypes.json`
-      console.log(requestString)
       fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
         .then((response) => response.json())
         .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
-    }
+    // }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     // this.mapClickHandler('featureSelection',
@@ -138,8 +137,7 @@ class MapView extends React.Component {
         city: city,
         tileLocation: tileLocation
       })
-      // http://geonode.urbinsight.com/geoserver/rest/workspaces/medellin/featuretypes.json
-      // this sets the feature list from Geonode
+      // this sets the feature list from Geonode but only if the city is different
       if (typeof city !== 'undefined') {
         let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
           `${this.state.city}/featuretypes.json`
