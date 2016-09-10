@@ -245,10 +245,10 @@ UMIS.Energy = {
     },
     spaceHeating: function (workbook) {
       let total = 0
-      _.forEach(workbook.data.spaceHeating, (fuelType, fuelTypeName) => {
+      _.forEach(workbook.data.spaceHeating, (fuelType) => {
         total += ((fuelType.annualHeatingBill / 100) *
-          (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price)) *
-          (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
+          (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelType.fuelTypeName][fuelType.systemType] / fuelType.price)) *
+          (UMIS.Energy.defaults.spaceHeating.energyContent[fuelType.fuelTypeName] / 365.242)
       })
       return total
     },

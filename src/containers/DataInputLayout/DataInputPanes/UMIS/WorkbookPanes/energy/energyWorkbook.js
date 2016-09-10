@@ -13,13 +13,18 @@ let lightingDataGenerator = function (obj, state) {
 
   for (var i = 0; i < state.lighting.length; i++) {
     let refString = 'lighting.' + i
-    returnArr.push({ bulbType: "", numUnits: 0, typicalWattage: 0})
+    returnArr.push(state.lighting[i])
   }
 
   return returnArr
 }
 let applianceDataGenerator = function (obj, state) {
   let returnArr = []
+
+  for (var i = 0; i < state.appliances.length; i++) {
+    let refString = 'appliance.' + i
+
+  }
 
   return returnArr
 }
@@ -40,6 +45,10 @@ let waterHeatingDataGenerator = function (obj, state) {
 }
 let groundRailTransportDataGenerator = function (obj, state) {
   let returnArr = []
+
+  for (var i = 0; i < state.groundRailTransport.length; i++) {
+
+  }
 
   return returnArr
 }
@@ -117,11 +126,8 @@ class UMISEnergyWorkbook extends React.Component {
     let newAmount = this.state.spaceHeating
     let spaceHeatingObject = {
       fuelTypeName: "",
-      hoursUsed: 0,
-      fuelType: {
-        systemType: 0,
-        price: 0
-      }
+      systemType: 0,
+      price: 0
     }
     newAmount.push(spaceHeatingObject)
     return this.setState({spaceHeating: newAmount})
@@ -150,10 +156,10 @@ class UMISEnergyWorkbook extends React.Component {
   addWaterHeating () {
     let newAmount = this.state.waterHeating
     let waterHeatingObject = {
-      type: "",
+      name: "",
       timesPerDay: 0
     }
-    newAmount.push()
+    newAmount.push(waterHeatingObject)
     return this.setState({waterHeating: newAmount})
   }
   removeWaterHeating (index) {
@@ -202,14 +208,23 @@ class UMISEnergyWorkbook extends React.Component {
 
     // TODO: save the data from the form
     let data = {
-      demandJunctions: {
-        lighting: [],
-        appliances: {},
-        spaceHeating: {},
-        ventilationAC: {},
-        waterHeating: {},
-        groundRailTransport: {},
-        airTransport: {}
+      energy: {
+        data: {
+          demandJunctions: {
+            lighting: lightArr,
+            appliances: [],
+            spaceHeating: [],
+            ventilationAC: [],
+            waterHeating: {
+              heaters: [],
+              activities: []
+            },
+            groundRailTransport: [],
+            airTransport: {
+              milesTravelledPerYear: demandObj['airTransport.milesTravelledPerYear'].getValue()
+            }
+          }
+        }
       }
     }
 
