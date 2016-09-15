@@ -1,6 +1,6 @@
 // import { normalize, Schema, arrayOf } from 'normalizr'
-import 'whatwg-fetch'
-import server_endpoint from 'utils/serverUtils'
+// import 'whatwg-fetch'
+import serverEndpoint from 'utils/serverUtils'
 
 /* @flow */
 // ------------------------------------
@@ -119,7 +119,7 @@ export function requestAudits (bounds) {
     mode: 'cors',
     cache: 'default'
   }
-  let queryString = 'http://' + server_endpoint + ':8000/api/audits?a=' +
+  let queryString = 'http://' + serverEndpoint + ':8000/api/audits?a=' +
     `${bounds[0]}&b=${bounds[1]}&c=${bounds[2]}&d=${bounds[3]}&e=${bounds[4]}`
   return (dispatch) => {
     dispatch(auditsRequest(bounds))
@@ -139,7 +139,7 @@ export function auditSave (geoJSON) {
   }
   return (dispatch) => {
     dispatch(auditSubmit(geoJSON))
-    return fetch('http://' + server_endpoint + ':8000/api/audit/create', config)
+    return fetch('http://' + serverEndpoint + ':8000/api/audit/create', config)
       .then((response) => dispatch(auditSaved))
   }
 }

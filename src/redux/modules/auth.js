@@ -1,6 +1,7 @@
 /* @flow */
-import 'whatwg-fetch'
-import server_endpoint from 'utils/serverUtils'
+// import 'whatwg-fetch'
+import serverEndpoint from 'utils/serverUtils'
+import { removeHtmlStorage, setHtmlStorage, statusHtmlStorage } from 'utils/generalUtils'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -37,7 +38,8 @@ function receiveLogin (user): Action {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user._id
+    id_token: user._id,
+    user: user
   }
 }
 
@@ -64,7 +66,8 @@ function receiveSignUp (user): Action {
     type: SIGN_UP_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user._id
+    id_token: user._id,
+    user: user
   }
 }
 
@@ -105,7 +108,7 @@ export function loginUser (creds) {
   return (dispatch) => {
       // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
-    return fetch('http://' + server_endpoint + ':8000/api/sessions/create', config)
+    return fetch('http://' + serverEndpoint + ':8000/api/sessions/create', config)
       .then((response) =>
         response.json().then((user) => ({ user, response }))
             ).then(({ user, response }) => {
@@ -116,7 +119,10 @@ export function loginUser (creds) {
                 return Promise.reject(user)
               } else {
             // If login was successful, set the token in local storage
-                localStorage.setItem('id_token', user.user._id)
+                setHtmlStorage('id_token', user.user._id, 86400)
+                if (user.user.isAdmin) {
+                  setHtmlStorage('isAdmin', true, 86400)
+                }
             // Dispatch the success action
                 dispatch(receiveLogin(user.user))
               }
@@ -127,7 +133,8 @@ export function loginUser (creds) {
 export function logoutUser (): Action {
   return (dispatch) => {
     dispatch(requestLogout())
-    localStorage.removeItem('id_token')
+    removeHtmlStorage('id_token')
+    removeHtmlStorage('isAdmin')
     dispatch(receiveLogout())
   }
 }
@@ -141,7 +148,7 @@ export function signUpUser (creds) {
   return (dispatch) => {
       // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestSignUp(creds))
-    return fetch('http://' + server_endpoint + ':8000/api/user/create', config)
+    return fetch('http://' + serverEndpoint + ':8000/api/user/create', config)
       .then((response) =>
         response.json().then((user) => ({ user, response }))
             ).then(({ user, response }) => {
@@ -152,9 +159,9 @@ export function signUpUser (creds) {
                 return Promise.reject(user)
               } else {
             // If login was successful, set the token in local storage
-                localStorage.setItem('id_token', user.user._id)
+                setHtmlStorage('id_token', user.user._id, 86400)
             // Dispatch the success action
-                dispatch(receiveLogin(user))
+                dispatch(receiveLogin(user.user))
               }
             }).catch((err) => console.log('Error: ', err))
   }
@@ -194,7 +201,10 @@ export const actions = {
 // we would also want a util to check if the token is expired.
 export default function auth (state = {
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token')
+  isAuthenticated: statusHtmlStorage('id_token') ? localStorage.getItem('id_token') : null,
+  user: {
+    isAdmin: statusHtmlStorage('isAdmin') ? localStorage.getItem('isAdmin') : null
+  }
 }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
@@ -207,7 +217,9 @@ export default function auth (state = {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: ''
+        errorMessage: '',
+        isAdmin: action.user.isAdmin,
+        user: action.user
       })
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
@@ -230,7 +242,8 @@ export default function auth (state = {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: ''
+        errorMessage: '',
+        user: action.user
       })
     case SIGN_UP_FAILURE:
       return Object.assign({}, state, {

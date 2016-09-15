@@ -127,35 +127,40 @@ export let questionIDs = ['employment', 'healthcare', 'family', 'stability',
 export let questions = [
   {
     title: '1. How would you describe your level of access to adequate employment?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Are you able to find work that sustains you in your daily life? This could be either wage-labor or a
+     owned business.`
   },
   {
     title: '2. How would you describe your level of access to healthcare and health services?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Do you have access to necessary medical services,
+     allowing you to live a healthy and productive life?`
   },
   {
     title: '3. How would you describe your ability to provide care for family members as needed?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Do you have the ability
+     to meet the needs of their family members. This question is likely only relevant for the household head.`
   },
   {
     title: '4. How would you describe stability in your daily life?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Is your daily life affected by distabilizing events such as (political turmoil, economic stagnation,
+     social instability)?`
   },
   {
     title: '5. How do you describes your level of access to opportunities to develop healthy social relations?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: `Are there opportunities to interact and engage with other people in your community?
+    If it is to dangerous, or discrimination is present this could affect this question.`
   },
   {
     title: '6. How do you descrive your level of access to recreational opportunities and activities?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Do you have opportunities to engage in activities outside of work that are relaxing and restorative?'
   },
   {
     title: '7. How would you describe your level of access to knowledge for futhering your education?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Are there resources and facilities that allow you to further your education or technical skills?'
   },
   {
     title: '8. How would you describe your level of vacation(time-off) time you have?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Is it posible for you to take time off of work, to rest and relax?'
   },
   {
     title: '9. How would you describe your shelter/housing?',
@@ -168,29 +173,29 @@ export let questions = [
   {
     title: `11. How would you describe the level of respect and non-discrimination
         you experience in your daily life?`,
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Do you face discrimination? Do people treat you differently based on your appearance?'
   },
   {
     title: '12. How would you describe your level of freedom to practice your religion?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Are you unable to practice your religion because of actions by the government or other communities?'
   },
   {
     title: '13. How would you describe your level of access to mobility?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'What is your access to both public and private transportation systems?'
   },
   {
     title: '14. How do you describe your level of freedom of movement?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Are there any barriers to your ability to move around the city?'
   },
   {
     title: `15. How do you describe your level of safety and
       the absence of physical violence or criminality in your daily life?`,
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Are you affected by violence or insecurity in your community?'
   },
   {
     title: `16. How do you describe your ability to participate
       in your communitys political, governance-based and decision-making processes?`,
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    description: 'Are you able to contribute to the establishment of policies and laws within your community?'
   }
 ]
 

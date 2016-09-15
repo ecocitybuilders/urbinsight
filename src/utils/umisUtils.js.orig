@@ -25,6 +25,124 @@ UMIS.Calculations = {
 }
 
 UMIS.Mobility = {}
+<<<<<<< HEAD
+UMIS.Food = {}
+// let energyWorkbook = {
+//   data : {
+//     lighting : {
+//       // Multiple bulbs can be added.
+//       //The following bulbs need options
+//       // Standard incandescent bulbs
+//       // Compact fluorescent bulbs
+//       // Fluorescent ballasts
+//       // Other bulbs
+//       bulbType : {
+//         hoursUsed: number,
+//         numUnits: number,
+//         typicalWattage: number
+//       }
+//     },
+//     appliances : {
+//       phantomPowerRatio: number,
+//       // Multiple Appliances can be added.
+//       // Appliances use the following options
+//       // Television
+//       // Charge iPod/MP3 player
+//       // Charge hand-held video games
+//       // Video game console
+//       // DVD or VHS player
+//       // Desktop computer
+//       // Charge a laptop computer
+//       // Charge a cell phone
+//       // Charge a cordless telephone
+//       // Hair dryer
+//       // Curling/ straightening iron
+//       // Cook on the electric stove top
+//       // Bake in an electric oven
+//       // Gas stove top
+//       // Gas oven
+//       // Microwave
+//       // Electric kettle
+//       // Food processor
+//       // Toaster
+//       // Refrigerator
+//       // Use dishwasher
+//       // Water pump
+//       // Deep freezer
+//       // Automatic washing machine
+//       // Semi-automatic washing machine
+//       // Clothes dryer
+//       // Iron clothing
+//       // Vacuum
+//       appliance : {
+//         hoursUsed: number,
+//         numUnits: number,
+//         typicalWattage: number
+//       }
+//     },
+//
+//     spaceHeating : {
+//       // Multiple fuelTypes can be added.
+//       // The following fuelTypes need options
+//       // Gas
+//       // Propane
+//       // Electricity
+//       // Oil
+//       // Hardwood
+//       // Softwood
+//       fuelType : {
+//         annualHeatingBill: number,
+//         systemType: number,
+//         fuelPrice: number,
+//       }
+//     },
+//     ventilationAC: {
+//       // Multiple Appliances can be added.
+//       // Floor fan
+//       // Standard ceiling fan
+//       // Kitchen exhaust fan
+//       // Bathroom exhaust fan
+//       // Air conditioner window unit
+//       // Central air conditioning unit
+//       // Split air conditioner
+//       appliance: {
+//         hoursUsed: number,
+//         numUnits: number,
+//         typicalWattage: number
+//       }
+//     },
+//     waterHeating: {
+//       activities: {
+//         shower: number,
+//         laundryMachine: number,
+//         dishwasher: number,
+//         kitchenFaucetFlow: number,
+//         bathroomFaucetFlow: number
+//       },
+//       heaters: {
+//         // They will have the ability to add multiple heaters
+//         heater: {
+//           // Gas and Electric are the two types.
+//           type: 'gas',
+//           numUnits: number
+//         }
+//       }
+//     },
+//     groundRailTransport: {
+//       days: {
+//         // 7 days would exist total since this is made for a week.
+//         day: {
+//           // miles Traveled
+//           transportationType: number
+//         }
+//       }
+//     },
+//     airTransport: {
+//       milesTravelledPerYear: number
+//     }
+//   }
+// }
+=======
 
 UMIS.Food = {
   totalConsumption: {
@@ -91,6 +209,7 @@ UMIS.Food = {
   }
 }
 
+>>>>>>> master
 UMIS.Energy = {
   defaults: {
     megaJoulesConversion: 3.6,
@@ -245,10 +364,10 @@ UMIS.Energy = {
     },
     spaceHeating: function (workbook) {
       let total = 0
-      _.forEach(workbook.data.spaceHeating, (fuelType) => {
+      _.forEach(workbook.data.spaceHeating, (fuelType, fuelTypeName) => {
         total += ((fuelType.annualHeatingBill / 100) *
-          (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelType.fuelTypeName][fuelType.systemType] / fuelType.price)) *
-          (UMIS.Energy.defaults.spaceHeating.energyContent[fuelType.fuelTypeName] / 365.242)
+          (UMIS.Energy.defaults.spaceHeating.seasonalEfficiency[fuelTypeName][fuelType.systemType] / fuelType.price)) *
+          (UMIS.Energy.defaults.spaceHeating.energyContent[fuelTypeName] / 365.242)
       })
       return total
     },

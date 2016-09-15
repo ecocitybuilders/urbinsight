@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import c3 from 'c3'
-import { Accordion, Panel } from 'react-bootstrap'
+import { Accordion, Panel, Well } from 'react-bootstrap'
 import { surveyGeoJSONCompiler } from 'utils/mapUtils'
 import { generateSurveyTotalsFC, surveyChart, questions, surveyTableGenerator } from 'utils/surveyUtils'
 import turf from 'turf'
@@ -75,8 +75,9 @@ class DashboardQualitative extends React.Component {
     let surveyList = []
     if (typeof surveys !== 'undefined') {
       surveyList = surveys.map(function (survey, index) {
+        // can add for custom styling bsClass='survey-list'
         return (
-          <Panel header={'Survey #' + (index + 1)} eventKey={index} key={index}>
+          <Panel header={'Survey #' + (index + 1)} eventKey={index} key={index} >
             {surveyTableGenerator(survey)}
           </Panel>
         )
@@ -91,10 +92,12 @@ class DashboardQualitative extends React.Component {
         <div style={{ 'display': this.state.totalData.length ? 'inherit' : 'none' }} id='survey-results'></div>
         <div className='dashboard-survey-surveys'>
           <h4 className='dashboard-survey-surveys-header'>Surveys</h4>
-          {!this.state.totalData.length && <div className='survey-data-message'><h6>No Surveys in View</h6></div>}
-          <Accordion>
-            {surveyList}
-          </Accordion>
+          <Well>
+            {!this.state.totalData.length && <div className='survey-data-message'><h6>No Surveys in View</h6></div>}
+            <Accordion>
+              {surveyList}
+            </Accordion>
+          </Well>
         </div>
         <div className='dashboard-survey-questions'>
           <h4 className='dashboard-survey-questions-header'>Questions</h4>

@@ -1,6 +1,6 @@
 /* @flow */
-import 'whatwg-fetch'
-import server_endpoint from 'utils/serverUtils'
+// import 'whatwg-fetch'
+import serverEndpoint from 'utils/serverUtils'
 import _ from 'lodash'
 // ------------------------------------
 // Constants
@@ -106,7 +106,7 @@ export function requestSurveys (bounds) {
     mode: 'cors',
     cache: 'default'
   }
-  let queryString = 'http://' + server_endpoint + ':8000/api/surveys?a=' +
+  let queryString = 'http://' + serverEndpoint + ':8000/api/surveys?a=' +
     `${bounds[0]}&b=${bounds[1]}&c=${bounds[2]}&d=${bounds[3]}&e=${bounds[4]}`
   return (dispatch) => {
     dispatch(surveysRequest(bounds))
@@ -127,7 +127,7 @@ export function surveySave (responses) {
   }
   return (dispatch) => {
     dispatch(surveySubmit(responses))
-    return fetch('http://' + server_endpoint + ':8000/api/survey/create', config)
+    return fetch('http://' + serverEndpoint + ':8000/api/survey/create', config)
       .then((response) => response.json()).then((survey) => dispatch(surveySaved(survey)))
   }
 }
@@ -140,7 +140,7 @@ export function deleteSurvey (id) {
   }
   return (dispatch) => {
     dispatch(surveyDelete(id))
-    return fetch('http://' + server_endpoint + ':8000/api/survey/' + id, config)
+    return fetch('http://' + serverEndpoint + ':8000/api/survey/' + id, config)
       .then((response) => dispatch(surveyDeleted()))
   }
 }
@@ -156,7 +156,7 @@ export function updateSurvey (responses) {
   }
   return (dispatch) => {
     dispatch(surveyUpdateRequest(responses))
-    return fetch('http://' + server_endpoint + ':8000/api/survey/' + responses._id, config)
+    return fetch('http://' + serverEndpoint + ':8000/api/survey/' + responses._id, config)
       .then((response) => response.json()).then((survey) => dispatch(surveyUpdateReceived(survey)))
   }
 }
