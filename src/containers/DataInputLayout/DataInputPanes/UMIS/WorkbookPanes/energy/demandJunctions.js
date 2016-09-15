@@ -27,29 +27,33 @@ class EnergyDemandJunctions extends React.Component {
 
   render() {
 
+    let lighting = this.props.lighting.map(function(light) {
+      return (
+        <Well>
+          <Input key={light} ref='' label='Bulb Type:' type='select' placeholder='' defaultValue={''} className='col-lg-4'>
+            <option value=''></option>
+            <option value='standardIncandescent'>Standard incandescent</option>
+            <option value='compactFluorescent'>Compact fluorescent</option>
+            <option value='flourescentBallasts'>Flourescent ballasts</option>
+            <option value='otherBulbs'>Other bulbs</option>
+          </Input>
+          <Input label='Hours Used:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
+          <Input label='Units:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
+          <Input label='Typical Wattage:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
+        </Well>
+      )
+    })
+
     return (
       <div>
         <h4>Lighting</h4>
-        <Button>
+        <Button onClick={this.props.addLighting}>
           <span className='glyphicon glyphicon-plus'></span> Add Light
         </Button>
-        <Well>
-          <form>
-            <Input ref='' label='Bulb Type:' type='select' placeholder='' defaultValue={''} className='col-lg-4'>
-              <option value=''></option>
-              <option value='standardIncandescent'>Standard incandescent</option>
-              <option value='compactFluorescent'>Compact fluorescent</option>
-              <option value='flourescentBallasts'>Flourescent ballasts</option>
-              <option value='otherBulbs'>Other bulbs</option>
-            </Input>
-            <Input label='Hours Used:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-            <Input label='Units:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-            <Input label='Typical Wattage:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-            <Button>
-              <span className='glyphicon glyphicon-minus'></span> Remove Light
-            </Button>
-          </form>
-        </Well>
+        <Button>
+          <span className='glyphicon glyphicon-minus'></span> Remove Light
+        </Button>
+          {lighting}
 
         <h4>Appliances</h4>
         <Button>

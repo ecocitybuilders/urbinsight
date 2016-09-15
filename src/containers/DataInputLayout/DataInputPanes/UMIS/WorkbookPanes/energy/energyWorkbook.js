@@ -53,6 +53,8 @@ class UMISEnergyWorkbook extends React.Component {
     }
   }
 
+
+
   addLighting () {
     let newAmount = this.state.lighting
     newAmount.push(newAmount.length + 1)
@@ -127,7 +129,7 @@ class UMISEnergyWorkbook extends React.Component {
 
     // TODO: save the data from the form
     let data = {}
-    this.props.saveValues(data)  
+    this.props.saveValues(data)
     this.props.nextSection()
   }
 
@@ -139,18 +141,18 @@ class UMISEnergyWorkbook extends React.Component {
         <EnergyDemandJunctions ref='demandJunctions'
           lighting={lighting} appliances={appliances} spaceHeating={spaceHeating}
           ventilationAC={ventilationAC} waterHeating={waterHeating} groundRailTransport={groundRailTransport}
-          addLighting={this.addLighting}
-          removeLighting={this.removeLighting}
-          addAppliance={this.addAppliance}
-          removeAppliance={this.removeAppliance}
-          addSpaceHeating={this.addSpaceHeating}
-          removeSpaceHeating={this.removeSpaceHeating}
-          addVentilationAC={this.addVentilationAC}
-          removeVentilationAC={this.removeVentilationAC}
-          addWaterHeating={this.addWaterHeating}
-          removeWaterHeating={this.removeWaterHeating}
-          addGroundRailTransport={this.addGroundRailTransport}
-          removeGroundRailTransport={this.removeGroundRailTransport}
+          addLighting={this.addLighting.bind(this)}
+          removeLighting={this.removeLighting.bind(this)}
+          addAppliance={this.addAppliance.bind(this)}
+          removeAppliance={this.removeAppliance.bind(this)}
+          addSpaceHeating={this.addSpaceHeating.bind(this)}
+          removeSpaceHeating={this.removeSpaceHeating.bind(this)}
+          addVentilationAC={this.addVentilationAC.bind(this)}
+          removeVentilationAC={this.removeVentilationAC.bind(this)}
+          addWaterHeating={this.addWaterHeating.bind(this)}
+          removeWaterHeating={this.removeWaterHeating.bind(this)}
+          addGroundRailTransport={this.addGroundRailTransport.bind(this)}
+          removeGroundRailTransport={this.removeGroundRailTransport.bind(this)}
         />
         <Row>
           <Col xs={6} sm={6} md={6}>
