@@ -29,48 +29,19 @@ type Props = {
 class EnergyDemandJunctions extends React.Component {
   props: Props;
 
-  render() {
+  render () {
     const { lighting, appliances, spaceHeating, ventilationAC, waterHeating,
       groundRailTransport, airTransport } = this.props
 
-// <<<<<<< HEAD
-//     let lighting = this.props.lighting.map(function(light) {
-//       return (
-//         <Well>
-//           <Input key={light} ref='' label='Bulb Type:' type='select' placeholder='' defaultValue={''} className='col-lg-4'>
-//             <option value=''></option>
-//             <option value='standardIncandescent'>Standard incandescent</option>
-//             <option value='compactFluorescent'>Compact fluorescent</option>
-//             <option value='flourescentBallasts'>Flourescent ballasts</option>
-//             <option value='otherBulbs'>Other bulbs</option>
-//           </Input>
-//           <Input label='Hours Used:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-//           <Input label='Units:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-//           <Input label='Typical Wattage:' type='number' ref='' defaultValue={0} className='col-lg-1'/>
-//         </Well>
-//       )
-//     })
-//
-//     return (
-//       <div>
-//         <h4>Lighting</h4>
-//         <Button onClick={this.props.addLighting}>
-//           <span className='glyphicon glyphicon-plus'></span> Add Light
-//         </Button>
-//         <Button>
-//           <span className='glyphicon glyphicon-minus'></span> Remove Light
-//         </Button>
-//           {lighting}
-// =======
     let lightingList = lighting.map((value, index) => {
-      let refString = "lighting." + index
+      let refString = 'lighting.' + index
       return (
         <Well>
           <form>
             <div className='row'>
               <div className='col-lg-3'>
                 <ControlLabel>Bulb Type: </ControlLabel>
-                <FormControl componentClass="select" ref={refString + '.bulbType'}>
+                <FormControl componentClass='select' ref={refString + '.bulbType'}>
                   <option value='standardIncandescent'>Standard incandescent</option>
                   <option value='compactFluorescent'>Compact fluorescent</option>
                   <option value='flourescentBallasts'>Flourescent ballasts</option>
@@ -79,13 +50,15 @@ class EnergyDemandJunctions extends React.Component {
               </div>
             </div>
             <div className='row'>
-              <Input label='Hours Used:' type='number' ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2'/>
+              <Input label='Hours Used:' type='number'
+                ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2' />
             </div>
             <div className='row'>
-              <Input label='Units:' type='number' ref={refString + '.numUnits'} defaultValue={0} className='col-lg-2'/>
+              <Input label='Units:' type='number' ref={refString + '.numUnits'} defaultValue={0} className='col-lg-2' />
             </div>
             <div className='row'>
-              <Input label='Typical Wattage:' type='number' ref={refString + '.typicalWattage'} defaultValue={0} className='col-lg-2'/>
+              <Input label='Typical Wattage:' type='number'
+                ref={refString + '.typicalWattage'} defaultValue={0} className='col-lg-2' />
             </div>
             <Button className='btn btn-danger' onClick={() => this.props.removeLighting(index)}>
               <span className='glyphicon glyphicon-minus'></span> Remove Lighting
@@ -97,12 +70,13 @@ class EnergyDemandJunctions extends React.Component {
 // >>>>>>> 3ce2d6e79e78b08acebbc0af2099127ec99197b1
 
     let applianceList = appliances.map((value, index) => {
-      let refString = "appliance." + index
+      let refString = 'appliance.' + index
       return (
         <Well>
           <div className='row'>
             <div className='col-lg-3'>
-              <Input ref={refString + '.fuelTypeName'} label='Appliance Type:' type='select' placeholder='' defaultValue={''}>
+              <Input ref={refString + '.fuelTypeName'}
+                label='Appliance Type:' type='select' placeholder='' defaultValue={''}>
                 <option value='television'>Television</option>
                 <option value='chargeMP3Player'>Charge iPod  or MP3 player</option>
                 <option value='chargeHandHeldVideoGames'>Charge hand-held video games</option>
@@ -135,13 +109,15 @@ class EnergyDemandJunctions extends React.Component {
             </div>
           </div>
           <div className='row'>
-            <Input label='Phantom Power Ratio:' type='number' ref={refString + '.phantomPowerRatio'} defaultValue={0} className='col-lg-2'/>
+            <Input label='Phantom Power Ratio:' type='number'
+              ref={refString + '.phantomPowerRatio'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='Units:' type='number' ref={refString + '.numUnits'} defaultValue={0} className='col-lg-2'/>
+            <Input label='Units:' type='number' ref={refString + '.numUnits'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='Typical wattage:' type='number' ref={refString + '.typicalWattage'} defaultValue={0} className='col-lg-2'/>
+            <Input label='Typical wattage:' type='number'
+              ref={refString + '.typicalWattage'} defaultValue={0} className='col-lg-2' />
           </div>
           <Button className='btn btn-danger' onClick={() => this.props.removeAppliance(index)}>
             <span className='glyphicon glyphicon-minus'></span> Remove Appliance
@@ -151,7 +127,7 @@ class EnergyDemandJunctions extends React.Component {
     })
 
     let spaceHeatingList = spaceHeating.map((value, index) => {
-      let refString = "spaceHeating." + index
+      let refString = 'spaceHeating.' + index
       return (
         <Well>
           <div className='row'>
@@ -167,10 +143,12 @@ class EnergyDemandJunctions extends React.Component {
             </div>
           </div>
           <div className='row'>
-            <Input label='Hours Used:' type='number' ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2' />
+            <Input label='Hours Used:' type='number'
+              ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='System Type:' type='number' ref={refString + '.systemType'} defaultValue={0} className='col-lg-2' />
+            <Input label='System Type:' type='number'
+              ref={refString + '.systemType'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
             <Input label='Price:' type='number' ref={refString + '.price'} defaultValue={0} className='col-lg-2' />
@@ -183,7 +161,7 @@ class EnergyDemandJunctions extends React.Component {
     })
 
     let ventilationACList = ventilationAC.map((value, index) => {
-      let refString = "ventilationAC." + index
+      let refString = 'ventilationAC.' + index
       return (
         <Well>
           <div className='row'>
@@ -200,13 +178,15 @@ class EnergyDemandJunctions extends React.Component {
             </div>
           </div>
           <div className='row'>
-            <Input label='Hours Used:' type='number' ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2' />
+            <Input label='Hours Used:' type='number'
+              ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
             <Input label='Units:' type='number' ref={refString + '.numUnits'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='Typical Wattage:' type='number' ref={refString + '.typicalWattage'} defaultValue={0} className='col-lg-2' />
+            <Input label='Typical Wattage:' type='number'
+              ref={refString + '.typicalWattage'} defaultValue={0} className='col-lg-2' />
           </div>
           <Button className='btn btn-danger' onClick={() => this.props.removeVentilationAC(index)}>
             <span className='glyphicon glyphicon-minus'></span> Remove Ventilation AC
@@ -216,7 +196,7 @@ class EnergyDemandJunctions extends React.Component {
     })
 
     let waterHeatingList = waterHeating.map((value, index) => {
-      let refString = "waterHeating.heaters." + index
+      let refString = 'waterHeating.heaters.' + index
       return (
         <Well>
           <div className='row'>
@@ -308,13 +288,14 @@ class EnergyDemandJunctions extends React.Component {
             <Input label='Dish Washer:' type='number' ref='dishwasher' defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='Kitchen Faucet Flow:' type='number' ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
+            <Input label='Kitchen Faucet Flow:' type='number'
+              ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='Bathroom Faucet Flow:' type='number' ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
+            <Input label='Bathroom Faucet Flow:' type='number'
+              ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
           </div>
         </Well>
-
 
         <h4 className='energy-section'>Ground Transportation</h4>
         <Well>
@@ -336,10 +317,10 @@ class EnergyDemandJunctions extends React.Component {
           </Form>
         </Well>
 
-
         <h4 className='energy-section'>Air Transportation</h4>
         <Well>
-          <Input label='Miles traveled per year:' type='number' ref='airTransport.milesTravelledPerYear' defaultValue={0} />
+          <Input label='Miles traveled per year:' type='number'
+            ref='airTransport.milesTravelledPerYear' defaultValue={0} />
         </Well>
       </div>
     )

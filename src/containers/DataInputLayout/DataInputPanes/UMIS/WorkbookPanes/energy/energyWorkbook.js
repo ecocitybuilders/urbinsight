@@ -122,7 +122,7 @@ class UMISEnergyWorkbook extends React.Component {
   addSpaceHeating () {
     let newAmount = this.state.spaceHeating
     let spaceHeatingObject = {
-      fuelTypeName: "",
+      fuelTypeName: '',
       systemType: 0,
       price: 0
     }
@@ -137,7 +137,7 @@ class UMISEnergyWorkbook extends React.Component {
   addVentilationAC () {
     let newAmount = this.state.ventilationAC
     let ventilationACObject = {
-      applianceType: "",
+      applianceType: '',
       hoursUsed: 0,
       numUnits: 0,
       typicalWattage: 0
@@ -153,7 +153,7 @@ class UMISEnergyWorkbook extends React.Component {
   addWaterHeating () {
     let newAmount = this.state.waterHeating
     let waterHeatingObject = {
-      name: "",
+      name: '',
       timesPerDay: 0
     }
     newAmount.push(waterHeatingObject)
@@ -191,7 +191,7 @@ class UMISEnergyWorkbook extends React.Component {
     return this.setState({airTransport: newAmmount})
   }
 
-  nextSection(e) {
+  nextSection (e) {
     e.preventDefault()
 
     let demandObj = this.refs.demandJunctions.refs
@@ -234,7 +234,8 @@ class UMISEnergyWorkbook extends React.Component {
   }
 
   render () {
-    const { lighting, appliances, spaceHeating, ventilationAC, waterHeating, groundRailTransport, airTransport } = this.state
+    const { lighting, appliances, spaceHeating, ventilationAC, waterHeating,
+       groundRailTransport, airTransport } = this.state
 
     return (
       <div className='umis-data'>

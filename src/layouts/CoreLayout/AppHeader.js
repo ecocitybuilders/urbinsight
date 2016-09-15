@@ -71,7 +71,9 @@ class AppHeader extends React.Component {
               <NavDropdown eventKey={1} title='Explore Maps' id='basic-nav-dropdown'>
                 <LinkContainer to={{pathname: '/medellin'}}><MenuItem eventKey={1.1}>Medellin</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/cusco'}}><MenuItem eventKey={1.2}>Cusco</MenuItem></LinkContainer>
-                <LinkContainer to={{pathname: '/abu_dhabi'}}><MenuItem eventKey={1.3}>Abu Dhabi</MenuItem></LinkContainer>
+                <LinkContainer to={{pathname: '/abu_dhabi'}}>
+                  <MenuItem eventKey={1.3}>Abu Dhabi</MenuItem>
+                </LinkContainer>
                 <LinkContainer to={{pathname: '/lima'}}><MenuItem eventKey={1.4}>Lima</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/budapest'}}><MenuItem eventKey={1.5}>Budapest</MenuItem></LinkContainer>
               </NavDropdown>
@@ -85,14 +87,14 @@ class AppHeader extends React.Component {
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
               {/* <NavItem eventKey={4} href='#'>About</NavItem>
               <NavItem eventKey={5} href='#'>Help</NavItem>*/}
-              {/* {user.isAdmin &&
+              {user && user.isAdmin &&
                 isAuthenticated &&
-                <LinkContainer to={{pathname: '/admin'}}><NavItem eventKey={4}>Admin</NavItem></LinkContainer>} */}
-              {/* {this.props.locationBeforeTransitions.pathname !== '/' &&
+                <LinkContainer to={{pathname: '/admin'}}><NavItem eventKey={4}>Admin</NavItem></LinkContainer>}
+              {this.props.locationBeforeTransitions && this.props.locationBeforeTransitions.pathname !== '/' &&
                 (!isAuthenticated &&
                   <NavItem eventKey={6} href='#' onClick={this.handleClick}>Login | Sign Up</NavItem>)}
-              {this.props.locationBeforeTransitions.pathname !== '/' &&
-                (isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>)} */}
+              {this.props.locationBeforeTransitions && this.props.locationBeforeTransitions.pathname !== '/' &&
+                (isAuthenticated && <NavItem eventKey={6} onClick={onLogoutClick}>Logout</NavItem>)}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
