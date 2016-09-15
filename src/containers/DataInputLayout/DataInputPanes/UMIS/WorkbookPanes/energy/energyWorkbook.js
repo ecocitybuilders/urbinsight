@@ -4,7 +4,7 @@ import EnergyDemandJunctions from './DemandJunctions'
 
 type Props = {
   nextSection: PropTypes.func.isRequired,
-  prevSection: Proptypes.func,
+  prevSection: PropTypes.func,
   saveValues: PropTypes.func
 }
 
@@ -23,7 +23,6 @@ let applianceDataGenerator = function (obj, state) {
 
   for (var i = 0; i < state.appliances.length; i++) {
     let refString = 'appliance.' + i
-
   }
 
   return returnArr
@@ -89,13 +88,10 @@ class UMISEnergyWorkbook extends React.Component {
     this.removeAirTransport = this.removeAirTransport.bind(this)
   }
 
-
-
   addLighting () {
-    console.log("adding lighting")
     let newAmount = this.state.lighting
     let lightingObject = {
-      bulbType: "",
+      bulbType: '',
       numUnits: 0,
       hoursUsed: 0,
       typicalWattage: 0
@@ -106,7 +102,6 @@ class UMISEnergyWorkbook extends React.Component {
   removeLighting (index) {
     let newAmount = this.state.lighting
     newAmount.splice(index, 1)
-    console.log("EnergyWorkbook.removeLighting() " + index)
     return this.setState({lighting: newAmount})
   }
   addAppliance () {
@@ -245,39 +240,22 @@ class UMISEnergyWorkbook extends React.Component {
       <div className='umis-data'>
         <h3 className='umis-data-title'>UMIS Form - Energy Workbook</h3>
         <EnergyDemandJunctions ref='demandJunctions'
-// <<<<<<< HEAD
-//           lighting={lighting} appliances={appliances} spaceHeating={spaceHeating}
-//           ventilationAC={ventilationAC} waterHeating={waterHeating} groundRailTransport={groundRailTransport}
-//           addLighting={this.addLighting.bind(this)}
-//           removeLighting={this.removeLighting.bind(this)}
-//           addAppliance={this.addAppliance.bind(this)}
-//           removeAppliance={this.removeAppliance.bind(this)}
-//           addSpaceHeating={this.addSpaceHeating.bind(this)}
-//           removeSpaceHeating={this.removeSpaceHeating.bind(this)}
-//           addVentilationAC={this.addVentilationAC.bind(this)}
-//           removeVentilationAC={this.removeVentilationAC.bind(this)}
-//           addWaterHeating={this.addWaterHeating.bind(this)}
-//           removeWaterHeating={this.removeWaterHeating.bind(this)}
-//           addGroundRailTransport={this.addGroundRailTransport.bind(this)}
-//           removeGroundRailTransport={this.removeGroundRailTransport.bind(this)}
-// =======
           lighting={lighting} appliances={appliances} spaceHeating={spaceHeating} ventilationAC={ventilationAC}
           waterHeating={waterHeating} groundRailTransport={groundRailTransport} airTransport={airTransport}
-          addLighting={this.addLighting}
-          removeLighting={this.removeLighting}
-          addAppliance={this.addAppliance}
-          removeAppliance={this.removeAppliance}
-          addSpaceHeating={this.addSpaceHeating}
-          removeSpaceHeating={this.removeSpaceHeating}
-          addVentilationAC={this.addVentilationAC}
-          removeVentilationAC={this.removeVentilationAC}
-          addWaterHeating={this.addWaterHeating}
-          removeWaterHeating={this.removeWaterHeating}
-          addGroundRailTransport={this.addGroundRailTransport}
-          removeGroundRailTransport={this.removeGroundRailTransport}
-          addAirTransport={this.addAirTransport}
-          removeAirTransport={this.removeAirTransport}
-// >>>>>>> 3ce2d6e79e78b08acebbc0af2099127ec99197b1
+          addLighting={this.addLighting.bind(this)}
+          removeLighting={this.removeLighting.bind(this)}
+          addAppliance={this.addAppliance.bind(this)}
+          removeAppliance={this.removeAppliance.bind(this)}
+          addSpaceHeating={this.addSpaceHeating.bind(this)}
+          removeSpaceHeating={this.removeSpaceHeating.bind(this)}
+          addVentilationAC={this.addVentilationAC.bind(this)}
+          removeVentilationAC={this.removeVentilationAC.bind(this)}
+          addWaterHeating={this.addWaterHeating.bind(this)}
+          removeWaterHeating={this.removeWaterHeating.bind(this)}
+          addGroundRailTransport={this.addGroundRailTransport.bind(this)}
+          removeGroundRailTransport={this.removeGroundRailTransport.bind(this)}
+          addAirTransport={this.addAirTransport.bind(this)}
+          removeAirTransport={this.removeAirTransport.bind(this)}
         />
         <Row>
           <Col xs={6} sm={6} md={6}>
