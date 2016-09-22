@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
+import ReactDOM from 'react-dom'
 import EnergyDemandJunctions from './DemandJunctions'
 
 type Props = {
@@ -13,7 +14,14 @@ let lightingDataGenerator = function (obj, state) {
 
   for (var i = 0; i < state.lighting.length; i++) {
     let refString = 'lighting.' + i
-    returnArr.push(state.lighting[i])
+    let newLight = {}
+    newLight.bulbType = getSelectedValueOfReactNode(obj[refString + '.bulbType'])
+    newLight.hoursUsed = getValueOfReactNode(obj[refString + '.hoursUsed'])
+    newLight.numUnits = getValueOfReactNode(obj[refString + '.numUnits'])
+    newLight.typicalWattage = getValueOfReactNode(obj[refString + '.typicalWattage'])
+
+
+    returnArr.push(newLight)
   }
 
   return returnArr
@@ -56,6 +64,17 @@ let airTransportDataGenerator = function (obj, state) {
 
   return returnArr
 }
+
+/* Convenience functions to get data out of react bootstrap components */
+function getSelectedValueOfReactNode(reactNode) {
+  let mySelect = ReactDOM.findDOMNode(reactNode)
+  return mySelect.options[mySelect.selectedIndex].value
+}
+
+function getValueOfReactNode(reactNode) {
+  return ReactDOM.findDOMNode(reactNode).children[1].value
+}
+
 
 class UMISEnergyWorkbook extends React.Component {
   props: Props;
