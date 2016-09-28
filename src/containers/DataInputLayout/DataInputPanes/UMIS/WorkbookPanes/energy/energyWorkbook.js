@@ -15,12 +15,10 @@ let lightingDataGenerator = function (obj, state) {
   for (var i = 0; i < state.lighting.length; i++) {
     let refString = 'lighting.' + i
     let newLight = {}
-    newLight.bulbType = getSelectedValueOfReactNode(obj[refString + '.bulbType'])
-    newLight.hoursUsed = getValueOfReactNode(obj[refString + '.hoursUsed'])
-    newLight.numUnits = getValueOfReactNode(obj[refString + '.numUnits'])
-    newLight.typicalWattage = getValueOfReactNode(obj[refString + '.typicalWattage'])
-
-
+    newLight.bulbType = getValueOfReactBootstrapSelect(obj[refString + '.bulbType'])
+    newLight.hoursUsed = getValueOfReactBootstrapInput(obj[refString + '.hoursUsed'])
+    newLight.numUnits = getValueOfReactBootstrapInput(obj[refString + '.numUnits'])
+    newLight.typicalWattage = getValueOfReactBootstrapInput(obj[refString + '.typicalWattage'])
     returnArr.push(newLight)
   }
 
@@ -31,6 +29,10 @@ let applianceDataGenerator = function (obj, state) {
 
   for (var i = 0; i < state.appliances.length; i++) {
     let refString = 'appliance.' + i
+    let newAppliance = {}
+    newAppliance.phantomPowerRatio = getValueOfReactBootstrapInput(obj[refString + '.phantomPowerRatio'])
+    newAppliance.numUnits = getValueOfReactBootstrapInput(obj[refString + '.numUnits'])
+    newAppliance.typicalWattage = getValueOfReactBootstrapInput(obj[refString + '.typicalWattage'])
   }
 
   return returnArr
@@ -66,12 +68,12 @@ let airTransportDataGenerator = function (obj, state) {
 }
 
 /* Convenience functions to get data out of react bootstrap components */
-function getSelectedValueOfReactNode(reactNode) {
+function getValueOfReactBootstrapSelect(reactNode) {
   let mySelect = ReactDOM.findDOMNode(reactNode)
   return mySelect.options[mySelect.selectedIndex].value
 }
 
-function getValueOfReactNode(reactNode) {
+function getValueOfReactBootstrapInput(reactNode) {
   return ReactDOM.findDOMNode(reactNode).children[1].value
 }
 

@@ -67,7 +67,6 @@ class EnergyDemandJunctions extends React.Component {
         </Well>
       )
     })
-// >>>>>>> 3ce2d6e79e78b08acebbc0af2099127ec99197b1
 
     let applianceList = appliances.map((value, index) => {
       let refString = 'appliance.' + index
@@ -75,7 +74,7 @@ class EnergyDemandJunctions extends React.Component {
         <Well>
           <div className='row'>
             <div className='col-lg-3'>
-              <Input ref={refString + '.fuelTypeName'}
+              <Input ref={refString + '.applianceType'}
                 label='Appliance Type:' type='select' placeholder='' defaultValue={''}>
                 <option value='television'>Television</option>
                 <option value='chargeMP3Player'>Charge iPod  or MP3 player</option>
@@ -216,112 +215,150 @@ class EnergyDemandJunctions extends React.Component {
 
     return (
       <div className='contianer'>
-        <div className='row'>
-          <div className='col-lg-2'>
-            <h4>Lighting</h4>
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <div className='row'>
+              <div className='col-lg-2'>
+                <h4>Lighting</h4>
+              </div>
+              <div className='col-lg-10'>
+                <Button className='btn-success btn energy-button add-btn' onClick={() => this.props.addLighting()}>
+                  <span className='glyphicon glyphicon-plus'></span> Add Lighting
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className='col-lg-10'>
-            <Button className='btn-success btn col-lg-2 add-btn' onClick={() => this.props.addLighting()}>
-              <span className='glyphicon glyphicon-plus'></span> Add Lighting
-            </Button>
-          </div>
-        </div>
-        {lightingList}
-
-        <div className='row energy-section'>
-          <div className='col-lg-2'>
-            <h4>Appliances</h4>
-          </div>
-          <div className='col-lg-10'>
-            <Button className='btn-success btn col-lg-2 add-btn' onClick={() => this.props.addAppliance()}>
-              <span className='glyphicon glyphicon-plus'></span> Add Appliance
-            </Button>
+          <div className='panel-body'>
+            {lightingList}
           </div>
         </div>
-        {applianceList}
 
-        <div className='row energy-section'>
-          <div className='col-lg-2'>
-            <h4>Space Heating</h4>
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <div className='row'>
+              <div className='col-lg-2'>
+                <h4>Appliances</h4>
+              </div>
+              <div className='col-lg-10'>
+                <Button className='btn-success btn energy-button add-btn' onClick={() => this.props.addAppliance()}>
+                  <span className='glyphicon glyphicon-plus'></span> Add Appliance
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className='col-lg-10'>
-            <Button className='btn-success btn col-lg-2 add-btn' onClick={() => this.props.addSpaceHeating()}>
-              <span className='glyphicon glyphicon-plus'></span> Add Space Heating
-            </Button>
+          <div className='panel-body'>
+            {applianceList}
           </div>
         </div>
-        {spaceHeatingList}
 
-        <div className='row energy-section'>
-          <div className='col-lg-2'>
-            <h4>Ventilation AC</h4>
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <div className='row'>
+              <div className='col-lg-2'>
+                <h4>Space Heating</h4>
+              </div>
+              <div className='col-lg-10'>
+                <Button className='btn-success btn energy-button add-btn' onClick={() => this.props.addSpaceHeating()}>
+                  <span className='glyphicon glyphicon-plus'></span> Add Space Heating
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className='col-lg-10'>
-            <Button className='btn-success btn col-lg-2 add-btn' onClick={() => this.props.addVentilationAC()}>
-              <span className='glyphicon glyphicon-plus'></span> Add Ventilation AC
-            </Button>
+          <div className='panel-body'>
+            {spaceHeatingList}
           </div>
         </div>
-        {ventilationACList}
 
-
-        <div className='row energy-section'>
-          <div className='col-lg-2'>
-            <h4>Water Heating</h4>
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <div className='row'>
+              <div className='col-lg-2'>
+                <h4>Ventilation AC</h4>
+              </div>
+              <div className='col-lg-10'>
+                <Button className='btn-success btn energy-button add-btn' onClick={() => this.props.addVentilationAC()}>
+                  <span className='glyphicon glyphicon-plus'></span> Add Ventilation AC
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className='col-lg-10'>
-            <Button className='btn-success btn col-lg-2 add-btn' onClick={() => this.props.addWaterHeating()}>
-              <span className='glyphicon glyphicon-plus'></span> Add Water Heater
-            </Button>
+          <div className='panel-body'>
+            {ventilationACList}
           </div>
         </div>
-        {waterHeatingList}
-        <Well>
-          <h4>Water Heating Activities</h4>
-          <div className='row'>
-            <Input label='Shower:' type='number' ref='shower' defaultValue={0} className='col-lg-2' />
-          </div>
-          <div className='row'>
-            <Input label='Laundry Machine:' type='number' ref='laundryMachine' defaultValue={0} className='col-lg-2' />
-          </div>
-          <div className='row'>
-            <Input label='Dish Washer:' type='number' ref='dishwasher' defaultValue={0} className='col-lg-2' />
-          </div>
-          <div className='row'>
-            <Input label='Kitchen Faucet Flow:' type='number'
-              ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
-          </div>
-          <div className='row'>
-            <Input label='Bathroom Faucet Flow:' type='number'
-              ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
-          </div>
-        </Well>
 
-        <h4 className='energy-section'>Ground Transportation</h4>
-        <Well>
-          <h4>Monday</h4>
-          <Form className='form-inline'>
-            <Input label='Miles traveled:' type='number' ref='groundRailTransport.0.milesTravelled' defaultValue={0} />
-            <Input ref='' label='Mode of transport:' type='select' placeholder='' defaultValue={''}>
-              <option value=''></option>
-              <option value='conventionalBus'>Conventional bus</option>
-              <option value='hybridElectricBus'>Hybrid electric bus</option>
-              <option value='motorcycle'>Motorcycle</option>
-              <option value='personalLightTruck'>Personal light truck</option>
-              <option value='car1pass'>Car with one passenger</option>
-              <option value='car2pass'>Car with twi passengers</option>
-              <option value='car4pass'>Car with four passengers</option>
-              <option value='commuterRail'>Commuter rail</option>
-              <option value='intercityRail'>Innercity rail</option>
-            </Input>
-          </Form>
-        </Well>
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <div className='row'>
+              <div className='col-lg-2'>
+                <h4>Water Heating</h4>
+              </div>
+              <div className='col-lg-10'>
+                <Button className='btn-success btn energy-button add-btn' onClick={() => this.props.addWaterHeating()}>
+                  <span className='glyphicon glyphicon-plus'></span> Add Water Heater
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className='panel-body'>
+            {waterHeatingList}
+            <Well>
+              <h4>Water Heating Activities</h4>
+              <div className='row'>
+                <Input label='Shower:' type='number' ref='shower' defaultValue={0} className='col-lg-2' />
+              </div>
+              <div className='row'>
+                <Input label='Laundry Machine:' type='number' ref='laundryMachine' defaultValue={0} className='col-lg-2' />
+              </div>
+              <div className='row'>
+                <Input label='Dish Washer:' type='number' ref='dishwasher' defaultValue={0} className='col-lg-2' />
+              </div>
+              <div className='row'>
+                <Input label='Kitchen Faucet Flow:' type='number'
+                  ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
+              </div>
+              <div className='row'>
+                <Input label='Bathroom Faucet Flow:' type='number'
+                  ref='kitchenFaucetFlow' defaultValue={0} className='col-lg-2' />
+              </div>
+            </Well>
+          </div>
+        </div>
 
-        <h4 className='energy-section'>Air Transportation</h4>
-        <Well>
-          <Input label='Miles traveled per year:' type='number'
-            ref='airTransport.milesTravelledPerYear' defaultValue={0} />
-        </Well>
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <h4>Ground Transportation</h4>
+          </div>
+          <div className='panel-body'>
+            <h4>Monday</h4>
+            <Form className='form-inline'>
+              <Input label='Miles traveled:' type='number' ref='groundRailTransport.0.milesTravelled' defaultValue={0} />
+              <Input ref='' label='Mode of transport:' type='select' placeholder='' defaultValue={''}>
+                <option value=''></option>
+                <option value='conventionalBus'>Conventional bus</option>
+                <option value='hybridElectricBus'>Hybrid electric bus</option>
+                <option value='motorcycle'>Motorcycle</option>
+                <option value='personalLightTruck'>Personal light truck</option>
+                <option value='car1pass'>Car with one passenger</option>
+                <option value='car2pass'>Car with twi passengers</option>
+                <option value='car4pass'>Car with four passengers</option>
+                <option value='commuterRail'>Commuter rail</option>
+                <option value='intercityRail'>Innercity rail</option>
+              </Input>
+            </Form>
+          </div>
+        </div>
+
+
+        <div className='panel panel-default'>
+          <div className='panel-heading'>
+            <h4>Air Transportation</h4>
+          </div>
+          <div className='panel-body'>
+              <Input label='Miles traveled per year:' type='number'
+                ref='airTransport.milesTravelledPerYear' defaultValue={0} />
+          </div>
+        </div>
       </div>
     )
   }
