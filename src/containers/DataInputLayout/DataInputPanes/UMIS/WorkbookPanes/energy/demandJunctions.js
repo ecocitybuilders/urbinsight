@@ -146,10 +146,6 @@ class EnergyDemandJunctions extends React.Component {
               ref={refString + '.hoursUsed'} defaultValue={0} className='col-lg-2' />
           </div>
           <div className='row'>
-            <Input label='System Type:' type='number'
-              ref={refString + '.systemType'} defaultValue={0} className='col-lg-2' />
-          </div>
-          <div className='row'>
             <Input label='Price:' type='number' ref={refString + '.price'} defaultValue={0} className='col-lg-2' />
           </div>
           <Button className='btn btn-danger' onClick={() => this.props.removeSpaceHeating(index)}>

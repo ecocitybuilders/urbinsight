@@ -33,6 +33,7 @@ let applianceDataGenerator = function (obj, state) {
     newAppliance.phantomPowerRatio = getValueOfReactBootstrapInput(obj[refString + '.phantomPowerRatio'])
     newAppliance.numUnits = getValueOfReactBootstrapInput(obj[refString + '.numUnits'])
     newAppliance.typicalWattage = getValueOfReactBootstrapInput(obj[refString + '.typicalWattage'])
+    returnArr.push(newAppliance)
   }
 
   return returnArr
@@ -40,15 +41,41 @@ let applianceDataGenerator = function (obj, state) {
 let spaceHeatingDataGenerator = function (obj, state) {
   let returnArr = []
 
+  for (var i = 0; i < state.spaceHeating.length; i++) {
+    let refString = 'spaceHeating.' + i
+    let newSpaceHeater = {}
+    newSpaceHeater.fuelTypeName = getValueOfReactBootstrapSelect(obj[refString + '.fuelTypeName'])
+    newSpaceHeater.hoursUsed = getValueOfReactBootstrapInput(obj[refString + '.hoursUsed'])
+    newSpaceHeater.price = getValueOfReactBootstrapInput(obj[refString + '.price'])
+    returnArr.push(newSpaceHeater)
+  }
+  // TODO: sort out what to do with the water heating activities
   return returnArr
 }
 let ventilationACDataGenerator = function (obj, state) {
   let returnArr = []
 
+  for (var i = 0; i < state.ventilationAC.length; i++) {
+    let refString = 'ventilationAC.' + i
+    let newVentilationAC = {}
+    newVentilationAC.applianceType = getValueOfReactBootstrapSelect(obj[refString + '.acType'])
+    newVentilationAC.hoursUsed = getValueOfReactBootstrapInput(obj[refString + '.hoursUsed'])
+    newVentilationAC.numUnits = getValueOfReactBootstrapInput(obj[refString + '.numUnits'])
+    newVentilationAC.typicalWattage = getValueOfReactBootstrapInput(obj[refString + '.typicalWattage'])
+    returnArr.push(newVentilationAC)
+  }
+
   return returnArr
 }
 let waterHeatingDataGenerator = function (obj, state) {
   let returnArr = []
+
+  for (var i = 0; i < state.waterHeating.length; i++) {
+    let refString = 'waterHeating.heaters.' + i
+    let  newWaterHeater = {}
+    newWaterHeater.type = getValueOfReactBootstrapSelect(obj[refString + '.type'])
+    returnArr.push(newWaterHeater)
+  }
 
   return returnArr
 }
@@ -144,7 +171,7 @@ class UMISEnergyWorkbook extends React.Component {
     let newAmount = this.state.spaceHeating
     let spaceHeatingObject = {
       fuelTypeName: '',
-      systemType: 0,
+      hoursUsed: 0,
       price: 0
     }
     newAmount.push(spaceHeatingObject)
