@@ -88,17 +88,8 @@ class DashboardQualitative extends React.Component {
         <h3 className='dashboard-qualitative-heading'>
           Quality of Life - Average Response
         </h3>
-        {!this.state.totalData.length && <div className='survey-data-message'><h3>No Survey Data</h3></div>}
+        {!this.state.totalData.length && <div className='survey-data-message'><h3>No surveys in view</h3></div>}
         <div style={{ 'display': this.state.totalData.length ? 'inherit' : 'none' }} id='survey-results'></div>
-        <div className='dashboard-survey-surveys'>
-          <h4 className='dashboard-survey-surveys-header'>Surveys</h4>
-          <Well>
-            {!this.state.totalData.length && <div className='survey-data-message'><h6>No Surveys in View</h6></div>}
-            <Accordion>
-              {surveyList}
-            </Accordion>
-          </Well>
-        </div>
         <div className='dashboard-survey-questions'>
           <h4 className='dashboard-survey-questions-header'>Questions</h4>
           <Accordion>
