@@ -160,18 +160,54 @@ export class Login extends React.Component {
             </form>
           </Modal.Body>
           <Modal.Footer id='login-modal-footer'>
-            <div className='login-button-helper'>
-              <Button onClick={this.handleLoginClick}
-                className='auth-buttons'
-                bsStyle='primary' bsSize='large' block>{this.state.authToggle === 'login' ? 'Submit' : 'Login'}
-              </Button>
-            </div>
+            {
+              this.state.authToggle === 'login'
+              ?
+                <div className='login-button-helper'>
+                  <Button onClick={this.handleLoginClick}
+                    className='auth-buttons'
+                    bsStyle='primary' bsSize='large' block>{this.state.authToggle === 'login' ? 'Login' : 'Return to login'}
+                  </Button>
+                </div>
+              : null
+            }
+
+            {
+              this.state.authToggle === 'login'
+              ? <p>New to Urbinsight?</p>
+              : null
+            }
+
             <div className='login-button-helper'>
               <Button onClick={this.handleSignUpClick}
                 className='auth-buttons'
-                bsStyle='success' bsSize='large' block>{this.state.authToggle === 'signup' ? 'Submit' : 'Sign Up'}
+                bsStyle='success' bsSize='large' block>{this.state.authToggle === 'signup' ? 'Signup' : 'Create an account'}
               </Button>
             </div>
+
+            {
+              this.state.authToggle === 'signup'
+              ?
+                <div className='login-button-helper'>
+                  <Button onClick={this.handleLoginClick}
+                    className='auth-buttons gap-top'
+                    bsStyle='warn' bsSize='large' block>Cancel
+                  </Button>
+                </div>
+              : null
+            }
+
+            {
+              this.state.authToggle === 'login'
+              ?
+                <div className='login-button-helper'>
+                  <p>or</p>
+                  <Button onClick={this.close} className='auth-buttons' bsStyle='info' bsSize='large' block>
+                    Continue as guest
+                  </Button>
+                </div>
+              : null
+            }
           </Modal.Footer>
         </Modal>
       </div>
