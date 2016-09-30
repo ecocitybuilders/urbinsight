@@ -68,7 +68,7 @@ class AppHeader extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavDropdown eventKey={1} title='Explore Maps' id='basic-nav-dropdown'>
+              <NavDropdown eventKey={1} title='Explore Cities' id='basic-nav-dropdown'>
                 <LinkContainer to={{pathname: '/medellin'}}><MenuItem eventKey={1.1}>Medellin</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/cusco'}}><MenuItem eventKey={1.2}>Cusco</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/abu_dhabi'}}>
@@ -77,15 +77,14 @@ class AppHeader extends React.Component {
                 <LinkContainer to={{pathname: '/lima'}}><MenuItem eventKey={1.4}>Lima</MenuItem></LinkContainer>
                 <LinkContainer to={{pathname: '/budapest'}}><MenuItem eventKey={1.5}>Budapest</MenuItem></LinkContainer>
               </NavDropdown>
-              <NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
+              {/*<NavDropdown eventKey={2} title='Partner Cities' id='basic-nav-dropdown'>
                 <MenuItem eventKey={2.1} href='http://medellin.urbinsight.com'>Medellin</MenuItem>
                 <MenuItem eventKey={2.2} href='http://cusco.urbinsight.com'>Cusco</MenuItem>
                 <MenuItem eventKey={2.3} href='http://abudhabi.urbinsight.com'>Abu Dhabi</MenuItem>
                 <MenuItem eventKey={2.4} href='http://lima.urbinsight.com'>Lima</MenuItem>
-
               </NavDropdown>
               <NavItem eventKey={3} href='http://wiki.urbinsight.com'>Wiki</NavItem>
-              {/* <NavItem eventKey={4} href='#'>About</NavItem>
+               <NavItem eventKey={4} href='#'>About</NavItem>
               <NavItem eventKey={5} href='#'>Help</NavItem>*/}
               {user && user.isAdmin &&
                 isAuthenticated &&
