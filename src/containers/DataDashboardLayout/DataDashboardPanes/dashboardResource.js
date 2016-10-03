@@ -1,6 +1,10 @@
 import React, { PropTypes } from 'react'
 import c3 from 'c3'
 import House from 'static/images/House-In-Monasterios_1.jpg'
+import Chart from 'static/images/temp-chart.png'
+import Medellin from 'static/images/medellin.jpg'
+import Graphic1 from 'static/images/graphic1.png'
+import Graphic2 from 'static/images/graphic2.png'
 import _ from 'lodash'
 import { Row, Col } from 'react-bootstrap'
 import turf from 'turf'
@@ -91,10 +95,14 @@ class DashboardResourcePane extends React.Component {
         <div className='dashboard-pane'>
           <Row>
             <Col md={6}>
+              {/*
               {_.isEmpty(this.state.chartData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
               <div className='resource-chart-container'
                 style={{display: displayValue, width: '100%', 'minHeight': '320px', 'height': '320px'}}
-                id={this.state.mountId}></div>
+                id={this.state.mountId}>
+                </div>
+              */}
+              <img src={Chart} />
             </Col>
             <Col md={6}>
               <div className='kpi-indicators'>
@@ -103,14 +111,14 @@ class DashboardResourcePane extends React.Component {
                   <h4>Adaptability Performance:</h4>
                   <h5>Water usage satisfied on site</h5>
                   <div id='kpi-indicators-adaptability-chart'>
-                    I'm a Graphic
+                    <img src={Graphic1} />
                   </div>
                 </div>
                 <div>
                   <h4>Adaptability Performance:</h4>
                   <h5>Demand exceeding Capacity</h5>
                   <div id='kpi-indicators-capacity-chart'>
-                    I'm a Graphic
+                    <img src={Graphic2} />
                   </div>
                 </div>
               </div>
@@ -119,30 +127,22 @@ class DashboardResourcePane extends React.Component {
         </div>
         <div className='archetype-library'>
           <h3>Urban Archetype Library</h3>
-          <select>
-            <option>Hello</option>
-            <option>World</option>
-          </select>
-
           <div className='archetype-container'>
-            <div>
-              <img src={House} />
-            </div>
-            <div className='archetype-details'>
-              <h5><strong>Type:</strong> Two Story Detached</h5>
-              <h5><strong>Zoning:</strong> Residential</h5>
-              <h5><strong>Age:</strong> pre-1970s</h5>
-              <h5><strong>Water Use:</strong>lots of rambling
-              lots of ramblinglots of ramblinglots of ramblinglots of rambling
-            lots of ramblinglots of ramblinglots of ramblinglots of rambling
-          lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-        lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-      lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-    lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-  lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-              </h5>
-            </div>
+            <Row>
+              <Col md={6}>
+                <div>
+                  <img src={Medellin} />
+                </div>
+              </Col>
+              <Col md={6}>
+                <div className='archetype-details'>
+                  <h5><strong>Type:</strong> 1 or 2 story cinder block, corrugated roof</h5>
+                  <h5><strong>Zoning:</strong> Hillside comuna</h5>
+                  <h5><strong>Age:</strong> post - 1970s</h5>
+                  {/*<h5><strong>Water Use:</strong></h5>*/}
+                </div>
+              </Col>
+            </Row>
           </div>
         </div>
         <div className='archetype-action-buttons'>

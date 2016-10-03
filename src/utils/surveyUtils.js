@@ -126,76 +126,74 @@ export let questionIDs = ['employment', 'healthcare', 'family', 'stability',
 
 export let questions = [
   {
-    title: '1. How would you describe your level of access to adequate employment?',
-    description: `Are you able to find work that sustains you in your daily life? This could be either wage-labor or a
-     owned business.`
+    title: '1. Employment',
+    description: `This question is asking if you believe there are enough job opportunities in your community.
+      It addresses whether or not you feel that finding employment close by is difficult. `
   },
   {
-    title: '2. How would you describe your level of access to healthcare and health services?',
-    description: `Do you have access to necessary medical services,
-     allowing you to live a healthy and productive life?`
+    title: '2. Healthcare',
+    description: `This question is asking if you think you are able to easily receive medical attention when necessary.
+      Consider how quickly you are able to access health services and whether or not you can regularly afford them.
+`
   },
   {
-    title: '3. How would you describe your ability to provide care for family members as needed?',
-    description: `Do you have the ability
-     to meet the needs of their family members. This question is likely only relevant for the household head.`
+    title: '3. Family',
+    description: `This question is asking how confident you are in your ability to provide your family members with
+      their basic needs. These could include things like food, clothing, or medical care. `
   },
   {
-    title: '4. How would you describe stability in your daily life?',
-    description: `Is your daily life affected by distabilizing events such as (political turmoil, economic stagnation,
-     social instability)?`
+    title: '4. Stability',
+    description: `Consider how routine your life is in regards to work and your living conditions. Think about whether
+      these factors change dramatically from a day-to-day basis or if you have a stable schedule. `
   },
   {
-    title: '5. How do you describes your level of access to opportunities to develop healthy social relations?',
-    description: `Are there opportunities to interact and engage with other people in your community?
-    If it is to dangerous, or discrimination is present this could affect this question.`
+    title: '5. Friendships',
+    description: `When answering this question, consider your relationships with family members, friends, coworkers,
+      or other people in your community. Address whether or not you think it is easy to create and maintain social connections with them. `
   },
   {
-    title: '6. How do you descrive your level of access to recreational opportunities and activities?',
-    description: 'Do you have opportunities to engage in activities outside of work that are relaxing and restorative?'
+    title: '6. Recreation',
+    description: 'Think about how often and easily you are able to exercise or participate in sports. Consider whether your community offers a variety of recreational areas like gyms, swimming pools, and parks.'
   },
   {
-    title: '7. How would you describe your level of access to knowledge for futhering your education?',
-    description: 'Are there resources and facilities that allow you to further your education or technical skills?'
+    title: '7. Education',
+    description: 'This question is asking if you know ways to receive more education and how to afford it. Also consider if you feel you truly understand the potential opportunities higher education can provide.'
   },
   {
-    title: '8. How would you describe your level of vacation(time-off) time you have?',
-    description: 'Is it posible for you to take time off of work, to rest and relax?'
+    title: '8. Vacation',
+    description: 'Consider both the amount of vacation time you’ve had recently as well as other free days you may have off. Reflect on whether you think it was enough time away as a reward for your work.'
   },
   {
-    title: '9. How would you describe your shelter/housing?',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    title: '9. Housing',
+    description: 'Consider how well your home provides you with basic housing needs. Also think about the level of comfort you experience in your home and whether or not you have a strong desire to move elsewhere.'
   },
   {
-    title: '10. How do you describe your living environment? (this includes access to natural resources)',
-    description: 'Im a description that is a bit longer to understand what is happening with the questions'
+    title: '10. Built Environment',
+    description: 'This question is asking whether or not you struggle to maintain access to basic needs like running water and energy. As well as this, think about how your living situation either contributes to or helps reduce stress in your day-to-day life.'
   },
   {
-    title: `11. How would you describe the level of respect and non-discrimination
-        you experience in your daily life?`,
-    description: 'Do you face discrimination? Do people treat you differently based on your appearance?'
+    title: `11. Social Environment`,
+    description: 'This question addresses whether you have ever felt restricted from opportunities because of your ethnicity, religion, gender, or other factors. Consider how others in your community treat you and if this treatment is appropriately respectful.'
   },
   {
-    title: '12. How would you describe your level of freedom to practice your religion?',
-    description: 'Are you unable to practice your religion because of actions by the government or other communities?'
+    title: '12. Freedom of religion',
+    description: 'Consider how members of your community, and perhaps your government, might limit your ability to practice your religion. Reflect on whether or not you feel restricted in your ability to worship as you please.'
   },
   {
-    title: '13. How would you describe your level of access to mobility?',
-    description: 'What is your access to both public and private transportation systems?'
+    title: '13. Mobility',
+    description: 'This question is asking how much available transportation you have at your disposal (including cars, trains, taxis, etc.). Think about how affordable your means of getting around is, and how quickly you are able to access it.'
   },
   {
-    title: '14. How do you describe your level of freedom of movement?',
-    description: 'Are there any barriers to your ability to move around the city?'
+    title: '14. Freedom of movement',
+    description: 'Consider your ability to walk around your neighborhood without feeling unsafe or restricted. This question is meant to assess how comfortable you feel moving through your community.'
   },
   {
-    title: `15. How do you describe your level of safety and
-      the absence of physical violence or criminality in your daily life?`,
-    description: 'Are you affected by violence or insecurity in your community?'
+    title: `15. Safety`,
+    description: 'When answering this question, think about how safe you feel on a day to day basis. Consider whether or not you’ve personally seen or experienced criminal activity, and if it is considered a regular occurrence in your community.'
   },
   {
-    title: `16. How do you describe your ability to participate
-      in your communitys political, governance-based and decision-making processes?`,
-    description: 'Are you able to contribute to the establishment of policies and laws within your community?'
+    title: `16. Participation in decision making(governance)`,
+    description: 'This question is asking how much you think your opinions and concerns are addressed by leaders in your community. Consider how much you think you and other people you know are able to influence and determine the progress of your community.'
   }
 ]
 

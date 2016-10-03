@@ -10,7 +10,7 @@ const $ = window.$
 class Homepage extends React.Component {
   componentDidMount () {
     $('.homepage-intro-text').typed({
-      strings: ['Where Communites Locate Themselves', 'Visualizing Urban Metabolisms',
+      strings: ['Urban Insights and Citizen Mapping for Ecocities', 'Visualizing Urban Metabolisms',
       'Defining and Measuring Neighborhood Ecologies'],
       backDelay: 2000,
       loop: true
@@ -21,7 +21,7 @@ class Homepage extends React.Component {
     return (
       <div>
         <div className='homepage-heading'>
-          <h2 className='homepage-intro-text'>Where Communites Locate Themselves</h2>
+          <h2 className='homepage-intro-text'>Urban Insights and Citizen Mapping for Ecocities</h2>
           <h1 className='homepage-intro-title'>Urbinsight</h1>
         </div>
         <Carousel style={{'zIndex': 2, 'marginTop': '25px'}}>
