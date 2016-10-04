@@ -209,6 +209,28 @@ class EnergyDemandJunctions extends React.Component {
       )
     })
 
+
+    let groundRailTransportList = groundRailTransport.map((value, index) => {
+      let refString = 'groundRailTransport.' + index
+      return (
+        <Form className='form-inline'>
+          <label>{value.day}</label>
+          <Input label='Miles traveled:' type='number' ref={refString + '.milesTravelled'} defaultValue={0} />
+          <Input ref={refString + '.transportationType'} label='Mode of transport:' type='select'>
+            <option value='conventionalBus'>Conventional bus</option>
+            <option value='hybridElectricBus'>Hybrid electric bus</option>
+            <option value='motorcycle'>Motorcycle</option>
+            <option value='personalLightTruck'>Personal light truck</option>
+            <option value='car1pass'>Car with one passenger</option>
+            <option value='car2pass'>Car with two passengers</option>
+            <option value='car4pass'>Car with four passengers</option>
+            <option value='commuterRail'>Commuter rail</option>
+            <option value='intercityRail'>Innercity rail</option>
+          </Input>
+        </Form>
+      )
+    })
+
     return (
       <div className='contianer'>
         <div className='panel panel-default'>
@@ -326,22 +348,7 @@ class EnergyDemandJunctions extends React.Component {
             <h4>Ground Transportation</h4>
           </div>
           <div className='panel-body'>
-            <h4>Monday</h4>
-            <Form className='form-inline'>
-              <Input label='Miles traveled:' type='number' ref='groundRailTransport.0.milesTravelled' defaultValue={0} />
-              <Input ref='' label='Mode of transport:' type='select' placeholder='' defaultValue={''}>
-                <option value=''></option>
-                <option value='conventionalBus'>Conventional bus</option>
-                <option value='hybridElectricBus'>Hybrid electric bus</option>
-                <option value='motorcycle'>Motorcycle</option>
-                <option value='personalLightTruck'>Personal light truck</option>
-                <option value='car1pass'>Car with one passenger</option>
-                <option value='car2pass'>Car with twi passengers</option>
-                <option value='car4pass'>Car with four passengers</option>
-                <option value='commuterRail'>Commuter rail</option>
-                <option value='intercityRail'>Innercity rail</option>
-              </Input>
-            </Form>
+            {groundRailTransportList}
           </div>
         </div>
 
@@ -351,7 +358,7 @@ class EnergyDemandJunctions extends React.Component {
             <h4>Air Transportation</h4>
           </div>
           <div className='panel-body'>
-              <Input label='Miles traveled per year:' type='number'
+              <Input label='Miles traveled per year:' type='number' className='col-md-2'
                 ref='airTransport.milesTravelledPerYear' defaultValue={0} />
           </div>
         </div>

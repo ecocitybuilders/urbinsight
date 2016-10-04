@@ -83,7 +83,11 @@ let groundRailTransportDataGenerator = function (obj, state) {
   let returnArr = []
 
   for (var i = 0; i < state.groundRailTransport.length; i++) {
-
+    let refString = 'groundRailTransport.' + i
+    let newGroundRailTransport = {}
+    newGroundRailTransport.transportationType = getValueOfReactBootstrapSelect(obj[refString + '.transportationType'])
+    newGroundRailTransport.milesTravelled = getValueOfReactBootstrapInput(obj[refString + 'milesTravelled'])
+    returnArr.push(newGroundRailTransport)
   }
 
   return returnArr
@@ -115,7 +119,15 @@ class UMISEnergyWorkbook extends React.Component {
       spaceHeating: [],
       ventilationAC: [],
       waterHeating: [],
-      groundRailTransport: [],
+      groundRailTransport: [
+        {day: 'Sunday', milesTravelled: 0},
+        {day: 'Monday', milesTravelled: 0},
+        {day: 'Tuesday', milesTravelled: 0},
+        {day: 'Wednesday', milesTravelled: 0},
+        {day: 'Thursday', milesTravelled: 0},
+        {day: 'Friday', milesTravelled: 0},
+        {day: 'Saturday', milesTravelled: 0}
+      ],
       airTransport: []
     }
 
@@ -252,9 +264,6 @@ class UMISEnergyWorkbook extends React.Component {
     let airTransport = airTransportDataGenerator(demandObj, this.state)
 
     // TODO: save the data from the form
-// <<<<<<< HEAD
-//     let data = {}
-// =======
     let data = {
       energy: {
         data: {
@@ -276,7 +285,6 @@ class UMISEnergyWorkbook extends React.Component {
       }
     }
 
-// >>>>>>> 3ce2d6e79e78b08acebbc0af2099127ec99197b1
     this.props.saveValues(data)
     this.props.nextSection()
   }
