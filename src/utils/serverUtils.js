@@ -1,3 +1,3 @@
-const serverEndpoint = process.env.NODE_ENV === 'development' ? 'localhost' : '162.243.138.8'
+const serverEndpoint = process.env.NODE_ENV === 'development' ? 'localhost' : '104.236.160.252'
 
 export default serverEndpoint

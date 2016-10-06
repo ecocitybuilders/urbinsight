@@ -103,14 +103,14 @@ class DashboardResourcePane extends React.Component {
                   <h4>Adaptability Performance:</h4>
                   <h5>Water usage satisfied on site</h5>
                   <div id='kpi-indicators-adaptability-chart'>
-                    I'm a Graphic
+                    To Be Developed
                   </div>
                 </div>
                 <div>
                   <h4>Adaptability Performance:</h4>
                   <h5>Demand exceeding Capacity</h5>
                   <div id='kpi-indicators-capacity-chart'>
-                    I'm a Graphic
+                    To Be Developed
                   </div>
                 </div>
               </div>
@@ -120,8 +120,8 @@ class DashboardResourcePane extends React.Component {
         <div className='archetype-library'>
           <h3>Urban Archetype Library</h3>
           <select>
-            <option>Hello</option>
-            <option>World</option>
+            <option>House</option>
+            <option>Apartment</option>
           </select>
 
           <div className='archetype-container'>
@@ -132,15 +132,7 @@ class DashboardResourcePane extends React.Component {
               <h5><strong>Type:</strong> Two Story Detached</h5>
               <h5><strong>Zoning:</strong> Residential</h5>
               <h5><strong>Age:</strong> pre-1970s</h5>
-              <h5><strong>Water Use:</strong>lots of rambling
-              lots of ramblinglots of ramblinglots of ramblinglots of rambling
-            lots of ramblinglots of ramblinglots of ramblinglots of rambling
-          lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-        lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-      lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-    lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-  lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
-lots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of ramblinglots of rambling
+              <h5><strong>Water Use:</strong> To Be Developed
               </h5>
             </div>
           </div>
