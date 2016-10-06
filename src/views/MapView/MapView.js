@@ -84,7 +84,7 @@ class MapView extends React.Component {
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
     baseLayerandSource(map, this.state.tileLocation)
-    // if (typeof city !== 'undefined') {
+    if (typeof city !== 'undefined') {
       let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
         `${this.state.city}/featuretypes.json`
         fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
@@ -94,7 +94,7 @@ class MapView extends React.Component {
             return sortedArray
           })
           .then((layerList) => this.setState({layerList: layerList}))
-    // }
+    }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     // this.mapClickHandler('featureSelection',
