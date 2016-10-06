@@ -51,15 +51,7 @@ class DashboardEnvironmentalAirPane extends React.Component {
             </div>
             <h3>Chemical Structure</h3>
             <h6>
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
-              Lots of Information Lots of Information Lots of Information
+              To Be Developed
             </h6>
           </div>
         </div>
