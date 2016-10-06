@@ -214,7 +214,7 @@ class EnergyDemandJunctions extends React.Component {
       let refString = 'groundRailTransport.' + index
       return (
         <Form className='form-inline'>
-          <label>{value.day}</label>
+          <label className='day-label'>{value.day}</label>
           <Input label='Miles traveled:' type='number' ref={refString + '.milesTravelled'} defaultValue={0} />
           <Input ref={refString + '.transportationType'} label='Mode of transport:' type='select'>
             <option value='conventionalBus'>Conventional bus</option>
