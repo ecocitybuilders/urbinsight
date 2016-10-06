@@ -87,9 +87,13 @@ class MapView extends React.Component {
     // if (typeof city !== 'undefined') {
       let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
         `${this.state.city}/featuretypes.json`
-      fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
-        .then((response) => response.json())
-        .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
+        fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+          .then((response) => response.json())
+          .then(function (layerList) {
+            var sortedArray = _.sortBy(layerList.featureTypes.featureType, function(o) {return o.name; })
+            return sortedArray
+          })
+          .then((layerList) => this.setState({layerList: layerList}))
     // }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
@@ -133,9 +137,13 @@ class MapView extends React.Component {
       if (typeof city !== 'undefined') {
         let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
           `${this.state.city}/featuretypes.json`
-        fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
-          .then((response) => response.json())
-          .then((layerList) => this.setState({layerList: layerList.featureTypes.featureType}))
+          fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+            .then((response) => response.json())
+            .then(function (layerList) {
+              var sortedArray = _.sortBy(layerList.featureTypes.featureType, function(o) {return o.name; })
+              return sortedArray
+            })
+            .then((layerList) => this.setState({layerList: layerList}))
       }
     }
   }
