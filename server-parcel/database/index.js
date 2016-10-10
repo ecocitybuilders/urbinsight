@@ -5,8 +5,8 @@
 var pg = require('pg');
 // var conString =  process.env.CONNECT_STRING || "postgres://parceladmin:8w3547xi$gU#e0c@parceldatabase.cz841ql8q8my.us-west-2.rds.amazonaws.com:5432/urbinsight";
 var prodConString = "postgres://parceladmin:8w3547xi$gU#e0c@parceldatabase.cz841ql8q8my.us-west-2.rds.amazonaws.com:5432/urbinsight";
-//var devConString = "postgres://shokishoki:shadow1@localhost/urbinsight";
-var devConString = "postgres://tylerburgett@localhost/urbinsight";
+var devConString = "postgres://shokishoki:shadow1@localhost/urbinsight";
+// var devConString = "postgres://tylerburgett@localhost/urbinsight";
 
 var pgClient;
 // If we're in development...
