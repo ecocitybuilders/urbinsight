@@ -80,6 +80,20 @@
   }
 }
 
+.nav-tabs > li.disabled {
+  a {
+    background-color: $dark-grey !important;
+    color: $title-gray !important;
+  }
+}
+
+.nav-pills > li.disabled {
+  a {
+    background-color: $medium-grey !important;
+    color: $title-gray !important;
+  }
+}
+
 .nav-pills > li > a {
   background-color: $light-green !important;
   border: 0;
