@@ -95,14 +95,14 @@ class DashboardResourcePane extends React.Component {
         <div className='dashboard-pane'>
           <Row>
             <Col md={6}>
-
+              
               {_.isEmpty(this.state.chartData) && <div className='audit-data-message'><h3>No Audit Data</h3></div>}
               <div className='resource-chart-container'
                 style={{display: displayValue, width: '100%', 'minHeight': '320px', 'height': '320px'}}
                 id={this.state.mountId}>
                 </div>
 
-              {/*<img src={Chart} />*/}
+              {/* <img src={Chart} /> */}
             </Col>
             <Col md={6}>
               <div className='kpi-indicators'>
