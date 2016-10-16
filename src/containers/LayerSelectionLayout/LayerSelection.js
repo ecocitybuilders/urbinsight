@@ -31,6 +31,7 @@ class LayerSelection extends React.Component {
     `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
     '&service=WFS&request=GetFeature'
     let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
+    // let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `geonode_${layerName}.sld`
     let sourceExist = this.props.map.getSource(layerName)
     let layerExist = this.props.map.getLayer(layerName)
     let layerAdded = this.props.layerAdded

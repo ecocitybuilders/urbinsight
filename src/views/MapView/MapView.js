@@ -85,15 +85,23 @@ class MapView extends React.Component {
     map.addControl(new mapboxgl.Navigation())
     baseLayerandSource(map, this.state.tileLocation)
     // if (typeof city !== 'undefined') {
-      let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
-        `${this.state.city}/featuretypes.json`
-        fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
-          .then((response) => response.json())
-          .then(function (layerList) {
-            var sortedArray = _.sortBy(layerList.featureTypes.featureType, function(o) {return o.name; })
-            return sortedArray
-          })
-          .then((layerList) => this.setState({layerList: layerList}))
+    // let tempList = {};
+    let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
+      `${this.state.city}/featuretypes.json`
+    let userUploadRequestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/geonode/featuretypes.json'
+    fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+      .then((response) => response.json())
+
+      // .then(function (layerList) { tempList = layerList; return })
+      // .then(() => fetch(userUploadRequestString,
+      //       {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'}))
+      // .then((response) => response.json())
+      // .then(function (layerList2) { let fullList = Object.assign({}, tempList, layerList2); return fullList })
+      .then(function (fullList) {
+        var sortedArray = _.sortBy(fullList.featureTypes.featureType, function(o) { return o.name })
+        return sortedArray
+      })
+      .then((layerList) => this.setState({layerList: layerList}))
     // }
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
