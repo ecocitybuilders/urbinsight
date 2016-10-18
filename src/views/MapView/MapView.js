@@ -88,6 +88,7 @@ class MapView extends React.Component {
     baseLayerandSource(map, this.state.tileLocation)
     // if (typeof city !== 'undefined') {
     // let tempList = {};
+    let govLayerList
     let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
       `${this.state.city}/featuretypes.json`
 
@@ -97,7 +98,7 @@ class MapView extends React.Component {
         var sortedArray = _.sortBy(fullList.featureTypes.featureType, function(o) { return o.name })
         return sortedArray
       })
-      .then((layerList) => this.setState({layerList: layerList}))
+      .then((layerList) => { govLayerList = layerList; return })
     // }
     let userUploadRequestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/geonode/featuretypes.json'
     fetch(userUploadRequestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
@@ -106,7 +107,7 @@ class MapView extends React.Component {
         var sortedArray = _.sortBy(fullList.featureTypes.featureType, function(o) { return o.name })
         return sortedArray
       })
-      .then((layerList) => this.setState({userLayerList: layerList}))
+      .then((layerList) => this.setState({layerList: govLayerList, userLayerList: layerList}))
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     // this.mapClickHandler('featureSelection',

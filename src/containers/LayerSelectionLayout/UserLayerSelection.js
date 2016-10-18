@@ -77,7 +77,8 @@ class UserLayerSelection extends React.Component {
   render () {
     let layerListClass = classNames({'user-layer-list-opened': this.state.opened})
     // console.log(this.props.layerList)
-    let listOfLayers = this.props.layerList.map(function (layer) {
+    let listOfLayers
+    typeof this.props.layerList !== 'undefined' ? listOfLayers = this.props.layerList.map(function (layer) {
       return (
         <LayerLink key={layer.name} name={layer.name} layerSelected={this.layerSelected}
           title={layer.name.split('_')
@@ -88,7 +89,7 @@ class UserLayerSelection extends React.Component {
             })
             .join(' ')} />
       )
-    }.bind(this))
+    }.bind(this)) : listOfLayers = []
     // let listOfLayers = []
     let displayList = this.state.opened ? 'inherit' : 'none'
     let glyphClass = classNames({
