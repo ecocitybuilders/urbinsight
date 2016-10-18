@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import DataInputLayout from 'containers/DataInputLayout/DataInputLayout'
 import DataDashboardLayout from 'containers/DataDashboardLayout/DataDashboardLayout'
 import LayerSelection from 'containers/LayerSelectionLayout/LayerSelection'
+import UserLayerSelection from 'containers/LayerSelectionLayout/UserLayerSelection'
 import FeatureList from 'components/FeatureList'
 import LotToggle from 'components/LotToggle'
 // import Overlay from 'components/Overlay'
@@ -67,6 +68,8 @@ class MapView extends React.Component {
           <LotToggle map={this.state.map} />
           <LayerSelection map={this.state.map} city={this.state.city}
             layerList={this.state.layerList} />
+          <UserLayerSelection map={this.state.map} city={this.state.city}
+            layerList={this.state.userLayerList} />
           <DataDashboardLayout ref='dataDashboard' audits={audits} surveys={surveys}
             map={this.state.map} viewport={this.state.viewport} />
           {isAuthenticated && <DataInputLayout ref='dataInput'
@@ -79,7 +82,6 @@ class MapView extends React.Component {
   }
 
   componentDidMount () {
-    // CHANGE (This is unmaintainable...need to standardize citynames)
     mapboxgl.accessToken = this.state.mapToken
     var map = new mapboxgl.Map(this.state.mapView)
     map.addControl(new mapboxgl.Navigation())
@@ -88,21 +90,23 @@ class MapView extends React.Component {
     // let tempList = {};
     let requestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/' +
       `${this.state.city}/featuretypes.json`
-    let userUploadRequestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/geonode/featuretypes.json'
+
     fetch(requestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
       .then((response) => response.json())
-
-      // .then(function (layerList) { tempList = layerList; return })
-      // .then(() => fetch(userUploadRequestString,
-      //       {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'}))
-      // .then((response) => response.json())
-      // .then(function (layerList2) { let fullList = Object.assign({}, tempList, layerList2); return fullList })
       .then(function (fullList) {
         var sortedArray = _.sortBy(fullList.featureTypes.featureType, function(o) { return o.name })
         return sortedArray
       })
       .then((layerList) => this.setState({layerList: layerList}))
     // }
+    let userUploadRequestString = 'http://geonode.urbinsight.com/geoserver/rest/workspaces/geonode/featuretypes.json'
+    fetch(userUploadRequestString, {method: 'GET', headers: new Headers(), mode: 'cors', cache: 'default'})
+      .then((response) => response.json())
+      .then(function (fullList) {
+        var sortedArray = _.sortBy(fullList.featureTypes.featureType, function(o) { return o.name })
+        return sortedArray
+      })
+      .then((layerList) => this.setState({userLayerList: layerList}))
     this.props.surveysFetch(boundsArrayGenerator(map.getBounds()))
     this.props.auditsFetch(boundsArrayGenerator(map.getBounds()))
     // this.mapClickHandler('featureSelection',

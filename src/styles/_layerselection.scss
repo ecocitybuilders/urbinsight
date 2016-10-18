@@ -5,16 +5,30 @@
   margin-top: 3%;
   opacity: 0.9;
   position: absolute;
-  width: 30px;
-  z-index: 3;
+  width: 120px;
+  z-index: 6;
 }
-
+#user-layer-selection {
+  background-color: white;
+  border-radius: 5px;
+  height: 30px;
+  margin-top: 5.5%;
+  opacity: 0.9;
+  position: absolute;
+  width: 120px;
+  z-index: 5;
+}
 .layer-list-opened {
   height: 90% !important;
   overflow:auto;
   width: 25em !important;
 }
 
+.user-layer-list-opened {
+  height: 90% !important;
+  overflow:auto;
+  width: 25em !important;
+}
 .layer-list-icon-open {
   display: block;
   float: right;
@@ -39,5 +53,5 @@
   opacity: 0.9;
   position: absolute;
   width: 110px;
-  z-index: 3;
+  z-index: 4;
 }

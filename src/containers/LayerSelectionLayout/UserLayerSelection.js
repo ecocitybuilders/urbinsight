@@ -15,7 +15,7 @@ type Props = {
   layerRemoved: PropTypes.func
 }
 
-class LayerSelection extends React.Component {
+class UserLayerSelection extends React.Component {
   props: Props;
   constructor () {
     super()
@@ -28,10 +28,10 @@ class LayerSelection extends React.Component {
 
   layerSelected (layerName) {
     let sourceString = 'http://geonode.urbinsight.com/geoserver/wfs?srsName=EPSG%3A4326' +
-    `&typename=${this.props.city}%3A${layerName}&outputFormat=json&version=1.0.0` +
+    `&typename=geonode%3A${layerName}&outputFormat=json&version=1.0.0` +
     '&service=WFS&request=GetFeature'
-    let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
-    // let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `geonode_${layerName}.sld`
+    // let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${this.props.city}_${layerName}.sld`
+    let styleString = 'http://geonode.urbinsight.com/geoserver/rest/styles/' + `${layerName}.sld`
     let sourceExist = this.props.map.getSource(layerName)
     let layerExist = this.props.map.getLayer(layerName)
     let layerAdded = this.props.layerAdded
@@ -75,7 +75,8 @@ class LayerSelection extends React.Component {
     this.setState({opened: !this.state.opened})
   }
   render () {
-    let layerListClass = classNames({'layer-list-opened': this.state.opened})
+    let layerListClass = classNames({'user-layer-list-opened': this.state.opened})
+    // console.log(this.props.layerList)
     let listOfLayers = this.props.layerList.map(function (layer) {
       return (
         <LayerLink key={layer.name} name={layer.name} layerSelected={this.layerSelected}
@@ -88,6 +89,7 @@ class LayerSelection extends React.Component {
             .join(' ')} />
       )
     }.bind(this))
+    // let listOfLayers = []
     let displayList = this.state.opened ? 'inherit' : 'none'
     let glyphClass = classNames({
       'glyphicon': true,
@@ -97,13 +99,13 @@ class LayerSelection extends React.Component {
       'layer-list-icon-closed': !this.state.opened
     })
     return (
-      <div id='layer-selection' className={layerListClass}>
+      <div id='user-layer-selection' className={layerListClass}>
         <div
           onClick={this.update}
           style={{'display': 'flex'}}>
           <span className={glyphClass} />
           <span style={{'display': this.state.opened ? 'none' : 'inline',
-            'marginLeft': '15px', 'paddingTop': '5px'}}>Government</span>
+          'marginLeft': '15px', 'paddingTop': '5px'}}>Uploaded</span>
         </div>
         <div style={{'display': displayList, 'float': 'left', width: '90%', 'paddingLeft': '20px'}}>
           {listOfLayers}
@@ -134,4 +136,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LayerSelection)
+)(UserLayerSelection)
